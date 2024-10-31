@@ -6,9 +6,11 @@ import android.content.Intent
 import android.text.Spannable
 import android.text.TextUtils
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario.launch
@@ -800,6 +802,7 @@ class ExplorationActivityTest {
     explorationDataController.stopPlayingExploration(isCompletion = false)
   }
 
+  //subha
   @Test
   fun testAudioWithNoVoiceover_openPrototypeExploration_checkAudioButtonIsHidden() {
     launch<ExplorationActivity>(
@@ -819,6 +822,11 @@ class ExplorationActivityTest {
         TEST_STORY_ID_0,
         TEST_EXPLORATION_ID_2
       )
+
+      Log.d("testex","here")
+
+
+      onView(withId(R.id.exploration_toolbar))
       onView(withId(R.id.action_audio_player)).check(matches(not(isDisplayed())))
     }
     explorationDataController.stopPlayingExploration(isCompletion = false)
@@ -835,7 +843,19 @@ class ExplorationActivityTest {
         TEST_EXPLORATION_ID_2,
         shouldSavePartialProgress = false
       )
-    ).use {
+    ).use {  scenario ->
+      scenario.onActivity { activity ->
+        // Use Espresso to click on the toolbar's navigation icon (the close button)
+        onView(withContentDescription(activity.getString(R.string.abc_action_bar_up_description)))
+          .perform(click())
+        // Assuming `R.id.toolbar_close_icon` is the ID for the close button in the toolbar
+//        val toolbar = activity.findViewById<View>(R.id.exploration_toolbar)
+//        toolbar.
+//        assertNotNull("Close icon should be present", closeIcon)
+//
+//        // Check if the close icon is not displayed (or apply the required condition)
+//        onView(withId(R.id.toolbar_close_icon)).check(matches(not(isDisplayed())))
+      }
       explorationDataController.startPlayingNewExploration(
         internalProfileId,
         TEST_CLASSROOM_ID_0,
@@ -843,6 +863,7 @@ class ExplorationActivityTest {
         TEST_STORY_ID_0,
         TEST_EXPLORATION_ID_2
       )
+      //onView(withId(R.id.exploration_toolbar)).perform(clickToolbarNavigationIcon())
       onView(isRoot()).perform(orientationLandscape())
       onView(withId(R.id.action_audio_player)).check(matches(not(isDisplayed())))
     }
@@ -1630,6 +1651,7 @@ class ExplorationActivityTest {
     )
   }
 
+  //subha
   @Test
   fun testExplorationActivity_databaseFull_onBackPressed_showsProgressDatabaseFullDialog() {
     explorationCheckpointTestHelper.saveCheckpointForRatiosStory0Exploration0(
@@ -1650,7 +1672,7 @@ class ExplorationActivityTest {
         FRACTIONS_EXPLORATION_ID_0,
         shouldSavePartialProgress = true
       )
-    ).use {
+    ).use { scenario ->
       explorationDataController.startPlayingNewExploration(
         internalProfileId,
         TEST_CLASSROOM_ID_1,
@@ -1659,8 +1681,8 @@ class ExplorationActivityTest {
         FRACTIONS_EXPLORATION_ID_0
       )
       testCoroutineDispatchers.runCurrent()
+      onView(withContentDescription(R.string.nav_app_bar_navigate_up_description)).perform(click())
 
-      pressBack()
       onView(withText(R.string.progress_database_full_dialog_title)).inRoot(isDialog())
         .check(matches(isDisplayed()))
     }
@@ -2810,11 +2832,32 @@ class ExplorationActivityTest {
     ).check(matches(withText(containsString(expectedHtml))))
   }
 
+  //subha
   private fun scrollToViewType(viewType: StateItemViewModel.ViewType) {
     onView(withId(R.id.state_recycler_view)).perform(
       scrollToHolder(StateViewHolderTypeMatcher(viewType))
     )
     testCoroutineDispatchers.runCurrent()
+  }
+  // Custom ViewAction to click on the navigation icon of the Toolbar
+  fun clickToolbarNavigationIcon(): ViewAction {
+    return object : ViewAction {
+      override fun getConstraints(): Matcher<View> {
+        return allOf(withId(R.id.exploration_toolbar))
+      }
+
+      override fun getDescription(): String {
+        return "Click on Toolbar navigation icon"
+      }
+
+      override fun perform(uiController: UiController, view: View) {
+        if (view is Toolbar) {
+          view.navigationIcon?.let {
+            view.performClick() // This triggers the click on the navigation icon
+          }
+        }
+      }
+    }
   }
 
   // TODO(#59): Remove these waits once we can ensure that the production executors are not depended on in tests.

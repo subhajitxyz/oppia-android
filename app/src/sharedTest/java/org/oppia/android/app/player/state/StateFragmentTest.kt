@@ -7,6 +7,7 @@ import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.text.style.ImageSpan
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,7 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.Visibility.GONE
 import androidx.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isClickable
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -195,6 +197,8 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.model.StateFragmentArguments
+import org.oppia.android.util.extensions.getProto
 
 /** Tests for [StateFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -252,6 +256,53 @@ class StateFragmentTest {
   //  14. Add tests to check the placeholder in FractionInput, TextInput and NumericInput.
   // TODO(#56): Add support for testing that previous/next button states are properly retained on
   //  config changes.
+
+  @Test
+  fun testFragment_arguments_workingProperly() {
+    setUpTestWithLanguageSwitchingFeatureOff()
+    launchForExploration(
+      FRACTIONS_EXPLORATION_ID_1,
+      shouldSavePartialProgress = false
+    ).use { scenario ->
+
+
+      startPlayingExploration()
+      // Stop any running animations on the hint bulb ImageView
+      onView(withId(R.id.hint_bulb)).perform(object : ViewAction {
+        override fun getConstraints(): Matcher<View> {
+          return isAssignableFrom(ImageView::class.java)
+        }
+
+        override fun getDescription(): String {
+          return "Stop any running animations for hint bulb"
+        }
+
+        override fun perform(uiController: UiController?, view: View?) {
+          (view as ImageView).clearAnimation() // Stops any ongoing animations
+        }
+      })
+
+      scenario.onActivity { activity ->
+        val stateFragment = activity.supportFragmentManager
+          .findFragmentById(R.id.state_fragment_placeholder) as StateFragment
+
+        val args = stateFragment.arguments?.getProto(
+          StateFragment.STATE_FRAGMENT_ARGUMENTS_KEY,
+          StateFragmentArguments.getDefaultInstance()
+        )
+
+        val receivedInternalProfileId = args?.internalProfileId ?: -1
+        val receivedTopicId = args?.topicId!!
+        val receivedStoryId = args.storyId!!
+        val reveivedExplorationId = args.explorationId!!
+
+        assertThat(receivedInternalProfileId).isEqualTo(profileId.internalId)
+        assertThat(receivedTopicId).isEqualTo(TEST_TOPIC_ID_0)
+        assertThat(receivedStoryId).isEqualTo(TEST_STORY_ID_0)
+        assertThat(reveivedExplorationId).isEqualTo(FRACTIONS_EXPLORATION_ID_1)
+      }
+    }
+  }
 
   @Test
   fun testStateFragment_loadExp_explorationLoads() {
@@ -3743,6 +3794,7 @@ class StateFragmentTest {
     }
   }
 
+  //subha , got problem in infinte animation.
   @Test
   fun testStateFragment_mathInteractions_algExp_equivalence_diffElems_answerIsCorrect() {
     setUpTestWithLanguageSwitchingFeatureOff()
@@ -4320,13 +4372,29 @@ class StateFragmentTest {
       verifyMathInteractionHasError("* and / should be separated by a number or a variable.")
     }
   }
-
+//subha
   @Test
   fun testStateFragment_mathInteractions_mathEq_missingEquals_displaysError() {
     setUpTestWithLanguageSwitchingFeatureOff()
     launchForExploration(TEST_EXPLORATION_ID_5, shouldSavePartialProgress = false).use {
       startPlayingExploration()
+
+
       playUpThroughMathInteractionExplorationState6()
+      // Stop any running animations on the hint bulb ImageView
+      onView(withId(R.id.hint_bulb)).perform(object : ViewAction {
+        override fun getConstraints(): Matcher<View> {
+          return isAssignableFrom(ImageView::class.java)
+        }
+
+        override fun getDescription(): String {
+          return "Stop any running animations for hint bulb"
+        }
+
+        override fun perform(uiController: UiController?, view: View?) {
+          (view as ImageView).clearAnimation() // Stops any ongoing animations
+        }
+      })
 
       typeMathEquation("x^2-x-2")
       clickSubmitAnswerButton()
