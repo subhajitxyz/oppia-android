@@ -840,16 +840,16 @@ class TodoOpenCheckTest {
 //    mockWebServer.enqueue(MockResponse().setBody("[]")) // No more issues.
 //    GitHubClient.remoteApiUrl = mockWebServer.url("/").toString()
 //  }
-//
-//  private fun setUpSupportForGhAuth(authToken: String) {
-//    fakeCommandExecutor.registerHandler("gh") { _, args, outputStream, _ ->
-//      when (args) {
-//        listOf("help") -> 0
-//        listOf("auth", "token") -> 0.also { outputStream.print(authToken) }
-//        else -> 1
-//      }
-//    }
-//  }
+
+  private fun setUpSupportForGhAuth(authToken: String) {
+    fakeCommandExecutor.registerHandler("gh") { _, args, outputStream, _ ->
+      when (args) {
+        listOf("help") -> 0
+        listOf("auth", "token") -> 0.also { outputStream.print(authToken) }
+        else -> 1
+      }
+    }
+  }
 
   // TODO(#5314): Replace this (& other script tests) with using main() directly and swap out
   // dependencies using Dagger rather than needing to call into a separately created instance of an
