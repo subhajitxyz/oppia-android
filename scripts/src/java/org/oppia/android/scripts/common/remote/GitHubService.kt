@@ -29,12 +29,13 @@ interface GitHubService {
    * @return the list of [GitHubIssue]s read from the remote repository (as a [Call])
    */
   @Headers("Accept: application/vnd.github+json", "X-GitHub-Api-Version: 2022-11-28")
-  @GET("repos/{repo_owner}/{repo_name}/issues?direction=asc&pulls=false")
+  @GET("repos/{repo_owner}/{repo_name}/issues?direction=asc")
   fun fetchOpenIssues(
     @Path("repo_owner") repoOwner: String,
     @Path("repo_name") repoName: String,
     @Header("Authorization") authorizationBearer: String,
     @Query("page") pageNumber: Int,
-    @Query("per_page") countPerPage: Int = 100
+    @Query("per_page") countPerPage: Int = 100,
+    @Query("pulls") pulls: Boolean = false
   ): Call<List<GitHubIssue>>
 }

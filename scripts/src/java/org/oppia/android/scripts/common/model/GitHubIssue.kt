@@ -10,4 +10,7 @@ import com.squareup.moshi.JsonClass
  *     'issues/' in an issue's GitHub URL)
  */
 @JsonClass(generateAdapter = true)
-data class GitHubIssue(@Json(name = "number") val number: Int)
+data class GitHubIssue(
+  @Json(name = "number") val number: Int,
+  @Json(name = "pull_request") val pullRequest: Boolean = false // Default to false
+)
