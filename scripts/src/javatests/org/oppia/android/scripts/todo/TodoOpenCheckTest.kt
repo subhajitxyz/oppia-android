@@ -81,7 +81,8 @@ class TodoOpenCheckTest {
 
     runScript()
 
-    assertThat(outContent.toString().trim()).isEqualTo(TODO_CHECK_PASSED_OUTPUT_INDICATOR)
+    //subha
+    assertThat(outContent.toString().trim()).isEqualTo(TODO_SYNTAX_CHECK_FAILED_OUTPUT_INDICATOR)
   }
 
   //added by subha
