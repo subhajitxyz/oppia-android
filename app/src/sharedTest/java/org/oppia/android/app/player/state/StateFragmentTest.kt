@@ -5039,41 +5039,51 @@ class StateFragmentTest {
   private fun playThroughRatioExplorationState1() {
     clickContinueInteractionButton()
   }
+
   private fun playThroughRatioExplorationState2() {
     clickContinueInteractionButton()
   }
+
   private fun playThroughRatioExplorationState3() {
     clickContinueInteractionButton()
   }
+
   private fun playThroughRatioExplorationState4() {
     clickContinueInteractionButton()
   }
+
   private fun playThroughRatioExplorationState5() {
     clickContinueInteractionButton()
   }
+
   private fun playThroughRatioExplorationState6() {
     typeTextInput("2 to 5")
     clickSubmitAnswerButton()
     clickContinueNavigationButton()
   }
+
   private fun playThroughRatioExplorationState7() {
     typeTextInput("3 to 1")
     clickSubmitAnswerButton()
     clickContinueNavigationButton()
   }
+
   private fun playThroughRatioExplorationState8() {
     typeTextInput("2:3")
     clickSubmitAnswerButton()
     clickContinueNavigationButton()
   }
+
   private fun playThroughRatioExplorationState9() {
     typeTextInput("5:2")
     clickSubmitAnswerButton()
     clickContinueNavigationButton()
   }
+
   private fun playThroughRatioExplorationState10() {
     clickContinueInteractionButton()
   }
+
   private fun playThroughRatioExplorationState11() {
     selectMultipleChoiceOption(
       2,
@@ -5082,14 +5092,17 @@ class StateFragmentTest {
     clickSubmitAnswerButton()
     clickContinueNavigationButton()
   }
+
   private fun playThroughRatioExplorationState12() {
     clickContinueInteractionButton()
   }
+
   private fun playThroughRatioExplorationState13() {
     typeTextInput("1:4")
     clickSubmitAnswerButton()
     clickContinueNavigationButton()
   }
+
   private fun playThroughRatioExplorationState14() {
     typeTextInput("1:4")
     clickSubmitAnswerButton()
