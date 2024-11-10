@@ -142,6 +142,7 @@ import org.oppia.android.domain.platformparameter.PlatformParameterSingletonModu
 import org.oppia.android.domain.profile.ProfileManagementController
 import org.oppia.android.domain.question.QuestionModule
 import org.oppia.android.domain.topic.FRACTIONS_EXPLORATION_ID_1
+import org.oppia.android.domain.topic.RATIOS_EXPLORATION_ID_0
 import org.oppia.android.domain.topic.TEST_EXPLORATION_ID_13
 import org.oppia.android.domain.topic.TEST_EXPLORATION_ID_2
 import org.oppia.android.domain.topic.TEST_EXPLORATION_ID_4
@@ -195,7 +196,6 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.oppia.android.domain.topic.RATIOS_EXPLORATION_ID_0
 
 /** Tests for [StateFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -5036,6 +5036,8 @@ class StateFragmentTest {
     }
   }
 
+
+  //subha
   private fun playThroughRatioExplorationState1() {
     clickContinueInteractionButton()
   }
