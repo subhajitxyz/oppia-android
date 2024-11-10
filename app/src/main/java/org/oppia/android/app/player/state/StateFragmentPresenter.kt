@@ -511,6 +511,7 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   private fun setHintOpenedAndUnRevealed(isHintUnrevealed: Boolean) {
+    return
     stateViewModel.setHintOpenedAndUnRevealedVisibility(isHintUnrevealed)
     if (isHintUnrevealed) {
 
@@ -603,7 +604,7 @@ class StateFragmentPresenter @Inject constructor(
 
     override fun getInterpolation(input: Float): Float {
       // To get the correct continuous bounce, run the reverse bounce from 100% to 0% for the first
-      // 50% of time, then run the regular bounce from 0% to 100% for the remaining 50%.
+      // 50 of time, then run the regular bounce from 0% to 100% for the remaining 50%.
       return if (input <= 0.5f) {
         bounceInterpolator.getInterpolation(1f - input * 2f)
       } else bounceInterpolator.getInterpolation(input * 2f - 1f)

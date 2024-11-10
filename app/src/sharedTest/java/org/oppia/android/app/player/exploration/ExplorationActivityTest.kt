@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.ClickableSpan
 import android.view.View
@@ -178,6 +179,7 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.player.state.itemviewmodel.ContentViewModel
 
 /** Tests for [ExplorationActivity]. */
 @RunWith(AndroidJUnit4::class)
@@ -2610,6 +2612,61 @@ class ExplorationActivityTest {
     }
     explorationDataController.stopPlayingExploration(isCompletion = false)
   }
+
+  @Test
+  fun statefragment_replaceBlankWithRegex_workedCorrect_hiiii() {
+    val contentViewModel = ContentViewModel(
+      htmlContent = "Hello _____.", // Set htmlContent to "Hello _____"
+      gcsEntityId = "test_entity_id",
+      hasConversationView = false,
+      isSplitView = false,
+      supportsConceptCards = false
+    )
+
+    // Use the htmlContent from the ViewModel instead of passing it as an argument
+    val receivedString = contentViewModel.replaceRegexWithBlank(contentViewModel.htmlContent)
+
+    // Convert Spannable to String for comparison
+    assertThat(receivedString).isEqualTo(SpannableString("Hello Blank."))
+  }
+
+  //subha
+  @Test
+  fun statefragment_replaceBlankWithRegex_workedCorrect() {
+
+    val x =
+      "James turned the page, and saw a recipe for banana smoothie. Yummy!" +
+        "</p>\n<oppia-noninteractive-image alt-with-value=\"&amp;quot;2 cups of milk and 1 cup of banana puree&amp;quot;\" caption-with-value=\"&amp;quot;&amp;quot;\" filepath-with-value=\"" +
+        "&amp;quot;img_20181226_162703_2ghccp0xzd_height_361_width_490.png&amp;quot;\">" +
+        "</oppia-noninteractive-image>\n\n<p><span></span></p>\n\n<p>\u201cI can make this,\u201d " +
+        "he said. \u201cWe\u2019ll need to mix milk and banana puree in the ratio ______________." +
+        "\u201d</p>\n\n<p>Can you complete James\u2019s sentence? What is the ratio of milk to banana puree?\u201d</p>"
+
+
+    val contentViewModel = ContentViewModel(
+      htmlContent = x, // Set htmlContent to "Hello _____"
+      gcsEntityId = "test_entity_id",
+      hasConversationView = false,
+      isSplitView = false,
+      supportsConceptCards = false
+    )
+
+    // Use the htmlContent from the ViewModel instead of passing it as an argument
+    val receivedString = contentViewModel.replaceRegexWithBlank(contentViewModel.htmlContent)
+    val expectedText = SpannableString(
+      "iJames turned the page, and saw a recipe for banana smoothie. Yummy!" +
+        "</p>\n<oppia-noninteractive-image alt-with-value=\"&amp;quot;2 cups of milk and 1 cup of " +
+        "banana puree&amp;quot;\" caption-with-value=\"&amp;quot;&amp;quot;\" filepath-with-value=\"" +
+        "&amp;quot;img_20181226_162703_2ghccp0xzd_height_361_width_490.png&amp;quot;\">" +
+        "</oppia-noninteractive-image>\n\n<p><span></span></p>\n\n<p>\u201cI can make this,\u201d " +
+        "he said. \u201cWe\u2019ll need to mix milk and banana puree in the ratio Blank." +
+        "\u201d</p>\n\n<p>Can you complete James\u2019s sentence? What is the ratio of milk to banana puree?\u201d</p>"
+    )
+
+    // Convert Spannable to String for comparison
+    assertThat(receivedString).isEqualTo(expectedText)
+  }
+
 
   private fun openClickableSpan(text: String): ViewAction {
     return object : ViewAction {

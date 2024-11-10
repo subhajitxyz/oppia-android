@@ -181,6 +181,7 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.domain.topic.RATIOS_EXPLORATION_ID_0
 
 /**
  * Tests for [StateFragment] that can only be run locally, e.g. using Robolectric, and not on an
@@ -1301,6 +1302,108 @@ class StateFragmentLocalTest {
         .inRoot(isDialog())
         .check(matches(not(isDisplayed())))
     }
+  }
+  //subha
+  @Test
+  fun statefragment_content_testWithBlank() {
+    //setUpTestWithLanguageSwitchingFeatureOff()
+    launchForExploration(RATIOS_EXPLORATION_ID_0).use {
+      startPlayingExploration()
+
+      playUpThroughRatioExplorationState1()
+      playUpThroughRatioExplorationState2()
+      playUpThroughRatioExplorationState3()
+      playUpThroughRatioExplorationState4()
+      playUpThroughRatioExplorationState5()
+      playUpThroughRatioExplorationState6()
+      playUpThroughRatioExplorationState7()
+      playUpThroughRatioExplorationState8()
+      playUpThroughRatioExplorationState9()
+      playUpThroughRatioExplorationState10()
+      playUpThroughRatioExplorationState11()
+      playUpThroughRatioExplorationState12()
+      playUpThroughRatioExplorationState13()
+      playUpThroughRatioExplorationState14()
+      //try to push with robolectric test
+      val expectedDescription = """
+    James turned the page, and saw a recipe for banana smoothie. Yummy!
+    
+    2 cups of milk and 1 cup of banana puree
+    
+    “I can make this,” he said. “We’ll need to mix milk and banana puree in the ratio Blank.”
+    
+    Can you complete James’s sentence? What is the ratio of milk to banana puree?“
+""".trimIndent()
+      onView(withId(R.id.content_text_view)).check(matches(withContentDescription(expectedDescription)))
+
+    }
+  }
+
+  //subha
+  private fun playUpThroughRatioExplorationState1() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState2() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState3() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState4() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState5() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState6() {
+    typeTextInput("2 to 5")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState7() {
+    typeTextInput("3 to 1")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState8() {
+    typeTextInput("2:3")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState9() {
+    typeTextInput("5:2")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState10() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState11() {
+    selectMultipleChoiceOption(
+      2,
+      "The relative relationship between the amounts of different things."
+    )
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState12() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState13() {
+    typeTextInput("1:4")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState14() {
+    typeTextInput("1:4")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+
+  private fun clickContinueInteractionButton() {
+    scrollToViewType(CONTINUE_INTERACTION)
+    onView(withId(R.id.continue_interaction_button)).perform(click())
+    testCoroutineDispatchers.runCurrent()
   }
 
   @Test

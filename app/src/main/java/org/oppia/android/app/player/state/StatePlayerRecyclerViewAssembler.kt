@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -757,7 +758,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       previousNavigationButtonListener,
       fragment as ContinueNavigationButtonListener,
       isSplitView.get()!!,
-      shouldAnimateContinueButton,
+      false, //subha shouldAnimateContinueButton,
       continueButtonAnimationTimestampMs
     )
     if (isSplitView.get()!!) {

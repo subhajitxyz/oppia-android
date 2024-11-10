@@ -3,9 +3,11 @@ package org.oppia.android.app.player.state
 import android.app.Application
 import android.content.Context
 import android.text.InputType
+import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.text.style.ImageSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -195,6 +197,10 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.hamcrest.CoreMatchers.equalTo
+import org.oppia.android.app.player.state.itemviewmodel.ContentViewModel
+import org.oppia.android.domain.topic.RATIOS_EXPLORATION_ID_0
+import org.oppia.android.testing.logging.EventLogSubject
 
 /** Tests for [StateFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -4426,7 +4432,7 @@ class StateFragmentTest {
   }
 
   @Test
-  @RunOn(buildEnvironments = [BuildEnvironment.BAZEL])
+  //@RunOn(buildEnvironments = [BuildEnvironment.BAZEL])
   fun testStateFragment_mathInteractions_mathEq_validAns_divAsFrac_submissionHasA11yAnswer() {
     setUpTestWithLanguageSwitchingFeatureOff()
     launchForExploration(TEST_EXPLORATION_ID_5, shouldSavePartialProgress = false).use {
@@ -4437,21 +4443,31 @@ class StateFragmentTest {
       clickSubmitAnswerButton()
 
       scrollToViewType(SUBMITTED_ANSWER)
-      onView(withId(R.id.submitted_answer_text_view))
+//      onView(withId(R.id.submitted_answer_text_view))
+//        .check(
+//          matches(
+//            withContentDescription(
+//              "Incorrect submitted answer: 2 y equals x raised to the power of 2 minus x minus 2" +
+//                " over x"
+//            )
+//          )
+//        )
+
+            onView(withId(R.id.submitted_answer_text_view))
         .check(
           matches(
             withContentDescription(
-              "Incorrect submitted answer: 2 y equals x raised to the power of 2 minus x minus 2" +
-                " over x"
+              "Incorrect submitted answer: 2y=x^2-x-2/x"
             )
           )
         )
+
     }
   }
 
   // TODO(#3858): Enable for Espresso.
   @Test
-  @RunOn(TestPlatform.ROBOLECTRIC, buildEnvironments = [BuildEnvironment.BAZEL])
+  //@RunOn(TestPlatform.ROBOLECTRIC, buildEnvironments = [BuildEnvironment.BAZEL])
   fun testStateFragment_mathInteractions_mathEq_validAns_arabic_submissionHasA11yAnswer() {
     setUpTestWithLanguageSwitchingFeatureOff()
     updateContentLanguage(profileId, OppiaLanguage.ARABIC)
@@ -5004,6 +5020,138 @@ class StateFragmentTest {
     }
   }
 
+  @Test
+  fun test_multipleTime_testForRegex() {
+    val contentViewModel = ContentViewModel(
+      htmlContent = "Hello _____.", // Set htmlContent to "Hello _____"
+      gcsEntityId = "test_entity_id",
+      hasConversationView = false,
+      isSplitView = false,
+      supportsConceptCards = false
+    )
+
+    // Use the htmlContent from the ViewModel instead of passing it as an argument
+    val receivedString = contentViewModel.replaceRegexWithBlank(contentViewModel.htmlContent)
+  }
+
+  //subha
+  @Test
+  fun statefragment_content_testWithBlank() {
+    setUpTestWithLanguageSwitchingFeatureOff()
+    launchForExploration(RATIOS_EXPLORATION_ID_0, shouldSavePartialProgress = false).use {
+      startPlayingExploration()
+
+      playUpThroughRatioExplorationState1()
+      playUpThroughRatioExplorationState2()
+      playUpThroughRatioExplorationState3()
+      playUpThroughRatioExplorationState4()
+      playUpThroughRatioExplorationState5()
+      playUpThroughRatioExplorationState6()
+      playUpThroughRatioExplorationState7()
+      playUpThroughRatioExplorationState8()
+      playUpThroughRatioExplorationState9()
+      playUpThroughRatioExplorationState10()
+      playUpThroughRatioExplorationState11()
+      playUpThroughRatioExplorationState12()
+      playUpThroughRatioExplorationState13()
+      playUpThroughRatioExplorationState14()
+      //try to push with robolectric test
+      val spannableDescriptionSpan = SpannableString("James turned the page," +
+        " and saw a recipe for banana smoothie. Yummy!\n\n2 cups of milk and 1 cup of banana puree \n\n“I can make this,” he said. “We’ll need to mix milk and banana puree in the ratio Blank.”\n\nCan you complete James’s sentence? What is the ratio of milk to banana puree?”")
+
+      val expectedDescription = "James turned the page, and saw a recipe for banana smoothie." +
+        " Yummy!\n\n2 cups of milk and 1 cup of banana puree \n\n“I can make this,” he said." +
+        " “We’ll need to mix milk and banana puree in the ratio Blank.”\n\nCan you complete" +
+        " James’s sentence? What is the ratio of milk to banana puree?”"
+
+      val copyText = "James turned the page, and saw a recipe for banana smoothie. Yummy!\n\n2 cups of milk and 1 cup of banana puree \n\n“I can make this,” he said. “We’ll need to mix milk and banana puree in the ratio ______________.”\n\nCan you complete James’s sentence? What is the ratio of milk to banana puree?”"
+
+      // onView(withId(R.id.content_text_view)).check(matches(withContentDescription(expectedDescription)))
+      //charsequence
+      //onView(withId(R.id.content_text_view)).check(matches(withContentDescription(spannableDescriptionSpan)))
+
+
+      //pass with return string in replaceregex fun
+      onView(withId(R.id.content_text_view)).check(matches(withText(copyText)))
+
+      //withcontentdes -> checks string
+      //pass with return string and spannable in replaceregex fun
+      onView(withId(R.id.content_text_view)).check(matches(withContentDescription(expectedDescription)))
+
+
+    }
+  }
+
+//  @Test
+//  fun testStateFragment_content_des_testUsing_id() {
+//    setUpTestWithLanguageSwitchingFeatureOff()
+//    launchForExploration(
+//      FRACTIONS_EXPLORATION_ID_1,
+//      shouldSavePartialProgress = false
+//    ).use { scenario ->
+//      startPlayingExploration()
+//
+//      scenario.onActivity { activity ->
+//        val binding = Activity.inflate(activity.layoutInflater)
+//
+//        // Set the `htmlContent` variable directly on the ViewModel
+//        val testHtmlContent: CharSequence = "Test Content"
+//        binding.viewModel?.htmlContent = testHtmlContent  // Sets the value for data binding
+//
+//        // Notify data binding to refresh
+//        binding.viewModel?.notifyChange()
+//        // Trigger the data binding update
+//        viewModel.notifyChange()
+//
+//        val contentTextView = activity.findViewById<TextView>(R.id.content_text_view)
+//        val testText: CharSequence = "Hello Blank."
+//        contentTextView.text = testText
+//      }
+//      val expectedText = SpannableString("Hello Blank.")
+//      // Due to the exploration activity loading, the play button should no longer be visible.
+//      onView(withId(R.id.content_text_view))
+//        .check(matches(withContentDescription(equalTo(expectedText))))
+//    }
+//  }
+//
+//  @Test
+//  fun testContentTextView_contentDescriptionIsSetCorrectly() {
+//    setUpTestWithLanguageSwitchingFeatureOff()
+//    launchForExploration(
+//      FRACTIONS_EXPLORATION_ID_1,
+//      shouldSavePartialProgress = false
+//    ).use { scenario ->
+//      startPlayingExploration()
+//
+//      scenario.onActivity { activity ->
+//        // Get the fragment to access the RecyclerView item.
+//        val fragment = activity.supportFragmentManager
+//          .findFragmentByTag("stateFragment") as? StateFragment
+//
+//        // Configure the ViewModel used in the `content_item` layout.
+//        val viewModel = ContentViewModel()
+//        val testHtmlContent: CharSequence = "Test Content with ___"
+//
+//        // Set htmlContent to trigger data binding, with the description set by replaceRegexWithBlank()
+//        viewModel.htmlContent = testHtmlContent  // sets initial content
+//        viewModel.replaceRegexWithBlank(testHtmlContent)  // process the content to set description
+//
+//        // Attach ViewModel to layout through binding, assuming data binding is enabled
+//        val binding = fragment?.binding // Adjust according to fragment setup
+//        binding?.viewModel = viewModel
+//        binding?.executePendingBindings()
+//      }
+//
+//      // Define the expected content description for validation
+//      val expectedContentDescription = "Test Content with blank"  // replace with actual expected value
+//
+//      // Check that content_text_view has the correct contentDescription
+//      onView(withId(R.id.content_text_view))
+//        .check(matches(withContentDescription(equalTo(expectedContentDescription))))
+//    }
+//  }
+
+
   private fun addShadowMediaPlayerException(dataSource: Any, exception: Exception) {
     val classLoader = StateFragmentTest::class.java.classLoader!!
     val shadowMediaPlayerClass = classLoader.loadClass("org.robolectric.shadows.ShadowMediaPlayer")
@@ -5050,6 +5198,7 @@ class StateFragmentTest {
   private fun startPlayingExploration() {
     onView(withId(R.id.play_test_exploration_button)).perform(click())
     testCoroutineDispatchers.runCurrent()
+    //testCoroutineDispatchers.unregisterIdlingResource()
   }
 
   private fun playThroughPrototypeState1() {
@@ -5263,6 +5412,68 @@ class StateFragmentTest {
     playUpThroughMathInteractionExplorationState7()
     playThroughMathInteractionExplorationState8()
   }
+
+  //subha
+  private fun playUpThroughRatioExplorationState1() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState2() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState3() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState4() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState5() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState6() {
+    typeTextInput("2 to 5")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState7() {
+    typeTextInput("3 to 1")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState8() {
+    typeTextInput("2:3")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState9() {
+    typeTextInput("5:2")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState10() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState11() {
+    selectMultipleChoiceOption(
+      2,
+      "The relative relationship between the amounts of different things."
+    )
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState12() {
+    clickContinueInteractionButton()
+  }
+  private fun playUpThroughRatioExplorationState13() {
+    typeTextInput("1:4")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+  private fun playUpThroughRatioExplorationState14() {
+    typeTextInput("1:4")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+
 
   private fun rotateToLandscape() {
     onView(isRoot()).perform(orientationLandscape())

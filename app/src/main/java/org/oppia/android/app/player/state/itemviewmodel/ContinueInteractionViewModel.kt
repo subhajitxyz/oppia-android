@@ -68,7 +68,7 @@ class ContinueInteractionViewModel private constructor(
         fragment as PreviousNavigationButtonListener,
         isSplitView,
         writtenTranslationContext,
-        shouldAnimateContinueButton = timeToStartNoticeAnimationMs != null,
+        false, //shouldAnimateContinueButton = timeToStartNoticeAnimationMs != null,
         continueButtonAnimationTimestampMs = timeToStartNoticeAnimationMs ?: 0L
       )
     }
