@@ -5036,8 +5036,6 @@ class StateFragmentTest {
     }
   }
 
-
-  //subha
   private fun playThroughRatioExplorationState1() {
     clickContinueInteractionButton()
   }
