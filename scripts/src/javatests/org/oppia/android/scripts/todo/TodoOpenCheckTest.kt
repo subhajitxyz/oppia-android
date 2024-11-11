@@ -781,7 +781,7 @@ class TodoOpenCheckTest {
   fun testTodoCheck_PrPresent_checkShouldFail() {
     setUpGitHubService(
       issueNumbers = listOf(11004, 11003, 11002, 11001),
-      pullRequestNumbers = listOf(11001)
+      pullRequestNumbers = listOf(11005)
     )
     val tempFile1 = tempFolder.newFile("testfiles/TempFile1.kt")
     val tempFile2 = tempFolder.newFile("testfiles/TempFile2.kt")
@@ -795,7 +795,7 @@ class TodoOpenCheckTest {
       """.trimIndent()
     val testContent2 =
       """
-      // TODO(#11001): test summary 3.
+      // TODO(#11005): test summary 3.
       todo
       <!-- TODO(#11003): test summary 4-->
 
