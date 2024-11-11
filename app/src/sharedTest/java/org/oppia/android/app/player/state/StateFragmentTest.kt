@@ -5802,7 +5802,15 @@ class StateFragmentTest {
           explorationId = FRACTIONS_EXPLORATION_ID_1, audioFileName = "content-en-ouqm7j21vt8.mp3"
         )
       ) { "Failed to create audio data source." }
+      //subha
+      val dataSource2 = checkNotNull(
+        createAudioDataSource(
+          explorationId = RATIOS_EXPLORATION_ID_0, audioFileName = "content-en-8ggy36yyyc.mp3"
+        )
+      ) { "Failed to create audio data source." }
       addShadowMediaPlayerException(dataSource, IOException("Test does not have networking"))
+      addShadowMediaPlayerException(dataSource2, IOException("Test does not have networking"))
+
     }
   }
 
