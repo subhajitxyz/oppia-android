@@ -66,7 +66,7 @@ class GitHubClient(
   private fun fetchOpenIssues(pageNumber: Int): Deferred<List<GitHubIssue>> {
     return CoroutineScope(scriptBgDispatcher).async {
       val call = gitHubService
-        .fetchOpenIssues(repoOwner, repoName, authorizationBearer, pageNumber,false)
+        .fetchOpenIssues(repoOwner, repoName, authorizationBearer, pageNumber, false)
       // Deferred blocking I/O operation to the dedicated I/O dispatcher.
       val response = withContext(Dispatchers.IO) { call.execute() }
       check(response.isSuccessful()) {

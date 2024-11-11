@@ -808,15 +808,21 @@ class TodoOpenCheckTest {
     assertThat(outContent.toString().trim()).isEqualTo(failureMessage)
   }
 
-  private fun setUpGitHubService(issueNumbers: List<Int>, pullRequestNumbers: List<Int> = emptyList()) {
+  private fun setUpGitHubService(
+    issueNumbers: List<Int>,
+    pullRequestNumbers: List<Int> = emptyList()
+  ) {
     // Create JSON for issues
-    val issueJsons = issueNumbers.joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":false}" }
+    val issueJsons = issueNumbers
+      .joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":false}" }
 
     // Create JSON for pull requests
-    val pullRequestJsons = pullRequestNumbers.joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":true}" }
+    val pullRequestJsons = pullRequestNumbers
+      .joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":true}" }
 
     // Combine issues and pull requests into one JSON array
-    val combinedJsons = "[$issueJsons${if (pullRequestNumbers.isNotEmpty()) ", $pullRequestJsons" else ""}]"
+    val combinedJsons =
+      "[$issueJsons${if (pullRequestNumbers.isNotEmpty()) ", $pullRequestJsons" else ""}]"
 
     // Set up the MockWebServer
     val mockWebServer = MockWebServer()
