@@ -85,37 +85,6 @@ class TodoOpenCheckTest {
   }
 
   @Test
-  fun testTodoCheck_PrPresent_checkShouldFail() {
-    setUpGitHubService(
-      issueNumbers = listOf(11004, 11003, 11002, 11001),
-      pullRequestNumbers = listOf(11001)
-    )
-    val tempFile1 = tempFolder.newFile("testfiles/TempFile1.kt")
-    val tempFile2 = tempFolder.newFile("testfiles/TempFile2.kt")
-    val testContent1 =
-      """
-      // TODO(#11002): test summary 1.
-      # TODO(#11004): test summary 2.
-      # TODO(#11001): test summary 3.
-      test Todo
-      test TODO
-      """.trimIndent()
-    val testContent2 =
-      """
-      // TODO(#11001): test summary 3.
-      todo
-      <!-- TODO(#11003): test summary 4-->
-
-      """.trimIndent()
-    tempFile1.writeText(testContent1)
-    tempFile2.writeText(testContent2)
-
-    runScript()
-
-    assertThat(outContent.toString().trim()).isEqualTo(TODO_SYNTAX_CHECK_FAILED_OUTPUT_INDICATOR)
-  }
-
-  @Test
   fun testTodoCheck_onlyPoorlyFormattedTodosPresent_checkShouldFail() {
     setUpGitHubService(issueNumbers = emptyList())
     val tempFile = tempFolder.newFile("testfiles/TempFile.txt")
@@ -806,6 +775,37 @@ class TodoOpenCheckTest {
       }
       """.trimIndent()
     assertThat(outContent.toString().trim()).isEqualTo(failureMessage)
+  }
+
+  @Test
+  fun testTodoCheck_PrPresent_checkShouldFail() {
+    setUpGitHubService(
+      issueNumbers = listOf(11004, 11003, 11002, 11001),
+      pullRequestNumbers = listOf(11001)
+    )
+    val tempFile1 = tempFolder.newFile("testfiles/TempFile1.kt")
+    val tempFile2 = tempFolder.newFile("testfiles/TempFile2.kt")
+    val testContent1 =
+      """
+      // TODO(#11002): test summary 1.
+      # TODO(#11004): test summary 2.
+      # TODO(#11001): test summary 3.
+      test Todo
+      test TODO
+      """.trimIndent()
+    val testContent2 =
+      """
+      // TODO(#11001): test summary 3.
+      todo
+      <!-- TODO(#11003): test summary 4-->
+
+      """.trimIndent()
+    tempFile1.writeText(testContent1)
+    tempFile2.writeText(testContent2)
+
+    runScript()
+
+    assertThat(outContent.toString().trim()).isEqualTo(TODO_SYNTAX_CHECK_FAILED_OUTPUT_INDICATOR)
   }
 
   private fun setUpGitHubService(
