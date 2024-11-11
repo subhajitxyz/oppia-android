@@ -15,6 +15,12 @@ data class GitHubIssue(
   @Json(name = "pull_request") val pullRequest: PullRequestInfo? = null
 )
 
+/**
+ * Data class representing information about a pull request associated with a GitHub issue.
+ *
+ * @property url the URL of the pull request, if it exists. This provides the link to the specific
+ *     pull request associated with the issue on GitHub.
+ */
 @JsonClass(generateAdapter = true)
 data class PullRequestInfo(
   @Json(name = "url") val url: String? = null

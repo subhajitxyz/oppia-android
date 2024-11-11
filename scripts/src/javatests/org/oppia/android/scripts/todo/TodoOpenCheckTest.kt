@@ -803,9 +803,19 @@ class TodoOpenCheckTest {
     tempFile1.writeText(testContent1)
     tempFile2.writeText(testContent2)
 
-    runScript()
+    val exception = assertThrows<Exception>() { runScript() }
 
-    assertThat(outContent.toString().trim()).isEqualTo(TODO_SYNTAX_CHECK_FAILED_OUTPUT_INDICATOR)
+    assertThat(exception).hasMessageThat().contains(TODO_SYNTAX_CHECK_FAILED_OUTPUT_INDICATOR)
+    val failureMessage =
+      """
+      TODOs not corresponding to open issues on GitHub:
+      - TempFile2.kt:1
+
+      $wikiReferenceNote
+
+      $regenerateNote
+      """.trimIndent()
+    assertThat(outContent.toString().trim()).isEqualTo(failureMessage)
   }
 
   private fun setUpGitHubService(
