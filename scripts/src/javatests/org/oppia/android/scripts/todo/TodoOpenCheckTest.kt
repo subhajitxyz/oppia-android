@@ -81,13 +81,11 @@ class TodoOpenCheckTest {
 
     runScript()
 
-    //subha
-    assertThat(outContent.toString().trim()).isEqualTo(TODO_SYNTAX_CHECK_FAILED_OUTPUT_INDICATOR)
+    assertThat(outContent.toString().trim()).isEqualTo(TODO_CHECK_PASSED_OUTPUT_INDICATOR)
   }
 
-  //added by subha
   @Test
-  fun testTodoCheck_multipleTodosPresent_allAreValid_checkShouldPass_checkPrPresent() {
+  fun testTodoCheck_PrPresent_checkShouldFail() {
     setUpGitHubService(
       issueNumbers = listOf(11004, 11003, 11002, 11001),
       pullRequestNumbers = listOf(11001)
@@ -810,15 +808,6 @@ class TodoOpenCheckTest {
     assertThat(outContent.toString().trim()).isEqualTo(failureMessage)
   }
 
-//  private fun setUpGitHubService(issueNumbers: List<Int>) {
-//    val issueJsons = issueNumbers.joinToString(separator = ",") { "{\"number\":$it}" }
-//    val mockWebServer = MockWebServer()
-//    mockWebServer.enqueue(MockResponse().setBody("[$issueJsons]"))
-//    mockWebServer.enqueue(MockResponse().setBody("[]")) // No more issues.
-//    GitHubClient.remoteApiUrl = mockWebServer.url("/").toString()
-//  }
-
-  //subha
   private fun setUpGitHubService(issueNumbers: List<Int>, pullRequestNumbers: List<Int> = emptyList()) {
     // Create JSON for issues
     val issueJsons = issueNumbers.joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":false}" }
