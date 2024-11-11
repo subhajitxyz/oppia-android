@@ -826,14 +826,13 @@ class TodoOpenCheckTest {
 
     // Set up the MockWebServer
     val mockWebServer = MockWebServer()
-    mockWebServer.enqueue(MockResponse().setBody("[$issueJsons]"))   // Only issues
-    mockWebServer.enqueue(MockResponse().setBody(combinedJsons))     // Issues + pull requests
-    mockWebServer.enqueue(MockResponse().setBody("[]"))              // No more issues.
+    mockWebServer.enqueue(MockResponse().setBody("[$issueJsons]"))
+    mockWebServer.enqueue(MockResponse().setBody(combinedJsons))
+    mockWebServer.enqueue(MockResponse().setBody("[]"))
 
     // Set the remote API URL
     GitHubClient.remoteApiUrl = mockWebServer.url("/").toString()
   }
-
 
   private fun setUpSupportForGhAuth(authToken: String) {
     fakeCommandExecutor.registerHandler("gh") { _, args, outputStream, _ ->
