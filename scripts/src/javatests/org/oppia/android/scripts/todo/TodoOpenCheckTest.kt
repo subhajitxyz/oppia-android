@@ -812,13 +812,13 @@ class TodoOpenCheckTest {
     issueNumbers: List<Int>,
     pullRequestNumbers: List<Int> = emptyList()
   ) {
-    // Create JSON for issues
+    // Create JSON for issues with "pull_request" set to null
     val issueJsons = issueNumbers
-      .joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":false}" }
+      .joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":null}" }
 
-    // Create JSON for pull requests
+    // Create JSON for pull requests with "pull_request" as an empty object
     val pullRequestJsons = pullRequestNumbers
-      .joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":true}" }
+      .joinToString(separator = ",") { "{\"number\":$it,\"pull_request\":{}}" }
 
     // Combine issues and pull requests into one JSON array
     val combinedJsons =
@@ -826,12 +826,14 @@ class TodoOpenCheckTest {
 
     // Set up the MockWebServer
     val mockWebServer = MockWebServer()
-    mockWebServer.enqueue(MockResponse().setBody(combinedJsons))
-    mockWebServer.enqueue(MockResponse().setBody("[]")) // No more issues.
+    mockWebServer.enqueue(MockResponse().setBody("[$issueJsons]"))   // Only issues
+    mockWebServer.enqueue(MockResponse().setBody(combinedJsons))     // Issues + pull requests
+    mockWebServer.enqueue(MockResponse().setBody("[]"))              // No more issues.
 
     // Set the remote API URL
     GitHubClient.remoteApiUrl = mockWebServer.url("/").toString()
   }
+
 
   private fun setUpSupportForGhAuth(authToken: String) {
     fakeCommandExecutor.registerHandler("gh") { _, args, outputStream, _ ->

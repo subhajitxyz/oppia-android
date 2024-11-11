@@ -35,7 +35,6 @@ interface GitHubService {
     @Path("repo_name") repoName: String,
     @Header("Authorization") authorizationBearer: String,
     @Query("page") pageNumber: Int,
-    @Query("per_page") countPerPage: Int = 100,
-    @Query("pulls") pulls: Boolean = false
+    @Query("per_page") countPerPage: Int = 100
   ): Call<List<GitHubIssue>>
 }
