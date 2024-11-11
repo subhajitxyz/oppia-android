@@ -834,13 +834,10 @@ class TodoOpenCheckTest {
     val combinedJsons =
       "[$issueJsons${if (pullRequestNumbers.isNotEmpty()) ", $pullRequestJsons" else ""}]"
 
-    // Set up the MockWebServer
     val mockWebServer = MockWebServer()
     mockWebServer.enqueue(MockResponse().setBody("[$issueJsons]"))
     mockWebServer.enqueue(MockResponse().setBody(combinedJsons))
     mockWebServer.enqueue(MockResponse().setBody("[]"))
-
-    // Set the remote API URL
     GitHubClient.remoteApiUrl = mockWebServer.url("/").toString()
   }
 
