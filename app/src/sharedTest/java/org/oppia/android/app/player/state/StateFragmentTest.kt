@@ -195,6 +195,7 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.robolectric.shadows.ShadowMediaPlayer
 
 /** Tests for [StateFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -224,6 +225,7 @@ class StateFragmentTest {
 
   @After
   fun tearDown() {
+    ShadowMediaPlayer.resetStaticState()
     testCoroutineDispatchers.unregisterIdlingResource()
     Intents.release()
   }
