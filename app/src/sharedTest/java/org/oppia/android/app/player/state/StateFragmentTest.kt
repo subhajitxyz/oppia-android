@@ -191,11 +191,11 @@ import org.oppia.android.util.parser.image.TestGlideImageLoader
 import org.oppia.android.util.threading.BackgroundDispatcher
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
+import org.robolectric.shadows.ShadowMediaPlayer
 import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.robolectric.shadows.ShadowMediaPlayer
 
 /** Tests for [StateFragment]. */
 @RunWith(AndroidJUnit4::class)
