@@ -191,7 +191,6 @@ import org.oppia.android.util.parser.image.TestGlideImageLoader
 import org.oppia.android.util.threading.BackgroundDispatcher
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
-import org.robolectric.shadows.ShadowMediaPlayer
 import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
@@ -225,7 +224,6 @@ class StateFragmentTest {
 
   @After
   fun tearDown() {
-    ShadowMediaPlayer.resetStaticState()
     testCoroutineDispatchers.unregisterIdlingResource()
     Intents.release()
   }
@@ -5890,7 +5888,7 @@ class StateFragmentTest {
       ) { "Failed to create audio data source." }
       val dataSource2 = checkNotNull(
         createAudioDataSource(
-          explorationId = RATIOS_EXPLORATION_ID_0, audioFileName = "content-en-8ggy36yyyc.mp3"
+          explorationId = RATIOS_EXPLORATION_ID_0, audioFileName = "cfeedback_2-en-s3gr1eqm8i.mp3"
         )
       ) { "Failed to create audio data source." }
       addShadowMediaPlayerException(dataSource, IOException("Test does not have networking"))
