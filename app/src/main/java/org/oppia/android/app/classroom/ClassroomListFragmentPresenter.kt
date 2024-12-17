@@ -99,6 +99,7 @@ class ClassroomListFragmentPresenter @Inject constructor(
   private val exitProfileListener = activity as ExitProfileListener
   private lateinit var binding: ClassroomListFragmentBinding
   private lateinit var classroomListViewModel: ClassroomListViewModel
+  private var internalProfileId: Int = -1
   private val profileId = activity.intent.extractCurrentUserProfileId()
   private var onBackPressedCallback: OnBackPressedCallback? = null
 
@@ -110,13 +111,15 @@ class ClassroomListFragmentPresenter @Inject constructor(
       /* attachToRoot= */ false
     )
 
+    internalProfileId = profileId.internalId
+
     logHomeActivityEvent()
 
     classroomListViewModel = ClassroomListViewModel(
       activity,
       fragment,
       oppiaLogger,
-      profileId,
+      internalProfileId,
       profileManagementController,
       topicListController,
       classroomController,
@@ -174,7 +177,7 @@ class ClassroomListFragmentPresenter @Inject constructor(
   /** Routes to the play story view for the first story in the given topic summary. */
   fun onTopicSummaryClicked(topicSummary: TopicSummary) {
     routeToTopicPlayStoryListener.routeToTopicPlayStory(
-      profileId.internalId,
+      internalProfileId,
       topicSummary.classroomId,
       topicSummary.topicId,
       topicSummary.firstStoryId

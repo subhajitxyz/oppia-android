@@ -47,7 +47,7 @@ class ClassroomListActivity :
   @Inject
   lateinit var activityRouter: ActivityRouter
 
-  private lateinit var profileId: ProfileId
+  private var internalProfileId: Int = -1
 
   @Inject
   @field:EnableOnboardingFlowV2
@@ -67,7 +67,7 @@ class ClassroomListActivity :
     super.onCreate(savedInstanceState)
     (activityComponent as ActivityComponentImpl).inject(this)
 
-    profileId = intent.extractCurrentUserProfileId()
+    internalProfileId = intent.extractCurrentUserProfileId().internalId
     classroomListActivityPresenter.handleOnCreate()
     title = resourceHandler.getStringInLocale(R.string.classroom_list_activity_title)
   }
@@ -92,7 +92,7 @@ class ClassroomListActivity :
     val recentlyPlayedActivityParams =
       RecentlyPlayedActivityParams
         .newBuilder()
-        .setProfileId(profileId)
+        .setProfileId(ProfileId.newBuilder().setInternalId(internalProfileId).build())
         .setActivityTitle(recentlyPlayedActivityTitle).build()
 
     activityRouter.routeToScreen(
