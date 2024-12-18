@@ -5888,7 +5888,7 @@ class StateFragmentTest {
       ) { "Failed to create audio data source." }
       val dataSource2 = checkNotNull(
         createAudioDataSource(
-          explorationId = RATIOS_EXPLORATION_ID_0, audioFileName = "cfeedback_2-en-s3gr1eqm8i.mp3"
+          explorationId = RATIOS_EXPLORATION_ID_0, audioFileName = "content-en-057j51i2es.mp3"
         )
       ) { "Failed to create audio data source." }
       addShadowMediaPlayerException(dataSource, IOException("Test does not have networking"))
