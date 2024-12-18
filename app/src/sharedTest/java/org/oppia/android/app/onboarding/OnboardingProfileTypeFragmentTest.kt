@@ -11,6 +11,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
@@ -37,10 +38,14 @@ import org.oppia.android.app.application.ApplicationStartupListenerModule
 import org.oppia.android.app.application.testing.TestingBuildFlavorModule
 import org.oppia.android.app.devoptions.DeveloperOptionsModule
 import org.oppia.android.app.devoptions.DeveloperOptionsStarterModule
+import org.oppia.android.app.model.CreateProfileActivityParams
+import org.oppia.android.app.model.ProfileId
+import org.oppia.android.app.model.ProfileType
 import org.oppia.android.app.player.state.itemviewmodel.SplitScreenInteractionModule
 import org.oppia.android.app.profile.ProfileChooserActivity
 import org.oppia.android.app.shim.ViewBindingShimModule
 import org.oppia.android.app.translation.testing.ActivityRecreatorTestModule
+import org.oppia.android.app.utility.EspressoTestsMatchers.hasProtoExtra
 import org.oppia.android.app.utility.OrientationChangeAction.Companion.orientationLandscape
 import org.oppia.android.data.backends.gae.NetworkConfigProdModule
 import org.oppia.android.data.backends.gae.NetworkModule
@@ -72,11 +77,14 @@ import org.oppia.android.domain.oppialogger.loguploader.LogReportWorkerModule
 import org.oppia.android.domain.platformparameter.PlatformParameterSingletonModule
 import org.oppia.android.domain.question.QuestionModule
 import org.oppia.android.domain.workmanager.WorkManagerConfigurationModule
+import org.oppia.android.testing.FakeAnalyticsEventLogger
 import org.oppia.android.testing.OppiaTestRule
 import org.oppia.android.testing.TestLogReportingModule
 import org.oppia.android.testing.firebase.TestAuthenticationModule
 import org.oppia.android.testing.junit.InitializeDefaultLocaleRule
+import org.oppia.android.testing.logging.EventLogSubject
 import org.oppia.android.testing.platformparameter.TestPlatformParameterModule
+import org.oppia.android.testing.profile.ProfileTestHelper
 import org.oppia.android.testing.robolectric.RobolectricModule
 import org.oppia.android.testing.threading.TestCoroutineDispatchers
 import org.oppia.android.testing.threading.TestDispatcherModule
@@ -87,7 +95,6 @@ import org.oppia.android.util.caching.testing.CachingTestModule
 import org.oppia.android.util.gcsresource.GcsResourceModule
 import org.oppia.android.util.locale.LocaleProdModule
 import org.oppia.android.util.locale.OppiaLocale
-import org.oppia.android.util.logging.EventLoggingConfigurationModule
 import org.oppia.android.util.logging.LoggerModule
 import org.oppia.android.util.logging.SyncStatusModule
 import org.oppia.android.util.logging.firebase.FirebaseLogUploaderModule
@@ -96,6 +103,8 @@ import org.oppia.android.util.networking.NetworkConnectionUtilDebugModule
 import org.oppia.android.util.parser.html.HtmlParserEntityTypeModule
 import org.oppia.android.util.parser.image.GlideImageLoaderModule
 import org.oppia.android.util.parser.image.ImageParsingModule
+import org.oppia.android.util.profile.CurrentUserProfileIdIntentDecorator.decorateWithUserProfileId
+import org.oppia.android.util.profile.PROFILE_ID_INTENT_DECORATOR
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
@@ -117,19 +126,19 @@ class OnboardingProfileTypeFragmentTest {
   @get:Rule
   val oppiaTestRule = OppiaTestRule()
 
-  @Inject
-  lateinit var testCoroutineDispatchers: TestCoroutineDispatchers
+  @Inject lateinit var testCoroutineDispatchers: TestCoroutineDispatchers
+  @Inject lateinit var context: Context
+  @Inject lateinit var machineLocale: OppiaLocale.MachineLocale
+  @Inject lateinit var profileTestHelper: ProfileTestHelper
+  @Inject lateinit var fakeAnalyticsEventLogger: FakeAnalyticsEventLogger
 
-  @Inject
-  lateinit var context: Context
-
-  @Inject
-  lateinit var machineLocale: OppiaLocale.MachineLocale
+  private val testProfileId = ProfileId.newBuilder().setInternalId(0).build()
 
   @Before
   fun setUp() {
     Intents.init()
     setUpTestApplicationComponent()
+    profileTestHelper.initializeProfiles()
     testCoroutineDispatchers.registerIdlingResource()
   }
 
@@ -257,12 +266,14 @@ class OnboardingProfileTypeFragmentTest {
     launchOnboardingProfileTypeActivity().use {
       onView(withId(R.id.profile_type_learner_navigation_card)).perform(click())
       testCoroutineDispatchers.runCurrent()
-      // Does nothing for now, but should fail once navigation is implemented in a future PR.
-      onView(withId(R.id.profile_type_learner_navigation_card))
-        .check(matches(isDisplayed()))
 
-      onView(withId(R.id.profile_type_supervisor_navigation_card))
-        .check(matches(isDisplayed()))
+      val params = CreateProfileActivityParams.newBuilder()
+        .setProfileType(ProfileType.SOLE_LEARNER)
+        .build()
+
+      intended(hasComponent(CreateProfileActivity::class.java.name))
+      intended(hasExtraWithKey(PROFILE_ID_INTENT_DECORATOR))
+      intended(hasProtoExtra(CREATE_PROFILE_PARAMS_KEY, params))
     }
   }
 
@@ -271,9 +282,17 @@ class OnboardingProfileTypeFragmentTest {
     launchOnboardingProfileTypeActivity().use {
       onView(isRoot()).perform(orientationLandscape())
       testCoroutineDispatchers.runCurrent()
+
       onView(withId(R.id.profile_type_learner_navigation_card)).perform(click())
       testCoroutineDispatchers.runCurrent()
+
+      val params = CreateProfileActivityParams.newBuilder()
+        .setProfileType(ProfileType.SOLE_LEARNER)
+        .build()
+
       intended(hasComponent(CreateProfileActivity::class.java.name))
+      intended(hasExtraWithKey(PROFILE_ID_INTENT_DECORATOR))
+      intended(hasProtoExtra(CREATE_PROFILE_PARAMS_KEY, params))
     }
   }
 
@@ -321,10 +340,24 @@ class OnboardingProfileTypeFragmentTest {
     }
   }
 
+  @Test
+  fun testFragment_launchFragment_logsProfileOnboardingStartedEvent() {
+    launchOnboardingProfileTypeActivity().use {
+      onView(withId(R.id.profile_type_supervisor_navigation_card)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      val event = fakeAnalyticsEventLogger.getMostRecentEvent()
+      EventLogSubject.assertThat(event).hasStartProfileOnboardingContextThat {
+        hasProfileIdThat().isEqualTo(testProfileId)
+      }
+    }
+  }
+
   private fun launchOnboardingProfileTypeActivity():
     ActivityScenario<OnboardingProfileTypeActivity>? {
       val scenario = ActivityScenario.launch<OnboardingProfileTypeActivity>(
-        OnboardingProfileTypeActivity.createOnboardingProfileTypeActivityIntent(context)
+        OnboardingProfileTypeActivity.createOnboardingProfileTypeActivityIntent(context).apply {
+          decorateWithUserProfileId(testProfileId)
+        }
       )
       testCoroutineDispatchers.runCurrent()
       return scenario
@@ -361,7 +394,7 @@ class OnboardingProfileTypeFragmentTest {
       MathEquationInputModule::class, SplitScreenInteractionModule::class,
       LoggingIdentifierModule::class, ApplicationLifecycleModule::class,
       SyncStatusModule::class, MetricLogSchedulerModule::class, TestingBuildFlavorModule::class,
-      EventLoggingConfigurationModule::class, ActivityRouterModule::class,
+      ActivityRouterModule::class,
       CpuPerformanceSnapshotterModule::class, ExplorationProgressModule::class,
       TestAuthenticationModule::class
     ]
