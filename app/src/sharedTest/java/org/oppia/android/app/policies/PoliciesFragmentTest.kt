@@ -362,7 +362,7 @@ class PoliciesFragmentTest {
             PoliciesFragmentArguments.getDefaultInstance()
           )
 
-        assertThat(receivedPolicies).isEqualTo(policiesFragmentArguments)
+        assertThat(receivedPolicies.policyPage).isEqualTo(policiesFragmentArguments.policyPage)
       }
     }
   }

@@ -5013,7 +5013,6 @@ class StateFragmentTest {
       FRACTIONS_EXPLORATION_ID_1,
       shouldSavePartialProgress = false
     ).use { scenario ->
-      testCoroutineDispatchers.unregisterIdlingResource()
       startPlayingExploration()
 
       scenario.onActivity { activity ->

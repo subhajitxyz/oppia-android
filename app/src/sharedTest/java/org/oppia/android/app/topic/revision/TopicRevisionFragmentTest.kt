@@ -310,22 +310,19 @@ class TopicRevisionFragmentTest {
         val topicRevisionFragment = topicFragment.childFragmentManager
           .findFragmentByTag("f${viewPager.currentItem}") as TopicRevisionFragment
 
-        val receivedInternalProfileId = topicRevisionFragment
-          .arguments?.extractCurrentUserProfileId()?.internalId ?: -1
+        val receivedInternalProfileId = topicRevisionFragment.
+        arguments?.extractCurrentUserProfileId()?.internalId ?: -1
         val args = topicRevisionFragment.arguments?.getProto(
           TopicRevisionFragment.TOPIC_REVISION_FRAGMENT_ARGUMENTS_KEY,
           TopicRevisionFragmentArguments.getDefaultInstance()
         )
-        val receivedTopicId = checkNotNull(args?.topicId) {
-          "Expected topic ID to be included in arguments for TopicRevisionFragment."
-        }
 
         assertThat(receivedInternalProfileId).isEqualTo(internalProfileId)
-        assertThat(receivedTopicId).isEqualTo(FRACTIONS_TOPIC_ID)
+        assertThat(args?.topicId).isEqualTo(FRACTIONS_TOPIC_ID)
       }
     }
   }
-
+  
   private fun markAllSpotlightsSeen() {
     val profileId = ProfileId.newBuilder().setInternalId(internalProfileId).build()
     spotlightStateController.markSpotlightViewed(profileId, TOPIC_LESSON_TAB)
