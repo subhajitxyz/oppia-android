@@ -3,6 +3,9 @@ package org.oppia.android.app.player.audio
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.accessibility.AccessibilityNodeInfo
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import org.oppia.android.R
@@ -98,7 +101,7 @@ class LanguageDialogFragment : InjectableDialogFragment() {
 
     val languageInterface: LanguageInterface = parentFragment as AudioFragment
 
-    return AlertDialog
+    val alertDialog = AlertDialog
       .Builder(ContextThemeWrapper(activity as Context, R.style.OppiaDialogFragmentTheme))
       .setTitle(R.string.audio_language_select_dialog_title)
       .setSingleChoiceItems(options, selectedIndex) { _, which ->
@@ -114,5 +117,53 @@ class LanguageDialogFragment : InjectableDialogFragment() {
         dismiss()
       }
       .create()
+
+    alertDialog.setOnShowListener {
+      val listView = alertDialog.listView
+      for (i in 0 until listView.childCount) {
+        val item = listView.getChildAt(i)
+        item?.setAccessibilityDelegate(object : View.AccessibilityDelegate() {
+          override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(host, info)
+
+            // Get the item text
+            val itemText = (host as? TextView)?.text.toString()
+
+            // Set content description based on language
+            val contentDescription = when {
+
+              // Example for Arabic
+              isArabicLanguage(itemText) -> {
+                // You can customize this further based on itemText if needed
+                "Arabic"
+              }
+              // Example for Hindi
+              isHindiLanguage(itemText) -> {
+                "Hindi"
+              }
+              else -> {
+                itemText // Default content description
+              }
+            }
+
+            // Set content description for TalkBack
+            info?.contentDescription = contentDescription
+          }
+        })
+      }
+    }
+
+    return alertDialog
+  }
+
+  // Helper functions to detect language
+  fun isArabicLanguage(itemText: String): Boolean {
+    return itemText == appLanguageResourceHandler
+      .computeLocalizedDisplayName(AudioLanguage.ARABIC_LANGUAGE)
+  }
+
+  fun isHindiLanguage(itemText: String): Boolean {
+    return itemText == appLanguageResourceHandler
+      .computeLocalizedDisplayName(AudioLanguage.HINDI_AUDIO_LANGUAGE)
   }
 }
