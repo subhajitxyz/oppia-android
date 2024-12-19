@@ -150,7 +150,7 @@ class LanguageDialogFragment : InjectableDialogFragment() {
             }
 
             // Set content description for TalkBack
-            info?.contentDescription = contentDescription
+            info.contentDescription = contentDescription
           }
         })
       }
