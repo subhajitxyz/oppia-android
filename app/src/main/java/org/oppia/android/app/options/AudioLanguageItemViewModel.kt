@@ -30,7 +30,7 @@ class AudioLanguageItemViewModel(
     Transformations.map(currentSelectedLanguage) { it == language }
   }
 
-  //subha
+  // subha
   fun textDescription(): String {
     return if (language == AudioLanguage.ARABIC_LANGUAGE) {
       "Arabic"
@@ -38,5 +38,4 @@ class AudioLanguageItemViewModel(
       languageDisplayName
     }
   }
-
 }
