@@ -3,6 +3,7 @@ package org.oppia.android.app.player.audio
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.TextView
@@ -118,6 +119,7 @@ class LanguageDialogFragment : InjectableDialogFragment() {
       }
       .create()
 
+    //subha
     alertDialog.setOnShowListener {
       val listView = alertDialog.listView
       for (i in 0 until listView.childCount) {
@@ -129,9 +131,11 @@ class LanguageDialogFragment : InjectableDialogFragment() {
             // Get the item text
             val itemText = (host as? TextView)?.text.toString()
 
+            if(isHindiLanguage(itemText)) {
+              info.text = "subhajit"
+            }
             // Set content description based on language
             val contentDescription = when {
-
               // Example for Arabic
               isArabicLanguage(itemText) -> {
                 // You can customize this further based on itemText if needed
@@ -139,7 +143,7 @@ class LanguageDialogFragment : InjectableDialogFragment() {
               }
               // Example for Hindi
               isHindiLanguage(itemText) -> {
-                "Hindi"
+                "subhajit"
               }
               else -> {
                 itemText // Default content description
