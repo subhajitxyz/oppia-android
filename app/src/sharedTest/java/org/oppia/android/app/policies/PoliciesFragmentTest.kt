@@ -329,7 +329,7 @@ class PoliciesFragmentTest {
   }
 
   @Test
-  fun testPoliciesFragment_fragmentLoaded_verifyCorrectArgumentsPassed() {
+  fun testFragmentArguments_afterCreation_areCorrect() {
     launch<PoliciesFragmentTestActivity>(
       createPoliciesFragmentTestIntent(
         getApplicationContext(),

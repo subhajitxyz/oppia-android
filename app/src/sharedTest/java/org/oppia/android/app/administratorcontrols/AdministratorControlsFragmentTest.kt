@@ -438,7 +438,7 @@ class AdministratorControlsFragmentTest {
   }
 
   @Test
-  fun testAdministratorControlsFragment_fragmentLoaded_verifyCorrectArgumentsPassed() {
+  fun testFragmentArguments_afterCreation_areCorrect() {
     launch<AdministratorControlsFragmentTestActivity>(
       createAdministratorControlsFragmentTestActivityIntent(
         profileId = internalProfileId

@@ -389,7 +389,7 @@ class TopicPracticeFragmentTest {
   }
 
   @Test
-  fun testTopicPracticeFragment_fragmentLoaded_verifyCorrectArgumentsPassed() {
+  fun testFragmentArguments_afterCreation_areCorrect() {
     launchTopicActivityIntent(
       internalProfileId = internalProfileId,
       classroomId = TEST_CLASSROOM_ID_1,
@@ -437,6 +437,7 @@ class TopicPracticeFragmentTest {
 
       scenario.recreate()
 
+      scrollToPosition(position = 1)
       onView(
         atPositionOnView(
           recyclerViewId = R.id.topic_practice_skill_list,
@@ -444,6 +445,7 @@ class TopicPracticeFragmentTest {
           targetViewId = R.id.subtopic_check_box
         )
       ).check(matches(isChecked()))
+      scrollToPosition(position = 2)
       onView(
         atPositionOnView(
           recyclerViewId = R.id.topic_practice_skill_list,

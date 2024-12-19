@@ -1211,7 +1211,7 @@ class TopicLessonsFragmentTest {
   }
 
   @Test
-  fun testTopicLessonsFragment_fragmentLoaded_verifyCorrectArgumentsPassed() {
+  fun testFragmentArguments_afterCreation_areCorrect() {
     launch<TopicActivity>(
       createTopicPlayStoryActivityIntent(
         internalProfileId,

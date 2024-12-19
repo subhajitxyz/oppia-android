@@ -292,7 +292,7 @@ class TopicRevisionFragmentTest {
   }
 
   @Test
-  fun testTopicRevisionFragment_fragmentLoaded_verifyCorrectArgumentsPassed() {
+  fun testFragmentArguments_afterCreation_areCorrect() {
     launchTopicActivityIntent(
       internalProfileId = internalProfileId,
       classroomId = TEST_CLASSROOM_ID_1,
