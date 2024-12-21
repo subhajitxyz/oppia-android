@@ -29,4 +29,11 @@ class AudioLanguageItemViewModel(
   val isLanguageSelected: LiveData<Boolean> by lazy {
     Transformations.map(currentSelectedLanguage) { it == language }
   }
+
+  fun languageContentDescription(): String {
+    return when (language) {
+      AudioLanguage.ARABIC_LANGUAGE -> "Arabic"
+      else -> languageDisplayName
+    }
+  }
 }
