@@ -29,7 +29,10 @@ class AudioLanguageItemViewModel(
   val isLanguageSelected: LiveData<Boolean> by lazy {
     Transformations.map(currentSelectedLanguage) { it == language }
   }
-
+  /**
+   * Returns the content description for the current language. This is used for accessibility
+   * purposes to provide a readable description of the language in the UI.
+   */
   fun languageContentDescription(): String {
     return when (language) {
       AudioLanguage.ARABIC_LANGUAGE -> "Arabic"
