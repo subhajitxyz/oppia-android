@@ -501,7 +501,7 @@ class AudioLanguageFragmentTest {
   }
 
   @Test
-  fun testOpenFragment_withEnglish_verifyContentDescriptionOfArabicLanguage() {
+  fun testFragment_withEnglish_verifyContentDescriptionReadsArabicLanguage() {
     initializeTestApplicationComponent(enableOnboardingFlowV2 = false)
     launchActivityWithLanguage(ENGLISH_AUDIO_LANGUAGE).use {
       verifyEnglishIsSelected()
@@ -520,7 +520,9 @@ class AudioLanguageFragmentTest {
           3,
           R.id.language_text_view
         )
-      ).check(matches(withContentDescription("Arabic")))
+      ).check(
+        matches(withContentDescription(R.string.arabic_language_display_name_content_description))
+      )
     }
   }
 
