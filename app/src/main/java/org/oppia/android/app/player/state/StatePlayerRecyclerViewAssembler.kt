@@ -758,7 +758,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       previousNavigationButtonListener,
       fragment as ContinueNavigationButtonListener,
       isSplitView.get()!!,
-      false, //subha shouldAnimateContinueButton,
+      shouldAnimateContinueButton,
       continueButtonAnimationTimestampMs
     )
     if (isSplitView.get()!!) {

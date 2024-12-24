@@ -1,5 +1,6 @@
 package org.oppia.android.domain.state
 
+import android.util.Log
 import org.oppia.android.app.model.AnswerAndResponse
 import org.oppia.android.app.model.CompletedState
 import org.oppia.android.app.model.CompletedStateInCheckpoint
@@ -24,6 +25,8 @@ class StateDeck constructor(
   private val previousStates: MutableList<EphemeralState> = ArrayList()
   private val currentDialogInteractions: MutableList<AnswerAndResponse> = ArrayList()
   private var stateIndex: Int = 0
+  private var previousRevisionStateIndex: Int = -1
+  private var isCurrectAnswerCorrect: Boolean = true
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -57,13 +60,31 @@ class StateDeck constructor(
   /** Navigates to the next state in the deck, or fails if this isn't possible. */
   fun navigateToNextState() {
     check(!isCurrentStateTopOfDeck()) { "Cannot navigate to next state; at most recent state." }
-    val previousState = previousStates[stateIndex]
-    stateIndex++
-    if (!previousState.hasNextState) {
-      // Update the previous state to indicate that it has a next state now that its next state has
-      // actually been reated' by navigating to it.
-      previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
+//    val previousState = previousStates[stateIndex]
+    //subha
+    //try to correct this condition isCurrentStateTopOfDeck. use appropiate condition
+    if(previousRevisionStateIndex != -1) {
+      Log.d("observe","previousRevisionStateIndex is not -1")
+      stateIndex = previousRevisionStateIndex
+      previousRevisionStateIndex = -1
+
+      //return
+    } else {
+      val previousState = previousStates[stateIndex]
+      stateIndex++
+
+      if (!previousState.hasNextState) {
+        // Update the previous state to indicate that it has a next state now that its next state has
+        // actually been created' by navigating to it.
+        previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
+      }
     }
+
+//    if (!previousState.hasNextState) {
+//      // Update the previous state to indicate that it has a next state now that its next state has
+//      // actually been created' by navigating to it.
+//      previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
+//    }
   }
 
   /**
@@ -128,6 +149,7 @@ class StateDeck constructor(
     timestamp: Long,
     isContinueButtonAnimationSeen: Boolean
   ) {
+
     check(isCurrentStateTopOfDeck()) {
       "Cannot push a new state unless the learner is at the most recent state."
     }
@@ -142,18 +164,46 @@ class StateDeck constructor(
         "Cannot route from the same state to itself as a new card."
       }
     }
+
     // NB: This technically has a 'next' state, but it's not marked until it's first navigated away
     // since the new state doesn't become fully realized until navigated to.
-    previousStates += EphemeralState.newBuilder()
-      .setState(pendingTopState)
-      .setHasPreviousState(!isCurrentStateInitial())
-      .setCompletedState(CompletedState.newBuilder().addAllAnswer(currentDialogInteractions))
-      .setContinueButtonAnimationTimestampMs(timestamp)
-      .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
-      .build()
-    currentDialogInteractions.clear()
-    pendingTopState = state
+    //subha
+    //if(previousRevisionStateIndex == -1) {
+
+      previousStates += EphemeralState.newBuilder()
+        .setState(pendingTopState)
+        .setHasPreviousState(!isCurrentStateInitial())
+        .setCompletedState(CompletedState.newBuilder().addAllAnswer(currentDialogInteractions))
+        .setContinueButtonAnimationTimestampMs(timestamp)
+        .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
+        .build()
+
+      currentDialogInteractions.clear()
+
+    //}
+
+
+      if(previousRevisionStateIndex == -1) {
+        pendingTopState = state
+      }
+
+   // }
+
+
   }
+  //subha
+  fun calculateWrongAnswerPreviousState(stateName: String) : Int {
+    for (i in previousStates.size - 1 downTo 0) {
+      val state = previousStates[i].state
+      if (state.name == stateName) {
+        Log.d("observe","found at $i")
+        previousRevisionStateIndex = i
+        return i
+      }
+    }
+    return -1
+  }
+
 
   /**
    * Submits an answer & feedback dialog the learner experience in the current state.
@@ -162,6 +212,7 @@ class StateDeck constructor(
    * recent state is terminal (since no answer can be submitted to a terminal interaction).
    */
   fun submitAnswer(userAnswer: UserAnswer, feedback: SubtitledHtml, isCorrectAnswer: Boolean) {
+    isCurrectAnswerCorrect = isCorrectAnswer
     check(isCurrentStateTopOfDeck()) { "Cannot submit an answer except to the most recent state." }
     check(!isCurrentStateTerminal()) { "Cannot submit an answer to a terminal state." }
     currentDialogInteractions += AnswerAndResponse.newBuilder()

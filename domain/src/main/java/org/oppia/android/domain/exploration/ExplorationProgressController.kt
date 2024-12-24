@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -598,6 +599,7 @@ class ExplorationProgressController @Inject constructor(
     shouldSavePartialProgress: Boolean,
     explorationCheckpoint: ExplorationCheckpoint
   ) {
+    Log.d("observecall","called beginExplorationImpl")
     tryOperation(beginExplorationResultFlow) {
       check(explorationProgress.playStage == NOT_PLAYING) {
         "Expected to finish previous exploration before starting a new one."
@@ -636,6 +638,7 @@ class ExplorationProgressController @Inject constructor(
     finishExplorationResultFlow: MutableStateFlow<AsyncResult<Any?>>,
     isCompletion: Boolean
   ) {
+    Log.d("observecall","called finishExplorationImpl")
     checkNotNull(this) { "Cannot finish playing an exploration that hasn't yet been started" }
     tryOperation(finishExplorationResultFlow, recomputeState = false) {
       explorationProgress.advancePlayStageTo(NOT_PLAYING)
@@ -653,6 +656,7 @@ class ExplorationProgressController @Inject constructor(
     submitAnswerResultFlow: MutableStateFlow<AsyncResult<AnswerOutcome>>,
     userAnswer: UserAnswer
   ) {
+    Log.d("observecall","called submitAnswerImpl")
     tryOperation(submitAnswerResultFlow) {
       check(explorationProgress.playStage != NOT_PLAYING) {
         "Cannot submit an answer if an exploration is not being played."
@@ -682,6 +686,8 @@ class ExplorationProgressController @Inject constructor(
         explorationProgress.stateDeck.submitAnswer(
           userAnswer, answerOutcome.feedback, answerOutcome.labelledAsCorrectAnswer
         )
+        Log.d("observelabelled", answerOutcome.feedback.toString() +answerOutcome.labelledAsCorrectAnswer.toString())
+        //.d("teststatedeck", answerOutcome.labelledAsCorrectAnswer.toString() + "explorationprogresscontroller")
         stateAnalyticsLogger?.logSubmitAnswer(
           topPendingState.interaction, userAnswer, answerOutcome.labelledAsCorrectAnswer
         )
@@ -698,19 +704,50 @@ class ExplorationProgressController @Inject constructor(
         val ephemeralState = computeBaseCurrentEphemeralState()
         when {
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
+            Log.d("observelabelled", "first when")
             endState()
+
+            ///subha , i think it is resposible of add new deck while submitning wrong answer
+            //check once
+
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
-            explorationProgress.stateDeck.pushState(
-              newState,
-              prohibitSameStateName = true,
-              timestamp = startSessionTimeMs + continueButtonAnimationDelay,
-              isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
-            )
-            hintHandler.finishState(newState)
+            //subha
+
+//            if(answerOutcome.feedback.contentId != "default_outcome" && !answerOutcome.labelledAsCorrectAnswer) {
+//              // nothing to do
+//              Log.d("observe","my condition")
+//              explorationProgress.stateDeck.calculateWrongAnswerPreviousState(newState.name)
+////              val currState = explorationProgress.stateDeck.getCurrentState()
+////
+////              Log.d("observelabelled", "pushing new state")
+////              explorationProgress.stateDeck.pushState(
+////                currState,
+////                prohibitSameStateName = true,
+////                timestamp = startSessionTimeMs + continueButtonAnimationDelay,
+////                isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
+////              )
+////              hintHandler.finishState(currState)
+//
+//            }
+              explorationProgress.stateDeck.calculateWrongAnswerPreviousState(newState.name)
+
+              Log.d("observelabelled", "pushing new state")
+              explorationProgress.stateDeck.pushState(
+                newState,
+                prohibitSameStateName = true,
+                timestamp = startSessionTimeMs + continueButtonAnimationDelay,
+                isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
+              )
+              hintHandler.finishState(newState)
+
+
+
+
           }
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
+            Log.d("observelabelled", "2nd when")
             hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
           }
         }
@@ -738,6 +775,7 @@ class ExplorationProgressController @Inject constructor(
     submitHintRevealedResultFlow: MutableStateFlow<AsyncResult<Any?>>,
     hintIndex: Int
   ) {
+    Log.d("observecall","called submitHintIsRevealedImpl")
     tryOperation(submitHintRevealedResultFlow) {
       check(explorationProgress.playStage != NOT_PLAYING) {
         "Cannot submit an answer if an exploration is not being played."
@@ -762,6 +800,7 @@ class ExplorationProgressController @Inject constructor(
   private suspend fun ControllerState.submitSolutionIsRevealedImpl(
     submitSolutionRevealedResultFlow: MutableStateFlow<AsyncResult<Any?>>
   ) {
+    Log.d("observecall","called submitSolutionIsRevealedImpl")
     tryOperation(submitSolutionRevealedResultFlow) {
       check(explorationProgress.playStage != NOT_PLAYING) {
         "Cannot submit an answer if an exploration is not being played."
@@ -804,6 +843,7 @@ class ExplorationProgressController @Inject constructor(
   private suspend fun ControllerState.moveToNextStateImpl(
     moveToNextStateResultFlow: MutableStateFlow<AsyncResult<Any?>>
   ) {
+    Log.d("observecall","called moveToNextStateImpl")
     tryOperation(moveToNextStateResultFlow) {
       check(explorationProgress.playStage != NOT_PLAYING) {
         "Cannot navigate to a next state if an exploration is not being played."
@@ -814,6 +854,7 @@ class ExplorationProgressController @Inject constructor(
       check(explorationProgress.playStage != SUBMITTING_ANSWER) {
         "Cannot navigate to a next state if an answer submission is pending."
       }
+
       explorationProgress.stateDeck.navigateToNextState()
 
       if (explorationProgress.stateDeck.isCurrentStateTopOfDeck()) {
