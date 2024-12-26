@@ -209,6 +209,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val interaction = ephemeralState.state.interaction
 
     if (ephemeralState.stateTypeCase == StateTypeCase.PENDING_STATE) {
+      Log.d("observehi","ephemerastate is pending state ") //subha
       if (playerFeatureSet.hintsAndSolutionsSupport) {
         (fragment as ShowHintAvailabilityListener).onHintAvailable(
           ephemeralState.pendingState.helpIndex,
@@ -241,6 +242,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         )
       }
     } else if (ephemeralState.stateTypeCase == StateTypeCase.COMPLETED_STATE) {
+      Log.d("observehi","ephemerastate is completed state ") //subha
+
       // Ensure any lingering hints are properly cleared.
       if (playerFeatureSet.hintsAndSolutionsSupport) {
         (fragment as ShowHintAvailabilityListener).onHintAvailable(

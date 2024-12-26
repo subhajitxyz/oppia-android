@@ -686,6 +686,15 @@ class ExplorationProgressController @Inject constructor(
         explorationProgress.stateDeck.submitAnswer(
           userAnswer, answerOutcome.feedback, answerOutcome.labelledAsCorrectAnswer
         )
+//        if(!answerOutcome.labelledAsCorrectAnswer && answerOutcome.feedback.contentId.contains("feedback",true)) {
+//          Log.d("testonActualCall", "onActualCallLearnAgain is true now")
+//
+//          explorationProgress.stateDeck.onActualCallLearnAgain(true)
+//
+//        }else {
+//          Log.d("testonActualCall", "onActualCallLearnAgain is false now")
+//          explorationProgress.stateDeck.onActualCallLearnAgain(false)
+//        }
         Log.d("observelabelled", answerOutcome.feedback.toString() +answerOutcome.labelledAsCorrectAnswer.toString())
         //.d("teststatedeck", answerOutcome.labelledAsCorrectAnswer.toString() + "explorationprogresscontroller")
         stateAnalyticsLogger?.logSubmitAnswer(
@@ -707,31 +716,19 @@ class ExplorationProgressController @Inject constructor(
             Log.d("observelabelled", "first when")
             endState()
 
-            ///subha , i think it is resposible of add new deck while submitning wrong answer
-            //check once
+            //idea1 proper code
+            if (!answerOutcome.labelledAsCorrectAnswer &&
+              answerOutcome.feedback.contentId.contains("feedback",true)) {
+              explorationProgress.stateDeck.onActualCallLearnAgain(true)
+            } else {
+              explorationProgress.stateDeck.onActualCallLearnAgain(false)
+            }
 
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
-            //subha
 
-//            if(answerOutcome.feedback.contentId != "default_outcome" && !answerOutcome.labelledAsCorrectAnswer) {
-//              // nothing to do
-//              Log.d("observe","my condition")
-//              explorationProgress.stateDeck.calculateWrongAnswerPreviousState(newState.name)
-////              val currState = explorationProgress.stateDeck.getCurrentState()
-////
-////              Log.d("observelabelled", "pushing new state")
-////              explorationProgress.stateDeck.pushState(
-////                currState,
-////                prohibitSameStateName = true,
-////                timestamp = startSessionTimeMs + continueButtonAnimationDelay,
-////                isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
-////              )
-////              hintHandler.finishState(currState)
-//
-//            }
-              explorationProgress.stateDeck.calculateWrongAnswerPreviousState(newState.name)
-
+            //if(explorationProgress.stateDeck.previousRevisionStateIndex == -1) {
               Log.d("observelabelled", "pushing new state")
+            Log.d("testidea2","i am here into when 1")
               explorationProgress.stateDeck.pushState(
                 newState,
                 prohibitSameStateName = true,
@@ -739,7 +736,15 @@ class ExplorationProgressController @Inject constructor(
                 isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
               )
               hintHandler.finishState(newState)
-
+//            } else {
+//              explorationProgress.stateDeck.pushState(
+//                currState,
+//                prohibitSameStateName = false,
+//                timestamp = startSessionTimeMs + continueButtonAnimationDelay,
+//                isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
+//              )
+//              hintHandler.finishState(newState)
+//            }
 
 
 
@@ -748,10 +753,14 @@ class ExplorationProgressController @Inject constructor(
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
             Log.d("observelabelled", "2nd when")
+            Log.d("testidea2","i am here into when 2")
+
             hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
           }
         }
       } finally {
+        Log.d("testidea2","i am here into when final")
+
         if (answerOutcome != null &&
           !doesInteractionAutoContinue(answerOutcome.state.interaction.id)
         ) {
@@ -764,6 +773,7 @@ class ExplorationProgressController @Inject constructor(
         // Ensure that the user always returns to the VIEWING_STATE stage to avoid getting stuck
         // in an 'always submitting answer' situation. This can specifically happen if answer
         // classification throws an exception.
+        explorationProgress.advancePlayStageTo(VIEWING_STATE)
         explorationProgress.advancePlayStageTo(VIEWING_STATE)
       }
 
@@ -855,6 +865,7 @@ class ExplorationProgressController @Inject constructor(
         "Cannot navigate to a next state if an answer submission is pending."
       }
 
+
       explorationProgress.stateDeck.navigateToNextState()
 
       if (explorationProgress.stateDeck.isCurrentStateTopOfDeck()) {
@@ -867,6 +878,7 @@ class ExplorationProgressController @Inject constructor(
         // Ensure the state has been started the first time it's reached.
         maybeStartState(explorationProgress.stateDeck.getViewedStateCount())
       }
+
 
       if (!isContinueButtonAnimationSeen) {
         profileManagementController.markContinueButtonAnimationSeen(profileId)
