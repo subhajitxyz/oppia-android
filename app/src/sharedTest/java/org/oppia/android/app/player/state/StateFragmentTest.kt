@@ -5238,6 +5238,52 @@ class StateFragmentTest {
     }
   }
 
+  @Test
+  fun testStateFragment_usesSofterRedirection_afterRevisitingEarlierCard() {
+    setUpTestWithLanguageSwitchingFeatureOff()
+    launchForExploration(RATIOS_EXPLORATION_ID_0, shouldSavePartialProgress = false).use {
+      startPlayingExploration()
+
+      playThroughRatioExplorationState1()
+      playThroughRatioExplorationState2()
+      playThroughRatioExplorationState3()
+      playThroughRatioExplorationState4()
+      playThroughRatioExplorationState5()
+      playThroughRatioExplorationState6()
+      playThroughRatioExplorationState7()
+      playThroughRatioExplorationState8()
+      playThroughRatioExplorationState9()
+      playThroughRatioExplorationState10()
+      playThroughRatioExplorationState11()
+      playThroughRatioExplorationState12()
+      playThroughRatioExplorationState13()
+      playThroughRatioExplorationState14()
+      playThroughRatioExplorationState15()
+
+      onView(
+        atPositionOnView(
+          recyclerViewId = R.id.selection_interaction_recyclerview,
+          position = 1,
+          targetViewId = R.id.multiple_choice_content_text_view
+        )
+      ).perform(click())
+      clickSubmitAnswerButton()
+      clickContinueNavigationButton()
+
+      scrollToViewType(NEXT_NAVIGATION_BUTTON)
+      onView(withId(R.id.next_state_navigation_button)).check(matches(isDisplayed()))
+      onView(withId(R.id.feedback_text_view))
+        .check(matches(withText(containsString("Please continue."))))
+
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+
+      verifySubmitAnswerButtonIsEnabled()
+    }
+  }
+
   private fun playThroughRatioExplorationState1() {
     clickContinueInteractionButton()
   }
@@ -5307,6 +5353,12 @@ class StateFragmentTest {
 
   private fun playThroughRatioExplorationState14() {
     typeTextInput("1:4")
+    clickSubmitAnswerButton()
+    clickContinueNavigationButton()
+  }
+
+  private fun playThroughRatioExplorationState15() {
+    typeTextInput("2:1")
     clickSubmitAnswerButton()
     clickContinueNavigationButton()
   }

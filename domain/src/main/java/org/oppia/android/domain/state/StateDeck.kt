@@ -24,6 +24,7 @@ class StateDeck constructor(
   private val previousStates: MutableList<EphemeralState> = ArrayList()
   private val currentDialogInteractions: MutableList<AnswerAndResponse> = ArrayList()
   private var stateIndex: Int = 0
+  private var shouldRevisitEarlierCard: Boolean = false
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -57,12 +58,19 @@ class StateDeck constructor(
   /** Navigates to the next state in the deck, or fails if this isn't possible. */
   fun navigateToNextState() {
     check(!isCurrentStateTopOfDeck()) { "Cannot navigate to next state; at most recent state." }
-    val previousState = previousStates[stateIndex]
-    stateIndex++
-    if (!previousState.hasNextState) {
-      // Update the previous state to indicate that it has a next state now that its next state has
-      // actually been reated' by navigating to it.
-      previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
+
+    val revisionIdx = getStateIndexOfEarlierCard(pendingTopState.name)
+
+    if (revisionIdx != null && stateIndex == previousStates.size - 1 && shouldRevisitEarlierCard) {
+      handleRevisitEarlierCard(revisionIdx)
+    } else {
+      val previousState = previousStates[stateIndex]
+      stateIndex++
+      if (!previousState.hasNextState) {
+        // Update the previous state to indicate that it has a next state now that its next state has
+        // actually been created' by navigating to it.
+        previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
+      }
     }
   }
 
@@ -151,7 +159,7 @@ class StateDeck constructor(
       .setContinueButtonAnimationTimestampMs(timestamp)
       .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
       .build()
-    currentDialogInteractions.clear()
+    if (!shouldRevisitEarlierCard) { currentDialogInteractions.clear() }
     pendingTopState = state
   }
 
@@ -250,5 +258,54 @@ class StateDeck constructor(
   /** Returns whether the most recent card on the deck is terminal. */
   private fun isTopOfDeckTerminal(): Boolean {
     return isTopOfDeckTerminalChecker(pendingTopState)
+  }
+
+  /**
+   * Handles revisiting an earlier card when the user clicks the continue button.
+   *
+   * This function adjusts the state to facilitate revisiting a previously viewed card.
+   * - Removes the last unnecessary ephemeral state from [previousStates], which was added as
+   *   a new state specifically for revision.
+   * - Sets [pendingTopState] to the current state with the stored [currentDialogInteractions],
+   *   marking it as a pending state where the user needs to submit a correct answer.
+   * - Updates [stateIndex] to the provided [revisionIdx].
+   * - Turns off the revisit mode by setting [shouldRevisitEarlierCard] to `false`.
+   *
+   * @param revisionIdx the index of the state to revisit.
+   */
+  private fun handleRevisitEarlierCard(revisionIdx: Int) {
+    val timestamp = previousStates[previousStates.size - 1].continueButtonAnimationTimestampMs
+    val showContinueButtonSeen =
+      previousStates[previousStates.size - 1].showContinueButtonAnimation
+    val currState = previousStates[previousStates.size - 1].state
+
+    previousStates.removeAt(previousStates.size - 1)
+
+    pendingTopState = EphemeralState.newBuilder()
+      .setState(currState)
+      .setHasPreviousState(!isCurrentStateInitial())
+      .setPendingState(PendingState.newBuilder().addAllWrongAnswer(currentDialogInteractions))
+      .setContinueButtonAnimationTimestampMs(timestamp)
+      .setShowContinueButtonAnimation(showContinueButtonSeen)
+      .build().state
+
+    stateIndex = revisionIdx
+    turnOnRevisitEarlierCard(false)
+  }
+
+  /** Returns [stateIndex] if it present on [previousStates] list. */
+  private fun getStateIndexOfEarlierCard(stateName: String): Int? {
+    if (!shouldRevisitEarlierCard) return null
+    for (i in previousStates.size - 1 downTo 0) {
+      val state = previousStates[i].state
+      if (state.name == stateName) {
+        return i
+      }
+    }
+    return null
+  }
+
+  fun turnOnRevisitEarlierCard(value: Boolean) {
+    shouldRevisitEarlierCard = value
   }
 }

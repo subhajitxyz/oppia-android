@@ -699,6 +699,14 @@ class ExplorationProgressController @Inject constructor(
         when {
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             endState()
+            // Determines if a revision is required for the user based on the answer outcome.
+            if (!answerOutcome.labelledAsCorrectAnswer &&
+              answerOutcome.feedback.contentId.contains("feedback", true)
+            ) {
+              explorationProgress.stateDeck.turnOnRevisitEarlierCard(true)
+            } else {
+              explorationProgress.stateDeck.turnOnRevisitEarlierCard(false)
+            }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(
               newState,
