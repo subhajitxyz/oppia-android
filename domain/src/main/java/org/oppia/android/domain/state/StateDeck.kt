@@ -47,6 +47,7 @@ class StateDeck constructor(
     this.previousStates.addAll(previousStates)
     this.currentDialogInteractions.addAll(currentDialogInteractions)
     this.stateIndex = stateIndex
+    if (getStateIndexOfEarlierCard(pendingTopState.name) != null) shouldRevisitEarlierCard = true
   }
 
   /** Navigates to the previous state in the deck, or fails if this isn't possible. */
@@ -159,7 +160,9 @@ class StateDeck constructor(
       .setContinueButtonAnimationTimestampMs(timestamp)
       .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
       .build()
-    if (!shouldRevisitEarlierCard) { currentDialogInteractions.clear() }
+    if (!shouldRevisitEarlierCard || getStateIndexOfEarlierCard(state.name) == null) {
+      currentDialogInteractions.clear()
+    }
     pendingTopState = state
   }
 
