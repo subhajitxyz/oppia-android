@@ -264,9 +264,9 @@ class StateDeck constructor(
    * Handles revisiting an earlier card when the user clicks the continue button.
    *
    * This function adjusts the state to facilitate revisiting a previously viewed card.
-   * - Removes the last unnecessary ephemeral state from [previousStates], which was added as
-   *   a new state specifically for revision.
-   * - Sets [pendingTopState] to the current state with the stored [currentDialogInteractions],
+   * - Removes the last added ephemeral state from [previousStates], which was added when user
+   *   submitted a wrong answer.
+   * - Updates [pendingTopState] to the current state with the stored [currentDialogInteractions],
    *   marking it as a pending state where the user needs to submit a correct answer.
    * - Updates [stateIndex] to the provided [revisionIdx].
    * - Turns off the revisit mode by setting [shouldRevisitEarlierCard] to `false`.
@@ -277,12 +277,12 @@ class StateDeck constructor(
     val timestamp = previousStates[previousStates.size - 1].continueButtonAnimationTimestampMs
     val showContinueButtonSeen =
       previousStates[previousStates.size - 1].showContinueButtonAnimation
-    val currState = previousStates[previousStates.size - 1].state
+    val currentState = previousStates[previousStates.size - 1].state
 
     previousStates.removeAt(previousStates.size - 1)
 
     pendingTopState = EphemeralState.newBuilder()
-      .setState(currState)
+      .setState(currentState)
       .setHasPreviousState(!isCurrentStateInitial())
       .setPendingState(PendingState.newBuilder().addAllWrongAnswer(currentDialogInteractions))
       .setContinueButtonAnimationTimestampMs(timestamp)
@@ -295,7 +295,6 @@ class StateDeck constructor(
 
   /** Returns [stateIndex] if state present on [previousStates] list. */
   private fun getStateIndexOfEarlierCard(stateName: String): Int? {
-    if (!shouldRevisitEarlierCard) return null
     for (i in previousStates.size - 1 downTo 0) {
       if (previousStates[i].state.name == stateName) {
         return i
