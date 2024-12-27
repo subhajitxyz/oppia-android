@@ -293,18 +293,18 @@ class StateDeck constructor(
     turnOnRevisitEarlierCard(false)
   }
 
-  /** Returns [stateIndex] if it present on [previousStates] list. */
+  /** Returns [stateIndex] if state present on [previousStates] list. */
   private fun getStateIndexOfEarlierCard(stateName: String): Int? {
     if (!shouldRevisitEarlierCard) return null
     for (i in previousStates.size - 1 downTo 0) {
-      val state = previousStates[i].state
-      if (state.name == stateName) {
+      if (previousStates[i].state.name == stateName) {
         return i
       }
     }
     return null
   }
 
+  /** Sets whether the user should revisit an earlier card. */
   fun turnOnRevisitEarlierCard(value: Boolean) {
     shouldRevisitEarlierCard = value
   }
