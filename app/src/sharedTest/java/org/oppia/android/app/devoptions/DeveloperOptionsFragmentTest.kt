@@ -612,37 +612,44 @@ class DeveloperOptionsFragmentTest {
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
 
-      testCoroutineDispatchers.runCurrent()
-      onIdle()
+      //testCoroutineDispatchers.runCurrent()
+      //does not work onidle()
+      //onIdle()
       //try to check
-      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-      /////
-      scrollToPosition(position = 0)
-      verifyTextOnProfileListItemAtPosition(
-        itemPosition = 0,
-        targetView = R.id.profile_name_text,
-        stringToMatch = "Admin"
-      )
-      scrollToPosition(position = 1)
-      verifyTextOnProfileListItemAtPosition(
-        itemPosition = 1,
-        targetView = R.id.profile_name_text,
-        stringToMatch = "Ben"
-      )
 
-      scrollToPosition(position = 2)
-      verifyTextOnProfileListItemAtPosition(
-        itemPosition = 4,
-        targetView = R.id.add_profile_text,
-        stringToMatch = "Nikita"
-      )
+      launch(ProfileChooserActivity::class.java).use {
 
-      scrollToPosition(position = 3)
-      verifyTextOnProfileListItemAtPosition(
-        itemPosition = 4,
-        targetView = R.id.add_profile_text,
-        stringToMatch = "subha"
-      )
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        /////
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 1,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Ben"
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 4,
+          targetView = R.id.add_profile_text,
+          stringToMatch = "Nikita"
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(3))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 4,
+          targetView = R.id.add_profile_text,
+          stringToMatch = "subha"
+        )
+      }
+
+
     }
   }
   //subha
@@ -660,7 +667,7 @@ class DeveloperOptionsFragmentTest {
 
 
       // Use ActivityScenario to confirm we are in ProfileChooserActivity.
-      ActivityScenario.launch(ProfileChooserActivity::class.java).use {
+      launch(ProfileChooserActivity::class.java).use {
         testCoroutineDispatchers.runCurrent()
 
         // Check if the recycler view in ProfileChooserActivity is displayed.
