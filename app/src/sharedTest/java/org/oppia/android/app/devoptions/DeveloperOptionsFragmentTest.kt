@@ -663,7 +663,7 @@ class DeveloperOptionsFragmentTest {
         onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
 
         // Scroll to position and verify text on the profile list item.
-        scrollToPosition(position = 0)
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 0,
           targetView = R.id.profile_name_text,
