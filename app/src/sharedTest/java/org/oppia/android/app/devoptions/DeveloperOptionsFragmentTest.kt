@@ -609,6 +609,7 @@ class DeveloperOptionsFragmentTest {
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
 
+      testCoroutineDispatchers.runCurrent()
       //try to check
       onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
       /////
