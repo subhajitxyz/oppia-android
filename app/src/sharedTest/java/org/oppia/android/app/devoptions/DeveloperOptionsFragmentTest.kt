@@ -640,6 +640,30 @@ class DeveloperOptionsFragmentTest {
       )
     }
   }
+  //subha
+  @Test
+  fun testDeveloperOptions_clickDeleteProfiles_opensProfileChooserActivity() {
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_three_profile_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+
+      //try to check
+      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+      /////
+      scrollToPosition(position = 0)
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 0,
+        targetView = R.id.profile_name_text,
+        stringToMatch = "Admin"
+      )
+    }
+  }
 
   private fun createDeveloperOptionsTestActivityIntent(internalProfileId: Int): Intent {
     return DeveloperOptionsTestActivity.createDeveloperOptionsTestIntent(context, internalProfileId)

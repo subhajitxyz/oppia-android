@@ -240,13 +240,10 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
       }
 
       // Process profiles
-      Log.d("logjob", "Changed activity")
-      Toast.makeText(activity.applicationContext, "All Profiles created", Toast.LENGTH_SHORT).show()
-      val intent = Intent(activity, ProfileChooserActivity::class.java).apply {
+      val intent = Intent(fragment.requireContext(), ProfileChooserActivity::class.java).apply {
         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
       }
-      activity.startActivity(intent)
-      activity.finish()
+      fragment.startActivity(intent)
     }
   }
 
