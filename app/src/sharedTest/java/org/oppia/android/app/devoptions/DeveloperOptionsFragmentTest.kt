@@ -637,14 +637,14 @@ class DeveloperOptionsFragmentTest {
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 2,
-          targetView = R.id.add_profile_text,
+          targetView = R.id.profile_name_text,
           stringToMatch = "Nikita"
         )
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(3))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 3,
-          targetView = R.id.add_profile_text,
+          targetView = R.id.profile_name_text,
           stringToMatch = "subha"
         )
       }
