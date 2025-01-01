@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -611,8 +613,9 @@ class DeveloperOptionsFragmentTest {
 
 
       testCoroutineDispatchers.runCurrent()
+      onIdle()
       //try to check
-      //onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
       /////
       scrollToPosition(position = 0)
       verifyTextOnProfileListItemAtPosition(
@@ -643,6 +646,7 @@ class DeveloperOptionsFragmentTest {
     }
   }
   //subha
+  //finally it  passed
   @Test
   fun testDeveloperOptions_clickDeleteProfiles_opensProfileChooserActivity() {
     launch<DeveloperOptionsTestActivity>(
