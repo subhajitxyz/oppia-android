@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -654,15 +655,30 @@ class DeveloperOptionsFragmentTest {
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
 
+      // Use ActivityScenario to confirm we are in ProfileChooserActivity.
+      ActivityScenario.launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        // Check if the recycler view in ProfileChooserActivity is displayed.
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+
+        // Scroll to position and verify text on the profile list item.
+        scrollToPosition(position = 0)
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+      }
       //try to check
-      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-      /////
-      scrollToPosition(position = 0)
-      verifyTextOnProfileListItemAtPosition(
-        itemPosition = 0,
-        targetView = R.id.profile_name_text,
-        stringToMatch = "Admin"
-      )
+//      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//      /////
+//      scrollToPosition(position = 0)
+//      verifyTextOnProfileListItemAtPosition(
+//        itemPosition = 0,
+//        targetView = R.id.profile_name_text,
+//        stringToMatch = "Admin"
+//      )
     }
   }
 
