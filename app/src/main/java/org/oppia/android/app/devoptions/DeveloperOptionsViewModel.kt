@@ -7,11 +7,10 @@ import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptions
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsOverrideAppBehaviorsViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsTestParsersViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsViewLogsViewModel
+import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddProfileViewModel
 import org.oppia.android.app.fragment.FragmentScope
 import org.oppia.android.domain.devoptions.ShowAllHintsAndSolutionController
 import javax.inject.Inject
-import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddProfileViewModel
-import org.oppia.android.domain.profile.ProfileManagementController
 
 /**
  * [ViewModel] for [DeveloperOptionsFragment]. It populates the recyclerview with a list of
