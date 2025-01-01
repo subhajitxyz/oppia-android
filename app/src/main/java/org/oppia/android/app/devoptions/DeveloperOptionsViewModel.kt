@@ -8,6 +8,7 @@ import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptions
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsTestParsersViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsViewLogsViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddProfileViewModel
+import org.oppia.android.app.devoptions.AddProfilesClickListener
 import org.oppia.android.app.fragment.FragmentScope
 import org.oppia.android.domain.devoptions.ShowAllHintsAndSolutionController
 import javax.inject.Inject

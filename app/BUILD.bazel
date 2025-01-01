@@ -272,6 +272,7 @@ VIEW_MODELS = [
     "src/main/java/org/oppia/android/app/devoptions/marktopicscompleted/TopicViewModel.kt",
     "src/main/java/org/oppia/android/app/completedstorylist/CompletedStoryItemViewModel.kt",
     "src/main/java/org/oppia/android/app/completedstorylist/CompletedStoryListViewModel.kt",
+    "src/main/java/org/oppia/android/app/devoptions/devoptionsitemviewmodel/DeveloperOptionsAddProfileViewModel.kt"
     "src/main/java/org/oppia/android/app/devoptions/devoptionsitemviewmodel/DeveloperOptionsItemViewModel.kt",
     "src/main/java/org/oppia/android/app/devoptions/devoptionsitemviewmodel/DeveloperOptionsModifyLessonProgressViewModel.kt",
     "src/main/java/org/oppia/android/app/devoptions/devoptionsitemviewmodel/DeveloperOptionsOverrideAppBehaviorsViewModel.kt",
