@@ -605,6 +605,7 @@ class DeveloperOptionsFragmentTest {
       testCoroutineDispatchers.runCurrent()
       scrollToPosition(position = 4)
       onView(withId(R.id.add_three_profile_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
 
