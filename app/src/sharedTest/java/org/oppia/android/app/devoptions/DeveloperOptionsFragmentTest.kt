@@ -115,7 +115,6 @@ import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.oppia.android.app.profile.ProfileChooserActivity
-import org.oppia.android.app.recyclerview.RecyclerViewMatcher
 import org.oppia.android.app.recyclerview.RecyclerViewMatcher.Companion.hasItemCount
 import org.oppia.android.testing.profile.ProfileTestHelper
 
@@ -670,15 +669,18 @@ class DeveloperOptionsFragmentTest {
 
       scrollToPosition(position = 4)
       onView(withId(R.id.delete_all_profile_text_view)).perform(click())
-      //testCoroutineDispatchers.runCurrent()
+      testCoroutineDispatchers.runCurrent()
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
       launch(ProfileChooserActivity::class.java).use {
         testCoroutineDispatchers.runCurrent()
 
         onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view))
-          .check(matches(hasItemCount(2)))
+        onView(withId(R.id.profile_recycler_view)).check(
+          hasItemCount(
+            count = 2
+          )
+        )
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
         verifyTextOnProfileListItemAtPosition(
@@ -686,13 +688,19 @@ class DeveloperOptionsFragmentTest {
           targetView = R.id.profile_name_text,
           stringToMatch = "Admin"
         )
-
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 1,
           targetView = R.id.add_profile_text,
           stringToMatch = context.getString(R.string.profile_chooser_add)
         )
+        onView(
+          atPositionOnView(
+            recyclerViewId = R.id.profile_recycler_view,
+            position = 1,
+            targetViewId = R.id.profile_name_text
+          )
+        ).check(matches(not(isDisplayed())))
 
       }
     }

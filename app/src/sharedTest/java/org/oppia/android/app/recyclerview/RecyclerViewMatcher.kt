@@ -71,7 +71,7 @@ class RecyclerViewMatcher {
     }
 
     /** Returns item count ViewAssertion for a recycler view. */
-    fun hasItemCount(count: Int): Matcher<in View>? {
+    fun hasItemCount(count: Int): ViewAssertion {
       return RecyclerViewItemCountAssertion(count)
     }
 
