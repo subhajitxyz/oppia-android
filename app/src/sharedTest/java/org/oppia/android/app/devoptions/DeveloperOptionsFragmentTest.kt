@@ -111,6 +111,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.profile.ProfileChooserActivity
 
 /** Tests for [DeveloperOptionsFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -595,6 +596,48 @@ class DeveloperOptionsFragmentTest {
     }
   }
 
+  //subha
+  @Test
+  fun testDeveloperOptions_clickAdd3Profiles_opensProfileChooserActivity() {
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_three_profile_text_view)).perform(click())
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+
+      /////
+      scrollToPosition(position = 0)
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 0,
+        targetView = R.id.profile_name_text,
+        stringToMatch = "Admin"
+      )
+      scrollToPosition(position = 1)
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 1,
+        targetView = R.id.profile_name_text,
+        stringToMatch = "Ben"
+      )
+
+      scrollToPosition(position = 2)
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 4,
+        targetView = R.id.add_profile_text,
+        stringToMatch = "Nikita"
+      )
+
+      scrollToPosition(position = 3)
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 4,
+        targetView = R.id.add_profile_text,
+        stringToMatch = "subha"
+      )
+    }
+  }
+
   private fun createDeveloperOptionsTestActivityIntent(internalProfileId: Int): Intent {
     return DeveloperOptionsTestActivity.createDeveloperOptionsTestIntent(context, internalProfileId)
   }
@@ -632,6 +675,21 @@ class DeveloperOptionsFragmentTest {
         position
       )
     )
+  }
+
+  //subha
+  private fun verifyTextOnProfileListItemAtPosition(
+    itemPosition: Int,
+    targetView: Int,
+    stringToMatch: String
+  ) {
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.profile_recycler_view,
+        position = itemPosition,
+        targetViewId = targetView
+      )
+    ).check(matches(withText(stringToMatch)))
   }
 
   // TODO(#59): Figure out a way to reuse modules instead of needing to re-declare them.

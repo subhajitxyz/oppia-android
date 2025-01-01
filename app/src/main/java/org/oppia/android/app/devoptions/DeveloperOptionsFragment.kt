@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import org.oppia.android.app.fragment.FragmentComponentImpl
 import org.oppia.android.app.fragment.InjectableFragment
 import javax.inject.Inject
@@ -31,5 +32,17 @@ class DeveloperOptionsFragment : InjectableFragment() {
     savedInstanceState: Bundle?
   ): View? {
     return developerOptionsFragmentPresenter.handleCreateView(inflater, container)
+  }
+
+  fun showToast() {
+    developerOptionsFragmentPresenter.showToast()
+  }
+
+  fun deleteProfileFromDeveloperOption() {
+    developerOptionsFragmentPresenter.deleteProfileFromDeveloperOption()
+  }
+
+  fun createMyProfileFromDeveloperOption_withoutSuspend(count: Int) {
+    developerOptionsFragmentPresenter.createMyProfileFromDeveloperOption_withoutSuspend(count)
   }
 }

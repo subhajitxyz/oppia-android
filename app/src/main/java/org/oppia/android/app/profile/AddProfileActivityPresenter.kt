@@ -6,9 +6,11 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +38,7 @@ import org.oppia.android.util.extensions.getProtoExtra
 import org.oppia.android.util.platformparameter.EnableDownloadsSupport
 import org.oppia.android.util.platformparameter.PlatformParameterValue
 import javax.inject.Inject
+import org.oppia.android.databinding.DeveloperOptionsActivityBinding
 
 /** The presenter for [AddProfileActivity]. */
 @ActivityScope
@@ -197,6 +200,7 @@ class AddProfileActivityPresenter @Inject constructor(
         .into(uploadImageView)
     }
   }
+
 
   private fun addButtonListeners(binding: AddProfileActivityBinding) {
     uploadImageView.setOnClickListener {

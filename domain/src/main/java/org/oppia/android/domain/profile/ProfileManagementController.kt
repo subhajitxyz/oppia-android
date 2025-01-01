@@ -42,6 +42,7 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 
 private const val DEFAULT_LOGGED_OUT_INTERNAL_PROFILE_ID = -1
 private const val GET_PROFILES_PROVIDER_ID = "get_profiles_provider_id"
@@ -321,6 +322,8 @@ class ProfileManagementController @Inject constructor(
       return@createInMemoryDataProviderAsync getDeferredResult(null, name, deferred)
     }
   }
+
+
 
   /**
    * Updates the profile avatar of an existing profile.
@@ -895,6 +898,29 @@ class ProfileManagementController @Inject constructor(
       it.profilesMap.forEach { (internalProfileId, profile) ->
         directoryManagementUtil.deleteDir(internalProfileId.toString())
         learnerAnalyticsLogger.logDeleteProfile(installationId, profileId = null, profile.learnerId)
+      }
+      Pair(ProfileDatabase.getDefaultInstance(), ProfileActionStatus.SUCCESS)
+    }
+    return dataProviders.createInMemoryDataProviderAsync(DELETE_PROFILE_PROVIDER_ID) {
+      getDeferredResult(profileId = null, name = null, deferred)
+    }
+  }
+
+  //subha
+  /**
+   * Deletes an existing profile.
+   *
+   * @param profileId the ID corresponding to the profile being deleted.
+   * @return a [DataProvider] that indicates the success/failure of this delete operation.
+   */
+  fun deleteAllProfilesExceptAdmin(): DataProvider<Any?> {
+    val deferred = profileDataStore.storeDataWithCustomChannelAsync {
+      val installationId = loggingIdentifierController.fetchInstallationId()
+      it.profilesMap.forEach { (internalProfileId, profile) ->
+        if(!profile.isAdmin) {
+          directoryManagementUtil.deleteDir(internalProfileId.toString())
+          learnerAnalyticsLogger.logDeleteProfile(installationId, profileId = null, profile.learnerId)
+        }
       }
       Pair(ProfileDatabase.getDefaultInstance(), ProfileActionStatus.SUCCESS)
     }

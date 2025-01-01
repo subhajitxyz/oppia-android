@@ -3,6 +3,9 @@ package org.oppia.android.app.devoptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import org.oppia.android.R
 import org.oppia.android.app.activity.ActivityComponentImpl
 import org.oppia.android.app.activity.InjectableAutoLocalizedAppCompatActivity
@@ -19,6 +22,10 @@ import org.oppia.android.util.logging.CurrentAppScreenNameIntentDecorator.decora
 import org.oppia.android.util.profile.CurrentUserProfileIdIntentDecorator.decorateWithUserProfileId
 import org.oppia.android.util.profile.CurrentUserProfileIdIntentDecorator.extractCurrentUserProfileId
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.oppia.android.app.profile.AddProfileActivityPresenter
 
 /** Activity for Developer Options. */
 class DeveloperOptionsActivity :
@@ -29,13 +36,18 @@ class DeveloperOptionsActivity :
   RouteToMarkTopicsCompletedListener,
   RouteToViewEventLogsListener,
   RouteToForceNetworkTypeListener,
-  RouteToMathExpressionParserTestListener {
+  RouteToMathExpressionParserTestListener,
+  AddProfilesClickListener {
 
   @Inject
   lateinit var developerOptionsActivityPresenter: DeveloperOptionsActivityPresenter
 
   @Inject
   lateinit var resourceHandler: AppLanguageResourceHandler
+
+  //subha
+//  @Inject
+//  lateinit var addProfileFragmentPresenter: AddProfileActivityPresenter
 
   private var internalProfileId = -1
 
@@ -45,6 +57,7 @@ class DeveloperOptionsActivity :
     internalProfileId = intent.extractCurrentUserProfileId().internalId
     developerOptionsActivityPresenter.handleOnCreate()
     title = resourceHandler.getStringInLocale(R.string.developer_options_activity_title)
+
   }
 
   override fun routeToMarkChaptersCompleted() {
@@ -96,4 +109,38 @@ class DeveloperOptionsActivity :
   override fun forceCrash() {
     developerOptionsActivityPresenter.forceCrash()
   }
+
+//  override fun createThreeProfiles() {
+//    //CoroutineScope(Dispatchers.Main).launch {
+//      Log.d("logjob","in createonprofile")
+//      developerOptionsActivityPresenter.createMyProfileFromDeveloperOption_withoutSuspend(3)
+//    //}
+//  }
+//  override fun createTenProfiles() {
+//    CoroutineScope(Dispatchers.Main).launch {
+//      Log.d("logjob","in createonprofile")
+//      developerOptionsActivityPresenter.createMyProfileFromDeveloperOption(10)
+//    }
+//  }
+//  override fun deleteProfiles() {
+//    developerOptionsActivityPresenter.deleteProfileFromDeveloperOption()
+//  }
+
+  override fun createThreeProfiles() {
+    //developerOptionsActivityPresenter.showToast()
+    //CoroutineScope(Dispatchers.Main).launch {
+    Log.d("logjob","in createonprofile")
+    developerOptionsActivityPresenter.createMyProfileFromDeveloperOption_withoutSuspend(3)
+    //}
+  }
+  override fun createTenProfiles() {
+    CoroutineScope(Dispatchers.Main).launch {
+      Log.d("logjob","in createonprofile")
+      developerOptionsActivityPresenter.createMyProfileFromDeveloperOption_withoutSuspend(10)
+    }
+  }
+  override fun deleteProfiles() {
+    developerOptionsActivityPresenter.deleteProfileFromDeveloperOption()
+  }
+
 }
