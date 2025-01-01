@@ -115,6 +115,9 @@ import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.oppia.android.app.profile.ProfileChooserActivity
+import org.oppia.android.app.recyclerview.RecyclerViewMatcher
+import org.oppia.android.app.recyclerview.RecyclerViewMatcher.Companion.hasItemCount
+import org.oppia.android.testing.profile.ProfileTestHelper
 
 /** Tests for [DeveloperOptionsFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -137,6 +140,9 @@ class DeveloperOptionsFragmentTest {
 
   @Inject
   lateinit var context: Context
+
+  @Inject
+  lateinit var profileTestHelper: ProfileTestHelper
 
   @get:Rule
   val activityTestRule = ActivityTestRule(
@@ -638,60 +644,57 @@ class DeveloperOptionsFragmentTest {
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
         verifyTextOnProfileListItemAtPosition(
-          itemPosition = 4,
+          itemPosition = 2,
           targetView = R.id.add_profile_text,
           stringToMatch = "Nikita"
         )
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(3))
         verifyTextOnProfileListItemAtPosition(
-          itemPosition = 4,
+          itemPosition = 3,
           targetView = R.id.add_profile_text,
           stringToMatch = "subha"
         )
       }
-
-
     }
   }
   //subha
   //finally it  passed
   @Test
   fun testDeveloperOptions_clickDeleteProfiles_opensProfileChooserActivity() {
+    profileTestHelper.initializeProfiles(false)
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
     ).use {
       testCoroutineDispatchers.runCurrent()
+
       scrollToPosition(position = 4)
-      onView(withId(R.id.add_three_profile_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
+      onView(withId(R.id.delete_all_profile_text_view)).perform(click())
+      //testCoroutineDispatchers.runCurrent()
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
-
-      // Use ActivityScenario to confirm we are in ProfileChooserActivity.
       launch(ProfileChooserActivity::class.java).use {
         testCoroutineDispatchers.runCurrent()
 
-        // Check if the recycler view in ProfileChooserActivity is displayed.
         onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view))
+          .check(matches(hasItemCount(2)))
 
-        // Scroll to position and verify text on the profile list item.
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 0,
           targetView = R.id.profile_name_text,
           stringToMatch = "Admin"
         )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 1,
+          targetView = R.id.add_profile_text,
+          stringToMatch = context.getString(R.string.profile_chooser_add)
+        )
+
       }
-      //try to check
-//      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-//      /////
-//      scrollToPosition(position = 0)
-//      verifyTextOnProfileListItemAtPosition(
-//        itemPosition = 0,
-//        targetView = R.id.profile_name_text,
-//        stringToMatch = "Admin"
-//      )
     }
   }
 
