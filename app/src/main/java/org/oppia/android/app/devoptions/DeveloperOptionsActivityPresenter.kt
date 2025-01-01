@@ -364,6 +364,7 @@ class DeveloperOptionsActivityPresenter @Inject constructor(
                 is AsyncResult.Failure -> {
                   Log.d("testname", "Profile created: $newName")
                 }
+                else -> { /* handle unexpected cases */ }
               }
             }
         }

@@ -511,7 +511,7 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   private fun setHintOpenedAndUnRevealed(isHintUnrevealed: Boolean) {
-    return
+    //return
     stateViewModel.setHintOpenedAndUnRevealedVisibility(isHintUnrevealed)
     if (isHintUnrevealed) {
 
