@@ -609,6 +609,8 @@ class DeveloperOptionsFragmentTest {
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
 
+      //try to check
+      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
       /////
       scrollToPosition(position = 0)
       verifyTextOnProfileListItemAtPosition(
