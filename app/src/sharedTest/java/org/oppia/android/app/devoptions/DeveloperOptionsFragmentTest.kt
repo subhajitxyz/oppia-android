@@ -692,7 +692,7 @@ class DeveloperOptionsFragmentTest {
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 1,
           targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
+          stringToMatch = context.getString(R.string.set_up_multiple_profiles)
         )
         onView(
           atPositionOnView(
