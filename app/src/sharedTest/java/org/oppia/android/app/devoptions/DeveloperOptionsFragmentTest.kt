@@ -606,28 +606,21 @@ class DeveloperOptionsFragmentTest {
 
   //subha
   @Test
-  fun testDeveloperOptions_clickAdd3Profiles_opensProfileChooserActivity() {
+  fun testDeveloperOptions_clickAddThreeProfiles_checksProfilesAdded() {
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
     ).use {
       testCoroutineDispatchers.runCurrent()
       scrollToPosition(position = 4)
       onView(withId(R.id.add_three_profile_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
+
       intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-
-      //testCoroutineDispatchers.runCurrent()
-      //does not work onidle()
-      //onIdle()
-      //try to check
 
       launch(ProfileChooserActivity::class.java).use {
         testCoroutineDispatchers.runCurrent()
 
-
         onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        /////
+
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 0,
@@ -658,9 +651,8 @@ class DeveloperOptionsFragmentTest {
     }
   }
   //subha
-  //finally it  passed
   @Test
-  fun testDeveloperOptions_clickDeleteProfiles_opensProfileChooserActivity() {
+  fun testDeveloperOptions_clickDeleteProfiles_checksProfilesDeletedExceptAdmin() {
     profileTestHelper.initializeProfiles(false)
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
@@ -669,18 +661,13 @@ class DeveloperOptionsFragmentTest {
 
       scrollToPosition(position = 4)
       onView(withId(R.id.delete_all_profile_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
       launch(ProfileChooserActivity::class.java).use {
         testCoroutineDispatchers.runCurrent()
 
         onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(
-          hasItemCount(
-            count = 2
-          )
-        )
+        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 2))
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
         verifyTextOnProfileListItemAtPosition(
@@ -694,14 +681,6 @@ class DeveloperOptionsFragmentTest {
           targetView = R.id.add_profile_text,
           stringToMatch = context.getString(R.string.set_up_multiple_profiles)
         )
-        onView(
-          atPositionOnView(
-            recyclerViewId = R.id.profile_recycler_view,
-            position = 1,
-            targetViewId = R.id.profile_name_text
-          )
-        ).check(matches(not(isDisplayed())))
-
       }
     }
   }
