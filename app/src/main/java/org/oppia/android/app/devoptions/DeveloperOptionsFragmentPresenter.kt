@@ -24,9 +24,8 @@ import org.oppia.android.databinding.DeveloperOptionsModifyLessonProgressViewBin
 import org.oppia.android.databinding.DeveloperOptionsOverrideAppBehaviorsViewBinding
 import org.oppia.android.databinding.DeveloperOptionsTestParsersViewBinding
 import org.oppia.android.databinding.DeveloperOptionsViewLogsViewBinding
-import javax.inject.Inject
 import org.oppia.android.R
-import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddProfileViewModel
+import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddAndDeleteProfilesViewModel
 import org.oppia.android.app.model.Profile
 import org.oppia.android.app.profile.ProfileChooserActivity
 import org.oppia.android.databinding.DeveloperOptionsAddAndDeleteProfilesBinding
@@ -34,6 +33,7 @@ import org.oppia.android.domain.oppialogger.OppiaLogger
 import org.oppia.android.domain.profile.ProfileManagementController
 import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
+import javax.inject.Inject
 
 private val COLORS_LIST = listOf(
   R.color.component_color_avatar_background_1_color,
@@ -126,7 +126,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
           viewModel.itemIndex.set(3)
           ViewType.VIEW_TYPE_TEST_PARSERS
         }
-        is DeveloperOptionsAddProfileViewModel -> {
+        is DeveloperOptionsAddAndDeleteProfilesViewModel -> {
           viewModel.itemIndex.set(4)
           ViewType.VIEW_TYPE_ADD_AND_DELETE_PROFILES
         }
@@ -161,7 +161,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
         viewType = ViewType.VIEW_TYPE_ADD_AND_DELETE_PROFILES,
         inflateDataBinding = DeveloperOptionsAddAndDeleteProfilesBinding::inflate,
         setViewModel = DeveloperOptionsAddAndDeleteProfilesBinding::setViewModel,
-        transformViewModel = { it as DeveloperOptionsAddProfileViewModel }
+        transformViewModel = { it as DeveloperOptionsAddAndDeleteProfilesViewModel }
       )
       .build()
   }
@@ -198,7 +198,9 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
         existingProfileNameList.add(it.name)
       }
 
-      val newNames = PRE_DEFINED_NAMES_LIST.filter { !existingProfileNameList.contains(it) }.take(count)
+      val newNames = PRE_DEFINED_NAMES_LIST.filter {
+        !existingProfileNameList.contains(it)
+      }.take(count)
       newNames.forEach { newName ->
         val rgbColor = selectRandomColor()
         profileManagementController.addProfile(
@@ -219,7 +221,8 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
   }
 
   private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
-    observe(lifecycleOwner, object : Observer<T> {
+    observe(
+      lifecycleOwner, object : Observer<T> {
       override fun onChanged(value: T) {
         observer(value)
         // Remove observer after the first update

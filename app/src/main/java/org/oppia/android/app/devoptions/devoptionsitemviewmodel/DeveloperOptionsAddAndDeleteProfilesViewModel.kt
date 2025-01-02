@@ -11,7 +11,8 @@ import org.oppia.android.app.devoptions.DeleteAllNonAdminProfilesButtonClickList
 class DeveloperOptionsAddAndDeleteProfilesViewModel(
   private val addOneProfileButtonClickListener: AddOneProfileButtonClickListener,
   private val addThreeProfilesButtonClickListener: AddThreeProfilesButtonClickListener,
-  private val deleteAllNonAdminProfilesButtonClickListener: DeleteAllNonAdminProfilesButtonClickListener
+  private val deleteAllNonAdminProfilesButtonClickListener:
+  DeleteAllNonAdminProfilesButtonClickListener
 ) : DeveloperOptionsItemViewModel() {
 
   fun addOneProfile() {
@@ -25,5 +26,4 @@ class DeveloperOptionsAddAndDeleteProfilesViewModel(
   fun deleteAllNonAdminProfiles() {
     deleteAllNonAdminProfilesButtonClickListener.deleteAllNonAdminProfiles()
   }
-
 }

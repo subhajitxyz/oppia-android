@@ -106,8 +106,8 @@ class DeveloperOptionsActivity :
 
   override fun createOneProfile() {
     developerOptionsActivityPresenter.createProfile(1)
-
   }
+
   override fun deleteAllNonAdminProfiles() {
     developerOptionsActivityPresenter.deleteAllNonAdminProfiles()
   }
