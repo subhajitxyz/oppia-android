@@ -631,13 +631,13 @@ class DeveloperOptionsFragmentTest {
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
         verifyTextOnProfileListItemAtPosition(
-          itemPosition = 2,
+          itemPosition = 1,
           targetView = R.id.profile_name_text,
           stringToMatch = "Ben"
         )
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
         verifyTextOnProfileListItemAtPosition(
-          itemPosition = 1,
+          itemPosition = 2,
           targetView = R.id.add_profile_text,
           stringToMatch = context.getString(R.string.profile_chooser_add)
         )
@@ -690,7 +690,7 @@ class DeveloperOptionsFragmentTest {
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
         verifyTextOnProfileListItemAtPosition(
-          itemPosition = 1,
+          itemPosition = 4,
           targetView = R.id.add_profile_text,
           stringToMatch = context.getString(R.string.profile_chooser_add)
         )
