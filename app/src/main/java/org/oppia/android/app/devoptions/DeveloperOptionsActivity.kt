@@ -29,7 +29,10 @@ class DeveloperOptionsActivity :
   RouteToMarkTopicsCompletedListener,
   RouteToViewEventLogsListener,
   RouteToForceNetworkTypeListener,
-  RouteToMathExpressionParserTestListener {
+  RouteToMathExpressionParserTestListener,
+  AddOneProfileButtonClickListener,
+  AddThreeProfilesButtonClickListener,
+  DeleteAllNonAdminProfilesButtonClickListener {
 
   @Inject
   lateinit var developerOptionsActivityPresenter: DeveloperOptionsActivityPresenter
@@ -95,5 +98,17 @@ class DeveloperOptionsActivity :
 
   override fun forceCrash() {
     developerOptionsActivityPresenter.forceCrash()
+  }
+
+  override fun createThreeProfiles() {
+    developerOptionsActivityPresenter.createProfile(3)
+  }
+
+  override fun createOneProfile() {
+    developerOptionsActivityPresenter.createProfile(1)
+
+  }
+  override fun deleteAllNonAdminProfiles() {
+    developerOptionsActivityPresenter.deleteAllNonAdminProfiles()
   }
 }

@@ -31,6 +31,10 @@
   <string name="mark_topics_completed_activity_title" translatable="false">Mark Topics Completed</string>
   <string name="force_network_type_activity_title" translatable="false">Force Network Type</string>
   <string name="view_event_logs_activity_title" translatable="false">View Event Logs</string>
+  <string name="developer_options_add_and_delete_profiles_label" translatable="false">Add and Delete Profiles</string>
+  <string name="developer_options_add_one_profile" translatable="false">Add 1 profile</string>
+  <string name="developer_options_add_three_profiles" translatable="false">Add 3 profiles</string>
+  <string name="developer_options_delete_all_non_admin_profiles" translatable="false">Delete all non admin profiles</string>
   <!-- MathExpressionParserActivity -->
   <string name="math_expression_parser_activity_title" translatable="false">Test Math Expressions and Equations</string>
   <string name="math_expression_parse_result_label" translatable="false">Parse result: %s</string>

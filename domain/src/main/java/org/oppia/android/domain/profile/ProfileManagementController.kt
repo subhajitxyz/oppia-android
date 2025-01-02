@@ -1017,6 +1017,22 @@ class ProfileManagementController @Inject constructor(
     }
   }
 
+  fun deleteAllNonAdminProfiles(): DataProvider<Any?> {
+    val deferred = profileDataStore.storeDataWithCustomChannelAsync {
+      val installationId = loggingIdentifierController.fetchInstallationId()
+      it.profilesMap.forEach { (internalProfileId, profile) ->
+        if(!profile.isAdmin) {
+          directoryManagementUtil.deleteDir(internalProfileId.toString())
+          learnerAnalyticsLogger.logDeleteProfile(installationId, profileId = null, profile.learnerId)
+        }
+      }
+      Pair(ProfileDatabase.getDefaultInstance(), ProfileActionStatus.SUCCESS)
+    }
+    return dataProviders.createInMemoryDataProviderAsync(DELETE_PROFILE_PROVIDER_ID) {
+      getDeferredResult(profileId = null, name = null, deferred)
+    }
+  }
+
   /** Returns the [ProfileId] of the current profile, or null if one hasn't yet been logged into. */
   fun getCurrentProfileId(): ProfileId? {
     return currentProfileId.takeIf { it != DEFAULT_LOGGED_OUT_INTERNAL_PROFILE_ID }?.let {

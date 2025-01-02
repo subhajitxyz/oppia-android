@@ -110,6 +110,9 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.profile.ProfileChooserActivity
+import org.oppia.android.app.recyclerview.RecyclerViewMatcher.Companion.hasItemCount
+import org.oppia.android.testing.profile.ProfileTestHelper
 
 /** Tests for [DeveloperOptionsFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -132,6 +135,9 @@ class DeveloperOptionsFragmentTest {
 
   @Inject
   lateinit var context: Context
+
+  @Inject
+  lateinit var profileTestHelper: ProfileTestHelper
 
   @get:Rule
   val activityTestRule = ActivityTestRule(
@@ -594,6 +600,134 @@ class DeveloperOptionsFragmentTest {
     }
   }
 
+  @Test
+  fun testDeveloperOptions_clickAddOneProfiles_checksOneProfilesAreAdded() {
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_one_profile_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 3))
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 1,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Ben"
+        )
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 2,
+          targetView = R.id.add_profile_text,
+          stringToMatch = context.getString(R.string.profile_chooser_add)
+        )
+      }
+    }
+  }
+  @Test
+  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 1,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Adhiambo"
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 2,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Ben"
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(3))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 3,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Nikita"
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 4,
+          targetView = R.id.add_profile_text,
+          stringToMatch = context.getString(R.string.profile_chooser_add)
+        )
+      }
+    }
+  }
+  //subha
+  @Test
+  fun testDeveloperOptions_clickDeleteAllNonAdminProfiles_checksNonAdminProfilesAreDeleted() {
+    profileTestHelper.initializeProfiles(false)
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+
+      scrollToPosition(position = 4)
+      onView(withId(R.id.delete_all_non_admin_profiles_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 2))
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 1,
+          targetView = R.id.add_profile_text,
+          stringToMatch = context.getString(R.string.set_up_multiple_profiles)
+        )
+      }
+    }
+  }
+
   private fun createDeveloperOptionsTestActivityIntent(internalProfileId: Int): Intent {
     return DeveloperOptionsTestActivity.createDeveloperOptionsTestIntent(context, internalProfileId)
   }
@@ -631,6 +765,20 @@ class DeveloperOptionsFragmentTest {
         position
       )
     )
+  }
+
+  private fun verifyTextOnProfileListItemAtPosition(
+    itemPosition: Int,
+    targetView: Int,
+    stringToMatch: String
+  ) {
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.profile_recycler_view,
+        position = itemPosition,
+        targetViewId = targetView
+      )
+    ).check(matches(withText(stringToMatch)))
   }
 
   // TODO(#59): Figure out a way to reuse modules instead of needing to re-declare them.

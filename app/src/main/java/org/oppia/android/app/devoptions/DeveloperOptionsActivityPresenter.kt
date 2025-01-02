@@ -58,4 +58,12 @@ class DeveloperOptionsActivityPresenter @Inject constructor(
   fun forceCrash(): Nothing {
     throw RuntimeException("Force crash occurred")
   }
+
+  fun createProfile(count: Int) {
+    getDeveloperOptionsFragment()?.createProfile(count)
+  }
+
+  fun deleteAllNonAdminProfiles() {
+    getDeveloperOptionsFragment()?.deleteAllNonAdminProfiles()
+  }
 }
