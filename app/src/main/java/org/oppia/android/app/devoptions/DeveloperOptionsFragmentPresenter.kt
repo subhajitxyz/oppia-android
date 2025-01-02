@@ -12,25 +12,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddAndDeleteProfilesViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsItemViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsModifyLessonProgressViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsOverrideAppBehaviorsViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsTestParsersViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsViewLogsViewModel
 import org.oppia.android.app.fragment.FragmentScope
+import org.oppia.android.app.model.Profile
+import org.oppia.android.app.profile.ProfileChooserActivity
 import org.oppia.android.app.recyclerview.BindableAdapter
 import org.oppia.android.databinding.DeveloperOptionsFragmentBinding
 import org.oppia.android.databinding.DeveloperOptionsModifyLessonProgressViewBinding
 import org.oppia.android.databinding.DeveloperOptionsOverrideAppBehaviorsViewBinding
 import org.oppia.android.databinding.DeveloperOptionsTestParsersViewBinding
 import org.oppia.android.databinding.DeveloperOptionsViewLogsViewBinding
-import org.oppia.android.R
-import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddAndDeleteProfilesViewModel
-import org.oppia.android.app.model.Profile
-import org.oppia.android.app.profile.ProfileChooserActivity
 import org.oppia.android.databinding.DeveloperOptionsAddAndDeleteProfilesBinding
 import org.oppia.android.domain.oppialogger.OppiaLogger
 import org.oppia.android.domain.profile.ProfileManagementController
+import org.oppia.android.R
 import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
@@ -222,13 +222,15 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
 
   private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
     observe(
-      lifecycleOwner, object : Observer<T> {
-      override fun onChanged(value: T) {
-        observer(value)
-        // Remove observer after the first update
-        removeObserver(this)
+      lifecycleOwner,
+      object : Observer<T> {
+        override fun onChanged(value: T) {
+          observer(value)
+          // Remove observer after the first update
+          removeObserver(this)
+        }
       }
-    })
+    )
   }
 
   /** Randomly selects a color for the new profile. */

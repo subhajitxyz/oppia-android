@@ -1021,9 +1021,10 @@ class ProfileManagementController @Inject constructor(
     val deferred = profileDataStore.storeDataWithCustomChannelAsync {
       val installationId = loggingIdentifierController.fetchInstallationId()
       it.profilesMap.forEach { (internalProfileId, profile) ->
-        if(!profile.isAdmin) {
+        if (!profile.isAdmin) {
           directoryManagementUtil.deleteDir(internalProfileId.toString())
-          learnerAnalyticsLogger.logDeleteProfile(installationId, profileId = null, profile.learnerId)
+          learnerAnalyticsLogger
+            .logDeleteProfile(installationId, profileId = null, profile.learnerId)
         }
       }
       Pair(ProfileDatabase.getDefaultInstance(), ProfileActionStatus.SUCCESS)

@@ -12,7 +12,7 @@ class DeveloperOptionsAddAndDeleteProfilesViewModel(
   private val addOneProfileButtonClickListener: AddOneProfileButtonClickListener,
   private val addThreeProfilesButtonClickListener: AddThreeProfilesButtonClickListener,
   private val deleteAllNonAdminProfilesButtonClickListener:
-  DeleteAllNonAdminProfilesButtonClickListener
+    DeleteAllNonAdminProfilesButtonClickListener
 ) : DeveloperOptionsItemViewModel() {
 
   fun addOneProfile() {
