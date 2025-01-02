@@ -33,10 +33,12 @@ class DeveloperOptionsFragment : InjectableFragment() {
     return developerOptionsFragmentPresenter.handleCreateView(inflater, container)
   }
 
+ /** Called when the user clicks the 'delete all non-admin profiles' button. */
   fun deleteAllNonAdminProfiles() {
     developerOptionsFragmentPresenter.deleteAllNonAdminProfiles()
   }
 
+  /** Called when the user clicks the 'add profile' button. */
   fun createProfile(count: Int) {
     developerOptionsFragmentPresenter.createProfile(count)
   }

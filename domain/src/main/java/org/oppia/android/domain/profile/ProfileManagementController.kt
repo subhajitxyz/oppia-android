@@ -1017,6 +1017,13 @@ class ProfileManagementController @Inject constructor(
     }
   }
 
+  /**
+   * Deletes all non admin profiles installed on the device (and logs out the current user).
+   *
+   * Finally, this method attempts to never fail by forcibly deleting all non admin profiles even
+   * if some are in a bad state (and would normally failed if attempted to be deleted
+   * via [deleteProfile]).
+   */
   fun deleteAllNonAdminProfiles(): DataProvider<Any?> {
     val deferred = profileDataStore.storeDataWithCustomChannelAsync {
       val installationId = loggingIdentifierController.fetchInstallationId()

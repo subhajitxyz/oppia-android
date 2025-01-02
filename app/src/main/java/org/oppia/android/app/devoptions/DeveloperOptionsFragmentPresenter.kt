@@ -174,6 +174,10 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
     VIEW_TYPE_ADD_AND_DELETE_PROFILES
   }
 
+  /**
+   * Called when the user clicks the 'delete all non-admin profiles' button.
+   * This function deletes all non-admin profiles and navigates to [ProfileChooserActivity].
+   */
   fun deleteAllNonAdminProfiles() {
     profileManagementController.deleteAllNonAdminProfiles().toLiveData()
       .observe(
@@ -188,6 +192,12 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
       )
   }
 
+  /**
+   * Called when the user clicks the 'create one profile' or 'create three profiles' button.
+   * This function invokes profile creation for the specified count navigates to [ProfileChooserActivity]
+   *
+   * @param count The number of profiles to create (either 1 or 3).
+   */
   fun createProfile(count: Int) {
     val existingProfileNameList = mutableListOf<String>()
 
