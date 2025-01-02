@@ -49,6 +49,7 @@ import org.oppia.android.app.devoptions.vieweventlogs.ViewEventLogsActivity
 import org.oppia.android.app.player.state.itemviewmodel.SplitScreenInteractionModule
 import org.oppia.android.app.profile.ProfileChooserActivity
 import org.oppia.android.app.recyclerview.RecyclerViewMatcher.Companion.atPositionOnView
+import org.oppia.android.app.recyclerview.RecyclerViewMatcher.Companion.hasItemCount
 import org.oppia.android.app.shim.ViewBindingShimModule
 import org.oppia.android.app.translation.testing.ActivityRecreatorTestModule
 import org.oppia.android.app.utility.OrientationChangeAction.Companion.orientationLandscape
@@ -90,6 +91,7 @@ import org.oppia.android.testing.TestLogReportingModule
 import org.oppia.android.testing.assertThrows
 import org.oppia.android.testing.firebase.TestAuthenticationModule
 import org.oppia.android.testing.junit.InitializeDefaultLocaleRule
+import org.oppia.android.testing.profile.ProfileTestHelper
 import org.oppia.android.testing.robolectric.RobolectricModule
 import org.oppia.android.testing.threading.TestCoroutineDispatchers
 import org.oppia.android.testing.threading.TestDispatcherModule
@@ -109,9 +111,6 @@ import org.oppia.android.util.parser.image.GlideImageLoaderModule
 import org.oppia.android.util.parser.image.ImageParsingModule
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
-
-import org.oppia.android.app.recyclerview.RecyclerViewMatcher.Companion.hasItemCount
-import org.oppia.android.testing.profile.ProfileTestHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 
