@@ -69,6 +69,10 @@ private val COLORS_LIST = listOf(
   R.color.component_color_avatar_background_24_color
 )
 
+private val PRE_DEFINED_NAMES_LIST = listOf(
+  "Ben", "Nikita", "Adhiambo", "Sean", "Saptak", "Vishwajit", "Subhajit", "Aarav", "Emily", "Fatima"
+)
+
 /** The presenter for [DeveloperOptionsFragment]. */
 @FragmentScope
 class DeveloperOptionsFragmentPresenter @Inject constructor(
@@ -129,16 +133,11 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
           viewModel.itemIndex.set(3)
           ViewType.VIEW_TYPE_TEST_PARSERS
         }
+        //subha
         is DeveloperOptionsAddProfileViewModel -> {
           viewModel.itemIndex.set(4)
-          ViewType.VIEW_TYPE_ADD_PROFILES
+          ViewType.VIEW_TYPE_ADD_AND_DELETE_PROFILES
         }
-
-        //subha
-//        is DeveloperOptionsTestParsersViewModel -> {
-//          viewModel.itemIndex.set(4)
-//          ViewType.VIEW_TYPE_ADD_PROFILES
-//        }
         else -> throw IllegalArgumentException("Encountered unexpected view model: $viewModel")
       }
     }
@@ -167,7 +166,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
         transformViewModel = { it as DeveloperOptionsTestParsersViewModel }
       )
       .registerViewDataBinder(
-        viewType = ViewType.VIEW_TYPE_ADD_PROFILES,
+        viewType = ViewType.VIEW_TYPE_ADD_AND_DELETE_PROFILES,
         inflateDataBinding = DeveloperOptionsAddProfileBinding::inflate,
         setViewModel = DeveloperOptionsAddProfileBinding::setViewModel,
         transformViewModel = { it as DeveloperOptionsAddProfileViewModel }
@@ -181,22 +180,11 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
     VIEW_TYPE_VIEW_LOGS,
     VIEW_TYPE_OVERRIDE_APP_BEHAVIORS,
     VIEW_TYPE_TEST_PARSERS,
-    VIEW_TYPE_ADD_PROFILES //subha
+    VIEW_TYPE_ADD_AND_DELETE_PROFILES //subha
   }
 
-  fun showToast() {
-    Toast.makeText(fragment.requireContext(), "I am in Developer Fragment", Toast.LENGTH_SHORT).show()
-
-    val intent = Intent(fragment.requireContext(), ProfileChooserActivity::class.java).apply {
-      addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    }
-
-    fragment.startActivity(intent)
-    fragment.requireActivity().finish()
-  }
-
-  fun deleteProfileFromDeveloperOption() {
-    profileManagementController.deleteAllProfilesExceptAdmin().toLiveData()
+  fun deleteAllNonAdminProfiles() {
+    profileManagementController.deleteAllNonAdminProfiles().toLiveData()
       .observe(
         fragment,
         Observer {
@@ -209,25 +197,19 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
       )
   }
 
-  fun createMyProfileFromDeveloperOption_withoutSuspend(count: Int) {
-    val nameList = listOf("Ben", "subha", "Nikita", "adhiambo", "sean", "saptak", "vishwajit")
-    val existingProfileList = mutableListOf<String>()
+  fun createProfile(count: Int) {
+    //val nameList = listOf("Ben", "Nikita", "Adhiambo", "Sean", "Saptak", "Vishwajit", "Subhajit")
+    val existingProfileNameList = mutableListOf<String>()
 
     // Observe the existingProfiles LiveData
     existingProfiles.observeOnce(activity) { profileList ->
-      // Clear and populate the existingProfileList
-      existingProfileList.clear()
+      existingProfileNameList.clear()
       profileList.forEach {
-        existingProfileList.add(it.name)
-        Log.d("logjob", "Observed profile: ${it.name}")
+        existingProfileNameList.add(it.name)
       }
 
-      // Filter names to add
-      val newNames = nameList.filter { !existingProfileList.contains(it) }.take(count)
-
-      // Add new profiles
+      val newNames = PRE_DEFINED_NAMES_LIST.filter { !existingProfileNameList.contains(it) }.take(count)
       newNames.forEach { newName ->
-        Log.d("logjob", "Added profile: $newName")
         val rgbColor = selectRandomColor()
         profileManagementController.addProfile(
           name = newName,
@@ -239,7 +221,6 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
         )
       }
 
-      // Process profiles
       val intent = Intent(fragment.requireContext(), ProfileChooserActivity::class.java).apply {
         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
       }
@@ -247,7 +228,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
     }
   }
 
-  fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
+  private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
     observe(lifecycleOwner, object : Observer<T> {
       override fun onChanged(value: T) {
         observer(value)
@@ -275,7 +256,8 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
     val profileList = when (profilesResult) {
       is AsyncResult.Failure -> {
         oppiaLogger.e(
-          "OnboardingFragment", "Failed to retrieve the list of profiles", profilesResult.error
+          "DeveloperOptionsFragment",
+          "Failed to retrieve the list of profiles", profilesResult.error
         )
         emptyList()
       }

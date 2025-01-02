@@ -8,7 +8,6 @@ import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptions
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsTestParsersViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsViewLogsViewModel
 import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddProfileViewModel
-import org.oppia.android.app.devoptions.AddProfilesClickListener
 import org.oppia.android.app.fragment.FragmentScope
 import org.oppia.android.domain.devoptions.ShowAllHintsAndSolutionController
 import javax.inject.Inject
@@ -33,7 +32,11 @@ class DeveloperOptionsViewModel @Inject constructor(
   private val routeToForceNetworkTypeListener = activity as RouteToForceNetworkTypeListener
   private val routeToMathExpressionParserTestListener =
     activity as RouteToMathExpressionParserTestListener
-  private val addProfilesClickListener = activity as AddProfilesClickListener
+  //subha
+  private val addProfileButtonClickListener = activity as AddOneProfileButtonClickListener
+  private val addThreeProfilesButtonClickListener = activity as AddThreeProfilesButtonClickListener
+  private val deleteAllNonAdminProfilesButtonClickListener =
+    activity as DeleteAllNonAdminProfilesButtonClickListener
 
   /**
    * List of [DeveloperOptionsItemViewModel] used to populate recyclerview of
@@ -57,7 +60,12 @@ class DeveloperOptionsViewModel @Inject constructor(
         showAllHintsAndSolutionController
       ),
       DeveloperOptionsTestParsersViewModel(routeToMathExpressionParserTestListener),
-      DeveloperOptionsAddProfileViewModel(addProfilesClickListener)  //subha
+      //subha
+      DeveloperOptionsAddProfileViewModel(
+        addProfileButtonClickListener,
+        addThreeProfilesButtonClickListener,
+        deleteAllNonAdminProfilesButtonClickListener
+      )
     )
   }
 }

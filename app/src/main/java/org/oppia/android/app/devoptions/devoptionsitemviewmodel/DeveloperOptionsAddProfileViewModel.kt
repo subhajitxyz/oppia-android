@@ -1,25 +1,29 @@
 package org.oppia.android.app.devoptions.devoptionsitemviewmodel
 
-
-import javax.inject.Inject
-import org.oppia.android.app.devoptions.AddProfilesClickListener
+import org.oppia.android.app.devoptions.AddOneProfileButtonClickListener
+import org.oppia.android.app.devoptions.AddThreeProfilesButtonClickListener
+import org.oppia.android.app.devoptions.DeleteAllNonAdminProfilesButtonClickListener
 
 /**
  * [DeveloperOptionsItemViewModel] to provide features to test and debug math expressions and
  * equations.
  */
 class DeveloperOptionsAddProfileViewModel(
-  private val addProfilesClickListener: AddProfilesClickListener
+  private val addOneProfileButtonClickListener: AddOneProfileButtonClickListener,
+  private val addThreeProfilesButtonClickListener: AddThreeProfilesButtonClickListener,
+  private val deleteAllNonAdminProfilesButtonClickListener: DeleteAllNonAdminProfilesButtonClickListener
 ) : DeveloperOptionsItemViewModel() {
 
+  fun addOneProfile() {
+    addOneProfileButtonClickListener.createOneProfile()
+  }
+
    fun addThreeProfiles() {
-    addProfilesClickListener.createThreeProfiles()
+     addThreeProfilesButtonClickListener.createThreeProfiles()
   }
-  fun addTenProfiles() {
-    addProfilesClickListener.createTenProfiles()
-  }
-  fun deleteProfiles() {
-    addProfilesClickListener.deleteProfiles()
+
+  fun deleteAllNonAdminProfiles() {
+    deleteAllNonAdminProfilesButtonClickListener.deleteAllNonAdminProfiles()
   }
 
 }

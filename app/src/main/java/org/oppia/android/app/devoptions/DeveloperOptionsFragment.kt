@@ -34,15 +34,11 @@ class DeveloperOptionsFragment : InjectableFragment() {
     return developerOptionsFragmentPresenter.handleCreateView(inflater, container)
   }
 
-  fun showToast() {
-    developerOptionsFragmentPresenter.showToast()
+  fun deleteAllNonAdminProfiles() {
+    developerOptionsFragmentPresenter.deleteAllNonAdminProfiles()
   }
 
-  fun deleteProfileFromDeveloperOption() {
-    developerOptionsFragmentPresenter.deleteProfileFromDeveloperOption()
-  }
-
-  fun createMyProfileFromDeveloperOption_withoutSuspend(count: Int) {
-    developerOptionsFragmentPresenter.createMyProfileFromDeveloperOption_withoutSuspend(count)
+  fun createProfile(count: Int) {
+    developerOptionsFragmentPresenter.createProfile(count)
   }
 }

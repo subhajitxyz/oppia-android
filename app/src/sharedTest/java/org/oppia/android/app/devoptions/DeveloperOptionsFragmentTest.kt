@@ -606,13 +606,13 @@ class DeveloperOptionsFragmentTest {
 
   //subha
   @Test
-  fun testDeveloperOptions_clickAddThreeProfiles_checksProfilesAdded() {
+  fun testDeveloperOptions_clickAddThreeProfiles_checksProfilesAreAdded() {
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
     ).use {
       testCoroutineDispatchers.runCurrent()
       scrollToPosition(position = 4)
-      onView(withId(R.id.add_three_profile_text_view)).perform(click())
+      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
       testCoroutineDispatchers.runCurrent()
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
@@ -652,7 +652,7 @@ class DeveloperOptionsFragmentTest {
   }
   //subha
   @Test
-  fun testDeveloperOptions_clickDeleteProfiles_checksProfilesDeletedExceptAdmin() {
+  fun testDeveloperOptions_clickDeleteProfilesExceptAdmin_checksProfilesAreDeletedExceptAdmin() {
     profileTestHelper.initializeProfiles(false)
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
@@ -660,7 +660,7 @@ class DeveloperOptionsFragmentTest {
       testCoroutineDispatchers.runCurrent()
 
       scrollToPosition(position = 4)
-      onView(withId(R.id.delete_all_profile_text_view)).perform(click())
+      onView(withId(R.id.delete_all_non_admin_profiles_text_view)).perform(click())
       testCoroutineDispatchers.runCurrent()
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 

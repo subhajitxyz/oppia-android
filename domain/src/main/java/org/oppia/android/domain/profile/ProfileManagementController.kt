@@ -913,7 +913,7 @@ class ProfileManagementController @Inject constructor(
    * @param profileId the ID corresponding to the profile being deleted.
    * @return a [DataProvider] that indicates the success/failure of this delete operation.
    */
-  fun deleteAllProfilesExceptAdmin(): DataProvider<Any?> {
+  fun deleteAllNonAdminProfiles(): DataProvider<Any?> {
     val deferred = profileDataStore.storeDataWithCustomChannelAsync {
       val installationId = loggingIdentifierController.fetchInstallationId()
       it.profilesMap.forEach { (internalProfileId, profile) ->

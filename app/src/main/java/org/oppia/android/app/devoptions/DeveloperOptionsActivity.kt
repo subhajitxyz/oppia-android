@@ -24,6 +24,7 @@ import org.oppia.android.util.profile.CurrentUserProfileIdIntentDecorator.extrac
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.oppia.android.app.profile.AddProfileActivityPresenter
 
@@ -37,17 +38,16 @@ class DeveloperOptionsActivity :
   RouteToViewEventLogsListener,
   RouteToForceNetworkTypeListener,
   RouteToMathExpressionParserTestListener,
-  AddProfilesClickListener {
+  //subha
+  AddOneProfileButtonClickListener,
+  AddThreeProfilesButtonClickListener,
+  DeleteAllNonAdminProfilesButtonClickListener {
 
   @Inject
   lateinit var developerOptionsActivityPresenter: DeveloperOptionsActivityPresenter
 
   @Inject
   lateinit var resourceHandler: AppLanguageResourceHandler
-
-  //subha
-//  @Inject
-//  lateinit var addProfileFragmentPresenter: AddProfileActivityPresenter
 
   private var internalProfileId = -1
 
@@ -110,37 +110,16 @@ class DeveloperOptionsActivity :
     developerOptionsActivityPresenter.forceCrash()
   }
 
-//  override fun createThreeProfiles() {
-//    //CoroutineScope(Dispatchers.Main).launch {
-//      Log.d("logjob","in createonprofile")
-//      developerOptionsActivityPresenter.createMyProfileFromDeveloperOption_withoutSuspend(3)
-//    //}
-//  }
-//  override fun createTenProfiles() {
-//    CoroutineScope(Dispatchers.Main).launch {
-//      Log.d("logjob","in createonprofile")
-//      developerOptionsActivityPresenter.createMyProfileFromDeveloperOption(10)
-//    }
-//  }
-//  override fun deleteProfiles() {
-//    developerOptionsActivityPresenter.deleteProfileFromDeveloperOption()
-//  }
-
   override fun createThreeProfiles() {
-    //developerOptionsActivityPresenter.showToast()
-    //CoroutineScope(Dispatchers.Main).launch {
-    Log.d("logjob","in createonprofile")
-    developerOptionsActivityPresenter.createMyProfileFromDeveloperOption_withoutSuspend(3)
-    //}
+      developerOptionsActivityPresenter.createProfile(3)
   }
-  override fun createTenProfiles() {
-    CoroutineScope(Dispatchers.Main).launch {
-      Log.d("logjob","in createonprofile")
-      developerOptionsActivityPresenter.createMyProfileFromDeveloperOption_withoutSuspend(10)
-    }
+
+  override fun createOneProfile() {
+      developerOptionsActivityPresenter.createProfile(1)
+
   }
-  override fun deleteProfiles() {
-    developerOptionsActivityPresenter.deleteProfileFromDeveloperOption()
+  override fun deleteAllNonAdminProfiles() {
+    developerOptionsActivityPresenter.deleteAllNonAdminProfiles()
   }
 
 }

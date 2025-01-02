@@ -15,7 +15,7 @@
     android:background="@color/component_color_shared_screen_tertiary_background_color">
 
     <TextView
-      android:id="@+id/add_delete_profile_text_view"
+      android:id="@+id/add_and_delete_profiles_text_view"
       style="@style/Heading5ViewStart"
       android:layout_width="match_parent"
       android:background="@color/component_color_shared_item_background_solid_color"
@@ -23,15 +23,41 @@
       android:paddingTop="20dp"
       android:paddingEnd="16dp"
       android:paddingBottom="20dp"
-      android:text="Add and Delete Profiles"
+      android:text="@string/developer_options_add_and_delete_profiles_label"
       android:textColor="@color/component_color_shared_active_text_color"
-      app:layout_constraintBottom_toTopOf="@id/add_three_profile_text_view"
+      app:layout_constraintBottom_toTopOf="@id/add_one_profile_text_view"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-      android:id="@+id/add_three_profile_text_view"
+      android:id="@+id/add_one_profile_text_view"
+      style="@style/Subtitle1ViewStart"
+      android:layout_width="match_parent"
+      android:onClick="@{(v) -> viewModel.addOneProfile()}"
+      android:paddingStart="16dp"
+      android:paddingTop="20dp"
+      android:paddingEnd="16dp"
+      android:paddingBottom="20dp"
+      android:text="@string/developer_options_add_one_profile"
+      android:textColor="@color/component_color_shared_primary_dark_text_color"
+      app:layout_constraintBottom_toTopOf="@id/view_divider1"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/add_and_delete_profiles_text_view" />
+
+    <View
+      android:id="@+id/view_divider1"
+      android:layout_width="match_parent"
+      android:layout_height="2dp"
+      android:background="@color/component_color_shared_divider_color"
+      app:layout_constraintBottom_toTopOf="@id/add_three_profiles_text_view"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/add_one_profile_text_view" />
+
+    <TextView
+      android:id="@+id/add_three_profiles_text_view"
       style="@style/Subtitle1ViewStart"
       android:layout_width="match_parent"
       android:onClick="@{(v) -> viewModel.addThreeProfiles()}"
@@ -39,35 +65,9 @@
       android:paddingTop="20dp"
       android:paddingEnd="16dp"
       android:paddingBottom="20dp"
-      android:text="Add 3 Profiles"
+      android:text="@string/developer_options_add_three_profiles"
       android:textColor="@color/component_color_shared_primary_dark_text_color"
-      app:layout_constraintBottom_toTopOf="@id/view_divider1"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/add_delete_profile_text_view" />
-
-    <View
-      android:id="@+id/view_divider1"
-      android:layout_width="match_parent"
-      android:layout_height="2dp"
-      android:background="@color/component_color_shared_divider_color"
-      app:layout_constraintBottom_toTopOf="@id/add_ten_profile_text_view"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/add_three_profile_text_view" />
-
-    <TextView
-      android:id="@+id/add_ten_profile_text_view"
-      style="@style/Subtitle1ViewStart"
-      android:layout_width="match_parent"
-      android:onClick="@{(v) -> viewModel.addTenProfiles()}"
-      android:paddingStart="16dp"
-      android:paddingTop="20dp"
-      android:paddingEnd="16dp"
-      android:paddingBottom="20dp"
-      android:text="Add 10 Profiles"
-      android:textColor="@color/component_color_shared_primary_dark_text_color"
-      app:layout_constraintBottom_toTopOf="@id/delete_all_profile_text_view"
+      app:layout_constraintBottom_toTopOf="@id/delete_all_non_admin_profiles_text_view"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/view_divider1" />
@@ -77,21 +77,21 @@
       android:layout_width="match_parent"
       android:layout_height="2dp"
       android:background="@color/component_color_shared_divider_color"
-      app:layout_constraintBottom_toTopOf="@id/delete_all_profile_text_view"
+      app:layout_constraintBottom_toTopOf="@id/delete_all_non_admin_profiles_text_view"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/add_ten_profile_text_view" />
+      app:layout_constraintTop_toBottomOf="@id/add_three_profiles_text_view" />
 
     <TextView
-      android:id="@+id/delete_all_profile_text_view"
+      android:id="@+id/delete_all_non_admin_profiles_text_view"
       style="@style/Subtitle1ViewStart"
       android:layout_width="match_parent"
-      android:onClick="@{(v) -> viewModel.deleteProfiles()}"
+      android:onClick="@{(v) -> viewModel.deleteAllNonAdminProfiles()}"
       android:paddingStart="16dp"
       android:paddingTop="20dp"
       android:paddingEnd="16dp"
       android:paddingBottom="20dp"
-      android:text="Delete all profiles except admin"
+      android:text="@string/developer_options_delete_all_non_admin_profiles"
       android:textColor="@color/component_color_shared_primary_dark_text_color"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
