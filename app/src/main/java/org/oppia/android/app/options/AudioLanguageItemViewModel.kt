@@ -22,8 +22,7 @@ class AudioLanguageItemViewModel(
   val language: AudioLanguage,
   val languageDisplayName: String,
   private val currentSelectedLanguage: LiveData<AudioLanguage>,
-  val audioLanguageRadioButtonListener: AudioLanguageRadioButtonListener,
-  private val resourceHandler: AppLanguageResourceHandler
+  val audioLanguageRadioButtonListener: AudioLanguageRadioButtonListener
 ) : ObservableViewModel() {
   /**
    * Indicates whether the language corresponding to this view model is _currently_ selected in the
@@ -38,8 +37,7 @@ class AudioLanguageItemViewModel(
    */
   fun languageContentDescription(): String {
     return when (language) {
-      AudioLanguage.ARABIC_LANGUAGE ->
-        resourceHandler.getStringInLocale(R.string.arabic_language_display_name_content_description)
+      AudioLanguage.ARABIC_LANGUAGE -> "Arabic"
       else -> languageDisplayName
     }
   }

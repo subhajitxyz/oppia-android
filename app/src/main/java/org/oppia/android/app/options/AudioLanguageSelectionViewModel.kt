@@ -128,8 +128,7 @@ class AudioLanguageSelectionViewModel @Inject constructor(
       language,
       appLanguageResourceHandler.computeLocalizedDisplayName(language),
       selectedLanguage,
-      fragment as AudioLanguageRadioButtonListener,
-      appLanguageResourceHandler
+      fragment as AudioLanguageRadioButtonListener
     )
   }
 
