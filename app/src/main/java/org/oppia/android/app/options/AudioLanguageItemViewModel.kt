@@ -38,8 +38,8 @@ class AudioLanguageItemViewModel(
    */
   fun languageContentDescription(): String {
     return when (language) {
-      AudioLanguage.ARABIC_LANGUAGE -> resourceHandler
-        .getStringInLocale(R.string.arabic_language_display_name_content_description)
+      AudioLanguage.ARABIC_LANGUAGE ->
+        resourceHandler.getStringInLocale(R.string.arabic_language_display_name_content_description)
       else -> languageDisplayName
     }
   }
