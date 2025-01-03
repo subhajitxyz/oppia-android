@@ -294,7 +294,7 @@ class TopicRevisionFragmentTest {
   @Test
   fun testFragmentArguments_afterCreation_areCorrect() {
     launchTopicActivityIntent(
-      internalProfileId = internalProfileId,
+      profileId = profileId,
       classroomId = TEST_CLASSROOM_ID_1,
       topicId = FRACTIONS_TOPIC_ID
     ).use { scenario ->
@@ -316,7 +316,7 @@ class TopicRevisionFragmentTest {
           TopicRevisionFragmentArguments.getDefaultInstance()
         )
 
-        assertThat(receivedInternalProfileId).isEqualTo(internalProfileId)
+        assertThat(receivedInternalProfileId).isEqualTo(profileId.internalId)
         assertThat(args?.topicId).isEqualTo(FRACTIONS_TOPIC_ID)
       }
     }

@@ -391,7 +391,7 @@ class TopicPracticeFragmentTest {
   @Test
   fun testFragmentArguments_afterCreation_areCorrect() {
     launchTopicActivityIntent(
-      internalProfileId = internalProfileId,
+      profileId = profileId,
       classroomId = TEST_CLASSROOM_ID_1,
       topicId = FRACTIONS_TOPIC_ID
     ).use { scenario ->
@@ -416,7 +416,7 @@ class TopicPracticeFragmentTest {
           "Expected topic ID to be included in arguments for TopicPracticeFragment."
         }
 
-        assertThat(receivedInternalProfileId).isEqualTo(internalProfileId)
+        assertThat(receivedInternalProfileId).isEqualTo(profileId.internalId)
         assertThat(receivedTopicId).isEqualTo(FRACTIONS_TOPIC_ID)
       }
     }
@@ -425,7 +425,7 @@ class TopicPracticeFragmentTest {
   @Test
   fun testTopicPracticeFragment_saveInstanceState_verifyCorrectStateRestored() {
     launchTopicActivityIntent(
-      internalProfileId = internalProfileId,
+      profileId = profileId,
       classroomId = TEST_CLASSROOM_ID_1,
       topicId = FRACTIONS_TOPIC_ID
     ).use { scenario ->

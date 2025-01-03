@@ -451,25 +451,10 @@ class TopicInfoFragmentTest {
     }
   }
 
-  private fun launchTopicActivityIntent(
-    profileId: ProfileId,
-    classroomId: String,
-    topicId: String
-  ): ActivityScenario<TopicActivity> {
-    val intent =
-      TopicActivity.createTopicActivityIntent(
-        ApplicationProvider.getApplicationContext(),
-        profileId,
-        classroomId,
-        topicId
-      )
-    return ActivityScenario.launch(intent)
-  }
-
   @Test
   fun testFragmentArguments_afterCreation_areCorrect() {
     launchTopicActivityIntent(
-      internalProfileId = internalProfileId,
+      profileId = profileId,
       classroomId = TEST_CLASSROOM_ID,
       topicId = TEST_TOPIC_ID
     ).use { scenario ->
@@ -494,10 +479,25 @@ class TopicInfoFragmentTest {
           "Expected topic ID to be included in arguments for TopicInfoFragment."
         }
 
-        assertThat(receivedInternalProfileId).isEqualTo(internalProfileId)
+        assertThat(receivedInternalProfileId).isEqualTo(profileId.internalId)
         assertThat(receivedTopicId).isEqualTo(TEST_TOPIC_ID)
       }
     }
+  }
+
+  private fun launchTopicActivityIntent(
+    profileId: ProfileId,
+    classroomId: String,
+    topicId: String
+  ): ActivityScenario<TopicActivity> {
+    val intent =
+      TopicActivity.createTopicActivityIntent(
+        ApplicationProvider.getApplicationContext(),
+        profileId,
+        classroomId,
+        topicId
+      )
+    return ActivityScenario.launch(intent)
   }
 
   private fun clickInfoTab() {

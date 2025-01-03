@@ -1213,7 +1213,7 @@ class TopicLessonsFragmentTest {
   fun testFragmentArguments_afterCreation_areCorrect() {
     launch<TopicActivity>(
       createTopicPlayStoryActivityIntent(
-        internalProfileId,
+        profileId,
         TEST_CLASSROOM_ID_1,
         RATIOS_TOPIC_ID,
         RATIOS_STORY_ID_0
@@ -1244,7 +1244,7 @@ class TopicLessonsFragmentTest {
         }
         val receivedStoryId = args?.storyId ?: ""
 
-        assertThat(receivedInternalProfileId).isEqualTo(internalProfileId)
+        assertThat(receivedInternalProfileId).isEqualTo(profileId.internalId)
         assertThat(receivedClassroomId).isEqualTo(TEST_CLASSROOM_ID_1)
         assertThat(receivedTopicId).isEqualTo(RATIOS_TOPIC_ID)
         assertThat(receivedStoryId).isEqualTo(RATIOS_STORY_ID_0)
@@ -1256,7 +1256,7 @@ class TopicLessonsFragmentTest {
   fun testTopicLessonsFragment_saveInstanceState_verifyCorrectStateRestored() {
     launch<TopicActivity>(
       createTopicPlayStoryActivityIntent(
-        internalProfileId,
+        profileId,
         TEST_CLASSROOM_ID_1,
         RATIOS_TOPIC_ID,
         RATIOS_STORY_ID_0
