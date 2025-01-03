@@ -5210,6 +5210,37 @@ class StateFragmentTest {
   }
 
   @Test
+  fun testStateFragment_contentDescription_replaceUnderscoresWithBlank() {
+    setUpTestWithLanguageSwitchingFeatureOff()
+    launchForExploration(RATIOS_EXPLORATION_ID_0, shouldSavePartialProgress = false).use {
+      startPlayingExploration()
+
+      playThroughRatioExplorationState1()
+      playThroughRatioExplorationState2()
+      playThroughRatioExplorationState3()
+      playThroughRatioExplorationState4()
+      playThroughRatioExplorationState5()
+      playThroughRatioExplorationState6()
+      playThroughRatioExplorationState7()
+      playThroughRatioExplorationState8()
+      playThroughRatioExplorationState9()
+      playThroughRatioExplorationState10()
+      playThroughRatioExplorationState11()
+      playThroughRatioExplorationState12()
+      playThroughRatioExplorationState13()
+      playThroughRatioExplorationState14()
+
+      val expectedDescription = "James turned the page, and saw a recipe for banana smoothie." +
+        " Yummy!\n\n2 cups of milk and 1 cup of banana puree \n\n“I can make this,” he said." +
+        " “We’ll need to mix milk and banana puree in the ratio Blank.”\n\nCan you complete" +
+        " James’s sentence? What is the ratio of milk to banana puree?”"
+
+      onView(withId(R.id.content_text_view))
+        .check(matches(withContentDescription(expectedDescription)))
+    }
+  }
+
+  @Test
   fun testFragmentArguments_afterCreation_areCorrect() {
     setUpTestWithLanguageSwitchingFeatureOff()
     launchForExploration(
@@ -5238,36 +5269,6 @@ class StateFragmentTest {
         assertThat(receivedStoryId).isEqualTo(TEST_STORY_ID_0)
         assertThat(reveivedExplorationId).isEqualTo(FRACTIONS_EXPLORATION_ID_1)
       }
-    }
-  }
-
-  fun testStateFragment_contentDescription_replaceUnderscoresWithBlank() {
-    setUpTestWithLanguageSwitchingFeatureOff()
-    launchForExploration(RATIOS_EXPLORATION_ID_0, shouldSavePartialProgress = false).use {
-      startPlayingExploration()
-
-      playThroughRatioExplorationState1()
-      playThroughRatioExplorationState2()
-      playThroughRatioExplorationState3()
-      playThroughRatioExplorationState4()
-      playThroughRatioExplorationState5()
-      playThroughRatioExplorationState6()
-      playThroughRatioExplorationState7()
-      playThroughRatioExplorationState8()
-      playThroughRatioExplorationState9()
-      playThroughRatioExplorationState10()
-      playThroughRatioExplorationState11()
-      playThroughRatioExplorationState12()
-      playThroughRatioExplorationState13()
-      playThroughRatioExplorationState14()
-
-      val expectedDescription = "James turned the page, and saw a recipe for banana smoothie." +
-        " Yummy!\n\n2 cups of milk and 1 cup of banana puree \n\n“I can make this,” he said." +
-        " “We’ll need to mix milk and banana puree in the ratio Blank.”\n\nCan you complete" +
-        " James’s sentence? What is the ratio of milk to banana puree?”"
-
-      onView(withId(R.id.content_text_view))
-        .check(matches(withContentDescription(expectedDescription)))
     }
   }
 
