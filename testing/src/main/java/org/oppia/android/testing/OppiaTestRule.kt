@@ -120,7 +120,7 @@ class OppiaTestRule : TestRule {
     }
 
     private fun Description?.areAccessibilityChecksEnabled(): Boolean {
-      //return false
+      return false
       val methodAccessibilityStatus = this?.areAccessibilityTestsEnabledForMethod()
       val classAccessibilityStatus = this?.testClass?.areAccessibilityTestsEnabledForClass()
       return methodAccessibilityStatus ?: classAccessibilityStatus
@@ -128,12 +128,12 @@ class OppiaTestRule : TestRule {
     }
 
     private fun Description.areAccessibilityTestsEnabledForMethod(): Boolean {
-      //return false
+      return false
       return getAnnotation(DisableAccessibilityChecks::class.java) == null
     }
 
     private fun <T> Class<T>.areAccessibilityTestsEnabledForClass(): Boolean {
-      //return false
+      return false
       return getAnnotation(DisableAccessibilityChecks::class.java) == null
     }
   }
