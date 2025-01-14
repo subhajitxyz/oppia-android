@@ -31,7 +31,7 @@ class TextInputViewModel private constructor(
   private val translationController: TranslationController,
   userAnswerState: UserAnswerState
 ) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler {
-  var answerText: CharSequence = userAnswerState.textInputAnswer
+  var answerText: ObservableField<CharSequence> = ObservableField(DEFAULT_TEXT_INPUT)
   private var answerErrorCetegory: AnswerErrorCategory = AnswerErrorCategory.NO_ERROR
   val hintText: CharSequence = deriveHintText(interaction)
   private var pendingAnswerError: String? = null
@@ -41,11 +41,14 @@ class TextInputViewModel private constructor(
 
   //subha testem
   @JvmName("setAnswerText1")
-  fun setAnswerText(text: CharSequence) {
-    answerText = text
+  fun setAnswerText(text: CharSequence, isAnswerAvailable: Boolean) {
+    Log.d("testem", "in setAnswerText   $text")
+    this.answerText.set(text)
+    this.isAnswerAvailable.set(isAnswerAvailable)
   }
 
   init {
+    answerText.set(userAnswerState.textInputAnswer)
     val callback: Observable.OnPropertyChangedCallback =
       object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
@@ -88,8 +91,9 @@ class TextInputViewModel private constructor(
       }
 
       override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
-        answerText = answer.toString().trim()
-        val isAnswerTextAvailable = answerText.isNotEmpty()
+        //subha testem
+        answerText.set(answer.toString().trim())
+        val isAnswerTextAvailable = answerText.get()?.isNotEmpty()
         if (isAnswerTextAvailable != isAnswerAvailable.get()) {
           isAnswerAvailable.set(isAnswerTextAvailable)
         }
@@ -102,7 +106,7 @@ class TextInputViewModel private constructor(
   }
 
   override fun getPendingAnswer(): UserAnswer = UserAnswer.newBuilder().apply {
-    if (answerText.isNotEmpty()) {
+    if (answerText.get()!!.isNotEmpty()) {
       val answerTextString = answerText.toString()
       answer = InteractionObject.newBuilder().apply {
         normalizedString = answerTextString
@@ -187,5 +191,9 @@ class TextInputViewModel private constructor(
       fun createForText(text: String): TextParsingUiError =
         if (text.isEmpty()) EMPTY_INPUT else VALID
     }
+  }
+//subha testem
+  private companion object {
+    private const val DEFAULT_TEXT_INPUT = ""
   }
 }
