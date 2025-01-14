@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state.itemviewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
@@ -150,6 +151,7 @@ class TextInputViewModel private constructor(
       timeToStartNoticeAnimationMs: Long?,
       userAnswerState: UserAnswerState
     ): StateItemViewModel {
+      Log.d("testem","in create in textinputviewmodel")
       return TextInputViewModel(
         interaction,
         hasConversationView,

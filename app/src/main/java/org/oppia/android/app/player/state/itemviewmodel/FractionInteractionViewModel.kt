@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state.itemviewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import org.oppia.android.R
@@ -165,6 +166,7 @@ class FractionInteractionViewModel private constructor(
       timeToStartNoticeAnimationMs: Long?,
       userAnswerState: UserAnswerState
     ): StateItemViewModel {
+      Log.d("testem","in create in fractioninteractiionviewmodel")
       return FractionInteractionViewModel(
         interaction,
         hasConversationView,

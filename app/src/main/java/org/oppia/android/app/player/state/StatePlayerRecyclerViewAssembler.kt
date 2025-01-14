@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -304,6 +305,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       shouldAnimateContinueButton = ephemeralState.showContinueButtonAnimation,
       continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs
     )
+    Log.d("testem","compute new datapair completed")
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
   }
 
@@ -315,6 +317,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     writtenTranslationContext: WrittenTranslationContext,
     timeToStartNoticeAnimationMs: Long?
   ) {
+    Log.d("testem","in addInteractionForPendingState")
     val interactionViewModelFactory = interactionViewModelFactoryMap.getValue(interaction.id)
     pendingItemList += interactionViewModelFactory.create(
       gcsEntityId,
@@ -568,6 +571,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     isAnswerCorrect: Boolean
   ): SubmittedAnswerViewModel? {
     return userAnswer.takeIf { it.hasAnswerToDisplayToUser() }?.let {
+      Log.d("testem","in createSubmittedAnswer in stateplayerrecyclerviewassembler")
       SubmittedAnswerViewModel(
         userAnswer,
         gcsEntityId,
@@ -1095,6 +1099,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
           val binding = DataBindingUtil.findBinding<SubmittedAnswerItemBinding>(view)!!
           val submittedAnswerViewModel = viewModel as SubmittedAnswerViewModel
           binding.viewModel = submittedAnswerViewModel
+          Log.d("testem","in addPastAnswersSupport and get the submittedUseranswer")
           val userAnswer = submittedAnswerViewModel.submittedUserAnswer
           when (userAnswer.textualAnswerCase) {
             UserAnswer.TextualAnswerCase.HTML_ANSWER -> {

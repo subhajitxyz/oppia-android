@@ -1,5 +1,6 @@
 package org.oppia.android.app.player.state.itemviewmodel
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import org.oppia.android.R
 import org.oppia.android.app.model.UserAnswer
@@ -26,6 +27,7 @@ class SubmittedAnswerViewModel(
   private var accessibleAnswer: String? = DEFAULT_ACCESSIBLE_ANSWER
 
   fun setSubmittedAnswer(submittedAnswer: CharSequence, accessibleAnswer: String?) {
+    Log.d("testem","in setSubmittedAnswer in submittedanswerviewmodel")
     this.submittedAnswer.set(submittedAnswer)
     this.accessibleAnswer = accessibleAnswer
     updateSubmittedAnswerContentDescription()
