@@ -1051,11 +1051,12 @@ class StatePlayerRecyclerViewAssembler private constructor(
         inflateDataBinding = NumericInputInteractionItemBinding::inflate,
         setViewModel = NumericInputInteractionItemBinding::setViewModel,
         transformViewModel = { it as NumericInputViewModel }
-      ).registerViewDataBinder(
-        viewType = StateItemViewModel.ViewType.TEXT_INPUT_INTERACTION,
-        inflateDataBinding = TextInputInteractionItemBinding::inflate,
-        setViewModel = TextInputInteractionItemBinding::setViewModel,
-        transformViewModel = { it as TextInputViewModel }
+//      )
+//      .registerViewDataBinder(
+//        viewType = StateItemViewModel.ViewType.TEXT_INPUT_INTERACTION,
+//        inflateDataBinding = TextInputInteractionItemBinding::inflate,
+//        setViewModel = TextInputInteractionItemBinding::setViewModel,
+//        transformViewModel = { it as TextInputViewModel }
       ).registerViewDataBinder(
         viewType = StateItemViewModel.ViewType.RATIO_EXPRESSION_INPUT_INTERACTION,
         inflateDataBinding = RatioInputInteractionItemBinding::inflate,
