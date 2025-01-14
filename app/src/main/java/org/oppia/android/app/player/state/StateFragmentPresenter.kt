@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -298,6 +299,7 @@ class StateFragmentPresenter @Inject constructor(
     ephemeralStateLiveData.observe(
       fragment,
       { result ->
+        Log.d("testhint","in subscribeToCurrentState in statefragmentpresenter")
         processEphemeralStateResult(result)
       }
     )

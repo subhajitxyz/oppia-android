@@ -1,5 +1,6 @@
 package org.oppia.android.app.player.exploration
 
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
@@ -34,6 +35,7 @@ class HintsAndSolutionExplorationManagerFragmentPresenter @Inject constructor(
     ephemeralStateLiveData.observe(
       activity,
       Observer<AsyncResult<EphemeralState>> { result ->
+        Log.d("testhint","in subscribeToCurrentState in hintsandsolutionexplorationmanagerfragmentpresenter")
         processEphemeralStateResult(result)
       }
     )

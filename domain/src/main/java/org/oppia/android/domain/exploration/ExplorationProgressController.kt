@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -406,6 +407,7 @@ class ExplorationProgressController @Inject constructor(
    * subscription to this method's returned [DataProvider].
    */
   fun getCurrentState(): DataProvider<EphemeralState> {
+    Log.d("testhint","in getCurrecntState in explorationprogresscontroller")
     val writtenTranslationContentLocale =
       translationController.getWrittenTranslationContentLocale(profileId)
     val ephemeralStateDataProvider =
