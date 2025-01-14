@@ -39,6 +39,12 @@ class TextInputViewModel private constructor(
   var isAnswerAvailable = ObservableField<Boolean>(false)
   val errorMessage = ObservableField<String>("")
 
+  //subha testem
+  @JvmName("setAnswerText1")
+  fun setAnswerText(text: CharSequence) {
+    answerText = text
+  }
+
   init {
     val callback: Observable.OnPropertyChangedCallback =
       object : Observable.OnPropertyChangedCallback() {

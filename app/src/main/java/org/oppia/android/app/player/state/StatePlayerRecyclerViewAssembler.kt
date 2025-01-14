@@ -319,7 +319,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
   ) {
     Log.d("testem","in addInteractionForPendingState")
     val interactionViewModelFactory = interactionViewModelFactoryMap.getValue(interaction.id)
-    pendingItemList += interactionViewModelFactory.create(
+    val x = interactionViewModelFactory.create(
       gcsEntityId,
       hasConversationView,
       interaction,
@@ -331,6 +331,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       timeToStartNoticeAnimationMs,
       userAnswerState
     )
+    pendingItemList += x
   }
 
   /** Reset userAnswerState once the user submits an answer. */
@@ -1086,6 +1087,27 @@ class StatePlayerRecyclerViewAssembler private constructor(
       return this
     }
 
+    //subha testem
+    fun addPastTextInputSupport(): Builder {
+      adapterBuilder.registerViewBinder(
+        viewType = StateItemViewModel.ViewType.TEXT_INPUT_INTERACTION,
+        inflateView = { parent ->
+          TextInputInteractionItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, /* attachToParent= */ false
+          ).root
+        },
+        bindView = { view, viewModel ->
+          val binding = DataBindingUtil.findBinding<TextInputInteractionItemBinding>(view)!!
+          val textInputViewModel = viewModel as TextInputViewModel
+          binding.viewModel = textInputViewModel
+
+          val textInputText = textInputViewModel.answerText
+        }
+      )
+      featureSets += PlayerFeatureSet(pastTextInputSupport = true)
+      return this
+    }
+
     /** Adds support for displaying previously submitted answers. */
     fun addPastAnswersSupport(): Builder {
       adapterBuilder.registerViewBinder(
@@ -1463,6 +1485,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val feedbackSupport: Boolean = false,
     val interactionSupport: Boolean = false,
     val pastAnswerSupport: Boolean = false,
+    val pastTextInputSupport: Boolean = false,
     val wrongAnswerCollapsing: Boolean = false,
     val backwardNavigation: Boolean = false,
     val forwardNavigation: Boolean = false,
