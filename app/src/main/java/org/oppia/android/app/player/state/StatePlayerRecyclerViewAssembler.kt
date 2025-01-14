@@ -1102,6 +1102,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
           binding.viewModel = textInputViewModel
 
           val textInputText = textInputViewModel.answerText
+          textInputViewModel.setAnswerText(textInputText)
         }
       )
       featureSets += PlayerFeatureSet(pastTextInputSupport = true)
