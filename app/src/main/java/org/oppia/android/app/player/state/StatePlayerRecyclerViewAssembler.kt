@@ -1103,8 +1103,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
           binding.viewModel = textInputViewModel
 
           Log.d("testem","in addPastTextInputSupport and get textInputText")
-          val textInputText = textInputViewModel.answerText.toString()
-          textInputViewModel.setAnswerText(textInputText, textInputViewModel.isAnswerAvailable.get() == true)
+          val textInputText = textInputViewModel.answerText.get()
+          if (textInputText != null) {
+            textInputViewModel.setAnswerText(textInputText, textInputViewModel.isAnswerAvailable.get() == true)
+          }
         }
       )
       featureSets += PlayerFeatureSet(pastTextInputSupport = true)
