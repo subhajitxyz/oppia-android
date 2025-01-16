@@ -31,6 +31,7 @@ class TextInputViewModel private constructor(
   private val translationController: TranslationController,
   userAnswerState: UserAnswerState
 ) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler {
+  //subha hint
   var answerText: ObservableField<CharSequence> = ObservableField(DEFAULT_TEXT_INPUT)
   private var answerErrorCetegory: AnswerErrorCategory = AnswerErrorCategory.NO_ERROR
   val hintText: CharSequence = deriveHintText(interaction)
@@ -43,7 +44,7 @@ class TextInputViewModel private constructor(
   @JvmName("setAnswerText1")
   fun setAnswerText(text: CharSequence, isAnswerAvailable: Boolean) {
     Log.d("testem", "in setAnswerText   $text")
-    this.answerText.set(text)
+    this.answerText.set(text.toString().trim())
     this.isAnswerAvailable.set(isAnswerAvailable)
   }
 
