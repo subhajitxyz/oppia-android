@@ -40,10 +40,9 @@ class TextInputViewModel private constructor(
   var isAnswerAvailable = ObservableField<Boolean>(false)
   val errorMessage = ObservableField<String>("")
 
-  //subha testem
-  @JvmName("setAnswerText1")
+
   fun setAnswerText(text: CharSequence, isAnswerAvailable: Boolean) {
-    Log.d("testem", "in setAnswerText   $text")
+    Log.d("testem", "in setAnswerText  "+ text.toString())
     this.answerText.set(text)
     this.isAnswerAvailable.set(isAnswerAvailable)
   }
@@ -194,7 +193,7 @@ class TextInputViewModel private constructor(
     }
   }
 //subha testem
-  private companion object {
-    private const val DEFAULT_TEXT_INPUT = ""
+  public companion object {
+    const val DEFAULT_TEXT_INPUT = ""
   }
 }

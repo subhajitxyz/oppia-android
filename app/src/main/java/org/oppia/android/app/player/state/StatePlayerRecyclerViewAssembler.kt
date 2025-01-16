@@ -1104,7 +1104,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
 
           Log.d("testem","in addPastTextInputSupport and get textInputText")
           val textInputText = textInputViewModel.answerText.get()
-          if (textInputText != null) {
+          Log.d("testem","in addPastTextInputSupport and string is  " + textInputText.toString())
+          if (textInputText != TextInputViewModel.DEFAULT_TEXT_INPUT) {
             textInputViewModel.setAnswerText(textInputText.toString(), textInputViewModel.isAnswerAvailable.get() == true)
           }
         }
