@@ -44,12 +44,12 @@ class TextInputViewModel private constructor(
   @JvmName("setAnswerText1")
   fun setAnswerText(text: CharSequence, isAnswerAvailable: Boolean) {
     Log.d("testem", "in setAnswerText   $text")
-    this.answerText.set(text.toString().trim())
+    this.answerText.set(text)
     this.isAnswerAvailable.set(isAnswerAvailable)
   }
 
   init {
-    answerText.set(userAnswerState.textInputAnswer)
+    //answerText.set(userAnswerState.textInputAnswer)
     val callback: Observable.OnPropertyChangedCallback =
       object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
@@ -76,7 +76,7 @@ class TextInputViewModel private constructor(
       AnswerErrorCategory.REAL_TIME -> null
       AnswerErrorCategory.SUBMIT_TIME -> {
         TextParsingUiError.createForText(
-          answerText.toString()
+          answerText.get().toString()
         ).createForText(resourceHandler)
       }
       else -> null
@@ -108,7 +108,7 @@ class TextInputViewModel private constructor(
 
   override fun getPendingAnswer(): UserAnswer = UserAnswer.newBuilder().apply {
     if (answerText.get()!!.isNotEmpty()) {
-      val answerTextString = answerText.toString()
+      val answerTextString = answerText.get().toString()
       answer = InteractionObject.newBuilder().apply {
         normalizedString = answerTextString
       }.build()
@@ -119,7 +119,7 @@ class TextInputViewModel private constructor(
 
   override fun getUserAnswerState(): UserAnswerState {
     return UserAnswerState.newBuilder().apply {
-      this.textInputAnswer = answerText.toString()
+      this.textInputAnswer = answerText.get().toString()
       this.answerErrorCategory = answerErrorCetegory
     }.build()
   }
