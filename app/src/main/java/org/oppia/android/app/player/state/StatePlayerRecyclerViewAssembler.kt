@@ -331,6 +331,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       timeToStartNoticeAnimationMs,
       userAnswerState
     )
+    Log.d("testem","in addInteractionForPendingState and TextViewmodel obj is  "+ x.toString())
     pendingItemList += x
   }
 
@@ -581,6 +582,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
         playerFeatureSet.conceptCardSupport,
         resourceHandler
       ).also { submittedAnswerViewModel ->
+        Log.d("testem","in createSubmittedAnswer in submitterdAnswerViewmodel obj is : " + submittedAnswerViewModel.toString())
         submittedAnswerViewModel.setIsCorrectAnswer(isAnswerCorrect)
         submittedAnswerViewModel.isExtraInteractionAnswerCorrect.set(isAnswerCorrect)
       }
@@ -1102,6 +1104,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
           val textInputViewModel = viewModel as TextInputViewModel
           binding.viewModel = textInputViewModel
 
+          Log.d("testem","in addPastTextInputSupport and TextViewmodel obj is  "+ viewModel.toString())
+
+
           Log.d("testem","in addPastTextInputSupport and get textInputText")
           val textInputText = textInputViewModel.answerText.get()
           val useranswerText = textInputViewModel.getUserAnswerState().textInputAnswer
@@ -1135,6 +1140,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
           val submittedAnswerViewModel = viewModel as SubmittedAnswerViewModel
           binding.viewModel = submittedAnswerViewModel
           Log.d("testem","in addPastAnswersSupport and get the submittedUseranswer")
+          Log.d("testem","in addPastAnswersSupport in submitterdAnswerViewmodel obj is : " + submittedAnswerViewModel.toString())
+
           val userAnswer = submittedAnswerViewModel.submittedUserAnswer
           when (userAnswer.textualAnswerCase) {
             UserAnswer.TextualAnswerCase.HTML_ANSWER -> {
