@@ -2,7 +2,9 @@ package org.oppia.android.app.options
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import org.oppia.android.R
 import org.oppia.android.app.model.AudioLanguage
+import org.oppia.android.app.translation.AppLanguageResourceHandler
 import org.oppia.android.app.viewmodel.ObservableViewModel
 
 /**
@@ -20,7 +22,8 @@ class AudioLanguageItemViewModel(
   val language: AudioLanguage,
   val languageDisplayName: String,
   private val currentSelectedLanguage: LiveData<AudioLanguage>,
-  val audioLanguageRadioButtonListener: AudioLanguageRadioButtonListener
+  val audioLanguageRadioButtonListener: AudioLanguageRadioButtonListener,
+  private val appLanguageResourceHandler: AppLanguageResourceHandler
 ) : ObservableViewModel() {
   /**
    * Indicates whether the language corresponding to this view model is _currently_ selected in the
@@ -35,7 +38,9 @@ class AudioLanguageItemViewModel(
    */
   fun languageContentDescription(): String {
     return when (language) {
-      AudioLanguage.ARABIC_LANGUAGE -> "Arabic"
+      AudioLanguage.ARABIC_LANGUAGE -> appLanguageResourceHandler.getStringInLocaleWithWrapping(
+        R.string.arabic_language_display_name_content_description
+      )
       else -> languageDisplayName
     }
   }
