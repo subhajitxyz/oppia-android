@@ -3,6 +3,7 @@ package org.oppia.android.app.options
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.test.core.app.ActivityScenario
@@ -22,6 +23,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import com.google.common.truth.Truth.assertThat
 import dagger.Component
 import org.hamcrest.Matchers.allOf
 import org.junit.After
@@ -115,6 +117,8 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.model.OptionsFragmentArguments
+import org.oppia.android.util.extensions.getProto
 
 /** Tests for [OptionsFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -565,6 +569,39 @@ class OptionsFragmentTest {
           hasComponent(AudioLanguageActivity::class.java.name)
         )
       )
+    }
+  }
+
+  @Test
+  fun testFragmentArguments_afterCreation_areCorrect() {
+    launch<OptionsActivity>(
+      createOptionActivityIntent(
+        internalProfileId = 0,
+        isFromNavigationDrawer = true
+      )
+    ).use { scenario ->
+      testCoroutineDispatchers.runCurrent()
+      scenario.onActivity { activity ->
+
+        val optionsFragment = activity.supportFragmentManager
+          .findFragmentById(R.id.options_fragment_placeholder) as OptionsFragment
+
+        val args = optionsFragment.arguments?.getProto(
+          OPTIONS_FRAGMENT_ARGUMENTS_KEY,
+          OptionsFragmentArguments.getDefaultInstance()
+        )
+
+        val isMultipane =
+          activity.findViewById<FrameLayout>(R.id.multipane_options_container) != null
+
+        val receivedIsMultipane = args?.isMultipane
+        val receivedIsFirstOpen = args?.isFirstOpen
+        val receivedSelectedFragment = checkNotNull(args?.selectedFragment)
+
+        assertThat(receivedIsMultipane).isEqualTo(isMultipane)
+        assertThat(receivedIsFirstOpen).isEqualTo(true)
+        assertThat(receivedSelectedFragment).isEqualTo(READING_TEXT_SIZE_FRAGMENT)
+      }
     }
   }
 
