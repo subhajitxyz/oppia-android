@@ -627,5 +627,4 @@
   <string name="audio_language_fragment_text">Em %s, você pode ouvir as lições!</string>
   <string name="audio_language_fragment_subtitle">Selecione a lingua do áudio para ouvir às lições</string>
   <string name="onboarding_step_count_five">Passo 5 de 5</string>
-  <string name="arabic_language_display_name_content_description">Árabe</string>
 </resources>
