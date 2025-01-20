@@ -583,4 +583,5 @@
   <string name="lock_icon_content_description">Lock Icon</string>
   <string name="download_status_image_content_description">Download Status</string>
   <string name="font_scale_html_content_text">html Content</string>
+  <string name="arabic_language_display_name_content_description">Arabic</string>
 </resources>
