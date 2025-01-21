@@ -273,7 +273,7 @@ class WalkthroughFinalFragmentTest {
   }
 
   @Test
-  fun testFragmentArguments_afterCreation_areCorrect() {
+  fun testFragment_argumentsAreCorrect() {
     launch<WalkthroughActivity>(createWalkthroughActivityIntent(0)).use { scenario ->
       testCoroutineDispatchers.runCurrent()
       scenario.onActivity { activity ->

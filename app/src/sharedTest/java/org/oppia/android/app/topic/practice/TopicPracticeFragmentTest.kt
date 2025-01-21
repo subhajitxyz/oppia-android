@@ -389,7 +389,7 @@ class TopicPracticeFragmentTest {
   }
 
   @Test
-  fun testFragmentArguments_afterCreation_areCorrect() {
+  fun testFragment_argumentsAreCorrect() {
     launchTopicActivityIntent(
       profileId = profileId,
       classroomId = TEST_CLASSROOM_ID_1,

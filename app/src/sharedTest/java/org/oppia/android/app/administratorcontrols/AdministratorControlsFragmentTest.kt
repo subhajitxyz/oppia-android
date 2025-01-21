@@ -438,7 +438,7 @@ class AdministratorControlsFragmentTest {
   }
 
   @Test
-  fun testFragmentArguments_afterCreation_areCorrect() {
+  fun testFragment_argumentsAreCorrect() {
     launch<AdministratorControlsFragmentTestActivity>(
       createAdministratorControlsFragmentTestActivityIntent(
         profileId = internalProfileId
@@ -455,12 +455,11 @@ class AdministratorControlsFragmentTest {
 
         val arguments = checkNotNull(administratorControlsFragment.arguments) {
           "Expected arguments to be passed to AdministratorControlsFragment"
-        }
-        val args = arguments.getProto(
+        }.getProto(
           ADMINISTRATOR_CONTROLS_FRAGMENT_ARGUMENTS_KEY,
           AdministratorControlsFragmentArguments.getDefaultInstance()
         )
-        val receivedIsMultipane = args.isMultipane
+        val receivedIsMultipane = arguments.isMultipane
 
         assertThat(receivedIsMultipane).isEqualTo(isMultipane)
       }

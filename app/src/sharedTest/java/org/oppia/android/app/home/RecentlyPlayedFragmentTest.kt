@@ -1651,7 +1651,7 @@ class RecentlyPlayedFragmentTest {
   }
 
   @Test
-  fun testFragmentArguments_afterCreation_areCorrect() {
+  fun testFragment_argumentsAreCorrect() {
     ActivityScenario.launch<RecentlyPlayedActivity>(
       createRecentlyPlayedActivityIntent(
         internalProfileId = internalProfileId,

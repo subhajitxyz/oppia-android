@@ -1210,7 +1210,7 @@ class TopicLessonsFragmentTest {
   }
 
   @Test
-  fun testFragmentArguments_afterCreation_areCorrect() {
+  fun testFragment_argumentsAreCorrect() {
     launch<TopicActivity>(
       createTopicPlayStoryActivityIntent(
         profileId,

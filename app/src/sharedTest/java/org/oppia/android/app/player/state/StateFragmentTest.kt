@@ -5241,7 +5241,7 @@ class StateFragmentTest {
   }
 
   @Test
-  fun testFragmentArguments_afterCreation_areCorrect() {
+  fun testFragment_argumentsAreCorrect() {
     setUpTestWithLanguageSwitchingFeatureOff()
     launchForExploration(
       FRACTIONS_EXPLORATION_ID_1,
