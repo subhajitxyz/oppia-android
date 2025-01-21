@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.reflect.KClass
+import org.oppia.android.app.player.state.itemviewmodel.DragAndDropSortInteractionViewModel
 import org.oppia.android.app.player.state.itemviewmodel.DragDropInteractionContentViewModel
 import org.oppia.android.app.player.state.itemviewmodel.StateItemViewModel
 
@@ -61,8 +62,8 @@ class BindableAdapter<T : Any> internal constructor(
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
     Log.d("testdiff", newDataList.toString())
-    if (newDataList.isNotEmpty() && newDataList[0] is DragDropInteractionContentViewModel) {
-      Log.d("testdiff","in setdata for bindableitemviewmodel")
+    if (newDataList.isNotEmpty() && newDataList[0] is DragAndDropSortInteractionViewModel) {
+      Log.d("testdiff","in setdata for DragAndDropSortInteractionViewModel")
       val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
       val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()
 
@@ -73,6 +74,8 @@ class BindableAdapter<T : Any> internal constructor(
       dataList.addAll(newDataList)
       diffResult.dispatchUpdatesTo(this)
     }else {
+      Log.d("testdiff","in setdata for else")
+
       dataList.clear()
       dataList += newDataList
       // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
@@ -424,10 +427,10 @@ class BindableAdapter<T : Any> internal constructor(
 }
 
 interface BindableItemViewModel {
-   val contentId: StateItemId
+  val contentId: StateItemId
 
   // Compare this item with another to detect changes
-   fun hasChanges(other: BindableItemViewModel): Boolean
+  fun hasChanges(other: BindableItemViewModel): Boolean
 }
 
 sealed class StateItemId {
@@ -454,5 +457,4 @@ class BindableAdapterDiffUtilHandler(
     return oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
   }
 }
-
 

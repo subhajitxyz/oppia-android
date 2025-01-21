@@ -70,8 +70,16 @@ class DragAndDropSortInteractionViewModel private constructor(
     get() = StateItemId.Content(entityId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    TODO("Not yet implemented")
+    // Check if the other ViewModel is of the same type
+    if (other !is DragAndDropSortInteractionViewModel) return true
+
+    // Compare relevant properties to determine changes
+    return this.choiceItems.value != other.choiceItems.value ||
+      this.pendingAnswerError != other.pendingAnswerError ||
+      this.isAnswerAvailable.get() != other.isAnswerAvailable.get() ||
+      this.errorMessage.get() != other.errorMessage.get()
   }
+
 
   private val allowMultipleItemsInSamePosition: Boolean by lazy {
     interaction.customizationArgsMap["allowMultipleItemsInSamePosition"]?.boolValue ?: false
