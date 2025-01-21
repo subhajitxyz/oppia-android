@@ -434,8 +434,9 @@ interface BindableItemViewModel {
 }
 
 sealed class StateItemId {
-  data class Content(val contentId: String) : StateItemId()
+  data class Content(val contentId: CharSequence) : StateItemId()
   data class Feedback(val feedbackId: String) : StateItemId()
+  data class ItemIndex(val itemIndex: Int) : StateItemId()
   object PreviousNavigationButton : StateItemId() // A singleton object for unique items
 }
 
@@ -450,6 +451,10 @@ class BindableAdapterDiffUtilHandler(
   override fun getNewListSize() = newList.size
 
   override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    Log.d(
+      "testdiff",
+      "areItemsTheSame: oldItem=${oldList[oldItemPosition].contentId}, newItem=${newList[newItemPosition].contentId}"
+    )
     return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
   }
 

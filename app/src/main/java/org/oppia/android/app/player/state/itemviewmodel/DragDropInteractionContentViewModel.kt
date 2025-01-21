@@ -20,7 +20,7 @@ class DragDropInteractionContentViewModel(
 ) : ObservableViewModel(), BindableItemViewModel {
 
   override val contentId: StateItemId
-    get() = TODO("Not yet implemented")
+    get() = StateItemId.ItemIndex(itemIndex)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     // Ensure the other instance is of the same type
