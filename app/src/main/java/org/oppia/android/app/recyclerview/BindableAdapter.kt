@@ -45,11 +45,12 @@ class BindableAdapter<T : Any> internal constructor(
   fun setDataWithDiff(newDataList: List<T>) {
     // Check if the data is of a type that implements BindableItemViewModel
     if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
-      val diffCallback = BindableAdapterDiffUtilHandler(dataList as List<BindableItemViewModel>, newDataList as List<BindableItemViewModel>)
-      // Perform DiffUtil logic only if the data is of BindableItemViewModel type
-      //val diffCallback = BindableAdapterDiffUtilHandler(dataList, newDataList)
-      val diffResult = DiffUtil.calculateDiff(diffCallback)
+      val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
+      val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()
 
+      // Perform DiffUtil logic only if the data is of BindableItemViewModel type
+      val diffCallback = BindableAdapterDiffUtilHandler(bindableOldList, bindableNewList)
+      val diffResult = DiffUtil.calculateDiff(diffCallback)
       dataList.clear()
       dataList.addAll(newDataList)
       diffResult.dispatchUpdatesTo(this)
