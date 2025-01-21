@@ -62,7 +62,7 @@ class BindableAdapter<T : Any> internal constructor(
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
     Log.d("testdiff", newDataList.toString())
-    if (newDataList.isNotEmpty() && newDataList[0] is DragAndDropSortInteractionViewModel) {
+    if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
       Log.d("testdiff","in setdata for DragAndDropSortInteractionViewModel")
       val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
       val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()

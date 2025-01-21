@@ -4,6 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import org.oppia.android.R
 import org.oppia.android.app.model.SetOfTranslatableHtmlContentIds
 import org.oppia.android.app.model.StringList
+import org.oppia.android.app.recyclerview.BindableItemViewModel
+import org.oppia.android.app.recyclerview.StateItemId
 import org.oppia.android.app.translation.AppLanguageResourceHandler
 import org.oppia.android.app.viewmodel.ObservableViewModel
 
@@ -15,7 +17,21 @@ class DragDropInteractionContentViewModel(
   var listSize: Int,
   val dragAndDropSortInteractionViewModel: DragAndDropSortInteractionViewModel,
   private val resourceHandler: AppLanguageResourceHandler
-) : ObservableViewModel() {
+) : ObservableViewModel(), BindableItemViewModel {
+
+  override val contentId: StateItemId
+    get() = TODO("Not yet implemented")
+
+  override fun hasChanges(other: BindableItemViewModel): Boolean {
+    // Ensure the other instance is of the same type
+    if (other !is DragDropInteractionContentViewModel) return true
+
+    // Compare relevant properties to determine changes
+    return this.htmlContent != other.htmlContent ||
+      this.itemIndex != other.itemIndex ||
+      this.listSize != other.listSize
+  }
+
 
   fun handleGrouping(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
     dragAndDropSortInteractionViewModel.updateList(itemIndex, adapter)
