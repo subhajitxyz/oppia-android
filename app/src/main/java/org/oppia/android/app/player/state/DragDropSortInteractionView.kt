@@ -98,7 +98,7 @@ class DragDropSortInteractionView @JvmOverloads constructor(
       ::dataList.isInitialized &&
       itemsInSamePositionAllowed != null
     ) {
-      adapter = createAdapter(itemsInSamePositionAllowed).also { it.setDataWithDiff(dataList) }
+      adapter = createAdapter(itemsInSamePositionAllowed).also { it.setData(dataList) }
     }
   }
 

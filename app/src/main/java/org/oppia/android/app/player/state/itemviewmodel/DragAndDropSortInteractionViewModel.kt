@@ -149,7 +149,7 @@ class DragAndDropSortInteractionViewModel private constructor(
   override fun onDragEnded(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
     // Update the data list if once drag is complete and merge icons are displayed.
     if (allowMultipleItemsInSamePosition) {
-      (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
+      (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
     }
     checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
   }
@@ -166,7 +166,7 @@ class DragAndDropSortInteractionViewModel private constructor(
     _choiceItems[indexFrom].itemIndex = indexFrom
     _choiceItems[indexTo].itemIndex = indexTo
 
-    (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
+    (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
   }
 
   override fun getPendingAnswer(): UserAnswer = UserAnswer.newBuilder().apply {
@@ -231,7 +231,7 @@ class DragAndDropSortInteractionViewModel private constructor(
     }
 
     // To update the list
-    (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
+    (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
 
     // Trigger pending answer check to re-enable submit button
     checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
@@ -262,7 +262,7 @@ class DragAndDropSortInteractionViewModel private constructor(
     }
 
     // Update the list
-    (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
+    (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
 
     // Trigger pending answer check* to re-enable submit button
     checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)

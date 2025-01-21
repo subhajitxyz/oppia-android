@@ -1,5 +1,6 @@
 package org.oppia.android.app.recyclerview
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.reflect.KClass
+import org.oppia.android.app.player.state.itemviewmodel.DragDropInteractionContentViewModel
 import org.oppia.android.app.player.state.itemviewmodel.StateItemViewModel
 
 /** A function that returns the integer-based type of view that can bind the specified object. */
@@ -42,9 +44,24 @@ class BindableAdapter<T : Any> internal constructor(
 
 
 
-  fun setDataWithDiff(newDataList: List<T>) {
-    // Check if the data is of a type that implements BindableItemViewModel
+//  fun setDataWithDiff(newDataList: List<T>) {
+//    // Check if the data is of a type that implements BindableItemViewModel
+//    if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
+//      val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
+//      val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()
+//
+//      // Perform DiffUtil logic only if the data is of BindableItemViewModel type
+//      val diffCallback = BindableAdapterDiffUtilHandler(bindableOldList, bindableNewList)
+//      val diffResult = DiffUtil.calculateDiff(diffCallback)
+//      dataList.clear()
+//      dataList.addAll(newDataList)
+//      diffResult.dispatchUpdatesTo(this)
+//    }
+//  }
+  /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
+  fun setData(newDataList: List<T>) {
     if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
+      Log.d("testdiff","in setdata for bindableitemviewmodel")
       val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
       val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()
 
@@ -54,15 +71,14 @@ class BindableAdapter<T : Any> internal constructor(
       dataList.clear()
       dataList.addAll(newDataList)
       diffResult.dispatchUpdatesTo(this)
+    }else {
+      dataList.clear()
+      dataList += newDataList
+      // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
+      //  rather than re-binding the entire list upon any change.
+      notifyDataSetChanged()
     }
-  }
-  /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
-  fun setData(newDataList: List<T>) {
-    dataList.clear()
-    dataList += newDataList
-    // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
-    //  rather than re-binding the entire list upon any change.
-    notifyDataSetChanged()
+
   }
 
 
@@ -89,21 +105,21 @@ class BindableAdapter<T : Any> internal constructor(
     setData(newDataList as List<T>)
   }
 
-  fun <T2 : Any> setDataUncheckedWithDiff(newDataList: List<T2>) {
-    // NB: This check only works if the list has any data in it. Since we can't use a reified type
-    // here (due to Android data binding not supporting custom adapters with inline functions), this
-    // method will succeed if types are different for empty lists (that is, List<T1> == List<T2>
-    // when T1 is not assignable to T2). This likely won't have bad side effects since any time a
-    // non-empty list is attempted to be bound, this crash will be correctly triggered.
-    newDataList.firstOrNull()?.let {
-      check(dataClassType.java.isAssignableFrom(it.javaClass)) {
-        "Trying to bind incompatible data to adapter. Data class type: ${it.javaClass}, " +
-          "expected adapter class type: $dataClassType."
-      }
-    }
-    @Suppress("UNCHECKED_CAST") // This is safe. See the above check.
-    setDataWithDiff(newDataList as List<T>)
-  }
+//  fun <T2 : Any> setDataUncheckedWithDiff(newDataList: List<T2>) {
+//    // NB: This check only works if the list has any data in it. Since we can't use a reified type
+//    // here (due to Android data binding not supporting custom adapters with inline functions), this
+//    // method will succeed if types are different for empty lists (that is, List<T1> == List<T2>
+//    // when T1 is not assignable to T2). This likely won't have bad side effects since any time a
+//    // non-empty list is attempted to be bound, this crash will be correctly triggered.
+//    newDataList.firstOrNull()?.let {
+//      check(dataClassType.java.isAssignableFrom(it.javaClass)) {
+//        "Trying to bind incompatible data to adapter. Data class type: ${it.javaClass}, " +
+//          "expected adapter class type: $dataClassType."
+//      }
+//    }
+//    @Suppress("UNCHECKED_CAST") // This is safe. See the above check.
+//    setDataWithDiff(newDataList as List<T>)
+//  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindableViewHolder<T> {
     val viewHolderFactory = viewHolderFactoryMap[viewType]
