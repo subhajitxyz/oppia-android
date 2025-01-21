@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.reflect.KClass
+import org.oppia.android.app.player.state.itemviewmodel.StateItemViewModel
 
 /** A function that returns the integer-based type of view that can bind the specified object. */
 private typealias ComputeIntViewType<T> = (T) -> Int
@@ -38,6 +40,21 @@ class BindableAdapter<T : Any> internal constructor(
 
   // TODO(#170): Introduce support for stable IDs.
 
+
+
+  fun setDataWithDiff(newDataList: List<T>) {
+    // Check if the data is of a type that implements BindableItemViewModel
+    if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
+      val diffCallback = BindableAdapterDiffUtilHandler(dataList as List<BindableItemViewModel>, newDataList as List<BindableItemViewModel>)
+      // Perform DiffUtil logic only if the data is of BindableItemViewModel type
+      //val diffCallback = BindableAdapterDiffUtilHandler(dataList, newDataList)
+      val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+      dataList.clear()
+      dataList.addAll(newDataList)
+      diffResult.dispatchUpdatesTo(this)
+    }
+  }
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
     dataList.clear()
@@ -46,6 +63,7 @@ class BindableAdapter<T : Any> internal constructor(
     //  rather than re-binding the entire list upon any change.
     notifyDataSetChanged()
   }
+
 
   /**
    * Sets the data of this adapter in the same way as [setData], except with a different type.
@@ -68,6 +86,22 @@ class BindableAdapter<T : Any> internal constructor(
     }
     @Suppress("UNCHECKED_CAST") // This is safe. See the above check.
     setData(newDataList as List<T>)
+  }
+
+  fun <T2 : Any> setDataUncheckedWithDiff(newDataList: List<T2>) {
+    // NB: This check only works if the list has any data in it. Since we can't use a reified type
+    // here (due to Android data binding not supporting custom adapters with inline functions), this
+    // method will succeed if types are different for empty lists (that is, List<T1> == List<T2>
+    // when T1 is not assignable to T2). This likely won't have bad side effects since any time a
+    // non-empty list is attempted to be bound, this crash will be correctly triggered.
+    newDataList.firstOrNull()?.let {
+      check(dataClassType.java.isAssignableFrom(it.javaClass)) {
+        "Trying to bind incompatible data to adapter. Data class type: ${it.javaClass}, " +
+          "expected adapter class type: $dataClassType."
+      }
+    }
+    @Suppress("UNCHECKED_CAST") // This is safe. See the above check.
+    setDataWithDiff(newDataList as List<T>)
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindableViewHolder<T> {
@@ -370,3 +404,37 @@ class BindableAdapter<T : Any> internal constructor(
     }
   }
 }
+
+interface BindableItemViewModel {
+   val contentId: StateItemId
+
+  // Compare this item with another to detect changes
+   fun hasChanges(other: BindableItemViewModel): Boolean
+}
+
+sealed class StateItemId {
+  data class Content(val contentId: String) : StateItemId()
+  data class Feedback(val feedbackId: String) : StateItemId()
+  object PreviousNavigationButton : StateItemId() // A singleton object for unique items
+}
+
+
+class BindableAdapterDiffUtilHandler(
+  private val oldList: List<BindableItemViewModel>,
+  private val newList: List<BindableItemViewModel>
+) : DiffUtil.Callback() {
+
+  override fun getOldListSize() = oldList.size
+
+  override fun getNewListSize() = newList.size
+
+  override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
+  }
+
+  override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    return oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
+  }
+}
+
+

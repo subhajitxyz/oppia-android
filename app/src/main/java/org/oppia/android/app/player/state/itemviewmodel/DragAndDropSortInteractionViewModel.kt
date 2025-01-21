@@ -33,6 +33,8 @@ import org.oppia.android.domain.translation.TranslationController
 import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
+import org.oppia.android.app.recyclerview.BindableItemViewModel
+import org.oppia.android.app.recyclerview.StateItemId
 
 /** Represents the type of errors that can be thrown by drag and drop sort interaction. */
 enum class DragAndDropSortInteractionError(@StringRes private var error: Int?) {
@@ -61,7 +63,15 @@ class DragAndDropSortInteractionViewModel private constructor(
 ) : StateItemViewModel(ViewType.DRAG_DROP_SORT_INTERACTION),
   InteractionAnswerHandler,
   OnItemDragListener,
-  OnDragEndedListener {
+  OnDragEndedListener,
+  BindableItemViewModel
+{
+  override val contentId: StateItemId
+    get() = StateItemId.Content(entityId)
+
+  override fun hasChanges(other: BindableItemViewModel): Boolean {
+    TODO("Not yet implemented")
+  }
 
   private val allowMultipleItemsInSamePosition: Boolean by lazy {
     interaction.customizationArgsMap["allowMultipleItemsInSamePosition"]?.boolValue ?: false
@@ -139,7 +149,7 @@ class DragAndDropSortInteractionViewModel private constructor(
   override fun onDragEnded(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
     // Update the data list if once drag is complete and merge icons are displayed.
     if (allowMultipleItemsInSamePosition) {
-      (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
+      (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
     }
     checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
   }
@@ -156,7 +166,7 @@ class DragAndDropSortInteractionViewModel private constructor(
     _choiceItems[indexFrom].itemIndex = indexFrom
     _choiceItems[indexTo].itemIndex = indexTo
 
-    (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
+    (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
   }
 
   override fun getPendingAnswer(): UserAnswer = UserAnswer.newBuilder().apply {
@@ -221,7 +231,7 @@ class DragAndDropSortInteractionViewModel private constructor(
     }
 
     // To update the list
-    (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
+    (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
 
     // Trigger pending answer check to re-enable submit button
     checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
@@ -252,7 +262,7 @@ class DragAndDropSortInteractionViewModel private constructor(
     }
 
     // Update the list
-    (adapter as BindableAdapter<*>).setDataUnchecked(_choiceItems)
+    (adapter as BindableAdapter<*>).setDataUncheckedWithDiff(_choiceItems)
 
     // Trigger pending answer check* to re-enable submit button
     checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
