@@ -749,6 +749,7 @@ class ExplorationProgressController @Inject constructor(
 
 
           }
+          answerOutcome.destinationCase
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
