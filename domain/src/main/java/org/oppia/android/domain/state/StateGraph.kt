@@ -1,5 +1,6 @@
 package org.oppia.android.domain.state
 
+import android.util.Log
 import org.oppia.android.app.model.AnswerOutcome
 import org.oppia.android.app.model.Outcome
 import org.oppia.android.app.model.State
@@ -23,6 +24,8 @@ class StateGraph constructor(
 
   /** Returns an [AnswerOutcome] based on the current state and resulting [Outcome] from the learner's answer. */
   fun computeAnswerOutcomeForResult(currentState: State, outcome: Outcome): AnswerOutcome {
+    Log.d("testben","in computeAnswerOutcomeForResult")
+    Log.d("testben",outcome.missingPrerequisiteSkillId + "  " +outcome.feedback)
     val answerOutcomeBuilder = AnswerOutcome.newBuilder()
       .setFeedback(outcome.feedback)
       .setLabelledAsCorrectAnswer(outcome.labelledAsCorrect)
@@ -39,8 +42,10 @@ class StateGraph constructor(
           outcome.feedback.contentId.contains("feedback", true)) {
           answerOutcomeBuilder.state
           answerOutcomeBuilder.previousStateName = outcome.destStateName
+        } else {
+          Log.d("whenpre",outcome.missingPrerequisiteSkillId + "  " +outcome.feedback)
+          answerOutcomeBuilder.stateName = outcome.destStateName
         }
-        answerOutcomeBuilder.stateName = outcome.destStateName
       }
     }
     return answerOutcomeBuilder.build()

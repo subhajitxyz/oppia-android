@@ -712,17 +712,31 @@ class ExplorationProgressController @Inject constructor(
         // Follow the answer's outcome to another part of the graph if it's different.
         val ephemeralState = computeBaseCurrentEphemeralState()
         when {
+          answerOutcome.destinationCase == AnswerOutcome.DestinationCase.PREVIOUS_STATE_NAME -> {
+            Log.d("testben","in previous state name")
+            endState()
+            explorationProgress.stateDeck.onActualCallLearnAgain(true)
+            val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
+              explorationProgress.stateDeck.pushState(
+              newState,
+              prohibitSameStateName = true,
+              timestamp = startSessionTimeMs + continueButtonAnimationDelay,
+              isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
+            )
+            hintHandler.finishState(newState)
+          }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
+            Log.d("testben","in state name")
             Log.d("observelabelled", "first when")
             endState()
 
-            //idea1 proper code
-            if (!answerOutcome.labelledAsCorrectAnswer &&
-              answerOutcome.feedback.contentId.contains("feedback",true)) {
-              explorationProgress.stateDeck.onActualCallLearnAgain(true)
-            } else {
+//            //idea1 proper code
+//            if (!answerOutcome.labelledAsCorrectAnswer &&
+//              answerOutcome.feedback.contentId.contains("feedback",true)) {
+//              explorationProgress.stateDeck.onActualCallLearnAgain(true)
+//            } else {
               explorationProgress.stateDeck.onActualCallLearnAgain(false)
-            }
+//            }
 
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
 
@@ -736,20 +750,8 @@ class ExplorationProgressController @Inject constructor(
                 isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
               )
               hintHandler.finishState(newState)
-//            } else {
-//              explorationProgress.stateDeck.pushState(
-//                currState,
-//                prohibitSameStateName = false,
-//                timestamp = startSessionTimeMs + continueButtonAnimationDelay,
-//                isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
-//              )
-//              hintHandler.finishState(newState)
-//            }
-
-
 
           }
-          answerOutcome.destinationCase
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
