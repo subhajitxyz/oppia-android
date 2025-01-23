@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state.itemviewmodel
 
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 import org.oppia.android.R
 import org.oppia.android.app.model.SetOfTranslatableHtmlContentIds
 import org.oppia.android.app.model.StringList
@@ -19,8 +20,10 @@ class DragDropInteractionContentViewModel(
   private val resourceHandler: AppLanguageResourceHandler
 ) : ObservableViewModel(), BindableItemViewModel {
 
+  val uniqueId = UUID.randomUUID().toString()
+
   override val contentId: StateItemId
-    get() = StateItemId.ItemIndex(itemIndex)
+    get() = StateItemId.ItemIndex(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     // Ensure the other instance is of the same type
