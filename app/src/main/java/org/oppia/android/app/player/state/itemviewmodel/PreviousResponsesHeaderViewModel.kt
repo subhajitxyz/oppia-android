@@ -3,6 +3,8 @@ package org.oppia.android.app.player.state.itemviewmodel
 import androidx.databinding.ObservableBoolean
 import org.oppia.android.R
 import org.oppia.android.app.player.state.listener.PreviousResponsesHeaderClickListener
+import org.oppia.android.app.recyclerview.BindableItemViewModel
+import org.oppia.android.app.recyclerview.StateItemId
 import org.oppia.android.app.translation.AppLanguageResourceHandler
 
 /** [StateItemViewModel] for the header of the section of previously submitted answers. */
@@ -13,7 +15,21 @@ class PreviousResponsesHeaderViewModel(
   private val previousResponsesHeaderClickListener: PreviousResponsesHeaderClickListener,
   val isSplitView: Boolean,
   private val resourceHandler: AppLanguageResourceHandler
-) : StateItemViewModel(ViewType.PREVIOUS_RESPONSES_HEADER) {
+) : StateItemViewModel(ViewType.PREVIOUS_RESPONSES_HEADER), BindableItemViewModel {
+
+  override val contentId: StateItemId
+    get() = StateItemId.PreviousAnswerCount(previousAnswerCount)
+
+  override fun hasChanges(other: BindableItemViewModel): Boolean {
+    if (other !is PreviousResponsesHeaderViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.previousAnswerCount != other.previousAnswerCount ||
+      this.hasConversationView != other.hasConversationView ||
+      this.isExpanded != other.isExpanded ||
+      this.isSplitView != other.isSplitView
+  }
+
   /** Called when the user clicks on the previous response header. */
   fun onResponsesHeaderClicked() = previousResponsesHeaderClickListener.onResponsesHeaderClicked()
 

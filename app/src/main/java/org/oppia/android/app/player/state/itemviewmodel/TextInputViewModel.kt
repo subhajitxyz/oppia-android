@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import androidx.annotation.StringRes
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
+import java.util.*
 import org.oppia.android.R
 import org.oppia.android.app.model.AnswerErrorCategory
 import org.oppia.android.app.model.Interaction
@@ -18,6 +19,8 @@ import org.oppia.android.app.player.state.answerhandling.InteractionAnswerReceiv
 import org.oppia.android.app.translation.AppLanguageResourceHandler
 import org.oppia.android.domain.translation.TranslationController
 import javax.inject.Inject
+import org.oppia.android.app.recyclerview.BindableItemViewModel
+import org.oppia.android.app.recyclerview.StateItemId
 
 /** [StateItemViewModel] for the text input interaction. */
 class TextInputViewModel private constructor(
@@ -29,7 +32,23 @@ class TextInputViewModel private constructor(
   private val resourceHandler: AppLanguageResourceHandler,
   private val translationController: TranslationController,
   userAnswerState: UserAnswerState
-) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler {
+) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler, BindableItemViewModel {
+
+  private val uniqueId: String = UUID.randomUUID().toString()
+  override val contentId: StateItemId
+    get() = StateItemId.TextInput(uniqueId)
+
+  override fun hasChanges(other: BindableItemViewModel): Boolean {
+    if (other !is TextInputViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.answerText != other.answerText ||
+      this.hasConversationView != other.hasConversationView ||
+      this.hintText != other.hintText ||
+      this.isAnswerAvailable != other.isAnswerAvailable ||
+      this.isSplitView != other.isSplitView
+  }
+
   var answerText: CharSequence = userAnswerState.textInputAnswer
   private var answerErrorCetegory: AnswerErrorCategory = AnswerErrorCategory.NO_ERROR
   val hintText: CharSequence = deriveHintText(interaction)
