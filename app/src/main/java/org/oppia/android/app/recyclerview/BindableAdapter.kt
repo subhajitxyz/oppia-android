@@ -450,7 +450,7 @@ interface BindableItemViewModel {
 
 sealed class StateItemId {
   data class Content(val contentId: CharSequence) : StateItemId()
-  data class Feedback(val feedbackId: String) : StateItemId()
+  data class Feedback(val feedbackId: CharSequence) : StateItemId()
   data class ItemIndex(val itemIndex: Int) : StateItemId()
   object PreviousNavigationButton : StateItemId() // A singleton object for unique items
 }
@@ -474,7 +474,9 @@ class BindableAdapterDiffUtilHandler<T: Any>(
         "testdiff",
         "areItemsTheSame: oldItem=${x.contentId}, newItem=${y.contentId}"
       )
-      return x.contentId == y.contentId
+      val k = x.contentId == y.contentId
+      Log.d("testdiff", "are Item same   "+k.toString())
+      return k
     }
     return false
   }
@@ -484,7 +486,9 @@ class BindableAdapterDiffUtilHandler<T: Any>(
       val x = oldList[oldItemPosition] as BindableItemViewModel
       val y = newList[newItemPosition] as BindableItemViewModel
 
-      return x.hasChanges(y).not()
+      val k = x.hasChanges(y).not()
+      Log.d("testdiff", "are Item same   "+k.toString())
+      return k
     }
     return true
   }
