@@ -61,27 +61,42 @@ class BindableAdapter<T : Any> internal constructor(
 //  }
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
-    Log.d("testdiff", newDataList.toString())
-    if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
-      Log.d("testdiff","in setdata for DragAndDropSortInteractionViewModel")
-      val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
-      val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()
 
-      // Perform DiffUtil logic only if the data is of BindableItemViewModel type
-      val diffCallback = BindableAdapterDiffUtilHandler(bindableOldList, bindableNewList)
-      val diffResult = DiffUtil.calculateDiff(diffCallback)
-      dataList.clear()
-      dataList.addAll(newDataList)
-      diffResult.dispatchUpdatesTo(this)
-    }else {
-      Log.d("testdiff","in setdata for else")
+    val diffCallback = BindableAdapterDiffUtilHandler(dataList, newDataList)
+    val diffResult = DiffUtil.calculateDiff(diffCallback)
+    dataList.clear()
+    dataList.addAll(newDataList)
+    diffResult.dispatchUpdatesTo(this)
 
-      dataList.clear()
-      dataList += newDataList
-      // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
-      //  rather than re-binding the entire list upon any change.
-      notifyDataSetChanged()
-    }
+
+//    Log.d("testdiff", newDataList.toString())
+//    if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
+//      Log.d("testdiff","in setdata for DragAndDropSortInteractionViewModel")
+//      val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
+//      val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()
+//
+//
+//      for(i in bindableOldList) {
+//        Log.d("seelist",i.contentId.toString())
+//      }
+//      for(i in bindableNewList) {
+//        Log.d("seelist",i.contentId.toString())
+//      }
+//      // Perform DiffUtil logic only if the data is of BindableItemViewModel type
+//      val diffCallback = BindableAdapterDiffUtilHandler(bindableOldList, bindableNewList)
+//      val diffResult = DiffUtil.calculateDiff(diffCallback)
+//      dataList.clear()
+//      dataList.addAll(newDataList)
+//      diffResult.dispatchUpdatesTo(this)
+//    }else {
+//      Log.d("testdiff","in setdata for else")
+//
+//      dataList.clear()
+//      dataList += newDataList
+//      // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
+//      //  rather than re-binding the entire list upon any change.
+//      notifyDataSetChanged()
+//    }
 
   }
 
@@ -441,9 +456,9 @@ sealed class StateItemId {
 }
 
 
-class BindableAdapterDiffUtilHandler(
-  private val oldList: List<BindableItemViewModel>,
-  private val newList: List<BindableItemViewModel>
+class BindableAdapterDiffUtilHandler<T: Any>(
+  private val oldList: List<T>,
+  private val newList: List<T>
 ) : DiffUtil.Callback() {
 
   override fun getOldListSize() = oldList.size
@@ -451,15 +466,27 @@ class BindableAdapterDiffUtilHandler(
   override fun getNewListSize() = newList.size
 
   override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-    Log.d(
-      "testdiff",
-      "areItemsTheSame: oldItem=${oldList[oldItemPosition].contentId}, newItem=${newList[newItemPosition].contentId}"
-    )
-    return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
+
+    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
+      val x = oldList[oldItemPosition] as BindableItemViewModel
+      val y = newList[newItemPosition] as BindableItemViewModel
+      Log.d(
+        "testdiff",
+        "areItemsTheSame: oldItem=${x.contentId}, newItem=${y.contentId}"
+      )
+      return x.contentId == y.contentId
+    }
+    return false
   }
 
   override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-    return oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
+    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
+      val x = oldList[oldItemPosition] as BindableItemViewModel
+      val y = newList[newItemPosition] as BindableItemViewModel
+
+      return x.hasChanges(y).not()
+    }
+    return true
   }
 }
 
