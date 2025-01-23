@@ -12,20 +12,20 @@ class ContentViewModel(
   val hasConversationView: Boolean,
   val isSplitView: Boolean,
   val supportsConceptCards: Boolean
-) : StateItemViewModel(ViewType.CONTENT), BindableItemViewModel {
-  override val contentId: StateItemId
-    get() = StateItemId.Content(htmlContent)
-
-  override fun hasChanges(other: BindableItemViewModel): Boolean {
-    if (other !is ContentViewModel) return true
-
-    // Compare the fields to check if there are changes
-    return this.htmlContent != other.htmlContent ||
-      this.gcsEntityId != other.gcsEntityId ||
-      this.hasConversationView != other.hasConversationView ||
-      this.isSplitView != other.isSplitView ||
-      this.supportsConceptCards != other.supportsConceptCards
-  }
+) : StateItemViewModel(ViewType.CONTENT) {
+//  override val contentId: StateItemId
+//    get() = StateItemId.Content(htmlContent)
+//
+//  override fun hasChanges(other: BindableItemViewModel): Boolean {
+//    if (other !is ContentViewModel) return true
+//
+//    // Compare the fields to check if there are changes
+//    return this.htmlContent != other.htmlContent ||
+//      this.gcsEntityId != other.gcsEntityId ||
+//      this.hasConversationView != other.hasConversationView ||
+//      this.isSplitView != other.isSplitView ||
+//      this.supportsConceptCards != other.supportsConceptCards
+//  }
 
   private val underscoreRegex = Regex("(?<=\\s|[,.;?!])_{3,}(?=\\s|[,.;?!])")
   private val replacementText = "Blank"

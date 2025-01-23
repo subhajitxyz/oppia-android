@@ -53,6 +53,7 @@ class DragDropSortInteractionView @JvmOverloads constructor(
     val viewComponent = viewComponentFactory.createViewComponent(this) as ViewComponentImpl
     viewComponent.inject(this)
     maybeInitializeAdapter()
+    //adapter?.setHasStableIds(true)
   }
 
   fun setAllowMultipleItemsInSamePosition(isAllowed: Boolean) {
@@ -78,6 +79,7 @@ class DragDropSortInteractionView @JvmOverloads constructor(
   fun setDraggableData(dataList: List<DragDropInteractionContentViewModel>) {
     this.dataList = dataList
     maybeInitializeAdapter()
+    //adapter?.setHasStableIds(true)
   }
 
   fun setOnDragEnded(onDragEnd: OnDragEndedListener) {

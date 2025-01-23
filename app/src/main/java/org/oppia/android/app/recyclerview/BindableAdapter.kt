@@ -40,6 +40,9 @@ class BindableAdapter<T : Any> internal constructor(
   private val dataClassType: KClass<T>
 ) : RecyclerView.Adapter<BindableAdapter.BindableViewHolder<T>>() {
   private val dataList: MutableList<T> = ArrayList()
+  init {
+    setHasStableIds(true) // Indicate that IDs are stable
+  }
 
   // TODO(#170): Introduce support for stable IDs.
 
