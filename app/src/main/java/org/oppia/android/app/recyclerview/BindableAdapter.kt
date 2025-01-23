@@ -62,14 +62,15 @@ class BindableAdapter<T : Any> internal constructor(
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
 
-    Log.d("testdiff", "old data list ====   "+dataList.toString())
-    Log.d("testdiff", "new  data list ====   "+newDataList.toString())
+    Log.d("testdiff", "old data list ====   " + dataList.toString())
+    Log.d("testdiff", "new  data list ====   " + newDataList.toString())
 
     val diffCallback = BindableAdapterDiffUtilHandler(dataList, newDataList)
     val diffResult = DiffUtil.calculateDiff(diffCallback)
     dataList.clear()
     dataList.addAll(newDataList)
     diffResult.dispatchUpdatesTo(this)
+  }
 
 
 //    Log.d("testdiff", newDataList.toString())
@@ -101,7 +102,7 @@ class BindableAdapter<T : Any> internal constructor(
 //      notifyDataSetChanged()
 //    }
 
-  }
+  //}
 
 
   /**
@@ -481,11 +482,14 @@ class BindableAdapterDiffUtilHandler<T: Any>(
       Log.d("testdiff", "are Item same   "+k.toString())
       return k
     }
-    return false
+    else {
+      return oldList[oldItemPosition] == newList[newItemPosition]
+    }
+    //return false
   }
 
   override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
+    if (oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
       val x = oldList[oldItemPosition] as BindableItemViewModel
       val y = newList[newItemPosition] as BindableItemViewModel
 
@@ -493,7 +497,11 @@ class BindableAdapterDiffUtilHandler<T: Any>(
       Log.d("testdiff", "are content same   "+k.toString())
       return k
     }
-    return false
+    else {
+      return oldList[oldItemPosition] == newList[newItemPosition]
+    }
+
+    //return false
   }
 }
 

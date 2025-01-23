@@ -31,7 +31,7 @@ class DragDropInteractionContentViewModel(
 
     // Compare relevant properties to determine changes
     return this.htmlContent != other.htmlContent ||
-      this.itemIndex != other.itemIndex ||
+     // this.itemIndex != other.itemIndex ||
       this.listSize != other.listSize
   }
 
