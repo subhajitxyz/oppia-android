@@ -63,22 +63,21 @@ class DragAndDropSortInteractionViewModel private constructor(
 ) : StateItemViewModel(ViewType.DRAG_DROP_SORT_INTERACTION),
   InteractionAnswerHandler,
   OnItemDragListener,
-  OnDragEndedListener,
-  BindableItemViewModel
+  OnDragEndedListener
 {
-  override val contentId: StateItemId
-    get() = StateItemId.Content(entityId)
-
-  override fun hasChanges(other: BindableItemViewModel): Boolean {
-    // Check if the other ViewModel is of the same type
-    if (other !is DragAndDropSortInteractionViewModel) return true
-
-    // Compare relevant properties to determine changes
-    return this.choiceItems.value != other.choiceItems.value ||
-      this.pendingAnswerError != other.pendingAnswerError ||
-      this.isAnswerAvailable.get() != other.isAnswerAvailable.get() ||
-      this.errorMessage.get() != other.errorMessage.get()
-  }
+//  override val contentId: StateItemId
+//    get() = StateItemId.Content(entityId)
+//
+//  override fun hasChanges(other: BindableItemViewModel): Boolean {
+//    // Check if the other ViewModel is of the same type
+//    if (other !is DragAndDropSortInteractionViewModel) return true
+//
+//    // Compare relevant properties to determine changes
+//    return this.choiceItems.value != other.choiceItems.value ||
+//      this.pendingAnswerError != other.pendingAnswerError ||
+//      this.isAnswerAvailable.get() != other.isAnswerAvailable.get() ||
+//      this.errorMessage.get() != other.errorMessage.get()
+//  }
 
 
   private val allowMultipleItemsInSamePosition: Boolean by lazy {

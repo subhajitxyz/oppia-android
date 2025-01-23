@@ -62,6 +62,9 @@ class BindableAdapter<T : Any> internal constructor(
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
 
+    Log.d("testdiff", "old data list ====   "+dataList.toString())
+    Log.d("testdiff", "new  data list ====   "+newDataList.toString())
+
     val diffCallback = BindableAdapterDiffUtilHandler(dataList, newDataList)
     val diffResult = DiffUtil.calculateDiff(diffCallback)
     dataList.clear()
@@ -487,10 +490,10 @@ class BindableAdapterDiffUtilHandler<T: Any>(
       val y = newList[newItemPosition] as BindableItemViewModel
 
       val k = x.hasChanges(y).not()
-      Log.d("testdiff", "are Item same   "+k.toString())
+      Log.d("testdiff", "are content same   "+k.toString())
       return k
     }
-    return true
+    return false
   }
 }
 
