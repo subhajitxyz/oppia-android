@@ -69,9 +69,12 @@ class BindableAdapter<T : Any> internal constructor(
     Log.d("testdiff", "new  data list ====   " + newDataList.toString())
 
     if(isOurCase(dataList,newDataList)) {
+      Log.d("testdiff", "use diffutil")
+
       ourSetData(newDataList)
       return
     }
+    Log.d("testdiff", "did not use diff util")
     dataList.clear()
     dataList += newDataList
     // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
@@ -501,6 +504,8 @@ class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
   override fun getNewListSize() = newList.size
 
   override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    val k = oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
+    Log.d("testtextview", "are item same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
     return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
 
 //    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
@@ -522,6 +527,8 @@ class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
 
   override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 
+    val k = oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
+    Log.d("testtextview", "  areContent same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
     return oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
 //    if (oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
 //      val x = oldList[oldItemPosition] as BindableItemViewModel
