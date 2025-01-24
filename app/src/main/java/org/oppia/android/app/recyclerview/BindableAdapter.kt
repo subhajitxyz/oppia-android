@@ -464,6 +464,7 @@ sealed class StateItemId {
   data class SubmitButton(val uuid: String): StateItemId()
   data class ContinueNavigationButton(val uuid: String): StateItemId()
   data class TextInput(val uuid: String): StateItemId()
+  data class SubmitAnswer(val uuid: String): StateItemId()
 }
 
 

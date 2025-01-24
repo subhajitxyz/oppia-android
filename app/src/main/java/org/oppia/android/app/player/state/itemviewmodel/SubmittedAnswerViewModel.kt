@@ -1,8 +1,11 @@
 package org.oppia.android.app.player.state.itemviewmodel
 
 import androidx.databinding.ObservableField
+import java.util.*
 import org.oppia.android.R
 import org.oppia.android.app.model.UserAnswer
+import org.oppia.android.app.recyclerview.BindableItemViewModel
+import org.oppia.android.app.recyclerview.StateItemId
 import org.oppia.android.app.translation.AppLanguageResourceHandler
 
 /** [StateItemViewModel] for previously submitted answers. */
@@ -13,7 +16,27 @@ class SubmittedAnswerViewModel(
   val isSplitView: Boolean,
   val supportsConceptCards: Boolean,
   private val resourceHandler: AppLanguageResourceHandler
-) : StateItemViewModel(ViewType.SUBMITTED_ANSWER) {
+) : StateItemViewModel(ViewType.SUBMITTED_ANSWER), BindableItemViewModel {
+
+  private val uniqueId: String = UUID.randomUUID().toString()
+  override val contentId: StateItemId
+    get() = StateItemId.SubmitAnswer(uniqueId)
+
+  override fun hasChanges(other: BindableItemViewModel): Boolean {
+    if (other !is SubmittedAnswerViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.submittedUserAnswer != other.submittedUserAnswer ||
+      this.gcsEntityId != other.gcsEntityId ||
+      this.hasConversationView != other.hasConversationView ||
+      this.isSplitView != other.isSplitView ||
+      this.supportsConceptCards != other.supportsConceptCards ||
+      this.isCorrectAnswer != other.isCorrectAnswer ||
+      this.submittedAnswer != other.submittedAnswer ||
+      this.isExtraInteractionAnswerCorrect != other.isExtraInteractionAnswerCorrect ||
+      this.submittedAnswerContentDescription != other.submittedAnswerContentDescription
+  }
+
   val isCorrectAnswer = ObservableField(DEFAULT_IS_CORRECT_ANSWER)
   val submittedAnswer: ObservableField<CharSequence> = ObservableField(DEFAULT_SUBMITTED_ANSWER)
   val isExtraInteractionAnswerCorrect = ObservableField(DEFAULT_IS_CORRECT_ANSWER)

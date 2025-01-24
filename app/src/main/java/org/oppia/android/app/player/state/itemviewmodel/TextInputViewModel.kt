@@ -24,7 +24,7 @@ import org.oppia.android.app.recyclerview.StateItemId
 
 /** [StateItemViewModel] for the text input interaction. */
 class TextInputViewModel private constructor(
-  interaction: Interaction,
+  val interaction: Interaction,
   val hasConversationView: Boolean,
   private val interactionAnswerErrorOrAvailabilityCheckReceiver: InteractionAnswerErrorOrAvailabilityCheckReceiver, // ktlint-disable max-line-length
   val isSplitView: Boolean,
@@ -42,11 +42,17 @@ class TextInputViewModel private constructor(
     if (other !is TextInputViewModel) return true
 
     // Compare the fields to check if there are changes
-    return this.answerText != other.answerText ||
+    return this.interaction != other.interaction ||
+      this.answerText != other.answerText ||
       this.hasConversationView != other.hasConversationView ||
       this.hintText != other.hintText ||
       this.isAnswerAvailable != other.isAnswerAvailable ||
-      this.isSplitView != other.isSplitView
+      this.isSplitView != other.isSplitView ||
+      this.answerErrorCetegory != other.answerErrorCetegory ||
+      this.hintText != other.hintText ||
+      this.pendingAnswerError != other.pendingAnswerError ||
+      this.isAnswerAvailable != other.isAnswerAvailable ||
+      this.errorMessage != other.errorMessage
   }
 
   var answerText: CharSequence = userAnswerState.textInputAnswer
