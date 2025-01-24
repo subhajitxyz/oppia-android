@@ -68,7 +68,29 @@ class BindableAdapter<T : Any> internal constructor(
     Log.d("testdiff", "old data list ====   " + dataList.toString())
     Log.d("testdiff", "new  data list ====   " + newDataList.toString())
 
-    val diffCallback = BindableAdapterDiffUtilHandler(dataList, newDataList)
+    if(isOurCase(dataList,newDataList)) {
+      ourSetData(newDataList)
+      return
+    }
+    dataList.clear()
+    dataList += newDataList
+    // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
+    //  rather than re-binding the entire list upon any change.
+    notifyDataSetChanged()
+
+  }
+  fun isOurCase(dataList: List<T>, newDataList: List<T>): Boolean {
+    dataList.forEach {
+      if(it !is BindableItemViewModel) return false
+    }
+    newDataList.forEach {
+      if(it !is BindableItemViewModel) return false
+    }
+    return true
+  }
+
+  fun ourSetData(newDataList: List<T>) {
+    val diffCallback = BindableAdapterDiffUtilHandler(dataList as List<BindableItemViewModel>, newDataList as List<BindableItemViewModel>)
     val diffResult = DiffUtil.calculateDiff(diffCallback)
     dataList.clear()
     dataList.addAll(newDataList)
@@ -468,7 +490,7 @@ sealed class StateItemId {
 }
 
 
-class BindableAdapterDiffUtilHandler<T: Any>(
+class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
   private val oldList: List<T>,
   private val newList: List<T>
 ) : DiffUtil.Callback() {
