@@ -483,7 +483,7 @@ interface BindableItemViewModel {
 
 sealed class StateItemId {
   data class Content(val contentId: CharSequence) : StateItemId()
-  data class Feedback(val uuid: String) : StateItemId()
+  data class Feedback(val uuid: CharSequence) : StateItemId()
   data class ItemIndex(val itemIndex: String) : StateItemId()
   data class PreviousAnswerCount(val count: Int): StateItemId()
   object PreviousNavigationButton : StateItemId() // A singleton object for unique items
