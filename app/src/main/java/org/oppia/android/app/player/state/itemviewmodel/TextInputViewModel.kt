@@ -44,17 +44,17 @@ class TextInputViewModel private constructor(
     // Compare the fields to check if there are changes
     return this.userAnswerState.textInputAnswer != other.userAnswerState.textInputAnswer ||
       this.userAnswerState.answerErrorCategory != other.userAnswerState.answerErrorCategory
-      this.interaction != other.interaction ||
-      this.answerText != other.answerText ||
-      this.hasConversationView != other.hasConversationView ||
-      this.hintText != other.hintText ||
-      this.isAnswerAvailable != other.isAnswerAvailable ||
-      this.isSplitView != other.isSplitView ||
-      this.answerErrorCetegory != other.answerErrorCetegory ||
-      this.hintText != other.hintText ||
-      this.pendingAnswerError != other.pendingAnswerError ||
-      this.isAnswerAvailable != other.isAnswerAvailable ||
-      this.errorMessage != other.errorMessage
+//      this.interaction != other.interaction ||
+//      this.answerText != other.answerText ||
+//      this.hasConversationView != other.hasConversationView ||
+//      this.hintText != other.hintText ||
+//      this.isAnswerAvailable != other.isAnswerAvailable ||
+//      this.isSplitView != other.isSplitView ||
+//      this.answerErrorCetegory != other.answerErrorCetegory ||
+//      this.hintText != other.hintText ||
+//      this.pendingAnswerError != other.pendingAnswerError ||
+//      this.isAnswerAvailable != other.isAnswerAvailable ||
+//      this.errorMessage != other.errorMessage
   }
 
   var answerText: CharSequence = userAnswerState.textInputAnswer
