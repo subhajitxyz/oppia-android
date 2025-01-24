@@ -31,7 +31,7 @@ class TextInputViewModel private constructor(
   private val writtenTranslationContext: WrittenTranslationContext,
   private val resourceHandler: AppLanguageResourceHandler,
   private val translationController: TranslationController,
-  userAnswerState: UserAnswerState
+  private val userAnswerState: UserAnswerState
 ) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler, BindableItemViewModel {
 
   private val uniqueId: String = UUID.randomUUID().toString()
@@ -42,7 +42,9 @@ class TextInputViewModel private constructor(
     if (other !is TextInputViewModel) return true
 
     // Compare the fields to check if there are changes
-    return this.interaction != other.interaction ||
+    return this.userAnswerState.textInputAnswer != other.userAnswerState.textInputAnswer ||
+      this.userAnswerState.answerErrorCategory != other.userAnswerState.answerErrorCategory
+      this.interaction != other.interaction ||
       this.answerText != other.answerText ||
       this.hasConversationView != other.hasConversationView ||
       this.hintText != other.hintText ||
