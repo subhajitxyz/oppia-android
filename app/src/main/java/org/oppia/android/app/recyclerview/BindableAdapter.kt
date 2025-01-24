@@ -89,6 +89,7 @@ class BindableAdapter<T : Any> internal constructor(
     return true
   }
 
+  @Suppress("UNCHECKED_CAST")
   fun ourSetData(newDataList: List<T>) {
     val diffCallback = BindableAdapterDiffUtilHandler(dataList as List<BindableItemViewModel>, newDataList as List<BindableItemViewModel>)
     val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -500,36 +501,39 @@ class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
   override fun getNewListSize() = newList.size
 
   override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
 
-    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
-      val x = oldList[oldItemPosition] as BindableItemViewModel
-      val y = newList[newItemPosition] as BindableItemViewModel
-      Log.d(
-        "testdiff",
-        "areItemsTheSame: oldItem=${x.contentId}, newItem=${y.contentId}"
-      )
-      val k = x.contentId == y.contentId
-      Log.d("testdiff", "are Item same   "+k.toString())
-      return k
-    }
-    else {
-      return oldList[oldItemPosition] == newList[newItemPosition]
-    }
+//    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
+//      val x = oldList[oldItemPosition] as BindableItemViewModel
+//      val y = newList[newItemPosition] as BindableItemViewModel
+//      Log.d(
+//        "testdiff",
+//        "areItemsTheSame: oldItem=${x.contentId}, newItem=${y.contentId}"
+//      )
+//      val k = x.contentId == y.contentId
+//      Log.d("testdiff", "are Item same   "+k.toString())
+//      return k
+//    }
+//    else {
+//      return oldList[oldItemPosition] == newList[newItemPosition]
+//    }
     //return false
   }
 
   override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-    if (oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
-      val x = oldList[oldItemPosition] as BindableItemViewModel
-      val y = newList[newItemPosition] as BindableItemViewModel
 
-      val k = x.hasChanges(y).not()
-      Log.d("testdiff", "are content same   "+k.toString())
-      return k
-    }
-    else {
-      return oldList[oldItemPosition] == newList[newItemPosition]
-    }
+    return oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
+//    if (oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
+//      val x = oldList[oldItemPosition] as BindableItemViewModel
+//      val y = newList[newItemPosition] as BindableItemViewModel
+//
+//      val k = x.hasChanges(y).not()
+//      Log.d("testdiff", "are content same   "+k.toString())
+//      return k
+//    }
+//    else {
+//      return oldList[oldItemPosition] == newList[newItemPosition]
+//    }
 
     //return false
   }
