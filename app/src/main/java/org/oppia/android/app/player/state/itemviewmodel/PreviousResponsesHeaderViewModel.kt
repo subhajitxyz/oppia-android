@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state.itemviewmodel
 
 import androidx.databinding.ObservableBoolean
+import java.util.*
 import org.oppia.android.R
 import org.oppia.android.app.player.state.listener.PreviousResponsesHeaderClickListener
 import org.oppia.android.app.recyclerview.BindableItemViewModel
@@ -17,8 +18,9 @@ class PreviousResponsesHeaderViewModel(
   private val resourceHandler: AppLanguageResourceHandler
 ) : StateItemViewModel(ViewType.PREVIOUS_RESPONSES_HEADER), BindableItemViewModel {
 
+  private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback("x")
+    get() = StateItemId.Feedback(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true

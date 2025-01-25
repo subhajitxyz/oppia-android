@@ -18,8 +18,10 @@ class SubmittedAnswerViewModel(
   private val resourceHandler: AppLanguageResourceHandler
 ) : StateItemViewModel(ViewType.SUBMITTED_ANSWER), BindableItemViewModel {
 
+
+  private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback("x")
+    get() = StateItemId.Feedback(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true

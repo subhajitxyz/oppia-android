@@ -13,8 +13,9 @@ class FeedbackViewModel(
   val isSplitView: Boolean,
   val supportsConceptCards: Boolean
 ) : StateItemViewModel(ViewType.FEEDBACK), BindableItemViewModel {
+  private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback("x")
+    get() = StateItemId.Feedback(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true

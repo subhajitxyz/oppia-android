@@ -16,8 +16,9 @@ class SubmitButtonViewModel(
   val submitNavigationButtonListener: SubmitNavigationButtonListener,
   val isSplitView: Boolean
 ) : StateItemViewModel(ViewType.SUBMIT_ANSWER_BUTTON), BindableItemViewModel {
+  private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback("x")
+    get() = StateItemId.Feedback(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true

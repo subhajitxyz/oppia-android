@@ -33,8 +33,9 @@ class TextInputViewModel private constructor(
   private val translationController: TranslationController,
   userAnswerState: UserAnswerState
 ) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler, BindableItemViewModel {
+  private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback("x")
+    get() = StateItemId.Feedback(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true
