@@ -483,7 +483,7 @@ interface BindableItemViewModel {
 }
 
 sealed class StateItemId {
-  data class Content(val contentId: CharSequence) : StateItemId()
+  data class Content(val contentId: String) : StateItemId()
   data class Feedback(val uuid: String) : StateItemId()
   data class ItemIndex(val itemIndex: String) : StateItemId()
   data class PreviousAnswerCount(val id: String): StateItemId()

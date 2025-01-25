@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state.itemviewmodel
 
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import java.util.*
 import org.oppia.android.app.recyclerview.BindableItemViewModel
 import org.oppia.android.app.recyclerview.StateItemId
 
@@ -13,8 +14,9 @@ class ContentViewModel(
   val isSplitView: Boolean,
   val supportsConceptCards: Boolean
 ) : StateItemViewModel(ViewType.CONTENT), BindableItemViewModel {
+  private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Content(htmlContent)
+    get() = StateItemId.Content(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is ContentViewModel) return true
