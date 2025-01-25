@@ -14,9 +14,10 @@ class PreviousButtonViewModel(
   val isSplitView: Boolean
 ) : StateItemViewModel(ViewType.PREVIOUS_NAVIGATION_BUTTON), BindableItemViewModel {
   override val contentId: StateItemId
-    get() = TODO("Not yet implemented")
+    get() = StateItemId.Feedback("x")
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
+    return true
     TODO("Not yet implemented")
   }
 //  override val contentId: StateItemId = StateItemId.PreviousNavigationButton

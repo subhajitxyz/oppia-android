@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.reflect.KClass
+import org.oppia.android.app.player.state.itemviewmodel.ContentViewModel
 import org.oppia.android.app.player.state.itemviewmodel.DragAndDropSortInteractionViewModel
 import org.oppia.android.app.player.state.itemviewmodel.DragDropInteractionContentViewModel
 import org.oppia.android.app.player.state.itemviewmodel.StateItemViewModel
@@ -483,7 +484,7 @@ interface BindableItemViewModel {
 
 sealed class StateItemId {
   data class Content(val contentId: CharSequence) : StateItemId()
-  data class Feedback(val uuid: CharSequence) : StateItemId()
+  data class Feedback(val uuid: String) : StateItemId()
   data class ItemIndex(val itemIndex: String) : StateItemId()
   data class PreviousAnswerCount(val id: String): StateItemId()
   object PreviousNavigationButton : StateItemId() // A singleton object for unique items
@@ -504,6 +505,7 @@ class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
   override fun getNewListSize() = newList.size
 
   override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+
     val k = oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
     Log.d("testtextview", "are item same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
     return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId

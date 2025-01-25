@@ -18,9 +18,10 @@ class PreviousResponsesHeaderViewModel(
 ) : StateItemViewModel(ViewType.PREVIOUS_RESPONSES_HEADER), BindableItemViewModel {
 
   override val contentId: StateItemId
-    get() = TODO("Not yet implemented")
+    get() = StateItemId.Feedback("x")
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
+    return true
     TODO("Not yet implemented")
   }
 //  override val contentId: StateItemId

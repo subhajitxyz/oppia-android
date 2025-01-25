@@ -14,9 +14,10 @@ class FeedbackViewModel(
   val supportsConceptCards: Boolean
 ) : StateItemViewModel(ViewType.FEEDBACK), BindableItemViewModel {
   override val contentId: StateItemId
-    get() = TODO("Not yet implemented")
+    get() = StateItemId.Feedback("x")
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
+    return true
     TODO("Not yet implemented")
   }
 
