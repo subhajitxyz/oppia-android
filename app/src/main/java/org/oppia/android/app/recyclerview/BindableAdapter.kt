@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -40,11 +41,14 @@ class BindableAdapter<T : Any> internal constructor(
 
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
+    val result = DiffUtil.calculateDiff(
+      RecyclerDataDiffCallback(dataList, newDataList),
+      /* detectMoves= */ false
+    )
     dataList.clear()
-    dataList += newDataList
-    // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
-    //  rather than re-binding the entire list upon any change.
-    notifyDataSetChanged()
+
+    dataList += newDataList.toMutableList()
+    result.dispatchUpdatesTo(this)
   }
 
   /**
@@ -370,3 +374,28 @@ class BindableAdapter<T : Any> internal constructor(
     }
   }
 }
+
+
+class RecyclerDataDiffCallback<T : Any>(
+  var oldList: MutableList<T>,
+  var newList: List<T>
+) : DiffUtil.Callback() {
+
+  override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    return oldList[oldItemPosition]::class == newList[newItemPosition]::class
+  }
+
+  override fun getOldListSize(): Int {
+    return oldList.size
+  }
+
+  override fun getNewListSize(): Int {
+    return newList.size
+  }
+
+  override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    return oldList[oldItemPosition].equals(newList[newItemPosition])
+  }
+}
+
+
