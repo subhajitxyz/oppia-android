@@ -24,7 +24,7 @@ import org.oppia.android.app.recyclerview.StateItemId
 
 /** [StateItemViewModel] for the text input interaction. */
 class TextInputViewModel private constructor(
-  val interaction: Interaction,
+  interaction: Interaction,
   val hasConversationView: Boolean,
   private val interactionAnswerErrorOrAvailabilityCheckReceiver: InteractionAnswerErrorOrAvailabilityCheckReceiver, // ktlint-disable max-line-length
   val isSplitView: Boolean,
