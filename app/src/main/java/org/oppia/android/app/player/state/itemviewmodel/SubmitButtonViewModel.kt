@@ -22,13 +22,14 @@ class SubmitButtonViewModel(
     get() = StateItemId.SubmitButton(canSubmitAnswer.toString())
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    if (other !is SubmitButtonViewModel) return true
-
-    // Compare the fields to check if there are changes
-    return this.canSubmitAnswer != other.canSubmitAnswer ||
-      this.hasConversationView != other.hasConversationView ||
-      this.hasPreviousButton != other.hasPreviousButton ||
-      this.isSplitView != other.isSplitView
+    return true
+//    if (other !is SubmitButtonViewModel) return true
+//
+//    // Compare the fields to check if there are changes
+//    return this.canSubmitAnswer != other.canSubmitAnswer ||
+//      this.hasConversationView != other.hasConversationView ||
+//      this.hasPreviousButton != other.hasPreviousButton ||
+//      this.isSplitView != other.isSplitView
   }
 }
 

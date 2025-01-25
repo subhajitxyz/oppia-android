@@ -21,13 +21,14 @@ class PreviousResponsesHeaderViewModel(
     get() = StateItemId.PreviousAnswerCount(previousAnswerCount.toString())
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    if (other !is PreviousResponsesHeaderViewModel) return true
-
-    // Compare the fields to check if there are changes
-    return this.previousAnswerCount != other.previousAnswerCount ||
-      this.hasConversationView != other.hasConversationView ||
-      this.isExpanded != other.isExpanded ||
-      this.isSplitView != other.isSplitView
+    return true
+//    if (other !is PreviousResponsesHeaderViewModel) return true
+//
+//    // Compare the fields to check if there are changes
+//    return this.previousAnswerCount != other.previousAnswerCount ||
+//      this.hasConversationView != other.hasConversationView ||
+//      this.isExpanded != other.isExpanded ||
+//      this.isSplitView != other.isSplitView
   }
 
   /** Called when the user clicks on the previous response header. */

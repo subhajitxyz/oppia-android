@@ -39,20 +39,21 @@ class TextInputViewModel private constructor(
     get() = StateItemId.TextInput(answerText.toString()+hintText.toString())
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    if (other !is TextInputViewModel) return true
-    if(this !== other) return true
-
-    // Compare the fields to check if there are changes
-    return this.answerText != other.answerText ||
-      this.hasConversationView != other.hasConversationView ||
-      this.hintText != other.hintText ||
-      this.isAnswerAvailable != other.isAnswerAvailable ||
-      this.isSplitView != other.isSplitView ||
-      this.answerErrorCetegory != other.answerErrorCetegory ||
-      this.hintText != other.hintText ||
-      this.pendingAnswerError != other.pendingAnswerError ||
-      this.isAnswerAvailable != other.isAnswerAvailable ||
-      this.errorMessage != other.errorMessage
+    return true
+//    if (other !is TextInputViewModel) return true
+//
+//
+//    // Compare the fields to check if there are changes
+//    return this.answerText != other.answerText ||
+//      this.hasConversationView != other.hasConversationView ||
+//      this.hintText != other.hintText ||
+//      this.isAnswerAvailable != other.isAnswerAvailable ||
+//      this.isSplitView != other.isSplitView ||
+//      this.answerErrorCetegory != other.answerErrorCetegory ||
+//      this.hintText != other.hintText ||
+//      this.pendingAnswerError != other.pendingAnswerError ||
+//      this.isAnswerAvailable != other.isAnswerAvailable ||
+//      this.errorMessage != other.errorMessage
   }
 
   var answerText: CharSequence = userAnswerState.textInputAnswer

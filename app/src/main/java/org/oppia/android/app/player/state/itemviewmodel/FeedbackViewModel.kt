@@ -19,14 +19,15 @@ class FeedbackViewModel(
     get() = StateItemId.Feedback(htmlContent)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    Log.d("testdetails",gcsEntityId+ "   " + supportsConceptCards)
-    if (other !is FeedbackViewModel) return true
-
-    // Compare the fields to check if there are changes
-    return this.gcsEntityId != other.gcsEntityId ||
-      this.hasConversationView != other.hasConversationView ||
-      this.isSplitView != other.isSplitView ||
-      this.supportsConceptCards != other.supportsConceptCards
+    return true
+//    Log.d("testdetails",gcsEntityId+ "   " + supportsConceptCards)
+//    if (other !is FeedbackViewModel) return true
+//
+//    // Compare the fields to check if there are changes
+//    return this.gcsEntityId != other.gcsEntityId ||
+//      this.hasConversationView != other.hasConversationView ||
+//      this.isSplitView != other.isSplitView ||
+//      this.supportsConceptCards != other.supportsConceptCards
   }
 //  override val contentId: StateItemId
 //    get() = StateItemId.Feedback(htmlContent)
