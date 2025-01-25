@@ -18,7 +18,7 @@ class PreviousResponsesHeaderViewModel(
 ) : StateItemViewModel(ViewType.PREVIOUS_RESPONSES_HEADER), BindableItemViewModel {
 
   override val contentId: StateItemId
-    get() = StateItemId.PreviousAnswerCount(previousAnswerCount.toString()+ isExpanded.get().toString())
+    get() = StateItemId.PreviousAnswerCount(previousAnswerCount.toString())
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is PreviousResponsesHeaderViewModel) return true
