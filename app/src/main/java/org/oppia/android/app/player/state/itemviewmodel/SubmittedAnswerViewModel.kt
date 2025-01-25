@@ -23,7 +23,6 @@ class SubmittedAnswerViewModel(
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true
-    TODO("Not yet implemented")
   }
   //private val uniqueId: String = UUID.randomUUID().toString()
 //  override val contentId: StateItemId

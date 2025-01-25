@@ -22,7 +22,6 @@ class PreviousResponsesHeaderViewModel(
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true
-    TODO("Not yet implemented")
   }
 //  override val contentId: StateItemId
 //    get() = StateItemId.PreviousAnswerCount(previousAnswerCount.toString())
