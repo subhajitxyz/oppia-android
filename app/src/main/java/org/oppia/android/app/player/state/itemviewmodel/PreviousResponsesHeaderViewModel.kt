@@ -20,7 +20,7 @@ class PreviousResponsesHeaderViewModel(
 
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback(uniqueId)
+    get() = StateItemId.PreviousAnswerCount(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true

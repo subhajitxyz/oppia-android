@@ -16,7 +16,7 @@ class PreviousButtonViewModel(
 ) : StateItemViewModel(ViewType.PREVIOUS_NAVIGATION_BUTTON), BindableItemViewModel {
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback(uniqueId)
+    get() = StateItemId.PreviousNavigationButton(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true

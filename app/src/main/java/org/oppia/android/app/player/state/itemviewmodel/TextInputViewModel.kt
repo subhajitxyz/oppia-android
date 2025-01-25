@@ -35,7 +35,7 @@ class TextInputViewModel private constructor(
 ) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler, BindableItemViewModel {
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback(uniqueId)
+    get() = StateItemId.TextInput(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true
