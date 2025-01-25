@@ -97,7 +97,7 @@ class BindableAdapter<T : Any> internal constructor(
     val diffCallback = BindableAdapterDiffUtilHandler(dataList as List<BindableItemViewModel>, newDataList as List<BindableItemViewModel>)
     val diffResult = DiffUtil.calculateDiff(diffCallback)
     dataList.clear()
-    dataList.addAll(newDataList)
+    dataList += newDataList.toMutableList()
     diffResult.dispatchUpdatesTo(this)
   }
 

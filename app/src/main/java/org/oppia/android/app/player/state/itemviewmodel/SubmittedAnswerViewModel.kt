@@ -20,7 +20,7 @@ class SubmittedAnswerViewModel(
 
   //private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.SubmitAnswer(submittedAnswer.get().toString() + isCorrectAnswer.toString())
+    get() = StateItemId.SubmitAnswer(isCorrectAnswer.toString())
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true
