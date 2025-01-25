@@ -18,12 +18,18 @@ class SubmittedAnswerViewModel(
   private val resourceHandler: AppLanguageResourceHandler
 ) : StateItemViewModel(ViewType.SUBMITTED_ANSWER), BindableItemViewModel {
 
-  //private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.SubmitAnswer(isCorrectAnswer.toString())
+    get() = TODO("Not yet implemented")
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
+    TODO("Not yet implemented")
+  }
+  //private val uniqueId: String = UUID.randomUUID().toString()
+//  override val contentId: StateItemId
+//    get() = StateItemId.SubmitAnswer(isCorrectAnswer.toString())
+//
+//  override fun hasChanges(other: BindableItemViewModel): Boolean {
+//    return true
 //    if (other !is SubmittedAnswerViewModel) return true
 //
 //    // Compare the fields to check if there are changes
@@ -37,7 +43,7 @@ class SubmittedAnswerViewModel(
 //      this.isExtraInteractionAnswerCorrect != other.isExtraInteractionAnswerCorrect ||
 //      this.submittedAnswerContentDescription != other.submittedAnswerContentDescription ||
 //      this.accessibleAnswer != other.accessibleAnswer
-  }
+ // }
 
   val isCorrectAnswer = ObservableField(DEFAULT_IS_CORRECT_ANSWER)
   val submittedAnswer: ObservableField<CharSequence> = ObservableField(DEFAULT_SUBMITTED_ANSWER)

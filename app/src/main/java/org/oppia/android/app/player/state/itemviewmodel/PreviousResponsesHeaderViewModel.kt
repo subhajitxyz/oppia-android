@@ -18,10 +18,16 @@ class PreviousResponsesHeaderViewModel(
 ) : StateItemViewModel(ViewType.PREVIOUS_RESPONSES_HEADER), BindableItemViewModel {
 
   override val contentId: StateItemId
-    get() = StateItemId.PreviousAnswerCount(previousAnswerCount.toString())
+    get() = TODO("Not yet implemented")
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
+    TODO("Not yet implemented")
+  }
+//  override val contentId: StateItemId
+//    get() = StateItemId.PreviousAnswerCount(previousAnswerCount.toString())
+//
+//  override fun hasChanges(other: BindableItemViewModel): Boolean {
+//    return true
 //    if (other !is PreviousResponsesHeaderViewModel) return true
 //
 //    // Compare the fields to check if there are changes
@@ -29,7 +35,7 @@ class PreviousResponsesHeaderViewModel(
 //      this.hasConversationView != other.hasConversationView ||
 //      this.isExpanded != other.isExpanded ||
 //      this.isSplitView != other.isSplitView
-  }
+  //}
 
   /** Called when the user clicks on the previous response header. */
   fun onResponsesHeaderClicked() = previousResponsesHeaderClickListener.onResponsesHeaderClicked()

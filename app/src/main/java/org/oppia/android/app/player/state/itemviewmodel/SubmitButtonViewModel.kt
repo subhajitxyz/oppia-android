@@ -16,13 +16,19 @@ class SubmitButtonViewModel(
   val submitNavigationButtonListener: SubmitNavigationButtonListener,
   val isSplitView: Boolean
 ) : StateItemViewModel(ViewType.SUBMIT_ANSWER_BUTTON), BindableItemViewModel {
-
-  //private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.SubmitButton(canSubmitAnswer.toString())
+    get() = TODO("Not yet implemented")
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
+    TODO("Not yet implemented")
+  }
+
+  //private val uniqueId: String = UUID.randomUUID().toString()
+//  override val contentId: StateItemId
+//    get() = StateItemId.SubmitButton(canSubmitAnswer.toString())
+//
+//  override fun hasChanges(other: BindableItemViewModel): Boolean {
+//    return true
 //    if (other !is SubmitButtonViewModel) return true
 //
 //    // Compare the fields to check if there are changes
@@ -30,6 +36,6 @@ class SubmitButtonViewModel(
 //      this.hasConversationView != other.hasConversationView ||
 //      this.hasPreviousButton != other.hasPreviousButton ||
 //      this.isSplitView != other.isSplitView
-  }
+  //}
 }
 

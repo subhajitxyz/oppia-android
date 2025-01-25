@@ -13,13 +13,19 @@ class FeedbackViewModel(
   val isSplitView: Boolean,
   val supportsConceptCards: Boolean
 ) : StateItemViewModel(ViewType.FEEDBACK), BindableItemViewModel {
-
-  //private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback(htmlContent)
+    get() = TODO("Not yet implemented")
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
+    TODO("Not yet implemented")
+  }
+
+  //private val uniqueId: String = UUID.randomUUID().toString()
+//  override val contentId: StateItemId
+//    get() = StateItemId.Feedback(htmlContent)
+//
+//  override fun hasChanges(other: BindableItemViewModel): Boolean {
+//    return true
 //    Log.d("testdetails",gcsEntityId+ "   " + supportsConceptCards)
 //    if (other !is FeedbackViewModel) return true
 //
@@ -28,7 +34,7 @@ class FeedbackViewModel(
 //      this.hasConversationView != other.hasConversationView ||
 //      this.isSplitView != other.isSplitView ||
 //      this.supportsConceptCards != other.supportsConceptCards
-  }
+  //}
 //  override val contentId: StateItemId
 //    get() = StateItemId.Feedback(htmlContent)
 //
