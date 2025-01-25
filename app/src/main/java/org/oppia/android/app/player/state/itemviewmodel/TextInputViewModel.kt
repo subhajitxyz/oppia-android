@@ -31,31 +31,28 @@ class TextInputViewModel private constructor(
   private val writtenTranslationContext: WrittenTranslationContext,
   private val resourceHandler: AppLanguageResourceHandler,
   private val translationController: TranslationController,
-  private val userAnswerState: UserAnswerState
+  userAnswerState: UserAnswerState
 ) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler, BindableItemViewModel {
 
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.TextInput(uniqueId)
+    get() = StateItemId.TextInput(answerText.toString()+hintText.toString())
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is TextInputViewModel) return true
     if(this !== other) return true
 
     // Compare the fields to check if there are changes
-    return this.userAnswerState.textInputAnswer != other.userAnswerState.textInputAnswer ||
-      this.userAnswerState.answerErrorCategory != other.userAnswerState.answerErrorCategory
-//      this.interaction != other.interaction ||
-//      this.answerText != other.answerText ||
-//      this.hasConversationView != other.hasConversationView ||
-//      this.hintText != other.hintText ||
-//      this.isAnswerAvailable != other.isAnswerAvailable ||
-//      this.isSplitView != other.isSplitView ||
-//      this.answerErrorCetegory != other.answerErrorCetegory ||
-//      this.hintText != other.hintText ||
-//      this.pendingAnswerError != other.pendingAnswerError ||
-//      this.isAnswerAvailable != other.isAnswerAvailable ||
-//      this.errorMessage != other.errorMessage
+    return this.answerText != other.answerText ||
+      this.hasConversationView != other.hasConversationView ||
+      this.hintText != other.hintText ||
+      this.isAnswerAvailable != other.isAnswerAvailable ||
+      this.isSplitView != other.isSplitView ||
+      this.answerErrorCetegory != other.answerErrorCetegory ||
+      this.hintText != other.hintText ||
+      this.pendingAnswerError != other.pendingAnswerError ||
+      this.isAnswerAvailable != other.isAnswerAvailable ||
+      this.errorMessage != other.errorMessage
   }
 
   var answerText: CharSequence = userAnswerState.textInputAnswer

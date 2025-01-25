@@ -1,5 +1,6 @@
 package org.oppia.android.app.player.state.itemviewmodel
 
+import android.util.Log
 import java.util.*
 import org.oppia.android.app.recyclerview.BindableItemViewModel
 import org.oppia.android.app.recyclerview.StateItemId
@@ -18,8 +19,8 @@ class FeedbackViewModel(
     get() = StateItemId.Feedback(htmlContent)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
+    Log.d("testdetails",gcsEntityId+ "   " + supportsConceptCards)
     if (other !is FeedbackViewModel) return true
-    if(this !== other) return true
 
     // Compare the fields to check if there are changes
     return this.gcsEntityId != other.gcsEntityId ||

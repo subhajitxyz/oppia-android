@@ -18,24 +18,24 @@ class SubmittedAnswerViewModel(
   private val resourceHandler: AppLanguageResourceHandler
 ) : StateItemViewModel(ViewType.SUBMITTED_ANSWER), BindableItemViewModel {
 
-  private val uniqueId: String = UUID.randomUUID().toString()
+  //private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.SubmitAnswer(uniqueId)
+    get() = StateItemId.SubmitAnswer(submittedAnswer.get().toString() + isCorrectAnswer.toString())
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is SubmittedAnswerViewModel) return true
-    if(this !== other) return true
 
     // Compare the fields to check if there are changes
-    return this.submittedUserAnswer != other.submittedUserAnswer ||
-      this.gcsEntityId != other.gcsEntityId ||
+    return this.submittedAnswerContentDescription != other.submittedAnswerContentDescription ||
       this.hasConversationView != other.hasConversationView ||
+      this.isSplitView != other.isSplitView ||
       this.isSplitView != other.isSplitView ||
       this.supportsConceptCards != other.supportsConceptCards ||
       this.isCorrectAnswer != other.isCorrectAnswer ||
       this.submittedAnswer != other.submittedAnswer ||
       this.isExtraInteractionAnswerCorrect != other.isExtraInteractionAnswerCorrect ||
-      this.submittedAnswerContentDescription != other.submittedAnswerContentDescription
+      this.submittedAnswerContentDescription != other.submittedAnswerContentDescription ||
+      this.accessibleAnswer != other.accessibleAnswer
   }
 
   val isCorrectAnswer = ObservableField(DEFAULT_IS_CORRECT_ANSWER)

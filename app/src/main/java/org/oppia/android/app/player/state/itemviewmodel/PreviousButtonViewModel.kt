@@ -15,6 +15,6 @@ class PreviousButtonViewModel(
 ) : StateItemViewModel(ViewType.PREVIOUS_NAVIGATION_BUTTON), BindableItemViewModel {
   override val contentId: StateItemId = StateItemId.PreviousNavigationButton
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    TODO("Not yet implemented")
+    return true
   }
 }
