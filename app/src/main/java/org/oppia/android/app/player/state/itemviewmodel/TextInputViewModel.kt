@@ -36,7 +36,7 @@ class TextInputViewModel private constructor(
 
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.TextInput(answerText.toString()+hintText.toString())
+    get() = StateItemId.TextInput(uniqueId)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     return true
