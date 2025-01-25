@@ -22,6 +22,7 @@ class PreviousResponsesHeaderViewModel(
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is PreviousResponsesHeaderViewModel) return true
+    if(this !== other) return true
 
     // Compare the fields to check if there are changes
     return this.previousAnswerCount != other.previousAnswerCount ||

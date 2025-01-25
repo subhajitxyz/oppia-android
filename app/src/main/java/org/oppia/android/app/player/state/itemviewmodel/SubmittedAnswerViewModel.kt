@@ -24,6 +24,7 @@ class SubmittedAnswerViewModel(
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is SubmittedAnswerViewModel) return true
+    if(this !== other) return true
 
     // Compare the fields to check if there are changes
     return this.submittedUserAnswer != other.submittedUserAnswer ||

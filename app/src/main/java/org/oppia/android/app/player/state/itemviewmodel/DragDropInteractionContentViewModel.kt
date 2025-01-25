@@ -28,6 +28,7 @@ class DragDropInteractionContentViewModel(
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     // Ensure the other instance is of the same type
     if (other !is DragDropInteractionContentViewModel) return true
+    if(this !== other) return true
 
     // Compare relevant properties to determine changes
     return this.htmlContent != other.htmlContent ||

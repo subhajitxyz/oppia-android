@@ -28,6 +28,7 @@ class ContinueNavigationButtonViewModel(
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is ContinueNavigationButtonViewModel) return true
+    if(this !== other) return true
 
     // Compare the fields to check if there are changes
     return this.hasPreviousButton != other.hasPreviousButton ||

@@ -40,6 +40,7 @@ class TextInputViewModel private constructor(
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is TextInputViewModel) return true
+    if(this !== other) return true
 
     // Compare the fields to check if there are changes
     return this.userAnswerState.textInputAnswer != other.userAnswerState.textInputAnswer ||
