@@ -298,6 +298,7 @@ class BindableAdapter<T : Any> internal constructor(
         val inflatedView = inflateView(viewGroup)
         object : BindableViewHolder<T>(inflatedView) {
           override fun bind(data: T) {
+            Log.d("testtextview", "Binding data for view type: $viewType")
             bindView(inflatedView, data)
           }
         }
@@ -351,8 +352,8 @@ class BindableAdapter<T : Any> internal constructor(
 
         object : BindableViewHolder<T>(binding.root) {
           override fun bind(data: T) {
+            Log.d("testtextview", "Binding data for view type: $viewType with data: $data")
             setViewModel(binding, transformViewModel(data))
-
             // Attaching lifecycleOwner before view model initialization can sometimes cause a
             // NullPointerException because data might not be attached to the views yet.
             binding.lifecycleOwner = lifecycleOwner

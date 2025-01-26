@@ -38,11 +38,9 @@ class TextInputViewModel private constructor(
 
   var isAnswerAvailable = ObservableField<Boolean>(false)
   val errorMessage = ObservableField<String>("")
-  //subha
-  private val callback: Observable.OnPropertyChangedCallback
 
   init {
-    callback = object : Observable.OnPropertyChangedCallback() {
+    val callback = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
           interactionAnswerErrorOrAvailabilityCheckReceiver.onPendingAnswerErrorOrAvailabilityCheck(
             pendingAnswerError = pendingAnswerError,
@@ -61,12 +59,6 @@ class TextInputViewModel private constructor(
     checkPendingAnswerError(userAnswerState.answerErrorCategory)
   }
 
-  override fun onCleared() {
-    // Clean up the callback
-    isAnswerAvailable.removeOnPropertyChangedCallback(callback)
-    errorMessage.removeOnPropertyChangedCallback(callback)
-    super.onCleared()
-  }
   override fun checkPendingAnswerError(category: AnswerErrorCategory): String? {
     answerErrorCetegory = category
     return when (category) {
@@ -92,21 +84,12 @@ class TextInputViewModel private constructor(
         Log.d("testtextview", this@TextInputViewModel.toString())
         Log.d("testtextview", "into ontextchanged in textinputviewmodel   ${answer.toString().trim()}")
 
-        val trimmedAnswer = answer.toString().trim()
-
         // Only update if the answer actually changes to avoid unnecessary updates.
-        if (answerText != trimmedAnswer) {
-          answerText = answer.toString().trim()
-          val isAnswerTextAvailable = answerText.isNotEmpty()
-          if (isAnswerTextAvailable != isAnswerAvailable.get()) {
-            isAnswerAvailable.set(isAnswerTextAvailable)
-          }
+        answerText = answer.toString().trim()
+        val isAnswerTextAvailable = answerText.isNotEmpty()
+        if (isAnswerTextAvailable != isAnswerAvailable.get()) {
+          isAnswerAvailable.set(isAnswerTextAvailable)
         }
-//        answerText = answer.toString().trim()
-//        val isAnswerTextAvailable = answerText.isNotEmpty()
-//        if (isAnswerTextAvailable != isAnswerAvailable.get()) {
-//          isAnswerAvailable.set(isAnswerTextAvailable)
-//        }
         checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
       }
 
