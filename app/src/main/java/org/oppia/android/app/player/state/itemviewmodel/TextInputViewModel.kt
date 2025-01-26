@@ -91,11 +91,22 @@ class TextInputViewModel private constructor(
       override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
         Log.d("testtextview", this@TextInputViewModel.toString())
         Log.d("testtextview", "into ontextchanged in textinputviewmodel   ${answer.toString().trim()}")
-        answerText = answer.toString().trim()
-        val isAnswerTextAvailable = answerText.isNotEmpty()
-        if (isAnswerTextAvailable != isAnswerAvailable.get()) {
-          isAnswerAvailable.set(isAnswerTextAvailable)
+
+        val trimmedAnswer = answer.toString().trim()
+
+        // Only update if the answer actually changes to avoid unnecessary updates.
+        if (answerText != trimmedAnswer) {
+          answerText = answer.toString().trim()
+          val isAnswerTextAvailable = answerText.isNotEmpty()
+          if (isAnswerTextAvailable != isAnswerAvailable.get()) {
+            isAnswerAvailable.set(isAnswerTextAvailable)
+          }
         }
+//        answerText = answer.toString().trim()
+//        val isAnswerTextAvailable = answerText.isNotEmpty()
+//        if (isAnswerTextAvailable != isAnswerAvailable.get()) {
+//          isAnswerAvailable.set(isAnswerTextAvailable)
+//        }
         checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
       }
 
