@@ -48,13 +48,17 @@ class BindableAdapter<T : Any> internal constructor(
 //    )
     Log.d("testtextview", "calculate result")
     dataList.clear()
+    Log.d("testtextview", "datalist cleared")
+
 
     dataList += newDataList
+    Log.d("testtextview", "new LIst added")
     // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
     //  rather than re-binding the entire list upon any change.
     notifyDataSetChanged()
+    Log.d("testtextview", "notifyDataSetChanged called")
 
-   // dataList += newDataList.toMutableList()
+    // dataList += newDataList.toMutableList()
     //Log.d("testtextview", "added new data to datalist")
     //result.dispatchUpdatesTo(this)
     //Log.d("testtextview", "dispatchupdatesTo")
