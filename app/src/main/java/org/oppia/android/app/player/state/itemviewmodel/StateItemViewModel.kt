@@ -1,5 +1,6 @@
 package org.oppia.android.app.player.state.itemviewmodel
 
+import androidx.lifecycle.ViewModel
 import org.oppia.android.app.model.Interaction
 import org.oppia.android.app.model.UserAnswerState
 import org.oppia.android.app.model.WrittenTranslationContext
@@ -11,7 +12,8 @@ import org.oppia.android.app.viewmodel.ObservableViewModel
  * The root [ObservableViewModel] for all individual items that may be displayed in the state
  * fragment recycler view.
  */
-abstract class StateItemViewModel(val viewType: ViewType) : ObservableViewModel() {
+//subha
+abstract class StateItemViewModel(val viewType: ViewType) : ViewModel() {
 
   /** Corresponds to the type of the view model. */
   enum class ViewType {

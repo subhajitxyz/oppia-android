@@ -38,10 +38,11 @@ class TextInputViewModel private constructor(
 
   var isAnswerAvailable = ObservableField<Boolean>(false)
   val errorMessage = ObservableField<String>("")
+  //subha
+  private lateinit var callback: Observable.OnPropertyChangedCallback
 
   init {
-    val callback: Observable.OnPropertyChangedCallback =
-      object : Observable.OnPropertyChangedCallback() {
+    callback = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
           interactionAnswerErrorOrAvailabilityCheckReceiver.onPendingAnswerErrorOrAvailabilityCheck(
             pendingAnswerError = pendingAnswerError,
@@ -60,6 +61,12 @@ class TextInputViewModel private constructor(
     checkPendingAnswerError(userAnswerState.answerErrorCategory)
   }
 
+  override fun onCleared() {
+    // Clean up the callback
+    isAnswerAvailable.removeOnPropertyChangedCallback(callback)
+    errorMessage.removeOnPropertyChangedCallback(callback)
+    super.onCleared()
+  }
   override fun checkPendingAnswerError(category: AnswerErrorCategory): String? {
     answerErrorCetegory = category
     return when (category) {
