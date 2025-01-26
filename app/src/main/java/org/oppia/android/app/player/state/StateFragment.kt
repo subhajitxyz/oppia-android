@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -125,7 +126,11 @@ class StateFragment :
   override fun onReturnToTopicButtonClicked() =
     stateFragmentPresenter.onReturnToTopicButtonClicked()
 
-  override fun onSubmitButtonClicked() = stateFragmentPresenter.onSubmitButtonClicked()
+  override fun onSubmitButtonClicked() {
+    Log.d("testtextview", "onSubmitButtonClicked in statefragment")
+    stateFragmentPresenter.onSubmitButtonClicked()
+  }
+
 
   override fun onResponsesHeaderClicked() = stateFragmentPresenter.onResponsesHeaderClicked()
 

@@ -82,6 +82,7 @@ class TextInputViewModel private constructor(
       }
 
       override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
+        Log.d("testtextview", this@TextInputViewModel.toString())
         Log.d("testtextview", "into ontextchanged in textinputviewmodel   ${answer.toString().trim()}")
         answerText = answer.toString().trim()
         val isAnswerTextAvailable = answerText.isNotEmpty()

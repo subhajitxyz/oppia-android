@@ -2,6 +2,7 @@ package org.oppia.android.app.topic.questionplayer
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,7 +83,10 @@ class QuestionPlayerFragment :
   override fun onReturnToTopicButtonClicked() =
     questionPlayerFragmentPresenter.onReturnToTopicButtonClicked()
 
-  override fun onSubmitButtonClicked() = questionPlayerFragmentPresenter.onSubmitButtonClicked()
+  override fun onSubmitButtonClicked() {
+    Log.d("testtextview", "onSubmitButtonClicked in questionplayerfragment")
+    questionPlayerFragmentPresenter.onSubmitButtonClicked()
+  }
 
   override fun onResponsesHeaderClicked() =
     questionPlayerFragmentPresenter.onResponsesHeaderClicked()

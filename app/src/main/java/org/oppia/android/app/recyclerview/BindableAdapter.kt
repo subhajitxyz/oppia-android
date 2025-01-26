@@ -42,17 +42,22 @@ class BindableAdapter<T : Any> internal constructor(
 
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
-    val result = DiffUtil.calculateDiff(
-      RecyclerDataDiffCallback(dataList, newDataList),
-      /* detectMoves= */ false
-    )
+//    val result = DiffUtil.calculateDiff(
+//      RecyclerDataDiffCallback(dataList, newDataList),
+//      /* detectMoves= */ false
+//    )
     Log.d("testtextview", "calculate result")
     dataList.clear()
 
-    dataList += newDataList.toMutableList()
-    Log.d("testtextview", "added new data to datalist")
-    result.dispatchUpdatesTo(this)
-    Log.d("testtextview", "dispatchupdatesTo")
+    dataList += newDataList
+    // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
+    //  rather than re-binding the entire list upon any change.
+    notifyDataSetChanged()
+
+//    dataList += newDataList.toMutableList()
+//    Log.d("testtextview", "added new data to datalist")
+//    result.dispatchUpdatesTo(this)
+//    Log.d("testtextview", "dispatchupdatesTo")
   }
 
   /**
