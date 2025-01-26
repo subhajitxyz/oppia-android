@@ -42,10 +42,10 @@ class BindableAdapter<T : Any> internal constructor(
 
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
-    val result = DiffUtil.calculateDiff(
-      RecyclerDataDiffCallback(dataList, newDataList),
-      /* detectMoves= */ false
-    )
+//    val result = DiffUtil.calculateDiff(
+//      RecyclerDataDiffCallback(dataList, newDataList),
+//      /* detectMoves= */ false
+//    )
     Log.d("testtextview", "calculate result")
     dataList.clear()
 
