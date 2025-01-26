@@ -52,11 +52,11 @@ class BindableAdapter<T : Any> internal constructor(
     dataList += newDataList
     // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
     //  rather than re-binding the entire list upon any change.
-    //notifyDataSetChanged()
+    notifyDataSetChanged()
 
    // dataList += newDataList.toMutableList()
     //Log.d("testtextview", "added new data to datalist")
-    result.dispatchUpdatesTo(this)
+    //result.dispatchUpdatesTo(this)
     //Log.d("testtextview", "dispatchupdatesTo")
   }
 
@@ -84,6 +84,7 @@ class BindableAdapter<T : Any> internal constructor(
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindableViewHolder<T> {
+    Log.d("testtextview", "in onCreateViewHolder")
     val viewHolderFactory = viewHolderFactoryMap[viewType]
     checkNotNull(viewHolderFactory) { "Encountered missing view factory for type: $viewType" }
     return viewHolderFactory(parent)
@@ -98,6 +99,7 @@ class BindableAdapter<T : Any> internal constructor(
   }
 
   override fun onBindViewHolder(holder: BindableViewHolder<T>, position: Int) {
+    Log.d("testtextview", "in onBindViewHolder")
     holder.bind(dataList[position])
   }
 
