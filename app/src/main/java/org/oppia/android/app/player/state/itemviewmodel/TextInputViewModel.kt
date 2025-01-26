@@ -39,7 +39,7 @@ class TextInputViewModel private constructor(
   var isAnswerAvailable = ObservableField<Boolean>(false)
   val errorMessage = ObservableField<String>("")
   //subha
-  private lateinit var callback: Observable.OnPropertyChangedCallback
+  private val callback: Observable.OnPropertyChangedCallback
 
   init {
     callback = object : Observable.OnPropertyChangedCallback() {
