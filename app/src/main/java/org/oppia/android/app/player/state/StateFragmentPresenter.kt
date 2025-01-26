@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -204,6 +205,7 @@ class StateFragmentPresenter @Inject constructor(
     hideKeyboard()
     val answer = stateViewModel.getPendingAnswer(recyclerViewAssembler::getPendingAnswerHandler)
     if (answer != null) {
+      Log.d("testtextview", "answer not null in onSubmitButtonClicked in statefragmentpresenter")
       handleSubmitAnswer(answer)
     }
   }
@@ -374,6 +376,7 @@ class StateFragmentPresenter @Inject constructor(
   private fun subscribeToAnswerOutcome(
     answerOutcomeResultLiveData: LiveData<AsyncResult<AnswerOutcome>>
   ) {
+    Log.d("testtextview","in subscribeToAnswerOutcome in statefragmentpresenter call resetuseranswerstate")
     recyclerViewAssembler.resetUserAnswerState()
     val answerOutcomeLiveData = getAnswerOutcome(answerOutcomeResultLiveData)
     answerOutcomeLiveData.observe(
@@ -385,8 +388,10 @@ class StateFragmentPresenter @Inject constructor(
           moveToNextState()
         } else {
           if (result.labelledAsCorrectAnswer) {
+            Log.d("testtextview", "in subscribeToAnswerOutcome in statefrgmentpresenter con 1")
             recyclerViewAssembler.showCelebrationOnCorrectAnswer(result.feedback)
           } else {
+            Log.d("testtextview", "in subscribeToAnswerOutcome in statefrgmentpresenter con 2")
             stateViewModel.setCanSubmitAnswer(canSubmitAnswer = false)
           }
           recyclerViewAssembler.readOutAnswerFeedback(result.feedback)

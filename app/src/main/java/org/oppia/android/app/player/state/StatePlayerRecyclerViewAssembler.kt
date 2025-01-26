@@ -334,6 +334,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
 
   /** Reset userAnswerState once the user submits an answer. */
   fun resetUserAnswerState() {
+    Log.d("testtextview", "in resetUserAnswerState in stateplayerrecyclerviewass")
     userAnswerState = UserAnswerState.getDefaultInstance()
   }
 
