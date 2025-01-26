@@ -1,5 +1,6 @@
 package org.oppia.android.app.recyclerview
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,10 +46,13 @@ class BindableAdapter<T : Any> internal constructor(
       RecyclerDataDiffCallback(dataList, newDataList),
       /* detectMoves= */ false
     )
+    Log.d("testtextview", "calculate result")
     dataList.clear()
 
     dataList += newDataList.toMutableList()
+    Log.d("testtextview", "added new data to datalist")
     result.dispatchUpdatesTo(this)
+    Log.d("testtextview", "dispatchupdatesTo")
   }
 
   /**

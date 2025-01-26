@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state.itemviewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
@@ -81,6 +82,7 @@ class TextInputViewModel private constructor(
       }
 
       override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
+        Log.d("testtextview", "into ontextchanged in textinputviewmodel   ${answer.toString().trim()}")
         answerText = answer.toString().trim()
         val isAnswerTextAvailable = answerText.isNotEmpty()
         if (isAnswerTextAvailable != isAnswerAvailable.get()) {
@@ -106,6 +108,7 @@ class TextInputViewModel private constructor(
   }.build()
 
   override fun getUserAnswerState(): UserAnswerState {
+    Log.d("testtextview", "into getUserAnswerState    ${answerText.toString()}")
     return UserAnswerState.newBuilder().apply {
       this.textInputAnswer = answerText.toString()
       this.answerErrorCategory = answerErrorCetegory
@@ -150,6 +153,7 @@ class TextInputViewModel private constructor(
       timeToStartNoticeAnimationMs: Long?,
       userAnswerState: UserAnswerState
     ): StateItemViewModel {
+      Log.d("testtextview", "in create in textinputviremodel  ${userAnswerState}")
       return TextInputViewModel(
         interaction,
         hasConversationView,
