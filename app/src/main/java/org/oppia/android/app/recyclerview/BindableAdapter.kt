@@ -364,12 +364,10 @@ class BindableAdapter<T : Any> internal constructor(
             //subha
 
             setViewModel(binding, transformViewModel(data))
-            if (binding.lifecycleOwner != lifecycleOwner) {
-              binding.lifecycleOwner = lifecycleOwner // Attach new lifecycleOwner
-            }
             // Attaching lifecycleOwner before view model initialization can sometimes cause a
             // NullPointerException because data might not be attached to the views yet.
-            //binding.lifecycleOwner = lifecycleOwner
+            binding.lifecycleOwner = null
+            binding.lifecycleOwner = lifecycleOwner
           }
         }
 
