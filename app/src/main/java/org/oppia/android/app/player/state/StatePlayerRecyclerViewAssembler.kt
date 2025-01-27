@@ -95,6 +95,8 @@ import org.oppia.android.util.accessibility.AccessibilityService
 import org.oppia.android.util.parser.html.HtmlParser
 import org.oppia.android.util.threading.BackgroundDispatcher
 import javax.inject.Inject
+import org.checkerframework.checker.initialization.qual.Initialized
+import org.w3c.dom.Text
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -307,7 +309,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     )
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
   }
-
+//subha
+  private var currentInteractionViewModel: StateItemViewModel? = null
   private fun addInteractionForPendingState(
     pendingItemList: MutableList<StateItemViewModel>,
     interaction: Interaction,
@@ -318,7 +321,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
   ) {
     val interactionViewModelFactory = interactionViewModelFactoryMap.getValue(interaction.id)
     Log.d("testtextview", "in addInteractionForPendingState   ${userAnswerState}")
-    pendingItemList += interactionViewModelFactory.create(
+    val k = interactionViewModelFactory.create(
       gcsEntityId,
       hasConversationView,
       interaction,
@@ -330,12 +333,15 @@ class StatePlayerRecyclerViewAssembler private constructor(
       timeToStartNoticeAnimationMs,
       userAnswerState
     )
+    pendingItemList += k
+    currentInteractionViewModel = k
   }
 
   /** Reset userAnswerState once the user submits an answer. */
   fun resetUserAnswerState() {
     Log.d("testtextview", "in resetUserAnswerState in stateplayerrecyclerviewass")
     userAnswerState = UserAnswerState.getDefaultInstance()
+    (currentInteractionViewModel as? TextInputViewModel)?.resetAnswerText()
   }
 
   private fun addContentItem(

@@ -39,6 +39,8 @@ class TextInputViewModel private constructor(
   var isAnswerAvailable = ObservableField<Boolean>(false)
   val errorMessage = ObservableField<String>("")
 
+
+
   init {
     val callback = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
@@ -57,6 +59,11 @@ class TextInputViewModel private constructor(
       inputAnswerAvailable = true
     )
     checkPendingAnswerError(userAnswerState.answerErrorCategory)
+  }
+
+  //subha
+  fun resetAnswerText() {
+    answerText = ""
   }
 
   override fun checkPendingAnswerError(category: AnswerErrorCategory): String? {
