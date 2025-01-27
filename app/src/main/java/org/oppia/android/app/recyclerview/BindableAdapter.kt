@@ -107,6 +107,14 @@ class BindableAdapter<T : Any> internal constructor(
     holder.bind(dataList[position])
   }
 
+//  override fun onViewDetachedFromWindow(holder: BindableViewHolder<T>) {
+//    super.onViewDetachedFromWindow(holder)
+//  }
+//
+//  override fun onViewRecycled(holder: BindableViewHolder<T>) {
+//    super.onViewRecycled(holder)
+//  }
+
   /** A generic [RecyclerView.ViewHolder] that generically binds data to the specified view. */
   abstract class BindableViewHolder<T> internal constructor(
     view: View
@@ -353,12 +361,16 @@ class BindableAdapter<T : Any> internal constructor(
         object : BindableViewHolder<T>(binding.root) {
           override fun bind(data: T) {
             Log.d("testtextview", "Binding data for view type: $viewType with data: $data")
+            //subha
+            binding.lifecycleOwner = null // Detach old lifecycleOwner
+            binding.lifecycleOwner = lifecycleOwner // Attach new lifecycleOwner
             setViewModel(binding, transformViewModel(data))
             // Attaching lifecycleOwner before view model initialization can sometimes cause a
             // NullPointerException because data might not be attached to the views yet.
-            binding.lifecycleOwner = lifecycleOwner
+            //binding.lifecycleOwner = lifecycleOwner
           }
         }
+
       }
       viewHolderFactoryMap[viewType] = viewHolderFactory
       return this

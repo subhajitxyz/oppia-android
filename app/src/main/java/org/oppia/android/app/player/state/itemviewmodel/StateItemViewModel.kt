@@ -13,7 +13,7 @@ import org.oppia.android.app.viewmodel.ObservableViewModel
  * fragment recycler view.
  */
 //subha
-abstract class StateItemViewModel(val viewType: ViewType) : ViewModel() {
+abstract class StateItemViewModel(val viewType: ViewType) : ObservableViewModel() {
 
   /** Corresponds to the type of the view model. */
   enum class ViewType {
