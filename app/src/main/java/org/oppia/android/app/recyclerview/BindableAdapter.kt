@@ -362,10 +362,11 @@ class BindableAdapter<T : Any> internal constructor(
           override fun bind(data: T) {
             Log.d("testtextview", "Binding data for view type: $viewType with data: $data")
             //subha
+
+            setViewModel(binding, transformViewModel(data))
             if (binding.lifecycleOwner != lifecycleOwner) {
               binding.lifecycleOwner = lifecycleOwner // Attach new lifecycleOwner
             }
-            setViewModel(binding, transformViewModel(data))
             // Attaching lifecycleOwner before view model initialization can sometimes cause a
             // NullPointerException because data might not be attached to the views yet.
             //binding.lifecycleOwner = lifecycleOwner
