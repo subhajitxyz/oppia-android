@@ -2,6 +2,7 @@ package org.oppia.android.app.customview.interaction
 
 import android.content.Context
 import android.graphics.Typeface
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
@@ -69,4 +70,5 @@ class TextInputInteractionView @JvmOverloads constructor(
     if (text?.isEmpty() == true) setTypeface(typeface, Typeface.ITALIC)
     isSingleLine = false
   }
+
 }
