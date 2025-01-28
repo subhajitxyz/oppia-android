@@ -1,5 +1,6 @@
 package org.oppia.android.app.drawer
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -97,9 +98,11 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
   }
   //subha
   fun onBackPressedInDeveloperActivity() {
+    Log.d("testback", "in onBackPressedInDeveloperActivity ${footerViewModel} and setting false")
     footerViewModel.isDeveloperOptionsSelected.set(false)
   }
   fun onBackPressedInAdministratorControlsActivity() {
+    Log.d("testback", "in onBackPressedInAdministratorControlsActivity ${footerViewModel} and setting false")
     footerViewModel.isAdministratorControlsSelected.set(false)
   }
 
@@ -110,6 +113,7 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
       binding.developerOptionsLinearLayout.setOnClickListener {
         //subha developer
         if (footerViewModel.isDeveloperOptionsSelected.get() == true) {
+          Log.d("testback", "in on click on developeroption ${footerViewModel} ")
           drawerLayout.closeDrawers()
           return@setOnClickListener
         }
@@ -148,6 +152,7 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
       binding.administratorControlsLinearLayout.setOnClickListener {
         //subha developer
         if (footerViewModel.isAdministratorControlsSelected.get() == true) {
+          Log.d("testback", "in on click on administrator ${footerViewModel} ")
           drawerLayout.closeDrawers()
           return@setOnClickListener
         }
