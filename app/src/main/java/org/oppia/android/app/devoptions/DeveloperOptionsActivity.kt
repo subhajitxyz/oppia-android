@@ -109,9 +109,4 @@ class DeveloperOptionsActivity :
     developerOptionsActivityPresenter.forceCrash()
   }
 
-  override fun onBackPressed() {
-    super.onBackPressed()
-    //variable value changed
-  }
-
 }
