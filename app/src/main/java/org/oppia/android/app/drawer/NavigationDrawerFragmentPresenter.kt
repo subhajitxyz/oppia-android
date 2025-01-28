@@ -106,6 +106,10 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
 //          drawerLayout.closeDrawers()
 //          return@setOnClickListener
 //        }
+        if (checkAnyMenuItemChecked() && footerViewModel.isAdministratorControlsSelected.get() == true) {
+          drawerLayout.closeDrawers()
+          return@setOnClickListener
+        }
         uncheckAllMenuItemsWhenAdministratorControlsOrDeveloperOptionsIsSelected()
         drawerLayout.closeDrawers()
         footerViewModel.isDeveloperOptionsSelected.set(true)
@@ -140,6 +144,10 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
 //          drawerLayout.closeDrawers()
 //          return@setOnClickListener
 //        }
+        if (checkAnyMenuItemChecked() && footerViewModel.isAdministratorControlsSelected.get() == true) {
+          drawerLayout.closeDrawers()
+          return@setOnClickListener
+        }
 
         uncheckAllMenuItemsWhenAdministratorControlsOrDeveloperOptionsIsSelected()
 
@@ -161,6 +169,12 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
         drawerLayout.closeDrawers()
       }
     }
+  }
+  private fun checkAnyMenuItemChecked(): Boolean {
+    binding.fragmentDrawerNavView.menu.forEach {
+      if (it.isCheckable) return true
+    }
+    return false
   }
 
   private fun processGetProfileResult(profileResult: AsyncResult<Profile>): Profile {
