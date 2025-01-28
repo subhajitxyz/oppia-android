@@ -101,10 +101,11 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
     developerOptionsStarter.asSet().forEach { starter ->
       footerViewModel.isDebugMode.set(true)
       binding.developerOptionsLinearLayout.setOnClickListener {
-        if (footerViewModel.isDeveloperOptionsSelected.get() == true) {
-          drawerLayout.closeDrawers()
-          return@setOnClickListener
-        }
+        //subha developer
+//        if (footerViewModel.isDeveloperOptionsSelected.get() == true) {
+//          drawerLayout.closeDrawers()
+//          return@setOnClickListener
+//        }
         uncheckAllMenuItemsWhenAdministratorControlsOrDeveloperOptionsIsSelected()
         drawerLayout.closeDrawers()
         footerViewModel.isDeveloperOptionsSelected.set(true)
@@ -134,10 +135,11 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
       headerViewModel.profile.set(it)
       footerViewModel.isAdmin.set(it.isAdmin)
       binding.administratorControlsLinearLayout.setOnClickListener {
-        if (footerViewModel.isAdministratorControlsSelected.get() == true) {
-          drawerLayout.closeDrawers()
-          return@setOnClickListener
-        }
+        //subha developer
+//        if (footerViewModel.isAdministratorControlsSelected.get() == true) {
+//          drawerLayout.closeDrawers()
+//          return@setOnClickListener
+//        }
 
         uncheckAllMenuItemsWhenAdministratorControlsOrDeveloperOptionsIsSelected()
 
