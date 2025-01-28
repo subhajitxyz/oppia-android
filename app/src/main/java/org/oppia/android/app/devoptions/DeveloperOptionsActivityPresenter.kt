@@ -16,6 +16,11 @@ class DeveloperOptionsActivityPresenter @Inject constructor(
   private lateinit var navigationDrawerFragment: NavigationDrawerFragment
   private lateinit var binding: DeveloperOptionsActivityBinding
 
+  //subha
+  fun backButtonPressed() {
+
+  }
+
   fun handleOnCreate() {
     binding = DataBindingUtil.setContentView(
       activity,

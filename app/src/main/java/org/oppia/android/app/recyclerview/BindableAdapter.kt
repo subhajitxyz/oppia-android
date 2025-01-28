@@ -42,10 +42,10 @@ class BindableAdapter<T : Any> internal constructor(
 
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
-    val result = DiffUtil.calculateDiff(
-      RecyclerDataDiffCallback(dataList, newDataList),
-      /* detectMoves= */ false
-    )
+//    val result = DiffUtil.calculateDiff(
+//      RecyclerDataDiffCallback(dataList, newDataList),
+//      /* detectMoves= */ false
+//    )
     Log.d("testtextview", "calculate result")
     dataList.clear()
     Log.d("testtextview", "datalist cleared")
@@ -55,12 +55,12 @@ class BindableAdapter<T : Any> internal constructor(
     Log.d("testtextview", "new LIst added")
     // TODO(#171): Introduce diffing to notify subsets of the view to properly support animations
     //  rather than re-binding the entire list upon any change.
-    //notifyDataSetChanged()
+    notifyDataSetChanged()
    // Log.d("testtextview", "notifyDataSetChanged called")
 
     // dataList += newDataList.toMutableList()
     //Log.d("testtextview", "added new data to datalist")
-    result.dispatchUpdatesTo(this)
+    //result.dispatchUpdatesTo(this)
     Log.d("testtextview", "dispatchupdatesTo")
   }
 
@@ -358,15 +358,20 @@ class BindableAdapter<T : Any> internal constructor(
           /* attachToRoot= */ false
         )
 
+
         object : BindableViewHolder<T>(binding.root) {
           override fun bind(data: T) {
             Log.d("testtextview", "Binding data for view type: $viewType with data: $data")
-            binding.lifecycleOwner = null
+
+//            binding.lifecycleOwner = null
+//            binding.lifecycleOwner = lifecycleOwner
             setViewModel(binding, transformViewModel(data))
             // Attaching lifecycleOwner before view model initialization can sometimes cause a
             // NullPointerException because data might not be attached to the views yet.
-
             binding.lifecycleOwner = lifecycleOwner
+
+
+
           }
         }
 

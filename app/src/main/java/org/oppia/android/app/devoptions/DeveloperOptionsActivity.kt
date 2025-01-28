@@ -3,6 +3,7 @@ package org.oppia.android.app.devoptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import org.oppia.android.R
 import org.oppia.android.app.activity.ActivityComponentImpl
 import org.oppia.android.app.activity.InjectableAutoLocalizedAppCompatActivity
@@ -45,6 +46,16 @@ class DeveloperOptionsActivity :
     internalProfileId = intent.extractCurrentUserProfileId().internalId
     developerOptionsActivityPresenter.handleOnCreate()
     title = resourceHandler.getStringInLocale(R.string.developer_options_activity_title)
+
+    //subha
+    onBackPressedDispatcher.addCallback(
+      this,
+      object : OnBackPressedCallback(/* enabled = */ true) {
+        override fun handleOnBackPressed() {
+          developerOptionsActivityPresenter.backButtonPressed()
+        }
+      }
+    )
   }
 
   override fun routeToMarkChaptersCompleted() {
@@ -96,4 +107,5 @@ class DeveloperOptionsActivity :
   override fun forceCrash() {
     developerOptionsActivityPresenter.forceCrash()
   }
+
 }
