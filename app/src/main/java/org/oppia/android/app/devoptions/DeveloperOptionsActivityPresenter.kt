@@ -18,7 +18,7 @@ class DeveloperOptionsActivityPresenter @Inject constructor(
 
   //subha
   fun backButtonPressed() {
-
+    navigationDrawerFragment.onBackPressedInDeveloperActivity()
   }
 
   fun handleOnCreate() {

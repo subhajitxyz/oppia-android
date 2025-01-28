@@ -84,6 +84,11 @@ class AdministratorControlsActivityPresenter @Inject constructor(
     }
   }
 
+  //subha
+  fun backButtonPressed() {
+    navigationDrawerFragment.onBackPressedInAdministratorControlsActivity()
+  }
+
   /** Sets up the navigation drawer. */
   private fun setUpNavigationDrawer() {
     val toolbar = binding.administratorControlsActivityToolbar

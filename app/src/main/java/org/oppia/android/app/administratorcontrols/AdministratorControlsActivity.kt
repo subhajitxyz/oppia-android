@@ -89,6 +89,7 @@ class AdministratorControlsActivity :
       this,
       object : OnBackPressedCallback(/* enabled = */ true) {
         override fun handleOnBackPressed() {
+          administratorControlsActivityPresenter.backButtonPressed()
           this@AdministratorControlsActivity.handleBackPress()
         }
       }

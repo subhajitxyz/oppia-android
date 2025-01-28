@@ -46,6 +46,17 @@ class DeveloperOptionsActivity :
     internalProfileId = intent.extractCurrentUserProfileId().internalId
     developerOptionsActivityPresenter.handleOnCreate()
     title = resourceHandler.getStringInLocale(R.string.developer_options_activity_title)
+
+    //subha
+    onBackPressedDispatcher.addCallback(
+      this,
+      object : OnBackPressedCallback(/* enabled = */ true) {
+        override fun handleOnBackPressed() {
+          developerOptionsActivityPresenter.backButtonPressed()
+          finish()
+        }
+      }
+    )
   }
 
   override fun routeToMarkChaptersCompleted() {
@@ -96,6 +107,11 @@ class DeveloperOptionsActivity :
 
   override fun forceCrash() {
     developerOptionsActivityPresenter.forceCrash()
+  }
+
+  override fun onBackPressed() {
+    super.onBackPressed()
+    //variable value changed
   }
 
 }

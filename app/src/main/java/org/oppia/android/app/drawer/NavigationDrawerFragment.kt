@@ -28,6 +28,13 @@ class NavigationDrawerFragment :
     super.onAttach(context)
     (fragmentComponent as FragmentComponentImpl).inject(this)
   }
+  //subha
+  fun onBackPressedInDeveloperActivity() {
+    navigationDrawerFragmentPresenter.onBackPressedInDeveloperActivity()
+  }
+  fun onBackPressedInAdministratorControlsActivity() {
+    navigationDrawerFragmentPresenter.onBackPressedInAdministratorControlsActivity()
+  }
 
   override fun onCreateView(
     inflater: LayoutInflater,

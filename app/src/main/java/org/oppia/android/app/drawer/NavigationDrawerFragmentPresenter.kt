@@ -95,6 +95,13 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
 
     return binding.root
   }
+  //subha
+  fun onBackPressedInDeveloperActivity() {
+    footerViewModel.isDeveloperOptionsSelected.set(false)
+  }
+  fun onBackPressedInAdministratorControlsActivity() {
+    footerViewModel.isAdministratorControlsSelected.set(false)
+  }
 
   // TODO(#3382): Remove debug only code from prod build (also check imports, constructor and drawer_fragment.xml)
   private fun setIfDeveloperOptionsMenuItemListener() {
@@ -102,14 +109,14 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
       footerViewModel.isDebugMode.set(true)
       binding.developerOptionsLinearLayout.setOnClickListener {
         //subha developer
-//        if (footerViewModel.isDeveloperOptionsSelected.get() == true) {
-//          drawerLayout.closeDrawers()
-//          return@setOnClickListener
-//        }
-        if (checkAllMenuItemUnChecked() && footerViewModel.isAdministratorControlsSelected.get() == true) {
+        if (footerViewModel.isDeveloperOptionsSelected.get() == true) {
           drawerLayout.closeDrawers()
           return@setOnClickListener
         }
+//        if (checkAllMenuItemUnChecked() && footerViewModel.isDeveloperOptionsSelected.get() == true) {
+//          drawerLayout.closeDrawers()
+//          return@setOnClickListener
+//        }
         uncheckAllMenuItemsWhenAdministratorControlsOrDeveloperOptionsIsSelected()
         drawerLayout.closeDrawers()
         footerViewModel.isDeveloperOptionsSelected.set(true)
@@ -140,14 +147,14 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
       footerViewModel.isAdmin.set(it.isAdmin)
       binding.administratorControlsLinearLayout.setOnClickListener {
         //subha developer
-//        if (footerViewModel.isAdministratorControlsSelected.get() == true) {
-//          drawerLayout.closeDrawers()
-//          return@setOnClickListener
-//        }
-        if (checkAllMenuItemUnChecked() && footerViewModel.isAdministratorControlsSelected.get() == true) {
+        if (footerViewModel.isAdministratorControlsSelected.get() == true) {
           drawerLayout.closeDrawers()
           return@setOnClickListener
         }
+//        if (checkAllMenuItemUnChecked() && footerViewModel.isAdministratorControlsSelected.get() == true) {
+//          drawerLayout.closeDrawers()
+//          return@setOnClickListener
+//        }
 
         uncheckAllMenuItemsWhenAdministratorControlsOrDeveloperOptionsIsSelected()
 
