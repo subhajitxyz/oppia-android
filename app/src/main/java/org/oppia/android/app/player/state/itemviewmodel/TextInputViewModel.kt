@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state.itemviewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
@@ -81,6 +82,7 @@ class TextInputViewModel private constructor(
       }
 
       override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
+        Log.d("testtext","called onTextChanged ${this} and answertext is ${answer}")
         answerText = answer.toString().trim()
         val isAnswerTextAvailable = answerText.isNotEmpty()
         if (isAnswerTextAvailable != isAnswerAvailable.get()) {
