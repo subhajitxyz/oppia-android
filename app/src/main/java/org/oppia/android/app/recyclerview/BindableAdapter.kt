@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.reflect.KClass
+import org.oppia.android.app.player.state.itemviewmodel.TextInputViewModel
 
 /** A function that returns the integer-based type of view that can bind the specified object. */
 private typealias ComputeIntViewType<T> = (T) -> Int
@@ -93,6 +94,7 @@ class BindableAdapter<T : Any> internal constructor(
     checkNotNull(viewHolderFactory) { "Encountered missing view factory for type: $viewType" }
     return viewHolderFactory(parent)
   }
+
 
   override fun getItemCount(): Int {
     return dataList.size
