@@ -62,9 +62,6 @@ class TextInputViewModel private constructor(
   }
 
   //subha
-  fun resetAnswerText() {
-    answerText = ""
-  }
 
   override fun checkPendingAnswerError(category: AnswerErrorCategory): String? {
     answerErrorCetegory = category
@@ -89,7 +86,7 @@ class TextInputViewModel private constructor(
 
       override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
         Log.d("testtextview", this@TextInputViewModel.toString())
-        Log.d("testtextview", "into ontextchanged in textinputviewmodel   ${answer.toString().trim()}")
+        Log.d("testtextview", "inside ontextchanged, answer is ${answer.toString().trim()}")
 
         // Only update if the answer actually changes to avoid unnecessary updates.
         answerText = answer.toString().trim()

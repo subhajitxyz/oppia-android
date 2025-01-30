@@ -341,7 +341,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
   fun resetUserAnswerState() {
     Log.d("testtextview", "in resetUserAnswerState in stateplayerrecyclerviewass")
     userAnswerState = UserAnswerState.getDefaultInstance()
-    (currentInteractionViewModel as? TextInputViewModel)?.resetAnswerText()
   }
 
   private fun addContentItem(
