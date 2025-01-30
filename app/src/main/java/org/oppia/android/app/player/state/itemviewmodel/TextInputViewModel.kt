@@ -34,34 +34,42 @@ class TextInputViewModel private constructor(
   private val translationController: TranslationController,
   userAnswerState: UserAnswerState
 ) : StateItemViewModel(ViewType.TEXT_INPUT_INTERACTION), InteractionAnswerHandler, BindableItemViewModel {
-  private val uniqueId: String = UUID.randomUUID().toString()
+  ///private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.TextInput(uniqueId)
+    get() = StateItemId.TextInput(answerText)
 
-  override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
-  }
+//  override fun hasChanges(other: BindableItemViewModel): Boolean {
+////    this.hasConversationView != other.hasConversationView ||
+////      this.hintText != other.hintText ||
+////      this.isAnswerAvailable != other.isAnswerAvailable ||
+////      this.isSplitView != other.isSplitView ||
+////      this.answerErrorCetegory != other.answerErrorCetegory ||
+////      this.hintText != other.hintText ||
+////      this.pendingAnswerError != other.pendingAnswerError ||
+////      this.isAnswerAvailable != other.isAnswerAvailable ||
+////      this.errorMessage != other.errorMessage
+//    return true
+//  }
   //  private val uniqueId: String = UUID.randomUUID().toString()
 //  override val contentId: StateItemId
 //    get() = StateItemId.TextInput(uniqueId)
 //
-//  override fun hasChanges(other: BindableItemViewModel): Boolean {
-//    return true
-//    if (other !is TextInputViewModel) return true
-//
-//
-//    // Compare the fields to check if there are changes
-//    return this.answerText != other.answerText ||
-//      this.hasConversationView != other.hasConversationView ||
-//      this.hintText != other.hintText ||
-//      this.isAnswerAvailable != other.isAnswerAvailable ||
-//      this.isSplitView != other.isSplitView ||
-//      this.answerErrorCetegory != other.answerErrorCetegory ||
-//      this.hintText != other.hintText ||
-//      this.pendingAnswerError != other.pendingAnswerError ||
-//      this.isAnswerAvailable != other.isAnswerAvailable ||
-//      this.errorMessage != other.errorMessage
- // }
+  override fun hasChanges(other: BindableItemViewModel): Boolean {
+    //return true
+    if (other !is TextInputViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.answerText != other.answerText ||
+      this.hasConversationView != other.hasConversationView ||
+      this.hintText != other.hintText ||
+      this.isAnswerAvailable != other.isAnswerAvailable ||
+      this.isSplitView != other.isSplitView ||
+      this.answerErrorCetegory != other.answerErrorCetegory ||
+      this.hintText != other.hintText ||
+      this.pendingAnswerError != other.pendingAnswerError ||
+      this.isAnswerAvailable != other.isAnswerAvailable ||
+      this.errorMessage != other.errorMessage
+  }
 
   var answerText: CharSequence = userAnswerState.textInputAnswer
   private var answerErrorCetegory: AnswerErrorCategory = AnswerErrorCategory.NO_ERROR

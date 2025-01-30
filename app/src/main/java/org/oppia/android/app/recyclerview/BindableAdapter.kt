@@ -490,7 +490,7 @@ sealed class StateItemId {
   data class PreviousNavigationButton(val id: String) : StateItemId() // A singleton object for unique items
   data class SubmitButton(val uuid: String): StateItemId()
   data class ContinueNavigationButton(val uuid: String): StateItemId()
-  data class TextInput(val uuid: String): StateItemId()
+  data class TextInput(val uuid: CharSequence): StateItemId()
   data class SubmitAnswer(val id: String): StateItemId()
 }
 
