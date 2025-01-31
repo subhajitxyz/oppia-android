@@ -581,7 +581,7 @@ android_library(
 # Library for layout resource files.
 android_library(
     name = "databinding_resources",
-    custom_package = "org.oppia.android.app.databinding",
+    custom_package = "org.oppia.android.app",
     enable_data_binding = True,
     exports_manifest = True,
     manifest = "src/main/DatabindingResourcesManifest.xml",
