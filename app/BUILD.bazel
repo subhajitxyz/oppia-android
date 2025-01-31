@@ -581,7 +581,7 @@ android_library(
 # Library for layout resource files.
 android_library(
     name = "databinding_resources",
-    custom_package = "org.oppia.android.app",
+    custom_package = "org.oppia.android.app.databinding",
     enable_data_binding = True,
     exports_manifest = True,
     manifest = "src/main/DatabindingResourcesManifest.xml",
@@ -749,14 +749,6 @@ android_library(
     ],
 )
 
-#subha
-android_library(
-    name = "app_resources",
-    resource_files = glob(["src/main/res/**"]),
-    visibility = ["//visibility:public"],
-)
-
-
 # Library containing all activity, fragment, and view-based UI flows in the app.
 kt_android_library(
     name = "app",
@@ -780,7 +772,6 @@ kt_android_library(
         ":binding_adapters",
         ":databinding_resources",
         ":resources",
-        ":app_resources",
         ":view_models",
         ":views",
         "//:dagger",

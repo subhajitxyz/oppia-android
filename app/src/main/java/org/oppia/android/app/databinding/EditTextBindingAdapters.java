@@ -10,7 +10,9 @@ import org.oppia.android.R;
 /** Holds all custom binding adapters that bind to [EditText]. */
 public final class EditTextBindingAdapters {
 
-  /** Binding adapter for setting a [TextWatcher] as a change listener for an [EditText]. */
+  /**
+   * Binding adapter for setting a [TextWatcher] as a change listener for an [EditText].
+   */
 //  @BindingAdapter("textChangedListener")
 //  public static void bindTextWatcher(@NonNull EditText editText, TextWatcher textWatcher) {
 //    editText.addTextChangedListener(textWatcher);
@@ -18,23 +20,17 @@ public final class EditTextBindingAdapters {
 
   //subha use text_watcher
   @BindingAdapter("textChangedListener")
-  public static void bindTextWatcher(
-      @NonNull EditText editText,
-      @Nullable TextWatcher textWatcher
-  ) {
-    // 1. Remove existing TextWatcher if present
-    Object existingTag = editText.getTag(R.id.text_watcher);
-    if (existingTag instanceof TextWatcher) {
-      editText.removeTextChangedListener((TextWatcher) existingTag);
+  public static void bindTextWatcher(@NonNull EditText editText, TextWatcher textWatcher) {
+    // Remove any existing TextWatcher to prevent multiple instances
+    TextWatcher existingWatcher = (TextWatcher) editText.getTag(R.id.textWatcher);
+    if (existingWatcher != null) {
+      editText.removeTextChangedListener(existingWatcher);
     }
 
-    // 2. Add new TextWatcher and store it in the tag
-    if (textWatcher != null) {
-      editText.addTextChangedListener(textWatcher);
-      editText.setTag(R.id.text_watcher, textWatcher);
-    } else {
-      editText.setTag(R.id.text_watcher, null);
-    }
+    // Add the new TextWatcher and store it as a tag
+    editText.addTextChangedListener(textWatcher);
+    editText.setTag(R.id.textWatcher, textWatcher);
   }
 }
+
 
