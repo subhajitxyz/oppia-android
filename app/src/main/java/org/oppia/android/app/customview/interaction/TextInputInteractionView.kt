@@ -29,7 +29,8 @@ class TextInputInteractionView @JvmOverloads constructor(
   init {
     onFocusChangeListener = this
     // Assume multi-line for the purpose of properly showing long hints.
-    isSingleLine = hint != null
+    //isSingleLine = hint != null
+    maxLines = if (hint != null) 1 else Int.MAX_VALUE
     stateKeyboardButtonListener = context as StateKeyboardButtonListener
   }
 
@@ -61,12 +62,14 @@ class TextInputInteractionView @JvmOverloads constructor(
   private fun hideHint() {
     hint = ""
     typeface = Typeface.DEFAULT
-    isSingleLine = true
+    //isSingleLine = true
+    maxLines = 1
   }
 
   private fun restoreHint() {
     hint = hintText
     if (text?.isEmpty() == true) setTypeface(typeface, Typeface.ITALIC)
-    isSingleLine = false
+    //isSingleLine = false
+    maxLines = Int.MAX_VALUE
   }
 }
