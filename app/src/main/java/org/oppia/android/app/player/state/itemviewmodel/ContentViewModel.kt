@@ -16,7 +16,7 @@ class ContentViewModel(
 ) : StateItemViewModel(ViewType.CONTENT), BindableItemViewModel {
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Content(uniqueId)
+    get() = StateItemId.Content(htmlContent)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is ContentViewModel) return true

@@ -41,28 +41,10 @@ class BindableAdapter<T : Any> internal constructor(
   private val dataClassType: KClass<T>
 ) : RecyclerView.Adapter<BindableAdapter.BindableViewHolder<T>>() {
   private val dataList: MutableList<T> = ArrayList()
-//  init {
-//    setHasStableIds(true) // Indicate that IDs are stable
-//  }
+
 
   // TODO(#170): Introduce support for stable IDs.
 
-
-
-//  fun setDataWithDiff(newDataList: List<T>) {
-//    // Check if the data is of a type that implements BindableItemViewModel
-//    if (newDataList.isNotEmpty() && newDataList[0] is BindableItemViewModel) {
-//      val bindableOldList = dataList.filterIsInstance<BindableItemViewModel>()
-//      val bindableNewList = newDataList.filterIsInstance<BindableItemViewModel>()
-//
-//      // Perform DiffUtil logic only if the data is of BindableItemViewModel type
-//      val diffCallback = BindableAdapterDiffUtilHandler(bindableOldList, bindableNewList)
-//      val diffResult = DiffUtil.calculateDiff(diffCallback)
-//      dataList.clear()
-//      dataList.addAll(newDataList)
-//      diffResult.dispatchUpdatesTo(this)
-//    }
-//  }
   /** Sets the data of this adapter. This is expected to be called by Android via data-binding. */
   fun setData(newDataList: List<T>) {
 
@@ -483,14 +465,20 @@ interface BindableItemViewModel {
 }
 
 sealed class StateItemId {
-  data class Content(val contentId: String) : StateItemId()
-  data class Feedback(val uuid: String) : StateItemId()
+  data class Content(val htmlContent: CharSequence) : StateItemId()
+  data class Feedback(val htmlContent: CharSequence) : StateItemId()
   data class ItemIndex(val itemIndex: String) : StateItemId()
-  data class PreviousAnswerCount(val id: String): StateItemId()
-  data class PreviousNavigationButton(val id: String) : StateItemId() // A singleton object for unique items
-  data class SubmitButton(val uuid: String): StateItemId()
-  data class ContinueNavigationButton(val uuid: String): StateItemId()
-  data class TextInput(val uuid: CharSequence): StateItemId()
+  data class PreviousAnswerCount(val answerCount: Int): StateItemId()
+ // data class PreviousNavigationButton(val id: String) : StateItemId() // //
+  object PreviousNavigationButton: StateItemId() // Only one of these can ever exist.
+
+ // data class SubmitButton(val uuid: String): StateItemId()
+  object SubmitButton: StateItemId()
+  object ContinueNavigationButton: StateItemId()
+  object SubmittedAnswer: StateItemId()
+
+  //data class ContinueNavigationButton(val uuid: String): StateItemId()
+  data class TextInput(val answerText: CharSequence): StateItemId()
   data class SubmitAnswer(val id: String): StateItemId()
 }
 
@@ -506,8 +494,8 @@ class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
 
   override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 
-    val k = oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
-    Log.d("testtextview", "are item same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
+//    val k = oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
+//    Log.d("testtextview", "are item same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
     return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
 
 //    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
@@ -529,22 +517,10 @@ class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
 
   override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 
-    val k = oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
-    Log.d("testtextview", "  areContent same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
+    //val k = oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
+    //Log.d("testtextview", "  areContent same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
     return oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
-//    if (oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
-//      val x = oldList[oldItemPosition] as BindableItemViewModel
-//      val y = newList[newItemPosition] as BindableItemViewModel
-//
-//      val k = x.hasChanges(y).not()
-//      Log.d("testdiff", "are content same   "+k.toString())
-//      return k
-//    }
-//    else {
-//      return oldList[oldItemPosition] == newList[newItemPosition]
-//    }
 
-    //return false
   }
 }
 

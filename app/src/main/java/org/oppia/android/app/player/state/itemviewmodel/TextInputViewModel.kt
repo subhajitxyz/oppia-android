@@ -38,22 +38,6 @@ class TextInputViewModel private constructor(
   override val contentId: StateItemId
     get() = StateItemId.TextInput(answerText)
 
-//  override fun hasChanges(other: BindableItemViewModel): Boolean {
-////    this.hasConversationView != other.hasConversationView ||
-////      this.hintText != other.hintText ||
-////      this.isAnswerAvailable != other.isAnswerAvailable ||
-////      this.isSplitView != other.isSplitView ||
-////      this.answerErrorCetegory != other.answerErrorCetegory ||
-////      this.hintText != other.hintText ||
-////      this.pendingAnswerError != other.pendingAnswerError ||
-////      this.isAnswerAvailable != other.isAnswerAvailable ||
-////      this.errorMessage != other.errorMessage
-//    return true
-//  }
-  //  private val uniqueId: String = UUID.randomUUID().toString()
-//  override val contentId: StateItemId
-//    get() = StateItemId.TextInput(uniqueId)
-//
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     //return true
     if (other !is TextInputViewModel) return true

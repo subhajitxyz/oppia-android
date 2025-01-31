@@ -18,26 +18,26 @@ class PreviousResponsesHeaderViewModel(
   private val resourceHandler: AppLanguageResourceHandler
 ) : StateItemViewModel(ViewType.PREVIOUS_RESPONSES_HEADER), BindableItemViewModel {
 
-  private val uniqueId: String = UUID.randomUUID().toString()
-  override val contentId: StateItemId
-    get() = StateItemId.PreviousAnswerCount(uniqueId)
-
-  override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
-  }
+//  private val uniqueId: String = UUID.randomUUID().toString()
 //  override val contentId: StateItemId
-//    get() = StateItemId.PreviousAnswerCount(previousAnswerCount.toString())
+//    get() = StateItemId.PreviousAnswerCount(uniqueId)
 //
 //  override fun hasChanges(other: BindableItemViewModel): Boolean {
 //    return true
-//    if (other !is PreviousResponsesHeaderViewModel) return true
-//
-//    // Compare the fields to check if there are changes
-//    return this.previousAnswerCount != other.previousAnswerCount ||
-//      this.hasConversationView != other.hasConversationView ||
-//      this.isExpanded != other.isExpanded ||
-//      this.isSplitView != other.isSplitView
-  //}
+//  }
+  override val contentId: StateItemId
+    get() = StateItemId.PreviousAnswerCount(previousAnswerCount)
+
+  override fun hasChanges(other: BindableItemViewModel): Boolean {
+    if (other !is PreviousResponsesHeaderViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.previousAnswerCount != other.previousAnswerCount ||
+      this.hasConversationView != other.hasConversationView ||
+      this.isExpanded != other.isExpanded ||
+      this.previousResponsesHeaderClickListener != other.previousResponsesHeaderClickListener ||
+      this.isSplitView != other.isSplitView
+  }
 
   /** Called when the user clicks on the previous response header. */
   fun onResponsesHeaderClicked() = previousResponsesHeaderClickListener.onResponsesHeaderClicked()

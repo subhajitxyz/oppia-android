@@ -18,10 +18,18 @@ class SubmitButtonViewModel(
 ) : StateItemViewModel(ViewType.SUBMIT_ANSWER_BUTTON), BindableItemViewModel {
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.SubmitButton(uniqueId)
+    get() = StateItemId.SubmitButton
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
+    if (other !is SubmitButtonViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.canSubmitAnswer != other.canSubmitAnswer ||
+      this.hasConversationView != other.hasConversationView ||
+      this.isSplitView != other.isSplitView ||
+      this.hasPreviousButton != other.hasPreviousButton ||
+      this.previousNavigationButtonListener != other.previousNavigationButtonListener ||
+      this.submitNavigationButtonListener != other.submitNavigationButtonListener
   }
 
   //private val uniqueId: String = UUID.randomUUID().toString()

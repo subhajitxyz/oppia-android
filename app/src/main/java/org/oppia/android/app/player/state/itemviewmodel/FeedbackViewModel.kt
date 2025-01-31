@@ -15,10 +15,17 @@ class FeedbackViewModel(
 ) : StateItemViewModel(ViewType.FEEDBACK), BindableItemViewModel {
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.Feedback(uniqueId)
+    get() = StateItemId.Feedback(htmlContent)
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
+    if (other !is FeedbackViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.htmlContent != other.htmlContent ||
+      this.gcsEntityId != other.gcsEntityId ||
+      this.hasConversationView != other.hasConversationView ||
+      this.isSplitView != other.isSplitView ||
+      this.supportsConceptCards != other.supportsConceptCards
   }
 
   //private val uniqueId: String = UUID.randomUUID().toString()

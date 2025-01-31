@@ -24,16 +24,17 @@ class ContinueNavigationButtonViewModel(
 
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.ContinueNavigationButton(uniqueId)
+    get() = StateItemId.ContinueNavigationButton
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
     if (other !is ContinueNavigationButtonViewModel) return true
-    if(this !== other) return true
 
     // Compare the fields to check if there are changes
     return this.hasPreviousButton != other.hasPreviousButton ||
       this.hasConversationView != other.hasConversationView ||
       this.shouldAnimateContinueButton != other.shouldAnimateContinueButton ||
+      this.previousNavigationButtonListener != other.previousNavigationButtonListener ||
+      this.continueNavigationButtonListener != other.continueNavigationButtonListener ||
       this.isSplitView != other.isSplitView ||
       this.continueButtonAnimationTimestampMs != other.continueButtonAnimationTimestampMs
   }

@@ -16,10 +16,15 @@ class PreviousButtonViewModel(
 ) : StateItemViewModel(ViewType.PREVIOUS_NAVIGATION_BUTTON), BindableItemViewModel {
   private val uniqueId: String = UUID.randomUUID().toString()
   override val contentId: StateItemId
-    get() = StateItemId.PreviousNavigationButton(uniqueId)
+    get() = StateItemId.PreviousNavigationButton
 
   override fun hasChanges(other: BindableItemViewModel): Boolean {
-    return true
+    if (other !is PreviousButtonViewModel) return true
+
+    // Compare the fields to check if there are changes
+    return this.previousNavigationButtonListener != other.previousNavigationButtonListener ||
+      this.hasConversationView != other.hasConversationView ||
+      this.isSplitView != other.isSplitView
   }
 //  override val contentId: StateItemId = StateItemId.PreviousNavigationButton
 //  override fun hasChanges(other: BindableItemViewModel): Boolean {
