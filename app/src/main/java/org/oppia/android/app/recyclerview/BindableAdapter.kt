@@ -78,7 +78,7 @@ class BindableAdapter<T : Any> internal constructor(
   @Suppress("UNCHECKED_CAST")
   fun ourSetData(newDataList: List<T>) {
     val diffCallback = BindableAdapterDiffUtilHandler(dataList as List<BindableItemViewModel>, newDataList as List<BindableItemViewModel>)
-    val diffResult = DiffUtil.calculateDiff(diffCallback)
+    val diffResult = DiffUtil.calculateDiff(diffCallback, false)
     dataList.clear()
     dataList += newDataList.toMutableList()
     diffResult.dispatchUpdatesTo(this)
@@ -494,31 +494,12 @@ class BindableAdapterDiffUtilHandler<T: BindableItemViewModel>(
 
   override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 
-//    val k = oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
-//    Log.d("testtextview", "are item same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
     return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
 
-//    if(oldList[oldItemPosition] is BindableItemViewModel && newList[newItemPosition] is BindableItemViewModel) {
-//      val x = oldList[oldItemPosition] as BindableItemViewModel
-//      val y = newList[newItemPosition] as BindableItemViewModel
-//      Log.d(
-//        "testdiff",
-//        "areItemsTheSame: oldItem=${x.contentId}, newItem=${y.contentId}"
-//      )
-//      val k = x.contentId == y.contentId
-//      Log.d("testdiff", "are Item same   "+k.toString())
-//      return k
-//    }
-//    else {
-//      return oldList[oldItemPosition] == newList[newItemPosition]
-//    }
-    //return false
   }
 
   override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 
-    //val k = oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
-    //Log.d("testtextview", "  areContent same   old  ${oldList[oldItemPosition]}    new  ${newList[newItemPosition]}    ${k}")
     return oldList[oldItemPosition].hasChanges(newList[newItemPosition]).not()
 
   }
