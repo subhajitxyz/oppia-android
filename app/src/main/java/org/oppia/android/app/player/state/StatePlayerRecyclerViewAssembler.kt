@@ -309,8 +309,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     )
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
   }
-//subha
-  private var currentInteractionViewModel: StateItemViewModel? = null
+////subha
+//  private var currentInteractionViewModel: StateItemViewModel? = null
   private fun addInteractionForPendingState(
     pendingItemList: MutableList<StateItemViewModel>,
     interaction: Interaction,
@@ -321,7 +321,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
   ) {
     val interactionViewModelFactory = interactionViewModelFactoryMap.getValue(interaction.id)
     Log.d("testtextview", "in addInteractionForPendingState   ${userAnswerState}")
-    val k = interactionViewModelFactory.create(
+  pendingItemList += interactionViewModelFactory.create(
       gcsEntityId,
       hasConversationView,
       interaction,
@@ -333,8 +333,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       timeToStartNoticeAnimationMs,
       userAnswerState
     )
-    pendingItemList += k
-    currentInteractionViewModel = k
+    //pendingItemList += k
   }
 
   /** Reset userAnswerState once the user submits an answer. */
