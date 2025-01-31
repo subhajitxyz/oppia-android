@@ -100,24 +100,29 @@ class TextInputViewModel private constructor(
     }
   }
 
+  //subha use text_watcher
+  private var answerTextWatcher: TextWatcher? = null
   fun getAnswerTextWatcher(): TextWatcher {
-    return object : TextWatcher {
-      override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-      }
-
-      override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
-        Log.d("testtextinput", "inside onTextChanged  ${this@TextInputViewModel}  and answer is   ${answer}")
-        answerText = answer.toString().trim()
-        val isAnswerTextAvailable = answerText.isNotEmpty()
-        if (isAnswerTextAvailable != isAnswerAvailable.get()) {
-          isAnswerAvailable.set(isAnswerTextAvailable)
+    if(answerTextWatcher == null) {
+      answerTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         }
-        checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
-      }
 
-      override fun afterTextChanged(s: Editable) {
+        override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
+          Log.d("testtextinput", "inside onTextChanged  ${this@TextInputViewModel}  and answer is   ${answer}")
+          answerText = answer.toString().trim()
+          val isAnswerTextAvailable = answerText.isNotEmpty()
+          if (isAnswerTextAvailable != isAnswerAvailable.get()) {
+            isAnswerAvailable.set(isAnswerTextAvailable)
+          }
+          checkPendingAnswerError(AnswerErrorCategory.REAL_TIME)
+        }
+
+        override fun afterTextChanged(s: Editable) {
+        }
       }
     }
+    return answerTextWatcher!!
   }
 
   override fun getPendingAnswer(): UserAnswer = UserAnswer.newBuilder().apply {

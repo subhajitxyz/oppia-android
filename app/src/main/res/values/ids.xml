@@ -5,4 +5,7 @@
   <item name="onboarding_dot_1" type="id" />
   <item name="onboarding_dot_2" type="id" />
   <item name="onboarding_dot_3" type="id" />
+
+  //subha use text_watcher
+  <item name="text_watcher" type="id" />
 </resources>
