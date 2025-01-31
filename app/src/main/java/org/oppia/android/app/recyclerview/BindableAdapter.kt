@@ -479,7 +479,7 @@ sealed class StateItemId {
 
   //data class ContinueNavigationButton(val uuid: String): StateItemId()
   data class TextInput(val answerText: CharSequence): StateItemId()
-  data class SubmitAnswer(val id: String): StateItemId()
+  //data class SubmitAnswer(val id: String): StateItemId()
 }
 
 
