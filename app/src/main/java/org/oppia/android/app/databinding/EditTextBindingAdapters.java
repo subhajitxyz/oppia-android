@@ -5,7 +5,6 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
-
 import org.oppia.android.R;
 
 /** Holds all custom binding adapters that bind to [EditText]. */

@@ -749,6 +749,14 @@ android_library(
     ],
 )
 
+#subha
+android_library(
+    name = "app_resources",
+    resource_files = glob(["src/main/res/**"]),
+    visibility = ["//visibility:public"],
+)
+
+
 # Library containing all activity, fragment, and view-based UI flows in the app.
 kt_android_library(
     name = "app",
@@ -772,6 +780,7 @@ kt_android_library(
         ":binding_adapters",
         ":databinding_resources",
         ":resources",
+        ":app_resources",
         ":view_models",
         ":views",
         "//:dagger",
