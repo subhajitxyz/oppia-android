@@ -1,6 +1,7 @@
 package org.oppia.android.app.databinding;
 
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
@@ -22,10 +23,13 @@ public final class EditTextBindingAdapters {
     TextWatcher existingWatcher = (TextWatcher) editText.getTag(R.id.textWatcher);
     if (existingWatcher != null) {
       editText.removeTextChangedListener(existingWatcher);
+      Log.d("testtextinput", "Removed old TextWatcher: " + existingWatcher);
+
     }
 
     // Add the new TextWatcher and store it as a tag
     editText.addTextChangedListener(textWatcher);
     editText.setTag(R.id.textWatcher, textWatcher);
+    Log.d("testtextinput", "Added new TextWatcher: " + textWatcher);
   }
 }
