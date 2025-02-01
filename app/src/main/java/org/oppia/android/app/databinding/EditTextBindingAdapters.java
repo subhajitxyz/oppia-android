@@ -15,6 +15,7 @@ public final class EditTextBindingAdapters {
    */
 //  @BindingAdapter("textChangedListener")
 //  public static void bindTextWatcher(@NonNull EditText editText, TextWatcher textWatcher) {
+//    //editText.removeTextChangedListener(textWatcher);
 //    editText.addTextChangedListener(textWatcher);
 //  }
 

@@ -475,6 +475,7 @@ BINDING_ADAPTERS_WITH_RESOURCE_IMPORTS = [
     "src/main/java/org/oppia/android/app/databinding/DrawableBindingAdapters.java",
     "src/main/java/org/oppia/android/app/databinding/ImageViewBindingAdapters.java",
     "src/main/java/org/oppia/android/app/databinding/TextViewBindingAdapters.java",
+    "src/main/java/org/oppia/android/app/databinding/EditTextBindingAdapters.java",
 ]
 
 # Binding adapter files that DO NOT import resources.
@@ -488,7 +489,6 @@ BINDING_ADAPTERS = [
     "src/main/java/org/oppia/android/app/databinding/CircularProgressIndicatorAdapters.java",
     "src/main/java/org/oppia/android/app/databinding/ColorBindingAdapters.java",
     "src/main/java/org/oppia/android/app/databinding/ConstraintLayoutAdapters.java",
-    "src/main/java/org/oppia/android/app/databinding/EditTextBindingAdapters.java",
     "src/main/java/org/oppia/android/app/databinding/GuidelineBindingAdapters.java",
     "src/main/java/org/oppia/android/app/databinding/MarginBindingAdapters.java",
     "src/main/java/org/oppia/android/app/databinding/StateAssemblerMarginBindingAdapters.java",
