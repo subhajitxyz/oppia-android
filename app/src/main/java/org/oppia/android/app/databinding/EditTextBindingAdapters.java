@@ -4,6 +4,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 
 import org.oppia.android.R;
@@ -18,18 +19,18 @@ public final class EditTextBindingAdapters {
 //  }
 
   @BindingAdapter("textChangedListener")
-  public static void bindTextWatcher(@NonNull EditText editText, TextWatcher textWatcher) {
-    // Remove any existing TextWatcher to prevent multiple instances
+  public static void bindTextWatcher(@NonNull EditText editText, @Nullable TextWatcher textWatcher) {
     TextWatcher existingWatcher = (TextWatcher) editText.getTag(R.id.textWatcher);
-    if (existingWatcher != null) {
+    if (existingWatcher != null && existingWatcher != textWatcher) {
       editText.removeTextChangedListener(existingWatcher);
       Log.d("testtextinput", "Removed old TextWatcher: " + existingWatcher);
-
     }
 
-    // Add the new TextWatcher and store it as a tag
-    editText.addTextChangedListener(textWatcher);
-    editText.setTag(R.id.textWatcher, textWatcher);
-    Log.d("testtextinput", "Added new TextWatcher: " + textWatcher);
+    if (textWatcher != null) {
+      editText.addTextChangedListener(textWatcher);
+      editText.setTag(R.id.textWatcher, textWatcher);
+      Log.d("testtextinput", "Added new TextWatcher: " + textWatcher);
+    }
   }
+
 }
