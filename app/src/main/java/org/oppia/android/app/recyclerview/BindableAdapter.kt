@@ -235,11 +235,12 @@ class BindableAdapter<T : Any> internal constructor(
 
         object : BindableViewHolder<T>(binding.root) {
           override fun bind(data: T) {
+            binding.lifecycleOwner = lifecycleOwner
             setViewModel(binding, data)
 
             // Attaching lifecycleOwner before view model initialization can sometimes cause a
             // NullPointerException because data might not be attached to the views yet.
-            binding.lifecycleOwner = lifecycleOwner
+            //binding.lifecycleOwner = lifecycleOwner
           }
         }
       }
