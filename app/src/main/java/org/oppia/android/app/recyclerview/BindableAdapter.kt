@@ -363,7 +363,7 @@ class BindableAdapter<T : Any> internal constructor(
 
         object : BindableViewHolder<T>(binding.root) {
           override fun bind(data: T) {
-            Log.d("testtextinput", "Binding data for view type: $viewType with data: $data")
+            //Log.d("testtextinput", "Binding data for view type: $viewType with data: $data")
 
 //            binding.lifecycleOwner = null
 //            binding.lifecycleOwner = lifecycleOwner
