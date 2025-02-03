@@ -86,8 +86,7 @@ class TextInputViewModel private constructor(
       }
 
       override fun onTextChanged(answer: CharSequence, start: Int, before: Int, count: Int) {
-        Log.d("testtextinput", "$this")
-        Log.d("testtextinput", "inside ontextchanged, answer is ${answer.toString().trim()}")
+        Log.d("testtextinput", "inside onTextChanged  ${this@TextInputViewModel}  and answer is   ${answer}")
 
         // Only update if the answer actually changes to avoid unnecessary updates.
         answerText = answer.toString().trim()
