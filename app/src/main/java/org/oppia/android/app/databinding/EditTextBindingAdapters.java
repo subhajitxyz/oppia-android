@@ -1,6 +1,7 @@
 package org.oppia.android.app.databinding;
 
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,17 +21,37 @@ public final class EditTextBindingAdapters {
 //  }
 
   //subha use text_watcher
+//  @BindingAdapter("textChangedListener")
+//  public static void bindTextWatcher(@NonNull EditText editText, TextWatcher textWatcher) {
+//    // Remove any existing TextWatcher to prevent multiple instances
+//    TextWatcher existingWatcher = (TextWatcher) editText.getTag(R.id.textWatcher);
+//    if (existingWatcher != null) {
+//      editText.removeTextChangedListener(existingWatcher);
+//    }
+//
+//    // Add the new TextWatcher and store it as a tag
+//    editText.addTextChangedListener(textWatcher);
+//    editText.setTag(R.id.textWatcher, textWatcher);
+//  }
+
   @BindingAdapter("textChangedListener")
   public static void bindTextWatcher(@NonNull EditText editText, TextWatcher textWatcher) {
-    // Remove any existing TextWatcher to prevent multiple instances
     TextWatcher existingWatcher = (TextWatcher) editText.getTag(R.id.textWatcher);
-    if (existingWatcher != null) {
+    if(existingWatcher == null) {
+      Log.d("testtextinput", "existing textwatcher is null");
+
+    }
+    if (existingWatcher != null && existingWatcher != textWatcher) {
       editText.removeTextChangedListener(existingWatcher);
+      Log.d("testtextinput", "Removed old TextWatcher: " + existingWatcher);
     }
 
-    // Add the new TextWatcher and store it as a tag
-    editText.addTextChangedListener(textWatcher);
-    editText.setTag(R.id.textWatcher, textWatcher);
+
+    if (textWatcher != null) {
+      editText.addTextChangedListener(textWatcher);
+      editText.setTag(R.id.textWatcher, textWatcher);
+      Log.d("testtextinput", "Added new TextWatcher: " + textWatcher);
+    }
   }
 }
 
