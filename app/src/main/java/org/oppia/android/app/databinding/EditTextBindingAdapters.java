@@ -21,6 +21,10 @@ public final class EditTextBindingAdapters {
   @BindingAdapter("textChangedListener")
   public static void bindTextWatcher(@NonNull EditText editText, @Nullable TextWatcher textWatcher) {
     TextWatcher existingWatcher = (TextWatcher) editText.getTag(R.id.textWatcher);
+    if(existingWatcher == null) {
+      Log.d("testtextinput", "existing textwatcher is null");
+
+    }
     if (existingWatcher != null && existingWatcher != textWatcher) {
       editText.removeTextChangedListener(existingWatcher);
       Log.d("testtextinput", "Removed old TextWatcher: " + existingWatcher);
