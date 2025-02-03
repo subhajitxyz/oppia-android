@@ -30,6 +30,7 @@ public final class EditTextBindingAdapters {
       Log.d("testtextinput", "Removed old TextWatcher: " + existingWatcher);
     }
 
+
     if (textWatcher != null) {
       editText.addTextChangedListener(textWatcher);
       editText.setTag(R.id.textWatcher, textWatcher);

@@ -80,6 +80,7 @@ class TextInputViewModel private constructor(
   }
 
   fun getAnswerTextWatcher(): TextWatcher {
+    //Log.d("testtextinput", " into getAnswerTextWatcher")
     return object : TextWatcher {
       override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
       }
