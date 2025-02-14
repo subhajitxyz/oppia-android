@@ -1,6 +1,7 @@
 package org.oppia.android.domain.audio
 
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -95,6 +96,7 @@ class AudioPlayerController @Inject constructor(
    */
   fun initializeMediaPlayer(): LiveData<AsyncResult<PlayProgress>> {
     audioLock.withLock {
+      Log.d("testmedia","inside initializeMediaPlayer")
       mediaPlayerActive = true
       if (isReleased) {
         // Recreation is necessary since media player's resources have been released
@@ -125,18 +127,21 @@ class AudioPlayerController @Inject constructor(
 
   private fun setMediaPlayerListeners() {
     mediaPlayer.setOnCompletionListener {
+      Log.d("testmedia","inside setOnCompletionListener")
       completed = true
       stopUpdatingSeekBar()
       playProgress?.value =
         AsyncResult.Success(PlayProgress(PlayStatus.COMPLETED, 0, duration))
     }
     mediaPlayer.setOnPreparedListener {
+      Log.d("testmedia","inside onPreaparedListner")
       prepared = true
       duration = it.duration
       playProgress?.value =
         AsyncResult.Success(PlayProgress(PlayStatus.PREPARED, 0, duration))
     }
     mediaPlayer.setOnErrorListener { _, what, extra ->
+      Log.d("testmedia","inside setOnErrorListener")
       playProgress?.value =
         AsyncResult.Failure(
           AudioPlayerException("Audio Player put in error state with what: $what and extra: $extra")
@@ -251,6 +256,7 @@ class AudioPlayerController @Inject constructor(
    */
   fun releaseMediaPlayer() {
     audioLock.withLock {
+      Log.d("testmedia","inside releaseMediaPlayer")
       if (!isReleased) {
         check(mediaPlayerActive) { "Media player has not been previously initialized" }
         mediaPlayerActive = false

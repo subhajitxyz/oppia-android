@@ -1,5 +1,6 @@
 package org.oppia.android.app.player.audio
 
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -148,7 +149,10 @@ class AudioViewModel @Inject constructor(
 
   fun pauseAudio() = audioPlayerController.pause(isFromExplicitUserAction = false)
   fun handleSeekTo(position: Int) = audioPlayerController.seekTo(position)
-  fun handleRelease() = audioPlayerController.releaseMediaPlayer()
+  fun handleRelease() {
+    Log.d("testmedia","inside handleRelease called releasemediaplayer")
+    audioPlayerController.releaseMediaPlayer()
+  }
 
   fun computeAudioUnavailabilityString(languageName: String): String {
     return resourceHandler.getStringInLocaleWithWrapping(
