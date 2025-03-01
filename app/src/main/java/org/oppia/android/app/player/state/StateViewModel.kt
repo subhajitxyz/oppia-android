@@ -45,10 +45,13 @@ class StateViewModel @Inject constructor(
   private val enableFastLanguageSwitchingInLesson: PlatformParameterValue<Boolean>
 ) : ObservableViewModel() {
   //subha
-  private val _showFlashBack = MutableLiveData<Boolean>(explorationProgressController.getFlashData())
+  private var _showFlashBack = MutableLiveData<Boolean>(explorationProgressController.getFlashData())
   val showFlashBack: LiveData<Boolean> get() = _showFlashBack
   //subha we will try with observable variable instead of livedata.
 
+  fun setOffFlashBack() {
+    _showFlashBack.value = false
+  }
 
   val itemList: ObservableList<StateItemViewModel> = ObservableArrayList()
   val rightItemList: ObservableList<StateItemViewModel> = ObservableArrayList()

@@ -179,17 +179,19 @@ class StateFragmentPresenter @Inject constructor(
 
   fun onContinueButtonClicked() {
     Log.d("testflashback","in onContinueButtonClicked in statefragmentpresenter")
-    stateViewModel.showFlashBack.observe(fragment) {
+    stateViewModel.showFlashBack.observe(activity) {
       if(it == true) {
         Log.d("testflashback","in side toast 1 in statefragmentpresenter")
-        Toast.makeText(context,"FlashBack",Toast.LENGTH_LONG).show()
+        Toast.makeText(activity,"FlashBack",Toast.LENGTH_LONG).show()
       }
     }
     if(stateViewModel.showFlashBack.value == true) {
       Log.d("testflashback","in side toast 2 in statefragmentpresenter")
-      Toast.makeText(context,"FlashBack",Toast.LENGTH_LONG).show()
+      Toast.makeText(activity,"FlashBack",Toast.LENGTH_LONG).show()
       return
     }
+    stateViewModel.setOffFlashBack()
+
     stateViewModel.setHintBulbVisibility(false)
     hideKeyboard()
     moveToNextState()
