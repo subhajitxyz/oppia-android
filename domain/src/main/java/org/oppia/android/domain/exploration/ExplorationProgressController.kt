@@ -1,6 +1,8 @@
 package org.oppia.android.domain.exploration
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -122,9 +124,23 @@ class ExplorationProgressController @Inject constructor(
   private val explorationProgressListeners: Set<@JvmSuppressWildcards ExplorationProgressListener>
 ) {
   //subha
-  fun getFlashData(): Boolean {
-    return showFlashBack
+  //subha
+
+//  private var showFlashBack: Boolean = false
+//  fun getFlashData(): Boolean {
+//    return showFlashBack
+//  }
+  //using live data
+private val _showFlashBack = MutableLiveData<Boolean>()
+  val showFlashBack: LiveData<Boolean> get() = _showFlashBack
+
+  fun setOffFlashBack() {
+    _showFlashBack.value = false
   }
+
+//  fun showFlashBack() {
+//    _showFlashBack.value = true  // Update with a boolean value
+//  }
 
 
   // TODO(#3467): Update the mechanism to save checkpoints to eliminate the race condition that may
@@ -132,8 +148,7 @@ class ExplorationProgressController @Inject constructor(
   //  callback on the deferred returned on saving checkpoints. In this case ExplorationActivity will
   //  make decisions based on a value of the checkpointState which might not be up-to date.
 
-  //subha
-  private var showFlashBack: Boolean = false
+
 
   // TODO(#606): Replace this with a profile scope to avoid this hacky workaround (which is needed
   //  for getCurrentState).
@@ -718,10 +733,10 @@ class ExplorationProgressController @Inject constructor(
               answerOutcome.feedback.contentId.contains("feedback", true)
             ) {
               Log.d("testflashback","shoflashback is true")
-             showFlashBack = true
+              _showFlashBack.value = true
             } else {
               Log.d("testflashback","shoflashback is false")
-              showFlashBack = false
+              _showFlashBack.value = false
             }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(

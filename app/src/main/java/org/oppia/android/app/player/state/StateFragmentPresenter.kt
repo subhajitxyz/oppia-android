@@ -56,6 +56,7 @@ import org.oppia.android.util.gcsresource.DefaultResourceBucketName
 import org.oppia.android.util.parser.html.ExplorationHtmlParserEntityType
 import org.oppia.android.util.system.OppiaClock
 import javax.inject.Inject
+import org.oppia.android.app.player.exploration.BottomSheetOptionsMenu
 
 const val STATE_FRAGMENT_PROFILE_ID_ARGUMENT_KEY =
   "StateFragmentPresenter.state_fragment_profile_id"
@@ -179,18 +180,29 @@ class StateFragmentPresenter @Inject constructor(
 
   fun onContinueButtonClicked() {
     Log.d("testflashback","in onContinueButtonClicked in statefragmentpresenter")
-    if(stateViewModel.showFlashBack.get() == true) {
-      Log.d("testflashback","in side toast 2 in statefragmentpresenter")
-      Toast.makeText(context,"FlashBack",Toast.LENGTH_LONG).show()
-      return
+
+    stateViewModel.computedFlashBack.observeForever { data ->
+      Log.d("testflashback","A received: $data")
+      if(data) {
+        val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
+        bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
+        stateViewModel.setOffFlashBack()
+        return@observeForever
+      }
     }
 
-    if(stateViewModel.showFlashBack.get() == true) {
-      Log.d("testflashback","in side toast 2 in statefragmentpresenter")
-      Toast.makeText(activity,"FlashBack",Toast.LENGTH_LONG).show()
-      return
-    }
-    stateViewModel.setOffFlashBack()
+//    if(stateViewModel.showFlashBack.get() == true) {
+//      Log.d("testflashback","in side toast 2 in statefragmentpresenter")
+//      Toast.makeText(context,"FlashBack",Toast.LENGTH_LONG).show()
+//      return
+//    }
+//
+//    if(stateViewModel.showFlashBack.get() == true) {
+//      Log.d("testflashback","in side toast 2 in statefragmentpresenter")
+//      Toast.makeText(activity,"FlashBack",Toast.LENGTH_LONG).show()
+//      return
+//    }
+
 
     stateViewModel.setHintBulbVisibility(false)
     hideKeyboard()
