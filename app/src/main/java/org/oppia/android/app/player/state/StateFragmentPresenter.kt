@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -177,7 +178,15 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   fun onContinueButtonClicked() {
+    Log.d("testflashback","in onContinueButtonClicked in statefragmentpresenter")
+    stateViewModel.showFlashBack.observe(fragment) {
+      if(it == true) {
+        Log.d("testflashback","in side toast 1 in statefragmentpresenter")
+        Toast.makeText(context,"FlashBack",Toast.LENGTH_LONG).show()
+      }
+    }
     if(stateViewModel.showFlashBack.value == true) {
+      Log.d("testflashback","in side toast 2 in statefragmentpresenter")
       Toast.makeText(context,"FlashBack",Toast.LENGTH_LONG).show()
       return
     }

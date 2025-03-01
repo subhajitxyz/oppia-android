@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -663,6 +664,8 @@ class ExplorationProgressController @Inject constructor(
     submitAnswerResultFlow: MutableStateFlow<AsyncResult<AnswerOutcome>>,
     userAnswer: UserAnswer
   ) {
+    Log.d("testflashback","into  submitAnswerImpl in exp progress controller")
+
     tryOperation(submitAnswerResultFlow) {
       check(explorationProgress.playStage != NOT_PLAYING) {
         "Cannot submit an answer if an exploration is not being played."
@@ -714,8 +717,10 @@ class ExplorationProgressController @Inject constructor(
             if (!answerOutcome.labelledAsCorrectAnswer &&
               answerOutcome.feedback.contentId.contains("feedback", true)
             ) {
+              Log.d("testflashback","shoflashback is true")
              showFlashBack = true
             } else {
+              Log.d("testflashback","shoflashback is false")
               showFlashBack = false
             }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
