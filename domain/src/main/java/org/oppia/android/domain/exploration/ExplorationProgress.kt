@@ -36,6 +36,10 @@ internal class ExplorationProgress {
   internal val stateDeck: StateDeck by lazy {
     StateDeck(stateGraph.getState(currentExploration.initStateName), ::isTopStateTerminal)
   }
+  //subha
+//  fun checkFlashBack(): Boolean {
+//    return stateDeck.calculateFlashBack()
+//  }
 
   /**
    * Advances the current play stage to the specified stage, verifying that the transition is correct.

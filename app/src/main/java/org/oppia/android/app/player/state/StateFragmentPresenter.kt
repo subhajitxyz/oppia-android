@@ -9,6 +9,7 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.Interpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -176,6 +177,10 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   fun onContinueButtonClicked() {
+    if(stateViewModel.showFlashBack.value == true) {
+      Toast.makeText(context,"FlashBack",Toast.LENGTH_LONG).show()
+      return
+    }
     stateViewModel.setHintBulbVisibility(false)
     hideKeyboard()
     moveToNextState()

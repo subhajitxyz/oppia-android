@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableList
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -43,6 +44,12 @@ class StateViewModel @Inject constructor(
   @EnableFastLanguageSwitchingInLesson
   private val enableFastLanguageSwitchingInLesson: PlatformParameterValue<Boolean>
 ) : ObservableViewModel() {
+  //subha
+  private val _showFlashBack = MutableLiveData<Boolean>(explorationProgressController.getFlashData())
+  val showFlashBack: LiveData<Boolean> get() = _showFlashBack
+  //subha we will try with observable variable instead of livedata.
+
+
   val itemList: ObservableList<StateItemViewModel> = ObservableArrayList()
   val rightItemList: ObservableList<StateItemViewModel> = ObservableArrayList()
 

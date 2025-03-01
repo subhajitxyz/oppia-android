@@ -120,10 +120,19 @@ class ExplorationProgressController @Inject constructor(
   @BackgroundDispatcher private val backgroundCoroutineDispatcher: CoroutineDispatcher,
   private val explorationProgressListeners: Set<@JvmSuppressWildcards ExplorationProgressListener>
 ) {
+  //subha
+  fun getFlashData(): Boolean {
+    return showFlashBack
+  }
+
+
   // TODO(#3467): Update the mechanism to save checkpoints to eliminate the race condition that may
   //  arise if the function finishExplorationAsync acquires lock before the invokeOnCompletion
   //  callback on the deferred returned on saving checkpoints. In this case ExplorationActivity will
   //  make decisions based on a value of the checkpointState which might not be up-to date.
+
+  //subha
+  private var showFlashBack: Boolean = false
 
   // TODO(#606): Replace this with a profile scope to avoid this hacky workaround (which is needed
   //  for getCurrentState).
@@ -349,6 +358,7 @@ class ExplorationProgressController @Inject constructor(
     }
     return moveResultFlow.convertToSessionProvider(MOVE_TO_PREVIOUS_STATE_RESULT_PROVIDER_ID)
   }
+
 
   /**
    * Navigates to the next state in the graph. This method is only valid if the current
@@ -699,6 +709,15 @@ class ExplorationProgressController @Inject constructor(
         when {
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             endState()
+
+            //subha
+            if (!answerOutcome.labelledAsCorrectAnswer &&
+              answerOutcome.feedback.contentId.contains("feedback", true)
+            ) {
+             showFlashBack = true
+            } else {
+              showFlashBack = false
+            }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(
               newState,
@@ -1014,6 +1033,11 @@ class ExplorationProgressController @Inject constructor(
     saveExplorationCheckpoint()
   }
 
+  //subha
+//  private fun ControllerState.getFlashData() : Boolean {
+//    explorationProgress.checkFlashBack()
+//    return true
+//  }
   private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState =
     explorationProgress.stateDeck.getCurrentEphemeralState(
       retrieveCurrentHelpIndex(),
@@ -1228,6 +1252,11 @@ class ExplorationProgressController @Inject constructor(
     val startSessionTimeMs: Long,
     var isContinueButtonAnimationSeen: Boolean,
   ) {
+
+    //subha
+//    fun getFlashData() : Boolean {
+//      explorationProgress.getFlashData()
+//    }
     /**
      * The [HintHandler] used to monitor and trigger hints in the play session corresponding to this
      * controller state.
