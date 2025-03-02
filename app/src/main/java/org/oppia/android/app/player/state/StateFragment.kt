@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -116,7 +117,10 @@ class StateFragment :
     stateFragmentPresenter.handleAnswerReadyForSubmission(answer)
   }
 
-  override fun onContinueButtonClicked() = stateFragmentPresenter.onContinueButtonClicked()
+  override fun onContinueButtonClicked() {
+    Log.d("testflashback","in onContinueButtonClicked in state fragment")
+    stateFragmentPresenter.onContinueButtonClicked()
+  }
 
   override fun onNextButtonClicked() = stateFragmentPresenter.onNextButtonClicked()
 

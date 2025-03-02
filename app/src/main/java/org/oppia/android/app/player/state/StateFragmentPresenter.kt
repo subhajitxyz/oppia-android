@@ -179,17 +179,26 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   fun onContinueButtonClicked() {
+    //subha
     Log.d("testflashback","in onContinueButtonClicked in statefragmentpresenter")
 
-    stateViewModel.computedFlashBack.observeForever { data ->
-      Log.d("testflashback","A received: $data")
-      if(data) {
-        val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
-        bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
-        stateViewModel.setOffFlashBack()
-        return@observeForever
-      }
+    if(stateViewModel.getFlashData()) {
+       Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashData()}")
+
+      val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
+      bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
+      stateViewModel.offFlashData()
+      return
     }
+//    stateViewModel.computedFlashBack.observeForever() { data ->
+//      Log.d("testflashback","A received: $data")
+//      if(data) {
+//        val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
+//        bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
+//        stateViewModel.setOffFlashBack()
+//        return@observeForever
+//      }
+//    }
 
 //    if(stateViewModel.showFlashBack.get() == true) {
 //      Log.d("testflashback","in side toast 2 in statefragmentpresenter")

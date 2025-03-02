@@ -130,13 +130,22 @@ class ExplorationProgressController @Inject constructor(
 //  fun getFlashData(): Boolean {
 //    return showFlashBack
 //  }
-  //using live data
-private val _showFlashBack = MutableLiveData<Boolean>()
-  val showFlashBack: LiveData<Boolean> get() = _showFlashBack
-
-  fun setOffFlashBack() {
-    _showFlashBack.value = false
+  //use simple data
+  var x = false
+  fun getXData(): Boolean {
+    return x
   }
+  fun offXData() {
+    x = false
+  }
+  //using live data
+//  private val _showFlashBack = MutableLiveData<Boolean>()
+//  val showFlashBack: LiveData<Boolean> get() = _showFlashBack
+//
+//  fun setOffFlashBack() {
+//    _showFlashBack.value = false
+//  }
+
 
 //  fun showFlashBack() {
 //    _showFlashBack.value = true  // Update with a boolean value
@@ -733,10 +742,12 @@ private val _showFlashBack = MutableLiveData<Boolean>()
               answerOutcome.feedback.contentId.contains("feedback", true)
             ) {
               Log.d("testflashback","shoflashback is true")
-              _showFlashBack.value = true
+              //_showFlashBack.value = true
+              x = true
             } else {
               Log.d("testflashback","shoflashback is false")
-              _showFlashBack.value = false
+              //_showFlashBack.value = false
+              x = false
             }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(
