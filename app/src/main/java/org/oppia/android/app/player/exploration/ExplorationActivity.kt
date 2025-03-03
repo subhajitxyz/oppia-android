@@ -29,6 +29,7 @@ import org.oppia.android.util.extensions.putProtoExtra
 import org.oppia.android.util.logging.CurrentAppScreenNameIntentDecorator.decorateWithScreenName
 import javax.inject.Inject
 import org.oppia.android.app.topic.flashbackcard.FlashbackCardFragment
+import org.oppia.android.app.topic.flashbackcard.FlashbackCardListener
 
 const val TAG_HINTS_AND_SOLUTION_DIALOG = "HINTS_AND_SOLUTION_DIALOG"
 //subha
@@ -42,6 +43,7 @@ class ExplorationActivity :
   AudioButtonListener,
   HintsAndSolutionListener,
   RouteToHintsAndSolutionListener,
+  FlashbackCardListener,
   RevealHintListener,
   ViewHintListener,
   RevealSolutionInterface,

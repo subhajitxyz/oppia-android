@@ -8,5 +8,4 @@ interface RouteToHintsAndSolutionListener {
   fun routeToHintsAndSolution(id: String, helpIndex: HelpIndex)
 
   //subha just test -> if works i will shift this method in new interface
-  fun routeToFlashBackCard(id: String)
 }

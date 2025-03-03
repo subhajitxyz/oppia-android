@@ -57,6 +57,7 @@ import org.oppia.android.util.parser.html.ExplorationHtmlParserEntityType
 import org.oppia.android.util.system.OppiaClock
 import javax.inject.Inject
 import org.oppia.android.app.player.exploration.BottomSheetOptionsMenu
+import org.oppia.android.app.topic.flashbackcard.FlashbackCardListener
 
 const val STATE_FRAGMENT_PROFILE_ID_ARGUMENT_KEY =
   "StateFragmentPresenter.state_fragment_profile_id"
@@ -88,6 +89,7 @@ class StateFragmentPresenter @Inject constructor(
 ) {
 
   private val routeToHintsAndSolutionListener = activity as RouteToHintsAndSolutionListener
+  private val flashbackCardListener = activity as FlashbackCardListener
   private val hasConversationView = true
 
   private lateinit var currentState: State
@@ -187,7 +189,7 @@ class StateFragmentPresenter @Inject constructor(
 
 //      val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
 //      bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
-      routeToHintsAndSolutionListener.routeToFlashBackCard(
+      flashbackCardListener.routeToFlashBackCard(
         this.explorationId
       )
       stateViewModel.offFlashData()

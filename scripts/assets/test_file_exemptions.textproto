@@ -1803,6 +1803,10 @@ test_file_exemption {
   test_file_not_required: true
 }
 test_file_exemption {
+  exempted_file_path: "app/src/main/java/org/oppia/android/app/topic/flashbackcard/FlashbackCardListener.kt"
+  test_file_not_required: true
+}
+test_file_exemption {
   exempted_file_path: "app/src/main/java/org/oppia/android/app/player/state/listener/ShowHintAvailabilityListener.kt"
   test_file_not_required: true
 }
