@@ -1,5 +1,6 @@
 package org.oppia.android.app.topic.flashbackcard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,9 @@ class FlashbackCardFragmentPresenter @Inject constructor(
 
     //flashbackCardViewModel.initialize(skillId, profileId)
     //logConceptCardEvent(skillId)
+
+    Log.d("test",id)
+    Log.d("test",writtenTranslationContext.toString())
 
     binding.flashbackCardToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
     binding.flashbackCardToolbar.setNavigationContentDescription(
