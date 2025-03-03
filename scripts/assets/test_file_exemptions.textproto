@@ -2683,6 +2683,10 @@ test_file_exemption {
   test_file_not_required: true
 }
 test_file_exemption {
+  exempted_file_path: "app/src/main/java/org/oppia/android/app/topic/flashbackcard/FlashbackCardViewModel.kt"
+  test_file_not_required: true
+}
+test_file_exemption {
   exempted_file_path: "app/src/main/java/org/oppia/android/app/topic/info/TopicInfoFragment.kt"
   source_file_is_incompatible_with_code_coverage: true
 }

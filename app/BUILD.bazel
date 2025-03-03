@@ -356,6 +356,7 @@ VIEW_MODELS = [
     "src/main/java/org/oppia/android/app/testing/BindableAdapterTestViewModel.kt",
     "src/main/java/org/oppia/android/app/testing/CircularProgressIndicatorAdaptersTestViewModel.kt",
     "src/main/java/org/oppia/android/app/topic/conceptcard/ConceptCardViewModel.kt",
+    "src/main/java/org/oppia/android/app/topic/flashbackcard/FlashbackCardViewModel.kt",
     "src/main/java/org/oppia/android/app/topic/lessons/TopicLessonViewModel.kt",
     "src/main/java/org/oppia/android/app/topic/lessons/TopicLessonsItemViewModel.kt",
     "src/main/java/org/oppia/android/app/topic/lessons/TopicLessonsTitleViewModel.kt",
