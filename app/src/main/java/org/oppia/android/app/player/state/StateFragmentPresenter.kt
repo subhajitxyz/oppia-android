@@ -185,8 +185,11 @@ class StateFragmentPresenter @Inject constructor(
     if(stateViewModel.getFlashData()) {
        Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashData()}")
 
-      val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
-      bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
+//      val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
+//      bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
+      routeToHintsAndSolutionListener.routeToFlashBackCard(
+        this.explorationId
+      )
       stateViewModel.offFlashData()
       return
     }

@@ -82,6 +82,7 @@ import org.oppia.android.app.testing.ExplorationTestActivityPresenter
 import org.oppia.android.app.testing.ImageRegionSelectionTestFragment
 import org.oppia.android.app.topic.TopicFragment
 import org.oppia.android.app.topic.conceptcard.ConceptCardFragment
+import org.oppia.android.app.topic.flashbackcard.FlashbackCardFragment
 import org.oppia.android.app.topic.info.TopicInfoFragment
 import org.oppia.android.app.topic.lessons.TopicLessonsFragment
 import org.oppia.android.app.topic.practice.TopicPracticeFragment
@@ -129,6 +130,8 @@ interface FragmentComponentImpl : FragmentComponent, ViewComponentBuilderInjecto
   fun inject(cellularAudioDialogFragment: CellularAudioDialogFragment)
   fun inject(completedStoryListFragment: CompletedStoryListFragment)
   fun inject(conceptCardFragment: ConceptCardFragment)
+  //subha
+  fun inject(flashbackCardFragment: FlashbackCardFragment)
   fun inject(profileDeleteSuccessDialogFragment: ProfileDeleteSuccessDialogFragment)
   fun inject(developerOptionsFragment: DeveloperOptionsFragment)
   fun inject(downloadsTabFragment: DownloadsTabFragment)

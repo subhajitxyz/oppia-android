@@ -1,0 +1,83 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+      name="viewModel"
+      type="org.oppia.android.app.topic.flashbackcard.FlashbackCardViewModel" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/component_color_shared_screen_secondary_background_color">
+
+    <androidx.appcompat.widget.Toolbar
+      android:id="@+id/flashback_card_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/component_color_concept_card_fragment_toolbar_color"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:title="@string/concept_card_toolbar_title"
+      app:titleTextAppearance="@style/ToolbarTextAppearance"
+      app:titleTextColor="@color/component_color_shared_activity_toolbar_text_color" />
+
+    <FrameLayout
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/flashback_card_toolbar">
+
+      <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingBottom="@dimen/general_screen_padding_bottom"
+        android:scrollbars="none">
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <TextView
+            android:id="@+id/flashback_card_heading_text"
+            style="@style/TextViewStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/concept_card_heading_text_margin_start"
+            android:layout_marginTop="@dimen/concept_card_heading_text_margin_top"
+            android:layout_marginEnd="@dimen/concept_card_heading_text_margin_end"
+            android:fontFamily="sans-serif-medium"
+            android:text="HI New FlashBack Card"
+            android:textColor="@color/component_color_shared_primary_text_color"
+            android:textColorLink="@color/component_color_shared_link_text_color"
+            android:textSize="20sp" />
+
+          <TextView
+            android:id="@+id/flashback_card_explanation_text"
+            style="@style/Body"
+            android:layout_marginStart="@dimen/concept_card_explanation_text_margin_start"
+            android:layout_marginTop="@dimen/concept_card_explanation_text_margin_top"
+            android:layout_marginEnd="@dimen/concept_card_explanation_text_margin_end"
+            android:textColorLink="@color/component_color_shared_link_text_color" />
+        </LinearLayout>
+        <!-- TODO(#352): Show worked examples in Concept Card. -->
+      </ScrollView>
+
+      <View
+        android:id="@+id/flashback_card_shadow_view"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/toolbar_drop_shadow" />
+    </FrameLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

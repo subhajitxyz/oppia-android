@@ -28,8 +28,11 @@ import org.oppia.android.util.extensions.getProtoExtra
 import org.oppia.android.util.extensions.putProtoExtra
 import org.oppia.android.util.logging.CurrentAppScreenNameIntentDecorator.decorateWithScreenName
 import javax.inject.Inject
+import org.oppia.android.app.topic.flashbackcard.FlashbackCardFragment
 
 const val TAG_HINTS_AND_SOLUTION_DIALOG = "HINTS_AND_SOLUTION_DIALOG"
+//subha
+const val TAG_FLASHBACK_CARD = "FLASHBACK_CARD_DIALOG"
 
 /** The starting point for exploration. */
 class ExplorationActivity :
@@ -176,8 +179,26 @@ class ExplorationActivity :
         helpIndex,
         writtenTranslationContext
       )
-      hintsAndSolutionDialogFragment.showNow(supportFragmentManager, TAG_HINTS_AND_SOLUTION_DIALOG)
+      hintsAndSolutionDialogFragment.showNow(supportFragmentManager, TAG_FLASHBACK_CARD)
     }
+  }
+
+  //subha flashback
+  override fun routeToFlashBackCard(id: String) {
+    if (getFlashbackCard() == null) {
+      val flashbackCardFragment = FlashbackCardFragment.newInstance(
+        id,
+        writtenTranslationContext
+      )
+      flashbackCardFragment.showNow(supportFragmentManager, TAG_FLASHBACK_CARD)
+    }
+  }
+
+  //subha
+  private fun getFlashbackCard(): FlashbackCardFragment? {
+    return supportFragmentManager.findFragmentByTag(
+      TAG_FLASHBACK_CARD
+    ) as FlashbackCardFragment?
   }
 
   override fun dismiss() {
