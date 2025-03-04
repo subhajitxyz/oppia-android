@@ -361,6 +361,9 @@ message AnswerOutcome {
     // Indicates that the learner needs to play the specified exploration ID to refresh missing topics and then return
     // to restart the current exploration.
     string refresher_exploration_id = 7;
+
+    //subha flashback
+    string flashback_state_name = 8;
   }
 }
 

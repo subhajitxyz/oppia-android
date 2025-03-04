@@ -734,21 +734,35 @@ class ExplorationProgressController @Inject constructor(
         // Follow the answer's outcome to another part of the graph if it's different.
         val ephemeralState = computeBaseCurrentEphemeralState()
         when {
+          //subha
+          answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
+            explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)-> {
+            Log.d("testflashback","inside my flashback condition")
+
+            //handle the flashback card here
+              //
+
+              //check if it works -> after summiting wrong answer , is it show wrong answer again when flashback card state
+            hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
+            x = true
+          }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
+            //subha
+            x = false
             endState()
 
             //subha
-            if (!answerOutcome.labelledAsCorrectAnswer &&
-              answerOutcome.feedback.contentId.contains("feedback", true)
-            ) {
-              Log.d("testflashback","shoflashback is true")
-              //_showFlashBack.value = true
-              x = true
-            } else {
-              Log.d("testflashback","shoflashback is false")
-              //_showFlashBack.value = false
-              x = false
-            }
+//            if (!answerOutcome.labelledAsCorrectAnswer &&
+//              answerOutcome.feedback.contentId.contains("feedback", true)
+//            ) {
+//              Log.d("testflashback","shoflashback is true")
+//              //_showFlashBack.value = true
+//              x = true
+//            } else {
+//              Log.d("testflashback","shoflashback is false")
+//              //_showFlashBack.value = false
+//              x = false
+//            }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(
               newState,
@@ -759,6 +773,8 @@ class ExplorationProgressController @Inject constructor(
             hintHandler.finishState(newState)
           }
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
+            //subha
+            x = false
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
             hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)

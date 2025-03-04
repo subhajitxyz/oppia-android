@@ -33,6 +33,10 @@ class StateGraph constructor(
       outcome.missingPrerequisiteSkillId.isNotEmpty() ->
         answerOutcomeBuilder.missingPrerequisiteSkillId = outcome.missingPrerequisiteSkillId
       outcome.destStateName == currentState.name -> answerOutcomeBuilder.sameState = true
+      //subha
+      //we will compute previous_state_name for flashcard with proper condition
+      !outcome.labelledAsCorrect &&
+        outcome.feedback.contentId.contains("feedback", true) -> answerOutcomeBuilder.flashbackStateName = outcome.destStateName
       else -> answerOutcomeBuilder.stateName = outcome.destStateName
     }
     return answerOutcomeBuilder.build()
