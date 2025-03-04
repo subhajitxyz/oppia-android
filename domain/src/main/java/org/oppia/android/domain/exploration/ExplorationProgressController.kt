@@ -742,8 +742,9 @@ class ExplorationProgressController @Inject constructor(
             //handle the flashback card here
               //
 
-              //check if it works -> after summiting wrong answer , is it show wrong answer again when flashback card state
-            hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
+            //check if it works -> after summiting wrong answer , is it show wrong answer again when flashback card state
+            //i have checked ,it handles the correctly shows wrong answer
+            //hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
             x = true
           }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
