@@ -743,9 +743,19 @@ class ExplorationProgressController @Inject constructor(
               //
 
             //check if it works -> after summiting wrong answer , is it show wrong answer again when flashback card state
-            //i have checked ,it handles the correctly shows wrong answer
             //hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
             x = true
+
+            //this code just for bring the continue button in place of Learn again button forcefully
+            endState()
+            val newState = explorationProgress.stateGraph.getState(answerOutcome.flashbackStateName)
+            explorationProgress.stateDeck.pushState(
+              newState,
+              prohibitSameStateName = true,
+              timestamp = startSessionTimeMs + continueButtonAnimationDelay,
+              isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
+            )
+            hintHandler.finishState(newState)
           }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             //subha
@@ -775,6 +785,7 @@ class ExplorationProgressController @Inject constructor(
           }
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             //subha
+            Log.d("testflashback","inside condition ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE")
             x = false
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
