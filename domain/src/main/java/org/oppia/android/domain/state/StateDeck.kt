@@ -287,4 +287,12 @@ class StateDeck constructor(
     }
     return false
   }
+  fun getFlashbackEphemeralState(stateName: String): EphemeralState{
+    for (i in previousStates.size - 1 downTo 0) {
+      if (previousStates[i].state.name == stateName) {
+        return previousStates[i]
+      }
+    }
+    return EphemeralState.getDefaultInstance()
+  }
 }

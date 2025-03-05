@@ -35,6 +35,8 @@ class StateGraph constructor(
       outcome.destStateName == currentState.name -> answerOutcomeBuilder.sameState = true
       //subha
       //we will compute previous_state_name for flashcard with proper condition
+      //how can we optimize this condition -> if we can able to check the [outcome.destStateName present in statedeck earlier]
+      //then we do not need to check [outcome.feedback.contentId contains feedback] because i have a doubt on this condition
       !outcome.labelledAsCorrect &&
         outcome.feedback.contentId.contains("feedback", true) -> answerOutcomeBuilder.flashbackStateName = outcome.destStateName
       else -> answerOutcomeBuilder.stateName = outcome.destStateName

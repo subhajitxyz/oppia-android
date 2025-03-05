@@ -58,6 +58,7 @@ import org.oppia.android.util.system.OppiaClock
 import javax.inject.Inject
 import org.oppia.android.app.player.exploration.BottomSheetOptionsMenu
 import org.oppia.android.app.topic.flashbackcard.FlashbackCardListener
+import org.oppia.android.app.topic.flashbackcard.FlashbackCardViewModel
 
 const val STATE_FRAGMENT_PROFILE_ID_ARGUMENT_KEY =
   "StateFragmentPresenter.state_fragment_profile_id"
@@ -83,6 +84,8 @@ class StateFragmentPresenter @Inject constructor(
   private val splitScreenManager: SplitScreenManager,
   private val oppiaClock: OppiaClock,
   private val stateViewModel: StateViewModel,
+  //subha
+  private val flashbackCardViewModel: FlashbackCardViewModel,
   private val accessibilityService: AccessibilityService,
   private val resourceHandler: AppLanguageResourceHandler,
   private val surveyGatingController: SurveyGatingController
@@ -187,6 +190,7 @@ class StateFragmentPresenter @Inject constructor(
     if(stateViewModel.getFlashData()) {
        Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashData()}")
 
+      computeItemListForFlashback(ephemeralState = explorationProgressController.getFlashbackEphemeralState())
 //      val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
 //      bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
       flashbackCardListener.routeToFlashBackCard(
@@ -390,6 +394,20 @@ class StateFragmentPresenter @Inject constructor(
         200
       )
     }
+  }
+
+  //subha
+  fun computeItemListForFlashback(ephemeralState: EphemeralState) {
+    val shouldSplit = splitScreenManager.shouldSplitScreen(ephemeralState.state.interaction.id)
+    val dataPair = recyclerViewAssembler.compute(
+      ephemeralState,
+      explorationId,
+      shouldSplit
+    )
+
+    flashbackCardViewModel.itemList.clear()
+    flashbackCardViewModel.itemList += dataPair.first
+
   }
 
   /** Subscribes to the result of requesting to show a hint or solution. */

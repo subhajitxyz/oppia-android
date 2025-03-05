@@ -388,6 +388,22 @@ class StatePlayerRecyclerViewAssembler private constructor(
       )
     }
   }
+  //subha
+//  private fun addContentFlashbackItem(
+//    ephemeralState: EphemeralState,
+//    gcsEntityId: String
+//  ) {
+//    val contentSubtitledHtml =
+//      translationController.extractString(
+//        ephemeralState.state.content, ephemeralState.writtenTranslationContext
+//      )
+//    if (contentSubtitledHtml.isNotEmpty()) {
+//      return ContentViewModel(
+//        contentSubtitledHtml,
+//        gcsEntityId
+//      )
+//    }
+//  }
 
   private fun addPreviousAnswers(
     pendingItemList: MutableList<StateItemViewModel>,

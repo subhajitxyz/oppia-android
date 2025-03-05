@@ -132,11 +132,16 @@ class ExplorationProgressController @Inject constructor(
 //  }
   //use simple data
   var x = false
+  private lateinit var flashbackState: EphemeralState
+  fun getFlashbackEphemeralState(): EphemeralState { return flashbackState }
+
   fun getXData(): Boolean {
     return x
   }
   fun offXData() {
     x = false
+    Log.d("testflashback","logging x = false")
+
   }
   //using live data
 //  private val _showFlashBack = MutableLiveData<Boolean>()
@@ -745,6 +750,8 @@ class ExplorationProgressController @Inject constructor(
             //check if it works -> after summiting wrong answer , is it show wrong answer again when flashback card state
             //hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
             x = true
+            flashbackState = explorationProgress.stateDeck.getFlashbackEphemeralState(answerOutcome.flashbackStateName)
+            Log.d("testflashback","logging x = true")
 
             //this code just for bring the continue button in place of Learn again button forcefully
             endState()
