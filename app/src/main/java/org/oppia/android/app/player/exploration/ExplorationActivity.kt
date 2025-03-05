@@ -28,6 +28,7 @@ import org.oppia.android.util.extensions.getProtoExtra
 import org.oppia.android.util.extensions.putProtoExtra
 import org.oppia.android.util.logging.CurrentAppScreenNameIntentDecorator.decorateWithScreenName
 import javax.inject.Inject
+import org.oppia.android.app.model.EphemeralState
 import org.oppia.android.app.topic.flashbackcard.FlashbackCardFragment
 import org.oppia.android.app.topic.flashbackcard.FlashbackCardListener
 
@@ -186,11 +187,12 @@ class ExplorationActivity :
   }
 
   //subha flashback
-  override fun routeToFlashBackCard(id: String) {
+  override fun routeToFlashBackCard(id: String, ephemeralState: EphemeralState) {
     if (getFlashbackCard() == null) {
       val flashbackCardFragment = FlashbackCardFragment.newInstance(
         id,
-        writtenTranslationContext
+        writtenTranslationContext,
+        ephemeralState
       )
       flashbackCardFragment.showNow(supportFragmentManager, TAG_FLASHBACK_CARD)
     }

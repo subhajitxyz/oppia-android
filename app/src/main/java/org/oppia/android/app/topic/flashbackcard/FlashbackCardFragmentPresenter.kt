@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import javax.inject.Inject
 import org.oppia.android.R
 import org.oppia.android.app.fragment.FragmentScope
+import org.oppia.android.app.model.EphemeralState
 import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.model.WrittenTranslationContext
 import org.oppia.android.app.topic.conceptcard.ConceptCardFragment
 import org.oppia.android.app.topic.conceptcard.ConceptCardListener
 import org.oppia.android.databinding.FlashbackCardFragmentBinding
 import org.oppia.android.domain.oppialogger.OppiaLogger
+import org.oppia.android.domain.translation.TranslationController
 import org.oppia.android.util.parser.html.HtmlParser
 
 /** Presenter for [FlashbackCardFragment], sets up bindings from ViewModel. */
@@ -21,6 +23,7 @@ import org.oppia.android.util.parser.html.HtmlParser
 class FlashbackCardFragmentPresenter @Inject constructor(
   private val fragment: Fragment,
   private val oppiaLogger: OppiaLogger,
+  private val translationController: TranslationController,
 //  private val analyticsController: AnalyticsController,
 //  private val htmlParserFactory: HtmlParser.Factory,
 //  @ConceptCardHtmlParserEntityType private val entityType: String,
@@ -40,7 +43,8 @@ class FlashbackCardFragmentPresenter @Inject constructor(
     container: ViewGroup?,
     id: String,
     writtenTranslationContext: WrittenTranslationContext,
-    profileId: ProfileId
+    profileId: ProfileId,
+    ephemeralState: EphemeralState
   ): View? {
     this.profileId = profileId
     val binding = FlashbackCardFragmentBinding.inflate(
@@ -66,6 +70,12 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
     }
 
+    val contentSubtitledHtml =
+      translationController.extractString(
+        ephemeralState.state.content, ephemeralState.writtenTranslationContext
+      )
+    binding.flashbackCardExplanationText.text = contentSubtitledHtml
+
     binding.let { it ->
       it.viewModel = flashbackCardViewModel
       it.lifecycleOwner = fragment
@@ -73,6 +83,8 @@ class FlashbackCardFragmentPresenter @Inject constructor(
 
     return binding.root
   }
+
+
 
 //  private fun logConceptCardEvent(skillId: String) {
 //    analyticsController.logImportantEvent(

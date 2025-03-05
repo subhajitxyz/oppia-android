@@ -937,4 +937,6 @@ message FlashbackFragmentArguments {
 
   // [WrittenTranslationContext] needed to translate the hints/solution.
   WrittenTranslationContext written_translation_context = 4;
+
+  EphemeralState ephemeral_state = 5;
 }

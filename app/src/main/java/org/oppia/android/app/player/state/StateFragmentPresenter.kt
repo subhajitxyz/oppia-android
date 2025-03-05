@@ -190,11 +190,11 @@ class StateFragmentPresenter @Inject constructor(
     if(stateViewModel.getFlashData()) {
        Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashData()}")
 
-      computeItemListForFlashback(ephemeralState = explorationProgressController.getFlashbackEphemeralState())
 //      val bottomSheetOptionsMenu = BottomSheetOptionsMenu()
 //      bottomSheetOptionsMenu.showNow(activity.supportFragmentManager, bottomSheetOptionsMenu.tag)
       flashbackCardListener.routeToFlashBackCard(
-        this.explorationId
+        this.explorationId,
+        ephemeralState = explorationProgressController.getFlashbackEphemeralState()
       )
       stateViewModel.offFlashData()
       return
@@ -397,18 +397,18 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   //subha
-  fun computeItemListForFlashback(ephemeralState: EphemeralState) {
-    val shouldSplit = splitScreenManager.shouldSplitScreen(ephemeralState.state.interaction.id)
-    val dataPair = recyclerViewAssembler.compute(
-      ephemeralState,
-      explorationId,
-      shouldSplit
-    )
-
-    flashbackCardViewModel.itemList.clear()
-    flashbackCardViewModel.itemList += dataPair.first
-
-  }
+//  fun computeItemListForFlashback(ephemeralState: EphemeralState) {
+//    val shouldSplit = splitScreenManager.shouldSplitScreen(ephemeralState.state.interaction.id)
+//    val dataPair = recyclerViewAssembler.compute(
+//      ephemeralState,
+//      explorationId,
+//      shouldSplit
+//    )
+//
+//    flashbackCardViewModel.itemList.clear()
+//    flashbackCardViewModel.itemList += dataPair.first
+//
+//  }
 
   /** Subscribes to the result of requesting to show a hint or solution. */
   private fun subscribeToHintSolution(resultDataProvider: DataProvider<Any?>) {

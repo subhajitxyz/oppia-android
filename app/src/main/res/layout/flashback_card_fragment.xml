@@ -35,25 +35,43 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/flashback_card_toolbar">
 
-      <androidx.constraintlayout.widget.ConstraintLayout
+      <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingBottom="@dimen/general_screen_padding_bottom"
+        android:scrollbars="none">
 
-        <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/state_recycler_view"
-          android:layout_width="0dp"
-          android:layout_height="0dp"
-          android:clipToPadding="false"
-          android:divider="@android:color/transparent"
-          android:overScrollMode="never"
-          android:paddingBottom="@dimen/general_screen_padding_bottom"
-          android:scrollbars="none"
-          app:data="@{viewModel.itemList}"
-          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent" />
-      </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <TextView
+            android:id="@+id/flashback_card_heading_text"
+            style="@style/TextViewStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/concept_card_heading_text_margin_start"
+            android:layout_marginTop="@dimen/concept_card_heading_text_margin_top"
+            android:layout_marginEnd="@dimen/concept_card_heading_text_margin_end"
+            android:fontFamily="sans-serif-medium"
+            android:text="HI New FlashBack Card"
+            android:textColor="@color/component_color_shared_primary_text_color"
+            android:textColorLink="@color/component_color_shared_link_text_color"
+            android:textSize="20sp" />
+
+          <TextView
+            android:id="@+id/flashback_card_explanation_text"
+            style="@style/Body"
+            android:layout_marginStart="@dimen/concept_card_explanation_text_margin_start"
+            android:layout_marginTop="@dimen/concept_card_explanation_text_margin_top"
+            android:layout_marginEnd="@dimen/concept_card_explanation_text_margin_end"
+            android:textColorLink="@color/component_color_shared_link_text_color" />
+        </LinearLayout>
+        <!-- TODO(#352): Show worked examples in Concept Card. -->
+      </ScrollView>
 
 
       <View

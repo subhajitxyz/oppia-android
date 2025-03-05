@@ -13,6 +13,7 @@ import org.oppia.android.app.fragment.FragmentComponentImpl
 import org.oppia.android.app.fragment.InjectableDialogFragment
 import org.oppia.android.app.hintsandsolution.HintsAndSolutionDialogFragment
 import org.oppia.android.app.model.ConceptCardFragmentArguments
+import org.oppia.android.app.model.EphemeralState
 import org.oppia.android.app.model.FlashbackFragmentArguments
 import org.oppia.android.app.model.HelpIndex
 import org.oppia.android.app.model.HintsAndSolutionDialogFragmentArguments
@@ -40,11 +41,13 @@ class FlashbackCardFragment : InjectableDialogFragment() {
 
     fun newInstance(
       id: String,
-      writtenTranslationContext: WrittenTranslationContext
+      writtenTranslationContext: WrittenTranslationContext,
+      ephemeralState: EphemeralState
     ): FlashbackCardFragment {
       val args = FlashbackFragmentArguments.newBuilder().apply {
         this.idArgument = id
         this.writtenTranslationContext = writtenTranslationContext
+        this.ephemeralState = ephemeralState
       }.build()
       return FlashbackCardFragment().apply {
         arguments = Bundle().apply {
@@ -91,7 +94,9 @@ class FlashbackCardFragment : InjectableDialogFragment() {
       args.writtenTranslationContext ?: WrittenTranslationContext.getDefaultInstance()
     val profileId = arguments.getProto(HintsAndSolutionDialogFragment.PROFILE_ID_KEY, ProfileId.getDefaultInstance())
 
-    return flashbackCardFragmentPresenter.handleCreateView(inflater, container, id, writtenTranslationContext, profileId)
+    val ephemeralState = args.ephemeralState ?: EphemeralState.getDefaultInstance()
+
+    return flashbackCardFragmentPresenter.handleCreateView(inflater, container, id, writtenTranslationContext, profileId, ephemeralState)
   }
 
   override fun onStart() {
