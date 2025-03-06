@@ -13,9 +13,12 @@ import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.model.WrittenTranslationContext
 import org.oppia.android.app.topic.conceptcard.ConceptCardFragment
 import org.oppia.android.app.topic.conceptcard.ConceptCardListener
+import org.oppia.android.app.translation.AppLanguageResourceHandler
 import org.oppia.android.databinding.FlashbackCardFragmentBinding
 import org.oppia.android.domain.oppialogger.OppiaLogger
 import org.oppia.android.domain.translation.TranslationController
+import org.oppia.android.util.gcsresource.DefaultResourceBucketName
+import org.oppia.android.util.parser.html.ExplorationHtmlParserEntityType
 import org.oppia.android.util.parser.html.HtmlParser
 
 /** Presenter for [FlashbackCardFragment], sets up bindings from ViewModel. */
@@ -25,12 +28,12 @@ class FlashbackCardFragmentPresenter @Inject constructor(
   private val oppiaLogger: OppiaLogger,
   private val translationController: TranslationController,
 //  private val analyticsController: AnalyticsController,
-//  private val htmlParserFactory: HtmlParser.Factory,
-//  @ConceptCardHtmlParserEntityType private val entityType: String,
-//  @DefaultResourceBucketName private val resourceBucketName: String,
+  private val htmlParserFactory: HtmlParser.Factory,
+  @ExplorationHtmlParserEntityType private val entityType: String,
+  @DefaultResourceBucketName private val resourceBucketName: String,
   private val flashbackCardViewModel: FlashbackCardViewModel,
 //  private val translationController: TranslationController,
-//  private val appLanguageResourceHandler: AppLanguageResourceHandler
+  private val appLanguageResourceHandler: AppLanguageResourceHandler
 ) : HtmlParser.CustomOppiaTagActionListener {
   private lateinit var profileId: ProfileId
 
@@ -78,19 +81,35 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       it.lifecycleOwner = fragment
     }
 
+    val view = binding.flashbackCardExplanationText
     val contentSubtitledHtml =
       translationController.extractString(
         ephemeralState.state.content, ephemeralState.writtenTranslationContext
       )
-    setFlashbackContent(contentSubtitledHtml)
+
+    view.text =
+      htmlParserFactory.create(
+        resourceBucketName,
+        entityType,
+        id,
+        customOppiaTagActionListener = this,
+        imageCenterAlign = true,
+        displayLocale = appLanguageResourceHandler.getDisplayLocale()
+      ).parseOppiaHtml(
+        contentSubtitledHtml,
+        view,
+        supportsLinks = true,
+        supportsConceptCards = true
+      )
+    //setFlashbackContent(contentSubtitledHtml)
 
     return binding.root
   }
 
   //subha
-  private fun setFlashbackContent(content: String) {
-    flashbackCardViewModel.updateFlashbackContent(content)
-  }
+//  private fun setFlashbackContent(content: String) {
+//    flashbackCardViewModel.updateFlashbackContent(content)
+//  }
 
 
 

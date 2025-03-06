@@ -6,10 +6,6 @@
     <import type="android.view.View" />
 
     <variable
-      name="contentSubtitledHtml"
-      type="CharSequence" />
-
-    <variable
       name="viewModel"
       type="org.oppia.android.app.topic.flashbackcard.FlashbackCardViewModel" />
   </data>
@@ -69,7 +65,6 @@
           <TextView
             android:id="@+id/flashback_card_explanation_text"
             style="@style/Body"
-            android:text="@{contentSubtitledHtml}"
             android:layout_marginStart="@dimen/concept_card_explanation_text_margin_start"
             android:layout_marginTop="@dimen/concept_card_explanation_text_margin_top"
             android:layout_marginEnd="@dimen/concept_card_explanation_text_margin_end"
