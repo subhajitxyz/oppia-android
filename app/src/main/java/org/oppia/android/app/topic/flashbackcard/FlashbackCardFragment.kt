@@ -20,6 +20,7 @@ import org.oppia.android.app.model.HintsAndSolutionDialogFragmentArguments
 import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.model.State
 import org.oppia.android.app.model.WrittenTranslationContext
+import org.oppia.android.app.topic.conceptcard.ConceptCardFragment
 import org.oppia.android.app.topic.conceptcard.ConceptCardFragmentPresenter
 import org.oppia.android.util.extensions.getProto
 import org.oppia.android.util.extensions.putProto
@@ -106,6 +107,17 @@ class FlashbackCardFragment : InjectableDialogFragment() {
 
   //need to learn and then implement
   fun dismissFlashbackCard() {
-    flashbackCardFragmentPresenter.dismissFlashbackCard()
+    dismissAll(fragmentManager = parentFragmentManager)
+  }
+
+  fun dismissAll(fragmentManager: FragmentManager) {
+    val toDismiss = fragmentManager.fragments.filterIsInstance<FlashbackCardFragment>()
+    if (toDismiss.isNotEmpty()) {
+      val transaction = fragmentManager.beginTransaction()
+      for (fragment in toDismiss) {
+        transaction.remove(fragment)
+      }
+      transaction.commitNow()
+    }
   }
 }

@@ -72,7 +72,7 @@ class FlashbackCardFragmentPresenter @Inject constructor(
 //    binding.flashbackCardToolbar.setNavigationOnClickListener {
 //      (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
 //    }
-
+//
     binding.flashbackCardToolbar.setNavigationOnClickListener {
       Log.d("testflashback","click on closebutton")
       (fragment.requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
@@ -129,7 +129,7 @@ class FlashbackCardFragmentPresenter @Inject constructor(
   }
 
   /** Removes all [ConceptCardFragment] in the given FragmentManager. */
-  fun dismissFlashbackCard() {
-    ConceptCardFragment.dismissAll(fragment.childFragmentManager)
-  }
+//  fun dismissFlashbackCard() {
+//    FlashbackCardFragmen.d
+//  }
 }
