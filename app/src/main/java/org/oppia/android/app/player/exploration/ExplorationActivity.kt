@@ -60,6 +60,7 @@ class ExplorationActivity :
   private lateinit var state: State
   private lateinit var writtenTranslationContext: WrittenTranslationContext
 
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     (activityComponent as ActivityComponentImpl).inject(this)
@@ -195,7 +196,13 @@ class ExplorationActivity :
         ephemeralState
       )
       flashbackCardFragment.showNow(supportFragmentManager, TAG_FLASHBACK_CARD)
+      //explorationActivityPresenter.onFlashbackCard()
     }
+  }
+
+  override fun dismissFlashbackCard() {
+    getFlashbackCard()?.dismissFlashbackCard()
+    explorationActivityPresenter.offFlashbackCard()
   }
 
   //subha

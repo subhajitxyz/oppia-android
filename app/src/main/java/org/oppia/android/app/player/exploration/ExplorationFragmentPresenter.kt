@@ -68,6 +68,9 @@ class ExplorationFragmentPresenter @Inject constructor(
     return binding
   }
 
+  //subha
+  fun offFlashbackCard() = getStateFragment()?.offFlashbackCard()
+
   /** Handles the [Fragment.onViewCreated] portion of [ExplorationFragment]'s lifecycle. */
   fun handleViewCreated() {
     val profileDataProvider = profileManagementController.getProfile(retrieveArguments().profileId)

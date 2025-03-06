@@ -73,6 +73,10 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
     }
 
+    binding.flashbackCardToolbar.setNavigationOnClickListener {
+      (fragment.requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
+    }
+
 
     //binding.flashbackCardExplanationText.text = contentSubtitledHtml
 
@@ -124,7 +128,7 @@ class FlashbackCardFragmentPresenter @Inject constructor(
   }
 
   /** Removes all [ConceptCardFragment] in the given FragmentManager. */
-  fun dismissConceptCard() {
+  fun dismissFlashbackCard() {
     ConceptCardFragment.dismissAll(fragment.childFragmentManager)
   }
 }

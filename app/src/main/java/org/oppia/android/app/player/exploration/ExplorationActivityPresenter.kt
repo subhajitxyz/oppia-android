@@ -43,6 +43,7 @@ import org.oppia.android.util.accessibility.AccessibilityService
 import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
+import org.oppia.android.app.topic.flashbackcard.FlashbackCardListener
 
 private const val TAG_UNSAVED_EXPLORATION_DIALOG = "UNSAVED_EXPLORATION_DIALOG"
 private const val TAG_STOP_EXPLORATION_DIALOG = "STOP_EXPLORATION_DIALOG"
@@ -82,6 +83,7 @@ class ExplorationActivityPresenter @Inject constructor(
   private lateinit var oldestCheckpointExplorationId: String
   private lateinit var oldestCheckpointExplorationTitle: String
   private lateinit var binding: ExplorationActivityBinding
+
 
   fun handleOnCreate(
     context: Context,
@@ -154,6 +156,16 @@ class ExplorationActivityPresenter @Inject constructor(
       ).commitNow()
     }
   }
+  //subha
+  fun offFlashbackCard() {
+    getExplorationFragment()?.offFlashbackCard()
+   //exploreViewModel.isFlashbackCardOn.set(false)
+  }
+  //subha
+//  fun onFlashbackCard() {
+//    //getExplorationFragment()?.onFlashbackCard()
+//    exploreViewModel.isFlashbackCardOn.set(true)
+//  }
 
   fun requestVoiceOverIconSpotlight(numberOfLogins: Int) {
     if (numberOfLogins >= 3) {

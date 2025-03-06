@@ -76,6 +76,7 @@ class StateFragment :
     }
   }
 
+
   @Inject
   lateinit var stateFragmentPresenter: StateFragmentPresenter
 
@@ -112,6 +113,9 @@ class StateFragment :
       userAnswerState
     )
   }
+
+  //subha
+  fun offFlashbackCard() = stateFragmentPresenter.offFlashbackCard()
 
   override fun onAnswerReadyForSubmission(answer: UserAnswer) {
     stateFragmentPresenter.handleAnswerReadyForSubmission(answer)

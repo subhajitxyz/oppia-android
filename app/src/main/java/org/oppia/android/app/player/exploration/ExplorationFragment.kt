@@ -60,6 +60,8 @@ class ExplorationFragment : InjectableFragment() {
     super.onViewCreated(view, savedInstanceState)
     explorationFragmentPresenter.handleViewCreated()
   }
+  //subha
+  fun offFlashbackCard() = explorationFragmentPresenter.offFlashbackCard()
 
   fun handlePlayAudio() = explorationFragmentPresenter.handlePlayAudio()
 

@@ -105,7 +105,7 @@ class FlashbackCardFragment : InjectableDialogFragment() {
   }
 
   //need to learn and then implement
-  fun dismissConceptCard() {
-    flashbackCardFragmentPresenter.dismissConceptCard()
+  fun dismissFlashbackCard() {
+    flashbackCardFragmentPresenter.dismissFlashbackCard()
   }
 }

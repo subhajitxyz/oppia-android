@@ -4,4 +4,6 @@ import org.oppia.android.app.model.EphemeralState
 
 interface FlashbackCardListener {
   fun routeToFlashBackCard(id: String, ephemeralState: EphemeralState)
+
+  fun dismissFlashbackCard()
 }
