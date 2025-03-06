@@ -69,9 +69,9 @@ class FlashbackCardFragmentPresenter @Inject constructor(
     )
 
     //need to learn dismiss concept
-    binding.flashbackCardToolbar.setNavigationOnClickListener {
-      (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
-    }
+//    binding.flashbackCardToolbar.setNavigationOnClickListener {
+//      (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
+//    }
 
     binding.flashbackCardToolbar.setNavigationOnClickListener {
       Log.d("testflashback","click on closebutton")
