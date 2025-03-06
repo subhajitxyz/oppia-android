@@ -8,7 +8,7 @@ import org.oppia.android.app.player.state.itemviewmodel.StateItemViewModel
 import org.oppia.android.app.viewmodel.ObservableArrayList
 import org.oppia.android.app.viewmodel.ObservableViewModel
 
-class FlashbackCardViewModel (val x: CharSequence): ObservableViewModel(){
+class FlashbackCardViewModel @Inject constructor(): ObservableViewModel(){
   //val contentSubtitledHtml = ObservableField<CharSequence>()
   //val htmlContent = ObservableField<CharSequence>()
 
