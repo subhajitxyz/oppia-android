@@ -122,6 +122,7 @@ class StateFragmentPresenter @Inject constructor(
     explorationId: String,
     userAnswerState: UserAnswerState
   ): View? {
+    Log.d("testflashback","in handlecreateview in statefragmentpresenter")
     profileId = ProfileId.newBuilder().setInternalId(internalProfileId).build()
     this.topicId = topicId
     this.storyId = storyId

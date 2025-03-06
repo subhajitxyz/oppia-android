@@ -74,6 +74,7 @@ class FlashbackCardFragmentPresenter @Inject constructor(
     }
 
     binding.flashbackCardToolbar.setNavigationOnClickListener {
+      Log.d("testflashback","click on closebutton")
       (fragment.requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
     }
 

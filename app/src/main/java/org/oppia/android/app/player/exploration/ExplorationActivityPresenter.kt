@@ -164,7 +164,7 @@ class ExplorationActivityPresenter @Inject constructor(
   //subha
 //  fun onFlashbackCard() {
 //    //getExplorationFragment()?.onFlashbackCard()
-//    exploreViewModel.isFlashbackCardOn.set(true)
+//    exploreViewModel.isFlashbackCardOn.set(true)adb
 //  }
 
   fun requestVoiceOverIconSpotlight(numberOfLogins: Int) {
