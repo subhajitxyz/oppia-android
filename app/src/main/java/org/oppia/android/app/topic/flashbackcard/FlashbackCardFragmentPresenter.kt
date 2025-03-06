@@ -70,18 +70,26 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
     }
 
-    val contentSubtitledHtml =
-      translationController.extractString(
-        ephemeralState.state.content, ephemeralState.writtenTranslationContext
-      )
-    binding.flashbackCardExplanationText.text = contentSubtitledHtml
+
+    //binding.flashbackCardExplanationText.text = contentSubtitledHtml
 
     binding.let { it ->
       it.viewModel = flashbackCardViewModel
       it.lifecycleOwner = fragment
     }
 
+    val contentSubtitledHtml =
+      translationController.extractString(
+        ephemeralState.state.content, ephemeralState.writtenTranslationContext
+      )
+    setFlashbackContent(contentSubtitledHtml)
+
     return binding.root
+  }
+
+  //subha
+  private fun setFlashbackContent(content: String) {
+    flashbackCardViewModel.updateFlashbackContent(content)
   }
 
 
