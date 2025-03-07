@@ -77,6 +77,10 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       Log.d("testflashback","click on closebutton")
       (fragment.requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
     }
+    binding.okUnderstandButton.setOnClickListener {
+      Log.d("testflashback","click on ok_understand")
+      (fragment.requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
+    }
 
 
     //binding.flashbackCardExplanationText.text = contentSubtitledHtml

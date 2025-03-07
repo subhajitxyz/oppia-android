@@ -60,6 +60,7 @@
   <string name="first_chapter_spotlight_hint">Tap here to start playing a lesson.</string>
   <string name="state_continue_button">Continue</string>
   <string name="state_continue_submit">Submit</string>
+  <string name="ok_understand_button">Ok, I Understand</string>
   <string name="previous_state_description">Navigate to the previous card</string>
   <string name="next_state_description">Navigate to the next card</string>
   <string name="state_submit_button">Submit</string>

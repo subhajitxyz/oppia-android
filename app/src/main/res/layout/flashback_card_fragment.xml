@@ -44,6 +44,7 @@
         android:scrollbars="none">
 
         <LinearLayout
+          android:id="@+id/content_linear_layout"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="vertical">
@@ -69,8 +70,21 @@
             android:layout_marginTop="@dimen/concept_card_explanation_text_margin_top"
             android:layout_marginEnd="@dimen/concept_card_explanation_text_margin_end"
             android:textColorLink="@color/component_color_shared_link_text_color" />
+          <Button
+            android:id="@+id/ok_understand_button"
+            style="@style/StateButtonActive"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="64dp"
+            android:paddingStart="24dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp"
+            android:text="@string/ok_understand_button"
+            android:layout_gravity="end" />
+
         </LinearLayout>
-        <!-- TODO(#352): Show worked examples in Concept Card. -->
+
       </ScrollView>
 
 
@@ -80,5 +94,7 @@
         android:layout_height="6dp"
         android:background="@drawable/toolbar_drop_shadow" />
     </FrameLayout>
+
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
