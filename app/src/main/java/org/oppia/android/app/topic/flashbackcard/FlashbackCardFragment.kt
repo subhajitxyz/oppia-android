@@ -1,6 +1,7 @@
 package org.oppia.android.app.topic.flashbackcard
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -79,6 +80,15 @@ class FlashbackCardFragment : InjectableDialogFragment() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
+
+    //subha
+    requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+      override fun handleOnBackPressed() {
+        Log.d("testflashback", "in onCreate for onBackPressed")
+
+        (requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard() ?: dismiss()
+      }
+    })
   }
 
   override fun onCreateView(
@@ -88,16 +98,6 @@ class FlashbackCardFragment : InjectableDialogFragment() {
   ): View? {
     super.onCreateView(inflater, container, savedInstanceState)
 
-    //subha for clicking back button of devices
-//    requireActivity().onBackPressedDispatcher.addCallback(
-//      viewLifecycleOwner,
-//      object : OnBackPressedCallback(true) {
-//        override fun handleOnBackPressed() {
-//          Log.d("testflashback","in oncreateview for onback pressed")
-//          (requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
-//        }
-//      }
-//    )
 
     val arguments =
       checkNotNull(
@@ -141,6 +141,12 @@ class FlashbackCardFragment : InjectableDialogFragment() {
       }
       transaction.commitNow()
     }
+  }
+
+  //subha
+  override fun onDismiss(dialog: DialogInterface) {
+    super.onDismiss(dialog)
+    Log.d("testflashback", "Dialog dismissed")
   }
 
 }

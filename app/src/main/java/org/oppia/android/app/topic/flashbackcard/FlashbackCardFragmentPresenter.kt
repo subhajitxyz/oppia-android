@@ -4,12 +4,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import javax.inject.Inject
 import org.oppia.android.R
 import org.oppia.android.app.fragment.FragmentScope
 import org.oppia.android.app.model.EphemeralState
 import org.oppia.android.app.model.ProfileId
+import org.oppia.android.app.model.ProfileType
 import org.oppia.android.app.model.WrittenTranslationContext
 import org.oppia.android.app.topic.conceptcard.ConceptCardFragment
 import org.oppia.android.app.topic.conceptcard.ConceptCardListener
@@ -24,6 +27,7 @@ import org.oppia.android.util.parser.html.HtmlParser
 /** Presenter for [FlashbackCardFragment], sets up bindings from ViewModel. */
 @FragmentScope
 class FlashbackCardFragmentPresenter @Inject constructor(
+  private val activity: AppCompatActivity,
   private val fragment: Fragment,
   private val oppiaLogger: OppiaLogger,
   private val translationController: TranslationController,
@@ -136,4 +140,15 @@ class FlashbackCardFragmentPresenter @Inject constructor(
 //  fun dismissFlashbackCard() {
 //    FlashbackCardFragmen.d
 //  }
+
+  private fun handleBackPress(profileType: ProfileType) {
+    activity.onBack
+      fragment,
+      object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+
+        }
+      }
+    )
+  }
 }
