@@ -141,14 +141,4 @@ class FlashbackCardFragmentPresenter @Inject constructor(
 //    FlashbackCardFragmen.d
 //  }
 
-  private fun handleBackPress(profileType: ProfileType) {
-    activity.onBack
-      fragment,
-      object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-
-        }
-      }
-    )
-  }
 }
