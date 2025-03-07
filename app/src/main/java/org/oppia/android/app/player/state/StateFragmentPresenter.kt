@@ -177,13 +177,13 @@ class StateFragmentPresenter @Inject constructor(
     subscribeToCurrentState()
     //subha
     //when state fragment loads it checks is falshbackcard was on previously , it yes, the load it.
-    if(stateViewModel.getFlashData()) {
-      Log.d("testflashback","in statefragmentpresenter , it check app onoff , flashdata is ${stateViewModel.getFlashData()}")
-      flashbackCardListener.routeToFlashBackCard(
-        this.explorationId,
-        ephemeralState = explorationProgressController.getFlashbackEphemeralState()
-      )
-    }
+//    if(stateViewModel.getFlashData()) {
+//      Log.d("testflashback","in statefragmentpresenter , it check app onoff , flashdata is ${stateViewModel.getFlashData()}")
+//      flashbackCardListener.routeToFlashBackCard(
+//        this.explorationId,
+//        ephemeralState = explorationProgressController.getFlashbackEphemeralState()
+//      )
+//    }
 
     return binding.root
   }
@@ -197,8 +197,8 @@ class StateFragmentPresenter @Inject constructor(
     //subha
     Log.d("testflashback","in onContinueButtonClicked in statefragmentpresenter")
 
-    if(stateViewModel.getFlashData()) {
-       Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashData()}")
+    if(stateViewModel.getFlashbackIsOn()) {
+       Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashbackIsOn()}")
 
       flashbackCardListener.routeToFlashBackCard(
         this.explorationId,
@@ -214,7 +214,7 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   //subha
-  fun offFlashbackCard() = stateViewModel.offFlashData()
+  fun offFlashbackCard() = stateViewModel.offFlashback()
 
   fun onNextButtonClicked() = moveToNextState()
 

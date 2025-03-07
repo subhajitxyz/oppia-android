@@ -56,9 +56,9 @@ class StateViewModel @Inject constructor(
   //use live data
 //  val computedFlashBack: LiveData<Boolean> = explorationProgressController.showFlashBack
 //  fun setOffFlashBack() {explorationProgressController.setOffFlashBack()}
-  fun getFlashData():Boolean {return explorationProgressController.getXData()}
-  fun offFlashData() {
-    explorationProgressController.offXData()
+  fun getFlashbackIsOn():Boolean {return explorationProgressController.getIsFlashbackOn()}
+  fun offFlashback() {
+    explorationProgressController.offFlashback()
   }
 
 

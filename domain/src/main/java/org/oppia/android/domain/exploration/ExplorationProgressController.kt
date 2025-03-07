@@ -131,15 +131,15 @@ class ExplorationProgressController @Inject constructor(
 //    return showFlashBack
 //  }
   //use simple data
-  var x = false
+  var isFlashbackOn = false
   private lateinit var flashbackState: EphemeralState
   fun getFlashbackEphemeralState(): EphemeralState { return flashbackState }
 
-  fun getXData(): Boolean {
-    return x
+  fun getIsFlashbackOn(): Boolean {
+    return isFlashbackOn
   }
-  fun offXData() {
-    x = false
+  fun offFlashback() {
+    isFlashbackOn = false
     Log.d("testflashback","logging x = false")
 
   }
@@ -749,7 +749,7 @@ class ExplorationProgressController @Inject constructor(
 
             //check if it works -> after summiting wrong answer , is it show wrong answer again when flashback card state
             //hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
-            x = true
+            isFlashbackOn = true
             flashbackState = explorationProgress.stateDeck.getFlashbackEphemeralState(answerOutcome.flashbackStateName)
             Log.d("testflashback","logging x = true")
 
@@ -766,7 +766,7 @@ class ExplorationProgressController @Inject constructor(
           }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             //subha
-            x = false
+            isFlashbackOn = false
             endState()
 
             //subha
@@ -793,7 +793,7 @@ class ExplorationProgressController @Inject constructor(
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             //subha
             Log.d("testflashback","inside condition ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE")
-            x = false
+            isFlashbackOn = false
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
             hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)

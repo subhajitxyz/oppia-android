@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager
 import javax.inject.Inject
 import org.oppia.android.R
@@ -77,6 +78,17 @@ class FlashbackCardFragment : InjectableDialogFragment() {
     savedInstanceState: Bundle?
   ): View? {
     super.onCreateView(inflater, container, savedInstanceState)
+
+    //subha for clicking back button of devices
+    requireActivity().onBackPressedDispatcher.addCallback(
+      viewLifecycleOwner,
+      object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+          (requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
+        }
+      }
+    )
+
     val arguments =
       checkNotNull(
         arguments
@@ -120,4 +132,5 @@ class FlashbackCardFragment : InjectableDialogFragment() {
       transaction.commitNow()
     }
   }
+
 }
