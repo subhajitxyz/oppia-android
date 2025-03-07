@@ -2,6 +2,7 @@ package org.oppia.android.app.topic.flashbackcard
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +54,7 @@ class FlashbackCardFragment : InjectableDialogFragment() {
       }.build()
       return FlashbackCardFragment().apply {
         arguments = Bundle().apply {
-          putProto(FlashbackCardFragment.FLASHBACK_CARD_FRAGMENT_ARGUMENTS_KEY, args)
+          putProto(FLASHBACK_CARD_FRAGMENT_ARGUMENTS_KEY, args)
         }
       }
     }
@@ -65,6 +66,14 @@ class FlashbackCardFragment : InjectableDialogFragment() {
   override fun onAttach(context: Context) {
     super.onAttach(context)
     (fragmentComponent as FragmentComponentImpl).inject(this)
+
+    requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+      override fun handleOnBackPressed() {
+        Log.d("testflashback","in onattach for onback pressed")
+
+        (requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard() ?: dismiss()
+      }
+    })
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,14 +89,15 @@ class FlashbackCardFragment : InjectableDialogFragment() {
     super.onCreateView(inflater, container, savedInstanceState)
 
     //subha for clicking back button of devices
-    requireActivity().onBackPressedDispatcher.addCallback(
-      viewLifecycleOwner,
-      object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-          (requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
-        }
-      }
-    )
+//    requireActivity().onBackPressedDispatcher.addCallback(
+//      viewLifecycleOwner,
+//      object : OnBackPressedCallback(true) {
+//        override fun handleOnBackPressed() {
+//          Log.d("testflashback","in oncreateview for onback pressed")
+//          (requireActivity() as? FlashbackCardListener)?.dismissFlashbackCard()
+//        }
+//      }
+//    )
 
     val arguments =
       checkNotNull(
