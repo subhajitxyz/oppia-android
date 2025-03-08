@@ -1095,7 +1095,7 @@ class ExplorationProgressController @Inject constructor(
 //  }
   private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState {
     Log.d("testflashback","in computeBaseCurrentEphemeralState in progresscontrolller")
-    explorationProgress.stateDeck.getCurrentEphemeralState(
+    return explorationProgress.stateDeck.getCurrentEphemeralState(
       retrieveCurrentHelpIndex(),
       startSessionTimeMs + continueButtonAnimationDelay,
       isContinueButtonAnimationSeen
