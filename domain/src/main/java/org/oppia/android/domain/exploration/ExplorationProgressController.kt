@@ -742,10 +742,11 @@ class ExplorationProgressController @Inject constructor(
           //subha
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
             explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)-> {
+
             Log.d("testflashback","inside my flashback condition")
 
-            //handle the flashback card here
-              //
+            //subha two
+            Log.d("testflashback","ephemaral state = ${ephemeralState.stateTypeCase}")
 
             //check if it works -> after summiting wrong answer , is it show wrong answer again when flashback card state
             //hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
@@ -754,33 +755,21 @@ class ExplorationProgressController @Inject constructor(
             Log.d("testflashback","logging x = true")
 
             //this code just for bring the continue button in place of Learn again button forcefully
-            endState()
-            val newState = explorationProgress.stateGraph.getState(answerOutcome.flashbackStateName)
-            explorationProgress.stateDeck.pushState(
-              newState,
-              prohibitSameStateName = true,
-              timestamp = startSessionTimeMs + continueButtonAnimationDelay,
-              isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
-            )
-            hintHandler.finishState(newState)
+//            endState()
+//            val newState = explorationProgress.stateGraph.getState(answerOutcome.flashbackStateName)
+//            explorationProgress.stateDeck.pushState(
+//              newState,
+//              prohibitSameStateName = true,
+//              timestamp = startSessionTimeMs + continueButtonAnimationDelay,
+//              isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
+//            )
+//            hintHandler.finishState(newState)
           }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             //subha
             isFlashbackOn = false
             endState()
 
-            //subha
-//            if (!answerOutcome.labelledAsCorrectAnswer &&
-//              answerOutcome.feedback.contentId.contains("feedback", true)
-//            ) {
-//              Log.d("testflashback","shoflashback is true")
-//              //_showFlashBack.value = true
-//              x = true
-//            } else {
-//              Log.d("testflashback","shoflashback is false")
-//              //_showFlashBack.value = false
-//              x = false
-//            }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(
               newState,

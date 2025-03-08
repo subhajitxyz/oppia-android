@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -229,6 +230,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     gcsEntityId: String,
     isSplitView: Boolean
   ): Pair<List<StateItemViewModel>, List<StateItemViewModel>> {
+    //subha two
+    Log.d("testflashback","in compute in stateplayerrecyclerviewassembler")
     this.isSplitView.set(isSplitView)
 
     val hasPreviousState = ephemeralState.hasPreviousState

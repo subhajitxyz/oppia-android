@@ -431,11 +431,18 @@ class StateFragmentPresenter @Inject constructor(
         // If the answer was submitted on behalf of the Continue interaction, automatically continue
         // to the next state.
         if (result.state.interaction.id == "Continue") {
+          //subha two
+          Log.d("testflashback","in con 1 subscribeToAnswerOutcome in statefragmentpresenter")
           moveToNextState()
         } else {
+          Log.d("testflashback","in con 2 subscribeToAnswerOutcome in statefragmentpresenter")
+
           if (result.labelledAsCorrectAnswer) {
+            Log.d("testflashback","in con 2-> 1 subscribeToAnswerOutcome in statefragmentpresenter")
+
             recyclerViewAssembler.showCelebrationOnCorrectAnswer(result.feedback)
           } else {
+            Log.d("testflashback","in con 2-> 2 subscribeToAnswerOutcome in statefragmentpresenter")
             stateViewModel.setCanSubmitAnswer(canSubmitAnswer = false)
           }
           recyclerViewAssembler.readOutAnswerFeedback(result.feedback)

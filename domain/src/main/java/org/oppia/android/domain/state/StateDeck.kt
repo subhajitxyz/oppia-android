@@ -1,5 +1,6 @@
 package org.oppia.android.domain.state
 
+import android.util.Log
 import org.oppia.android.app.model.AnswerAndResponse
 import org.oppia.android.app.model.CompletedState
 import org.oppia.android.app.model.CompletedStateInCheckpoint
@@ -58,16 +59,6 @@ class StateDeck constructor(
   fun navigateToNextState() {
     check(!isCurrentStateTopOfDeck()) { "Cannot navigate to next state; at most recent state." }
     val previousState = previousStates[stateIndex]
-    //subha
-    //just checking -> if next state already present in previous deck . mean it is for revision
-    //in this case -> we want to show a Flashback Dialog to show previous concept
-//    val revisionIdx = getStateIndexOfEarlierCard(pendingTopState.name)
-//
-//    if(revisionIdx!= null) {
-//      //show dialog and do not move to next state
-//
-//      return
-//    }
     stateIndex++
     if (!previousState.hasNextState) {
       // Update the previous state to indicate that it has a next state now that its next state has
@@ -105,6 +96,8 @@ class StateDeck constructor(
     timestamp: Long,
     isContinueButtonAnimationSeen: Boolean
   ): EphemeralState {
+    //subha two
+    Log.d("testflashback","in getCurrentEphemeralState in statedeck")
     // Note that the terminal state is evaluated first since it can only return true if the current
     // state is the top of the deck, and that state is the terminal one. Otherwise the terminal
     // check would never be triggered since the second case assumes the top of the deck must be
@@ -263,22 +256,6 @@ class StateDeck constructor(
   }
 
   //subha
-//  private fun getStateIndexOfEarlierCard(stateName: String): Int? {
-//    for (i in previousStates.size - 1 downTo 0) {
-//      if (previousStates[i].state.name == stateName) {
-//        return i
-//      }
-//    }
-//    return null
-//  }
-
-//  fun calculateFlashBack(): Boolean {
-//    // Logic to determine if flashback should be shown
-//    return true
-//  }
-
-  //subha
-
   fun doesExistStatePreviously(stateName: String): Boolean {
     for (i in previousStates.size - 1 downTo 0) {
       if (previousStates[i].state.name == stateName) {
