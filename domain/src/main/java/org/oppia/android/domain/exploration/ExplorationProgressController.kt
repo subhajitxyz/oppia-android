@@ -1093,14 +1093,17 @@ class ExplorationProgressController @Inject constructor(
 //    explorationProgress.checkFlashBack()
 //    return true
 //  }
-  private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState =
+  private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState {
+    Log.d("testflashback","in computeBaseCurrentEphemeralState in progresscontrolller")
     explorationProgress.stateDeck.getCurrentEphemeralState(
       retrieveCurrentHelpIndex(),
       startSessionTimeMs + continueButtonAnimationDelay,
       isContinueButtonAnimationSeen
     )
+  }
 
   private fun ControllerState.computeCurrentEphemeralState(): EphemeralState {
+    Log.d("testflashback","in computeCurrentEphemeralState in progresscontrolller")
     return computeBaseCurrentEphemeralState().toBuilder().apply {
       // Ensure that the state has an up-to-date checkpoint state.
       checkpointState = explorationProgress.checkpointState

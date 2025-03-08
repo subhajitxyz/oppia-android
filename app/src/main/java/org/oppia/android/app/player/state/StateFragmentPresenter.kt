@@ -189,6 +189,7 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   fun handleAnswerReadyForSubmission(answer: UserAnswer) {
+    Log.d("testflashback","in handleAnswerReadyForSubmission in statefragmentpresenter")
     // An interaction has indicated that an answer is ready for submission.
     handleSubmitAnswer(answer)
   }
@@ -239,6 +240,7 @@ class StateFragmentPresenter @Inject constructor(
     hideKeyboard()
     val answer = stateViewModel.getPendingAnswer(recyclerViewAssembler::getPendingAnswerHandler)
     if (answer != null) {
+      Log.d("testflashback","in onSubmitButtonClicked in statefragmentpresenter")
       handleSubmitAnswer(answer)
     }
   }
@@ -255,6 +257,7 @@ class StateFragmentPresenter @Inject constructor(
     if (stateViewModel.getCanSubmitAnswer().get() == true) {
       val answer = stateViewModel.getPendingAnswer(recyclerViewAssembler::getPendingAnswerHandler)
       if (answer != null) {
+        Log.d("testflashback","in handleKeyboardAction in statefragmentpresenter")
         handleSubmitAnswer(answer)
       }
     }
