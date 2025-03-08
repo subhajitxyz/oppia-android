@@ -721,6 +721,13 @@ class ExplorationProgressController @Inject constructor(
           ).outcome
         answerOutcome =
           explorationProgress.stateGraph.computeAnswerOutcomeForResult(topPendingState, outcome)
+        //subha two
+        //i am planning to pass here , is it time to show flashaback or not
+        // val x =  answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
+        //            explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)
+
+
+        //
         explorationProgress.stateDeck.submitAnswer(
           userAnswer, answerOutcome.feedback, answerOutcome.labelledAsCorrectAnswer
         )

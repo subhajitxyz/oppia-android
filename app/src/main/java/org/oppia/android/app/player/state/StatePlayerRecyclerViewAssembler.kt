@@ -328,6 +328,11 @@ class StatePlayerRecyclerViewAssembler private constructor(
 
     if (isTerminalState && playerFeatureSet.showCelebrationAtEndOfSession) {
       maybeShowCelebrationForEndOfSession()
+      //subha two
+      //just for test add content at the bottom if user submit correct answer
+      if (playerFeatureSet.contentSupport) {
+        addContentItem(conversationPendingItemList, ephemeralState, gcsEntityId)
+      }
     }
 
     maybeAddNavigationButtons(

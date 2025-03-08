@@ -208,6 +208,8 @@ class StateDeck constructor(
     timestamp: Long,
     isContinueButtonAnimationSeen: Boolean
   ): EphemeralState {
+    //subha two
+    Log.d("testflashback","in getCurrentPendingState in statedeck")
     return EphemeralState.newBuilder()
       .setState(pendingTopState)
       .setHasPreviousState(!isCurrentStateInitial())
@@ -222,6 +224,8 @@ class StateDeck constructor(
   }
 
   private fun getCurrentTerminalState(): EphemeralState {
+    //subha two
+    Log.d("testflashback","in getCurrentTerminalState in statedeck")
     return EphemeralState.newBuilder()
       .setState(pendingTopState)
       .setHasPreviousState(!isCurrentStateInitial())
