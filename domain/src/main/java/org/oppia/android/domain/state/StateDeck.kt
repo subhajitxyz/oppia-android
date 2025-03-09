@@ -26,6 +26,9 @@ class StateDeck constructor(
   private val currentDialogInteractions: MutableList<AnswerAndResponse> = ArrayList()
   private var stateIndex: Int = 0
 
+  //subha two
+  private var showFlashback: Boolean = false
+
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
     pendingTopState = initialState
@@ -220,6 +223,8 @@ class StateDeck constructor(
       )
       .setContinueButtonAnimationTimestampMs(timestamp)
       .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
+      //subha two
+      .setshowFlashbackCard(showFlashback)
       .build()
   }
 
@@ -276,4 +281,9 @@ class StateDeck constructor(
     }
     return EphemeralState.getDefaultInstance()
   }
+
+  //subha two
+  fun enableFlashback() { showFlashback = true }
+  //subha two
+  fun disableFlashback() { showFlashback = false}
 }

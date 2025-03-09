@@ -344,6 +344,13 @@ class StatePlayerRecyclerViewAssembler private constructor(
       shouldAnimateContinueButton = ephemeralState.showContinueButtonAnimation,
       continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs
     )
+
+    if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
+      addLearnAgainButton(
+        conversationPendingItemList,
+        extraInteractionPendingItemList
+      )
+    }
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
   }
 
@@ -691,10 +698,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
         )
         //subha two
         //trying to show learn again button
-        addLearnAgainButton(
-          conversationPendingItemList,
-          extraInteractionPendingItemList
-        )
+//        addLearnAgainButton(
+//          conversationPendingItemList,
+//          extraInteractionPendingItemList
+//        )
 
       }
       // Otherwise, just show the previous button since the interaction itself will push the answer
