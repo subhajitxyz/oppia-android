@@ -1766,6 +1766,11 @@ test_file_exemption {
   exempted_file_path: "app/src/main/java/org/oppia/android/app/player/state/itemviewmodel/SubmitButtonViewModel.kt"
   test_file_not_required: true
 }
+//subha two
+test_file_exemption {
+  exempted_file_path: "app/src/main/java/org/oppia/android/app/player/state/itemviewmodel/LearnAgainButtonViewModel.kt"
+  test_file_not_required: true
+}
 test_file_exemption {
   exempted_file_path: "app/src/main/java/org/oppia/android/app/player/state/itemviewmodel/SubmittedAnswerViewModel.kt"
   test_file_not_required: true
