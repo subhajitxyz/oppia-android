@@ -146,6 +146,7 @@ LISTENERS = [
     "src/main/java/org/oppia/android/app/topic/flashbackcard/FlashbackCardListener.kt",
     "src/main/java/org/oppia/android/app/player/state/listener/StateKeyboardButtonListener.kt",
     "src/main/java/org/oppia/android/app/player/state/listener/SubmitNavigationButtonListener.kt",
+    "src/main/java/org/oppia/android/app/player/state/listener/LearnAgainButtonListener.kt",
     "src/main/java/org/oppia/android/app/policies/RouteToPoliciesListener.kt",
     "src/main/java/org/oppia/android/app/profile/RouteToAdminPinListener.kt",
     "src/main/java/org/oppia/android/app/profileprogress/ProfilePictureClickListener.kt",
