@@ -25,6 +25,7 @@ import org.oppia.android.app.player.state.listener.SubmitNavigationButtonListene
 import org.oppia.android.util.extensions.getProto
 import org.oppia.android.util.extensions.putProto
 import javax.inject.Inject
+import org.oppia.android.app.player.state.listener.LearnAgainButtonListener
 
 /** Fragment that represents the current state of an exploration. */
 class StateFragment :
@@ -37,6 +38,8 @@ class StateFragment :
   PreviousNavigationButtonListener,
   ReturnToTopicNavigationButtonListener,
   SubmitNavigationButtonListener,
+  //subha two
+  LearnAgainButtonListener,
   PreviousResponsesHeaderClickListener,
   ShowHintAvailabilityListener {
   companion object {
@@ -125,6 +128,11 @@ class StateFragment :
   override fun onContinueButtonClicked() {
     Log.d("testflashback","in onContinueButtonClicked in state fragment")
     stateFragmentPresenter.onContinueButtonClicked()
+  }
+  //subha two
+  override fun onLearnAgainButtonClicked() {
+    Log.d("testflashback","in onLearnAgainButtonClicked in state fragment")
+    stateFragmentPresenter.onLearnAgainButtonClicked()
   }
 
   override fun onNextButtonClicked() = stateFragmentPresenter.onNextButtonClicked()

@@ -107,6 +107,9 @@ import org.oppia.android.util.parser.html.LiTagHandler
 import org.oppia.android.util.parser.html.MathTagHandler
 import org.oppia.android.util.threading.BackgroundDispatcher
 import javax.inject.Inject
+import org.oppia.android.app.player.state.itemviewmodel.LearnAgainButtonViewModel
+import org.oppia.android.app.player.state.listener.LearnAgainButtonListener
+import org.oppia.android.databinding.LearnAgainButtonItemBinding
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -239,6 +242,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val conversationPendingItemList = mutableListOf<StateItemViewModel>()
     val extraInteractionPendingItemList = mutableListOf<StateItemViewModel>()
     if (playerFeatureSet.contentSupport) {
+
       addContentItem(conversationPendingItemList, ephemeralState, gcsEntityId)
     }
     val interaction = ephemeralState.state.interaction
@@ -328,11 +332,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
 
     if (isTerminalState && playerFeatureSet.showCelebrationAtEndOfSession) {
       maybeShowCelebrationForEndOfSession()
-      //subha two
-      //just for test add content at the bottom if user submit correct answer
-      if (playerFeatureSet.contentSupport) {
-        addContentItem(conversationPendingItemList, ephemeralState, gcsEntityId)
-      }
     }
 
     maybeAddNavigationButtons(
@@ -396,22 +395,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
       )
     }
   }
-  //subha
-//  private fun addContentFlashbackItem(
-//    ephemeralState: EphemeralState,
-//    gcsEntityId: String
-//  ) {
-//    val contentSubtitledHtml =
-//      translationController.extractString(
-//        ephemeralState.state.content, ephemeralState.writtenTranslationContext
-//      )
-//    if (contentSubtitledHtml.isNotEmpty()) {
-//      return ContentViewModel(
-//        contentSubtitledHtml,
-//        gcsEntityId
-//      )
-//    }
-//  }
 
   private fun addPreviousAnswers(
     pendingItemList: MutableList<StateItemViewModel>,
@@ -706,6 +689,13 @@ class StatePlayerRecyclerViewAssembler private constructor(
           extraInteractionPendingItemList,
           hasPreviousButton
         )
+        //subha two
+        //trying to show learn again button
+        addLearnAgainButton(
+          conversationPendingItemList,
+          extraInteractionPendingItemList
+        )
+
       }
       // Otherwise, just show the previous button since the interaction itself will push the answer
       // submission.
@@ -741,6 +731,20 @@ class StatePlayerRecyclerViewAssembler private constructor(
       // "previous button" should appear in the conversation recycler view only
       addPreviousButtonNavigation(hasPreviousButton, conversationPendingItemList)
     }
+  }
+
+  //subha two
+  private fun addLearnAgainButton(
+    conversationPendingItemList: MutableList<StateItemViewModel>,
+    extraInteractionPendingItemList: MutableList<StateItemViewModel>,
+  ) {
+    val targetList =
+      if (isSplitView.get()!!) extraInteractionPendingItemList else conversationPendingItemList
+    targetList += LearnAgainButtonViewModel(
+      hasConversationView,
+      fragment as LearnAgainButtonListener,
+      isSplitView.get()!!
+    )
   }
 
   private fun addReturnTopTopicNavigation(
@@ -1142,6 +1146,18 @@ class StatePlayerRecyclerViewAssembler private constructor(
       return this
     }
 
+    //subha two
+    fun addFlashbackSupport(): Builder {
+      adapterBuilder.registerViewDataBinder(
+        viewType = StateItemViewModel.ViewType.LEARN_AGAIN_BUTTON,
+        inflateDataBinding = LearnAgainButtonItemBinding::inflate,
+        setViewModel = LearnAgainButtonItemBinding::setButtonViewModel,
+        transformViewModel = { it as LearnAgainButtonViewModel }
+      )
+      featureSets += PlayerFeatureSet(flashbackSupport = true)
+      return this
+    }
+
     /** Adds support for displaying previously submitted answers. */
     fun addPastAnswersSupport(): Builder {
       adapterBuilder.registerViewBinder(
@@ -1523,6 +1539,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val contentSupport: Boolean = false,
     val feedbackSupport: Boolean = false,
     val interactionSupport: Boolean = false,
+    //subha two
+    val flashbackSupport: Boolean = false,
     val pastAnswerSupport: Boolean = false,
     val wrongAnswerCollapsing: Boolean = false,
     val backwardNavigation: Boolean = false,
