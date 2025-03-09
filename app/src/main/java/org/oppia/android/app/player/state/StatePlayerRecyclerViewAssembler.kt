@@ -346,6 +346,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     )
 
     //subha two
+    Log.d("testephe", "hi            shoflashbackcard is  ${ephemeralState.showFlashbackCard}")
     if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
       addLearnAgainButton(
         conversationPendingItemList,

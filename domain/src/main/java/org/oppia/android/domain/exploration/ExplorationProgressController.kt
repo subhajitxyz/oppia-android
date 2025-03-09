@@ -754,6 +754,8 @@ class ExplorationProgressController @Inject constructor(
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
             explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)-> {
 
+            Log.d("testephe","inside condition 1 , showflashback is ${ephemeralState.showFlashbackCard}")
+
             Log.d("testflashback","inside my flashback condition")
 
             //subha two
