@@ -342,12 +342,15 @@ class StatePlayerRecyclerViewAssembler private constructor(
       hasGeneralContinueButton,
       isTerminalState,
       shouldAnimateContinueButton = ephemeralState.showContinueButtonAnimation,
-      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs
+      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs,
+      ephemeralState.showFlashbackCard
     )
 
     //subha two
     Log.d("testephe", "hi            shoflashbackcard is  ${ephemeralState.showFlashbackCard}")
+    Log.d("testephe", "playerfeatureset .flashbacksupprt is   ${playerFeatureSet.flashbackSupport}}")
     if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
+      Log.d("testephe", "inside con in stateplayerrecyviewassembler to show learagainbutaon")
       addLearnAgainButton(
         conversationPendingItemList,
         extraInteractionPendingItemList
@@ -659,7 +662,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     hasGeneralContinueButton: Boolean,
     stateIsTerminal: Boolean,
     shouldAnimateContinueButton: Boolean,
-    continueButtonAnimationTimestampMs: Long
+    continueButtonAnimationTimestampMs: Long,
+    showFlashbackCard: Boolean
   ) {
     val hasPreviousButton = playerFeatureSet.backwardNavigation && hasPreviousState
     when {
@@ -700,10 +704,14 @@ class StatePlayerRecyclerViewAssembler private constructor(
         )
         //subha two
         //trying to show learn again button
-//        addLearnAgainButton(
-//          conversationPendingItemList,
-//          extraInteractionPendingItemList
-//        )
+        if(showFlashbackCard && playerFeatureSet.flashbackSupport) {
+          Log.d("testephe","inside maybeAddNavigationButtons when flashback condition match")
+          addLearnAgainButton(
+            conversationPendingItemList,
+            extraInteractionPendingItemList
+          )
+        }
+
 
       }
       // Otherwise, just show the previous button since the interaction itself will push the answer
