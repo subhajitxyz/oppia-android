@@ -1579,6 +1579,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         contentSupport = contentSupport || other.contentSupport,
         feedbackSupport = feedbackSupport || other.feedbackSupport,
         interactionSupport = interactionSupport || other.interactionSupport,
+        //subha two
+        flashbackSupport = flashbackSupport || other.flashbackSupport,
         pastAnswerSupport = pastAnswerSupport || other.pastAnswerSupport,
         wrongAnswerCollapsing = wrongAnswerCollapsing || other.wrongAnswerCollapsing,
         backwardNavigation = backwardNavigation || other.backwardNavigation,
