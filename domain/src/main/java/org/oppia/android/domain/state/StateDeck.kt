@@ -61,8 +61,8 @@ class StateDeck constructor(
   /** Navigates to the next state in the deck, or fails if this isn't possible. */
   fun navigateToNextState() {
     check(!isCurrentStateTopOfDeck()) { "Cannot navigate to next state; at most recent state." }
-    val previousState = previousStates[stateIndex]
-    stateIndex++
+//    val previousState = previousStates[stateIndex]
+//    stateIndex++
 //    if (!previousState.hasNextState) {
 //      // Update the previous state to indicate that it has a next state now that its next state has
 //      // actually been reated' by navigating to it.
