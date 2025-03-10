@@ -342,8 +342,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       hasGeneralContinueButton,
       isTerminalState,
       shouldAnimateContinueButton = ephemeralState.showContinueButtonAnimation,
-      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs,
-      ephemeralState.showFlashbackCard
+      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs
     )
 
     //subha two
@@ -662,8 +661,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     hasGeneralContinueButton: Boolean,
     stateIsTerminal: Boolean,
     shouldAnimateContinueButton: Boolean,
-    continueButtonAnimationTimestampMs: Long,
-    showFlashbackCard: Boolean
+    continueButtonAnimationTimestampMs: Long
   ) {
     val hasPreviousButton = playerFeatureSet.backwardNavigation && hasPreviousState
     when {
