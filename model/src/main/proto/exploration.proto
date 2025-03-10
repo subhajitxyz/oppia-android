@@ -270,6 +270,9 @@ message EphemeralState {
 
   // The timestamp at which continue buttons (both interaction & navigation) should start animating.
   int64 continue_button_animation_timestamp_ms = 11;
+
+  //subha
+  bool show_flashback_card = 12;
 }
 
 // Corresponds to an exploration state that hasn't yet had a correct answer filled in.
@@ -361,6 +364,9 @@ message AnswerOutcome {
     // Indicates that the learner needs to play the specified exploration ID to refresh missing topics and then return
     // to restart the current exploration.
     string refresher_exploration_id = 7;
+
+    //subha
+    string flashback_state_name = 8;
   }
 }
 

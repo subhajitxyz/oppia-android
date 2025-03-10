@@ -26,7 +26,6 @@ import org.oppia.android.app.model.EphemeralState.StateTypeCase
 import org.oppia.android.app.model.HelpIndex
 import org.oppia.android.app.model.Interaction
 import org.oppia.android.app.model.ProfileId
-import org.oppia.android.app.model.StatePlayerRecyclerViewAssemblerState
 import org.oppia.android.app.model.StringList
 import org.oppia.android.app.model.SubtitledHtml
 import org.oppia.android.app.model.UserAnswer
@@ -257,7 +256,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
         gcsEntityId,
         ephemeralState.writtenTranslationContext
       )
-      if (playerFeatureSet.interactionSupport) {
+      //subha
+      //this is responsible for showing edittext
+      //add a check if -> ephemeralstate.showflashback -> donot show edittext.
+      if (playerFeatureSet.interactionSupport && !ephemeralState.showFlashbackCard) {
         val interactionItemList =
           if (isSplitView) extraInteractionPendingItemList else conversationPendingItemList
         val timeToStartNoticeAnimationMs = if (interaction.id == "Continue") {
@@ -339,7 +341,29 @@ class StatePlayerRecyclerViewAssembler private constructor(
       shouldAnimateContinueButton = ephemeralState.showContinueButtonAnimation,
       continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs
     )
+    //subha
+    if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
+     // Log.d("testephe", "inside con in stateplayerrecyviewassembler to show learagainbutaon")
+      addLearnAgainButton(
+        conversationPendingItemList,
+        extraInteractionPendingItemList
+      )
+    }
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
+  }
+
+  //subha two
+  private fun addLearnAgainButton(
+    conversationPendingItemList: MutableList<StateItemViewModel>,
+    extraInteractionPendingItemList: MutableList<StateItemViewModel>,
+  ) {
+    val targetList =
+      if (isSplitView.get()!!) extraInteractionPendingItemList else conversationPendingItemList
+    targetList += LearnAgainButtonViewModel(
+      hasConversationView,
+      fragment as LearnAgainButtonListener,
+      isSplitView.get()!!
+    )
   }
 
   private fun addInteractionForPendingState(
@@ -1015,6 +1039,18 @@ class StatePlayerRecyclerViewAssembler private constructor(
       return this
     }
 
+    //subha two
+    fun addFlashbackSupport(): Builder {
+      adapterBuilder.registerViewDataBinder(
+        viewType = StateItemViewModel.ViewType.LEARN_AGAIN_BUTTON,
+        inflateDataBinding = LearnAgainButtonItemBinding::inflate,
+        setViewModel = LearnAgainButtonItemBinding::setButtonViewModel,
+        transformViewModel = { it as LearnAgainButtonViewModel }
+      )
+      featureSets += PlayerFeatureSet(flashbackSupport = true)
+      return this
+    }
+
     /** Adds support for displaying feedback to the user when they submit an answer. */
     fun addFeedbackSupport(): Builder {
       adapterBuilder.registerViewBinder(
@@ -1501,6 +1537,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val contentSupport: Boolean = false,
     val feedbackSupport: Boolean = false,
     val interactionSupport: Boolean = false,
+    //subha two
+    val flashbackSupport: Boolean = false,
     val pastAnswerSupport: Boolean = false,
     val wrongAnswerCollapsing: Boolean = false,
     val backwardNavigation: Boolean = false,
@@ -1522,6 +1560,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         contentSupport = contentSupport || other.contentSupport,
         feedbackSupport = feedbackSupport || other.feedbackSupport,
         interactionSupport = interactionSupport || other.interactionSupport,
+        //subha
+        flashbackSupport = flashbackSupport || other.flashbackSupport,
         pastAnswerSupport = pastAnswerSupport || other.pastAnswerSupport,
         wrongAnswerCollapsing = wrongAnswerCollapsing || other.wrongAnswerCollapsing,
         backwardNavigation = backwardNavigation || other.backwardNavigation,
@@ -1552,8 +1592,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
   }
 
   /** Saves the expanded state to a protobuf message. */
-  fun saveState(): StatePlayerRecyclerViewAssemblerState {
-    return StatePlayerRecyclerViewAssemblerState.newBuilder()
+  fun saveState(): StatePlayerRecyclerViewAssembler {
+    return StatePlayerRecyclerViewAssembler.newBuilder()
       .setHasPreviousResponsesExpanded(hasPreviousResponsesExpanded)
       .build()
   }

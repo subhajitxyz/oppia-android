@@ -679,6 +679,16 @@ class ExplorationProgressController @Inject constructor(
           ).outcome
         answerOutcome =
           explorationProgress.stateGraph.computeAnswerOutcomeForResult(topPendingState, outcome)
+
+        //trying to pass if it is flashback state and set it into statedeck
+        //subha
+        if(answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
+          explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)) {
+          explorationProgress.stateDeck.enableFlashback()
+        } else {
+          explorationProgress.stateDeck.disableFlashback()
+        }
+
         explorationProgress.stateDeck.submitAnswer(
           userAnswer, answerOutcome.feedback, answerOutcome.labelledAsCorrectAnswer
         )
@@ -697,6 +707,12 @@ class ExplorationProgressController @Inject constructor(
         // Follow the answer's outcome to another part of the graph if it's different.
         val ephemeralState = computeBaseCurrentEphemeralState()
         when {
+          answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
+            explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)-> {
+              //subha
+              //i donot i need this condition or not
+              //i donot have code here to execute
+            }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             endState()
             // Determines if a revision is required for the user based on the answer outcome.

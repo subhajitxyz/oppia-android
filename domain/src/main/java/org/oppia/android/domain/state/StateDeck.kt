@@ -27,6 +27,8 @@ class StateDeck constructor(
 
   //suhbha
   private var shouldRevisitEarlierCard: Boolean = false
+  //subha two
+  private var showFlashback: Boolean = false
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -239,6 +241,8 @@ class StateDeck constructor(
             .setHelpIndex(helpIndex)
         )
         .setContinueButtonAnimationTimestampMs(timestamp)
+        //subha
+        .setShowFlashbackCard(showFlashback)
         .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
         .build()
     }
@@ -325,4 +329,18 @@ class StateDeck constructor(
     fun turnOnRevisitEarlierCard(value: Boolean) {
       shouldRevisitEarlierCard = value
     }
+  //subha
+  fun doesExistStatePreviously(stateName: String): Boolean {
+    for (i in previousStates.size - 1 downTo 0) {
+      if (previousStates[i].state.name == stateName) {
+        return true
+      }
+    }
+    return false
+  }
+  //subha two
+  fun enableFlashback() { showFlashback = true }
+  //subha two
+  fun disableFlashback() { showFlashback = false}
+
   }
