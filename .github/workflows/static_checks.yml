@@ -115,7 +115,7 @@ jobs:
         with:
           version: 6.5.0
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: scripts_cache
         with:
           path: ${{ env.CACHE_DIRECTORY }}
@@ -169,6 +169,13 @@ jobs:
         if: ${{ !cancelled() }}
         run: |
           bazel run //scripts:xml_syntax_check -- $(pwd)
+
+      - name: TextView Style Validation Check
+        # The expression if: ${{ !cancelled() }} runs a job or step regardless of its success or failure while responding to cancellations,
+        # serving as a cancellation-compliant alternative to if: ${{ always() }} in concurrent workflows.
+        if:  ${{ !cancelled() }}
+        run: |
+          bazel run //scripts:check_textview_styles -- $(pwd)
 
       - name: Testfile Presence Check
         # The expression if: ${{ !cancelled() }} runs a job or step regardless of its success or failure while responding to cancellations,

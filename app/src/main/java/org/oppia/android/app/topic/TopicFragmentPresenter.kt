@@ -40,7 +40,7 @@ class TopicFragmentPresenter @Inject constructor(
   lateinit var accessibilityService: AccessibilityService
 
   private lateinit var tabLayout: TabLayout
-  private var internalProfileId: Int = -1
+  private lateinit var profileId: ProfileId
   private lateinit var topicId: String
   private lateinit var storyId: String
   private lateinit var viewPager: ViewPager2
@@ -48,7 +48,7 @@ class TopicFragmentPresenter @Inject constructor(
   fun handleCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    internalProfileId: Int,
+    profileId: ProfileId,
     classroomId: String,
     topicId: String,
     storyId: String,
@@ -63,7 +63,7 @@ class TopicFragmentPresenter @Inject constructor(
     this.storyId = storyId
     viewPager = binding.root.findViewById(R.id.topic_tabs_viewpager) as ViewPager2
     tabLayout = binding.root.findViewById(R.id.topic_tabs_container) as TabLayout
-    this.internalProfileId = internalProfileId
+    this.profileId = profileId
     this.topicId = topicId
 
     binding.topicToolbar.setNavigationOnClickListener {
@@ -74,7 +74,7 @@ class TopicFragmentPresenter @Inject constructor(
         binding.topicToolbarTitle.isSelected = true
       }
     }
-    viewModel.setInternalProfileId(internalProfileId)
+    viewModel.setProfileId(profileId)
     viewModel.setTopicId(topicId)
     binding.viewModel = viewModel
 
@@ -86,7 +86,7 @@ class TopicFragmentPresenter @Inject constructor(
   fun startSpotlight() {
     viewModel.numberOfChaptersCompletedLiveData.observe(fragment) { numberOfChaptersCompleted ->
       if (numberOfChaptersCompleted != null) {
-        val lessonsTabView = tabLayout.getTabAt(computeTabPosition(TopicTab.LESSONS))?.view
+        val lessonsTabView = tabLayout.getTabAt(computeTabPosition(TopicTab.LEARN))?.view
         lessonsTabView?.let {
           val lessonsTabSpotlightTarget = SpotlightTarget(
             lessonsTabView,
@@ -97,7 +97,7 @@ class TopicFragmentPresenter @Inject constructor(
           checkNotNull(getSpotlightManager()).requestSpotlight(lessonsTabSpotlightTarget)
 
           if (numberOfChaptersCompleted > 2) {
-            val revisionTabView = tabLayout.getTabAt(computeTabPosition(TopicTab.REVISION))?.view
+            val revisionTabView = tabLayout.getTabAt(computeTabPosition(TopicTab.STUDY))?.view
             val revisionTabSpotlightTarget = SpotlightTarget(
               revisionTabView!!,
               resourceHandler.getStringInLocale(R.string.topic_revision_tab_spotlight_hint),
@@ -134,7 +134,7 @@ class TopicFragmentPresenter @Inject constructor(
     val adapter =
       ViewPagerAdapter(
         fragment,
-        internalProfileId,
+        profileId,
         classroomId,
         topicId,
         storyId,
@@ -149,9 +149,9 @@ class TopicFragmentPresenter @Inject constructor(
     }.attach()
     if (!isConfigChanged && topicId.isNotEmpty()) {
       if (enableExtraTopicTabsUi.value) {
-        setCurrentTab(if (storyId.isNotEmpty()) TopicTab.LESSONS else TopicTab.INFO)
+        setCurrentTab(if (storyId.isNotEmpty()) TopicTab.LEARN else TopicTab.INFO)
       } else {
-        setCurrentTab(TopicTab.LESSONS)
+        setCurrentTab(TopicTab.LEARN)
       }
     }
     viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -164,13 +164,10 @@ class TopicFragmentPresenter @Inject constructor(
   private fun logTopicEvents(tab: TopicTab) {
     val eventContext = when (tab) {
       TopicTab.INFO -> oppiaLogger.createOpenInfoTabContext(topicId)
-      TopicTab.LESSONS -> oppiaLogger.createOpenLessonsTabContext(topicId)
+      TopicTab.LEARN -> oppiaLogger.createOpenLessonsTabContext(topicId)
       TopicTab.PRACTICE -> oppiaLogger.createOpenPracticeTabContext(topicId)
-      TopicTab.REVISION -> oppiaLogger.createOpenRevisionTabContext(topicId)
+      TopicTab.STUDY -> oppiaLogger.createOpenRevisionTabContext(topicId)
     }
-    analyticsController.logImportantEvent(
-      eventContext,
-      ProfileId.newBuilder().apply { internalId = internalProfileId }.build()
-    )
+    analyticsController.logImportantEvent(eventContext, profileId)
   }
 }

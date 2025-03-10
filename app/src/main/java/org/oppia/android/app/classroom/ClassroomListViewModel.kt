@@ -40,8 +40,6 @@ import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProvider
 import org.oppia.android.util.data.DataProviders.Companion.combineWith
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
-import org.oppia.android.util.parser.html.StoryHtmlParserEntityType
-import org.oppia.android.util.parser.html.TopicHtmlParserEntityType
 
 private const val PROFILE_AND_PROMOTED_ACTIVITY_COMBINED_PROVIDER_ID =
   "profile+promotedActivityList"
@@ -53,17 +51,18 @@ class ClassroomListViewModel(
   private val activity: AppCompatActivity,
   private val fragment: Fragment,
   private val oppiaLogger: OppiaLogger,
-  private val internalProfileId: Int,
+  private val profileId: ProfileId,
   private val profileManagementController: ProfileManagementController,
   private val topicListController: TopicListController,
   private val classroomController: ClassroomController,
-  @TopicHtmlParserEntityType private val topicEntityType: String,
-  @StoryHtmlParserEntityType private val storyEntityType: String,
+  private val classroomEntityType: String,
+  private val topicEntityType: String,
+  private val storyEntityType: String,
   private val resourceHandler: AppLanguageResourceHandler,
   private val dateTimeUtil: DateTimeUtil,
   private val translationController: TranslationController
 ) : ObservableViewModel() {
-  private val profileId: ProfileId = ProfileId.newBuilder().setInternalId(internalProfileId).build()
+
   private val promotedStoryListLimit = activity.resources.getInteger(
     R.integer.promoted_story_list_limit
   )
@@ -226,7 +225,7 @@ class ClassroomListViewModel(
         .mapIndexed { index, promotedStory ->
           PromotedStoryViewModel(
             activity,
-            internalProfileId,
+            profileId.internalId,
             sortedStoryList.size,
             storyEntityType,
             promotedStory,
@@ -270,6 +269,7 @@ class ClassroomListViewModel(
         ClassroomSummaryViewModel(
           fragment as ClassroomSummaryClickListener,
           ephemeralClassroomSummary,
+          classroomEntityType,
           translationController
         )
       }
