@@ -622,12 +622,12 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   /** Saves the assembler's state to a protobuf message. */
-  fun saveAssemblerState(): StatePlayerRecyclerViewAssembler {
+  fun saveAssemblerState(): StatePlayerRecyclerViewAssemblerState {
     return recyclerViewAssembler.saveState()
   }
 
   /** Restores the assembler's state from a protobuf message. */
-  fun restoreAssemblerState(state: StatePlayerRecyclerViewAssembler) {
+  fun restoreAssemblerState(state: StatePlayerRecyclerViewAssemblerState) {
     recyclerViewAssembler.restoreState(state)
   }
 }

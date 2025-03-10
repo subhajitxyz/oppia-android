@@ -109,6 +109,8 @@ import javax.inject.Inject
 import org.oppia.android.app.player.state.itemviewmodel.LearnAgainButtonViewModel
 import org.oppia.android.app.player.state.listener.LearnAgainButtonListener
 import org.oppia.android.databinding.LearnAgainButtonItemBinding
+import org.oppia.android.app.model.StatePlayerRecyclerViewAssemblerState
+
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -1595,14 +1597,14 @@ class StatePlayerRecyclerViewAssembler private constructor(
   }
 
   /** Saves the expanded state to a protobuf message. */
-  fun saveState(): StatePlayerRecyclerViewAssembler {
-    return StatePlayerRecyclerViewAssembler.newBuilder()
+  fun saveState(): StatePlayerRecyclerViewAssemblerState {
+    return StatePlayerRecyclerViewAssemblerState .newBuilder()
       .setHasPreviousResponsesExpanded(hasPreviousResponsesExpanded)
       .build()
   }
 
   /** Restores the expanded state from a protobuf message. */
-  fun restoreState(state: StatePlayerRecyclerViewAssembler) {
+  fun restoreState(state: StatePlayerRecyclerViewAssemblerState ) {
     hasPreviousResponsesExpanded = state.hasPreviousResponsesExpanded
   }
 }
