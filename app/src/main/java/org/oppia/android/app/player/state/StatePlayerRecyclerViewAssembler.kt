@@ -702,16 +702,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
           extraInteractionPendingItemList,
           hasPreviousButton
         )
-        //subha two
-        //trying to show learn again button
-        if(showFlashbackCard && playerFeatureSet.flashbackSupport) {
-          Log.d("testephe","inside maybeAddNavigationButtons when flashback condition match")
-          addLearnAgainButton(
-            conversationPendingItemList,
-            extraInteractionPendingItemList
-          )
-        }
-
 
       }
       // Otherwise, just show the previous button since the interaction itself will push the answer
