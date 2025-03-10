@@ -106,6 +106,9 @@ import org.oppia.android.util.parser.html.LiTagHandler
 import org.oppia.android.util.parser.html.MathTagHandler
 import org.oppia.android.util.threading.BackgroundDispatcher
 import javax.inject.Inject
+import org.oppia.android.app.player.state.itemviewmodel.LearnAgainButtonViewModel
+import org.oppia.android.app.player.state.listener.LearnAgainButtonListener
+import org.oppia.android.databinding.LearnAgainButtonItemBinding
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -1599,7 +1602,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
   }
 
   /** Restores the expanded state from a protobuf message. */
-  fun restoreState(state: StatePlayerRecyclerViewAssemblerState) {
+  fun restoreState(state: StatePlayerRecyclerViewAssembler) {
     hasPreviousResponsesExpanded = state.hasPreviousResponsesExpanded
   }
 }

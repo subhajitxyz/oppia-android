@@ -243,6 +243,8 @@ class StateFragmentPresenter @Inject constructor(
       .addContentSupport()
       .addFeedbackSupport()
       .addInteractionSupport(stateViewModel.getCanSubmitAnswer())
+    //subha
+      .addFlashbackSupport()
       .addPastAnswersSupport()
       .addWrongAnswerCollapsingSupport()
       .addBackwardNavigationSupport()
@@ -620,12 +622,12 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   /** Saves the assembler's state to a protobuf message. */
-  fun saveAssemblerState(): StatePlayerRecyclerViewAssemblerState {
+  fun saveAssemblerState(): StatePlayerRecyclerViewAssembler {
     return recyclerViewAssembler.saveState()
   }
 
   /** Restores the assembler's state from a protobuf message. */
-  fun restoreAssemblerState(state: StatePlayerRecyclerViewAssemblerState) {
+  fun restoreAssemblerState(state: StatePlayerRecyclerViewAssembler) {
     recyclerViewAssembler.restoreState(state)
   }
 }
