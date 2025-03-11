@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -184,8 +185,9 @@ class StateFragmentPresenter @Inject constructor(
 
   //subha
   fun onLearnAgainButtonClicked() {
-    stateViewModel.setHintBulbVisibility(false)
-    hideKeyboard()
+    Log.d("testflashback","in onLearnAgainButtonClicked in state fragment presenter")
+//    stateViewModel.setHintBulbVisibility(false)
+//    hideKeyboard()
     moveToNextState()
   }
 
