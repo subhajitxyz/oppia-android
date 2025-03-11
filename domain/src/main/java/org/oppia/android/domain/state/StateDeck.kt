@@ -63,11 +63,7 @@ class StateDeck constructor(
 
   /** Navigates to the next state in the deck, or fails if this isn't possible. */
   fun navigateToNextState() {
-    if (showFlashback) {
-      showFlashback = false
-      stateIndex = flashbackIdx!!
-      return
-    }
+
     check(!isCurrentStateTopOfDeck()) { "Cannot navigate to next state; at most recent state." }
 //    val previousState = previousStates[stateIndex]
 //    stateIndex++
@@ -77,6 +73,11 @@ class StateDeck constructor(
 //      previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
 //
 //    }
+    if (showFlashback) {
+      showFlashback = false
+      stateIndex = flashbackIdx!!
+      return
+    }
 
     //subha two
     if (showFlashback) {
