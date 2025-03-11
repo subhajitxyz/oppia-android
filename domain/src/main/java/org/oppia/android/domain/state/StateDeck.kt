@@ -26,9 +26,10 @@ class StateDeck constructor(
   private var stateIndex: Int = 0
 
   //suhbha
-  private var shouldRevisitEarlierCard: Boolean = false
+  //private var shouldRevisitEarlierCard: Boolean = false
   //subha two
   private var showFlashback: Boolean = false
+  private var flashbackIdx: Int? = 0
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -51,7 +52,7 @@ class StateDeck constructor(
     this.previousStates.addAll(previousStates)
     this.currentDialogInteractions.addAll(currentDialogInteractions)
     this.stateIndex = stateIndex
-    if (getStateIndexOfEarlierCard(pendingTopState.name) != null) shouldRevisitEarlierCard = true
+    //if (getStateIndexOfEarlierCard(pendingTopState.name) != null) shouldRevisitEarlierCard = true
   }
 
   /** Navigates to the previous state in the deck, or fails if this isn't possible. */
@@ -72,19 +73,33 @@ class StateDeck constructor(
 //
 //    }
 
-    //subha
-    val revisionIdx = getStateIndexOfEarlierCard(pendingTopState.name)
+    //subha two
+    if (showFlashback) {
+      showFlashback = false
+      stateIndex = flashbackIdx!!
+      return
+    }
 
-    if (revisionIdx != null && stateIndex == previousStates.size - 1 && shouldRevisitEarlierCard) {
-      handleRevisitEarlierCard(revisionIdx)
-    } else {
-      val previousState = previousStates[stateIndex]
-      stateIndex++
-      if (!previousState.hasNextState) {
-        // Update the previous state to indicate that it has a next state now that its next state has
-        // actually been created' by navigating to it.
-        previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
-      }
+    val previousState = previousStates[stateIndex]
+    stateIndex++
+    if (!previousState.hasNextState) {
+      // Update the previous state to indicate that it has a next state now that its next state has
+      // actually been created' by navigating to it.
+      previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
+      //subha
+//    val revisionIdx = getStateIndexOfEarlierCard(pendingTopState.name)
+//
+//    if (revisionIdx != null && stateIndex == previousStates.size - 1 && shouldRevisitEarlierCard) {
+//      handleRevisitEarlierCard(revisionIdx)
+//    } else {
+//      val previousState = previousStates[stateIndex]
+//      stateIndex++
+//      if (!previousState.hasNextState) {
+//        // Update the previous state to indicate that it has a next state now that its next state has
+//        // actually been created' by navigating to it.
+//        previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
+//      }
+//    }
     }
   }
 
@@ -174,11 +189,11 @@ class StateDeck constructor(
         .setContinueButtonAnimationTimestampMs(timestamp)
         .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
         .build()
-      //currentDialogInteractions.clear()
+      currentDialogInteractions.clear()
       //subha
-      if (!shouldRevisitEarlierCard || getStateIndexOfEarlierCard(state.name) == null) {
-        currentDialogInteractions.clear()
-      }
+//      if (!shouldRevisitEarlierCard || getStateIndexOfEarlierCard(state.name) == null) {
+//        currentDialogInteractions.clear()
+//      }
       pendingTopState = state
     }
 
@@ -295,51 +310,54 @@ class StateDeck constructor(
      *
      * @param revisionIdx the index of the state to revisit.
      */
-    private fun handleRevisitEarlierCard(revisionIdx: Int) {
-      val timestamp = previousStates[previousStates.size - 1].continueButtonAnimationTimestampMs
-      val showContinueButtonSeen =
-        previousStates[previousStates.size - 1].showContinueButtonAnimation
-      val currentState = previousStates[previousStates.size - 1].state
-
-      previousStates.removeAt(previousStates.size - 1)
-
-      pendingTopState = EphemeralState.newBuilder()
-        .setState(currentState)
-        .setHasPreviousState(!isCurrentStateInitial())
-        .setPendingState(PendingState.newBuilder().addAllWrongAnswer(currentDialogInteractions))
-        .setContinueButtonAnimationTimestampMs(timestamp)
-        .setShowContinueButtonAnimation(showContinueButtonSeen)
-        .build().state
-
-      stateIndex = revisionIdx
-      turnOnRevisitEarlierCard(false)
-    }
-
-    /** Returns [stateIndex] if state present on [previousStates] list. */
-    private fun getStateIndexOfEarlierCard(stateName: String): Int? {
-      for (i in previousStates.size - 1 downTo 0) {
-        if (previousStates[i].state.name == stateName) {
-          return i
-        }
-      }
-      return null
-    }
-
-    /** Sets whether the user should revisit an earlier card. */
-    fun turnOnRevisitEarlierCard(value: Boolean) {
-      shouldRevisitEarlierCard = value
-    }
+//    private fun handleRevisitEarlierCard(revisionIdx: Int) {
+//      val timestamp = previousStates[previousStates.size - 1].continueButtonAnimationTimestampMs
+//      val showContinueButtonSeen =
+//        previousStates[previousStates.size - 1].showContinueButtonAnimation
+//      val currentState = previousStates[previousStates.size - 1].state
+//
+//      previousStates.removeAt(previousStates.size - 1)
+//
+//      pendingTopState = EphemeralState.newBuilder()
+//        .setState(currentState)
+//        .setHasPreviousState(!isCurrentStateInitial())
+//        .setPendingState(PendingState.newBuilder().addAllWrongAnswer(currentDialogInteractions))
+//        .setContinueButtonAnimationTimestampMs(timestamp)
+//        .setShowContinueButtonAnimation(showContinueButtonSeen)
+//        .build().state
+//
+//      stateIndex = revisionIdx
+//      turnOnRevisitEarlierCard(false)
+//    }
+//
+//    /** Returns [stateIndex] if state present on [previousStates] list. */
+//    private fun getStateIndexOfEarlierCard(stateName: String): Int? {
+//      for (i in previousStates.size - 1 downTo 0) {
+//        if (previousStates[i].state.name == stateName) {
+//          return i
+//        }
+//      }
+//      return null
+//    }
+//
+//    /** Sets whether the user should revisit an earlier card. */
+//    fun turnOnRevisitEarlierCard(value: Boolean) {
+//      shouldRevisitEarlierCard = value
+//    }
   //subha
   fun doesExistStatePreviously(stateName: String): Boolean {
     for (i in previousStates.size - 1 downTo 0) {
       if (previousStates[i].state.name == stateName) {
+        flashbackIdx = i
         return true
       }
     }
     return false
   }
   //subha two
-  fun enableFlashback() { showFlashback = true }
+  fun enableFlashback() {
+    showFlashback = true
+  }
   //subha two
   fun disableFlashback() { showFlashback = false}
 

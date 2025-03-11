@@ -182,6 +182,13 @@ class StateFragmentPresenter @Inject constructor(
     moveToNextState()
   }
 
+  //subha
+  fun onLearnAgainButtonClicked() {
+    stateViewModel.setHintBulbVisibility(false)
+    hideKeyboard()
+    moveToNextState()
+  }
+
   fun onNextButtonClicked() = moveToNextState()
 
   fun onPreviousButtonClicked() {

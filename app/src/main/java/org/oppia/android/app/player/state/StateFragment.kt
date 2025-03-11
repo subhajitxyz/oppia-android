@@ -127,7 +127,7 @@ class StateFragment :
   //subha two
   override fun onLearnAgainButtonClicked() {
     Log.d("testflashback","in onLearnAgainButtonClicked in state fragment")
-    //stateFragmentPresenter.onLearnAgainButtonClicked()
+    stateFragmentPresenter.onLearnAgainButtonClicked()
   }
 
   override fun onNextButtonClicked() = stateFragmentPresenter.onNextButtonClicked()
