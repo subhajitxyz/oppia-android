@@ -48,6 +48,7 @@ class StateDeck constructor(
     stateIndex: Int,
     showLearnAgainButton: Boolean
   ) {
+    Log.d("testrevisit","in resume deck")
     this.pendingTopState = pendingTopState
     this.previousStates.clear()
     this.currentDialogInteractions.clear()
@@ -376,6 +377,7 @@ class StateDeck constructor(
   fun doesExistStatePreviously(stateName: String): Boolean {
     for (i in previousStates.size - 1 downTo 0) {
       if (previousStates[i].state.name == stateName) {
+        Log.d("testrevisit","find revisit idx at ${i}")
         flashbackIdx = i
         return true
       }
