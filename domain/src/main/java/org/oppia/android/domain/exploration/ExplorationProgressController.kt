@@ -838,6 +838,10 @@ class ExplorationProgressController @Inject constructor(
       check(explorationProgress.playStage != SUBMITTING_ANSWER) {
         "Cannot navigate to a next state if an answer submission is pending."
       }
+      //subha
+      if(explorationProgress.stateDeck.isCurrentStateNeedToRevisitOldCard()) {
+        explorationProgress.stateDeck.revisitOldCard()
+      }
       explorationProgress.stateDeck.navigateToNextState()
 
       if (explorationProgress.stateDeck.isCurrentStateTopOfDeck()) {

@@ -29,7 +29,7 @@ class StateDeck constructor(
   //private var shouldRevisitEarlierCard: Boolean = false
   //subha two
   private var showFlashback: Boolean = false
-  private var flashbackIdx: Int? = 0
+  var flashbackIdx: Int? = null
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -61,23 +61,17 @@ class StateDeck constructor(
     stateIndex--
   }
 
+  //subhha
+  fun revisitOldCard() {
+    if (showFlashback && flashbackIdx != null) {
+      stateIndex = flashbackIdx!!
+      showFlashback = false
+    }
+  }
   /** Navigates to the next state in the deck, or fails if this isn't possible. */
   fun navigateToNextState() {
-    //subha two
-    if (showFlashback) {
-      showFlashback = false
-      stateIndex = flashbackIdx!!
-      return
-    }
-    check(!isCurrentStateTopOfDeck()) { "Cannot navigate to next state; at most recent state." }
-//    val previousState = previousStates[stateIndex]
-//    stateIndex++
-//    if (!previousState.hasNextState) {
-//      // Update the previous state to indicate that it has a next state now that its next state has
-//      // actually been reated' by navigating to it.
-//      previousStates[stateIndex - 1] = previousState.toBuilder().setHasNextState(true).build()
-//
-//    }
+
+    check(!isCurrentStateTopOfDeck() || showFlashback) { "Cannot navigate to next state; at most recent state." }
 
     val previousState = previousStates[stateIndex]
     stateIndex++
@@ -136,6 +130,11 @@ class StateDeck constructor(
       // check would never be triggered since the second case assumes the top of the deck must be
       // pending.
       return when {
+        //
+        isCurrentStateNeedToRevisitOldCard() -> getCurrentRevisitOldCardState(
+          timestamp,
+          isContinueButtonAnimationSeen
+        )
         isCurrentStateTerminal() -> getCurrentTerminalState()
         isCurrentStateTopOfDeck() -> getCurrentPendingState(
           helpIndex,
@@ -146,6 +145,11 @@ class StateDeck constructor(
         else -> getPreviousState()
       }
     }
+  //subha
+
+  fun isCurrentStateNeedToRevisitOldCard(): Boolean {
+    return isCurrentStateTopOfDeck() && showFlashback
+  }
 
     /**
      * Pushes a new [State] onto the deck.
@@ -260,6 +264,20 @@ class StateDeck constructor(
         .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
         .build()
     }
+  //subha
+  //i have some confusion in setContinueButtonAnimation and timestamp
+   private fun getCurrentRevisitOldCardState(
+     timestamp: Long,
+     isContinueButtonAnimationSeen: Boolean
+   ): EphemeralState {
+     return EphemeralState.newBuilder()
+       .setState(pendingTopState)
+       .setHasPreviousState(!isCurrentStateInitial())
+       .setNeedToRevisitOldCard(CompletedState.newBuilder().addAllAnswer(currentDialogInteractions))
+       .setContinueButtonAnimationTimestampMs(timestamp)
+       .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
+       .build()
+   }
 
     private fun getCurrentTerminalState(): EphemeralState {
       return EphemeralState.newBuilder()

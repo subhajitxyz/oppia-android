@@ -264,7 +264,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       //subha
       //this is responsible for showing edittext
       //add a check if -> ephemeralstate.showflashback -> donot show edittext.
-      if (playerFeatureSet.interactionSupport && !ephemeralState.showFlashbackCard) {
+      if (playerFeatureSet.interactionSupport) {
         val interactionItemList =
           if (isSplitView) extraInteractionPendingItemList else conversationPendingItemList
         val timeToStartNoticeAnimationMs = if (interaction.id == "Continue") {
@@ -300,11 +300,36 @@ class StatePlayerRecyclerViewAssembler private constructor(
         gcsEntityId,
         ephemeralState.writtenTranslationContext
       )
+    } else if ( ephemeralState.stateTypeCase == StateTypeCase.NEED_TO_REVISIT_OLD_CARD) {
+      // i need some knowledge about the onhintavailable
+      //show previous answer and response
+      //no edittext
+      //no submit button
+      //does not handle learn again here, it is handled by maybeAddNavigationButtons
+
+      if (playerFeatureSet.hintsAndSolutionsSupport) {
+        (fragment as ShowHintAvailabilityListener).onHintAvailable(
+          HelpIndex.getDefaultInstance(),
+          isCurrentStatePendingState = false
+        )
+      }
+
+      addPreviousAnswers(
+        conversationPendingItemList,
+        extraInteractionPendingItemList,
+        ephemeralState.pendingState.wrongAnswerList,
+        isLastAnswerCorrect = false,
+        gcsEntityId,
+        ephemeralState.writtenTranslationContext
+      )
+
     }
 
     val isTerminalState = ephemeralState.stateTypeCase == StateTypeCase.TERMINAL_STATE
     var canContinueToNextState = false
     var hasGeneralContinueButton = false
+    //subha
+    var hasLearnAgainButton = false
     if (!isTerminalState) {
       if (ephemeralState.stateTypeCase == StateTypeCase.COMPLETED_STATE &&
         !ephemeralState.hasNextState
@@ -312,6 +337,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
         hasGeneralContinueButton = true
       } else if (ephemeralState.completedState.answerList.size > 0 && ephemeralState.hasNextState) {
         canContinueToNextState = true
+        //subha
+      } else if (ephemeralState.stateTypeCase == StateTypeCase.NEED_TO_REVISIT_OLD_CARD) {
+        hasLearnAgainButton = true
       }
     }
 
@@ -344,16 +372,17 @@ class StatePlayerRecyclerViewAssembler private constructor(
       hasGeneralContinueButton,
       isTerminalState,
       shouldAnimateContinueButton = ephemeralState.showContinueButtonAnimation,
-      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs
+      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs,
+      hasLearnAgainButton = hasLearnAgainButton
     )
     //subha
-    if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
-     // Log.d("testephe", "inside con in stateplayerrecyviewassembler to show learagainbutaon")
-      addLearnAgainButton(
-        conversationPendingItemList,
-        extraInteractionPendingItemList
-      )
-    }
+//    if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
+//     // Log.d("testephe", "inside con in stateplayerrecyviewassembler to show learagainbutaon")
+//      addLearnAgainButton(
+//        conversationPendingItemList,
+//        extraInteractionPendingItemList
+//      )
+//    }
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
   }
 
@@ -674,7 +703,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     hasGeneralContinueButton: Boolean,
     stateIsTerminal: Boolean,
     shouldAnimateContinueButton: Boolean,
-    continueButtonAnimationTimestampMs: Long
+    continueButtonAnimationTimestampMs: Long,
+    hasLearnAgainButton: Boolean
   ) {
     val hasPreviousButton = playerFeatureSet.backwardNavigation && hasPreviousState
     when {
@@ -706,6 +736,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
           )
         }
       }
+      //subha
+      // i need to understand in which case we show the submitbutton
       doesMostRecentInteractionRequireExplicitSubmission(conversationPendingItemList) &&
         playerFeatureSet.interactionSupport -> {
         addSubmitButton(
@@ -714,6 +746,15 @@ class StatePlayerRecyclerViewAssembler private constructor(
           hasPreviousButton
         )
       }
+      //subha i think we need to handle learn again button here. because it is also a navigation button
+      hasLearnAgainButton && playerFeatureSet.flashbackSupport -> {
+        addLearnAgainButton(
+          conversationPendingItemList,
+          extraInteractionPendingItemList
+        )
+      }
+
+
       // Otherwise, just show the previous button since the interaction itself will push the answer
       // submission.
       !isMostRecentInteractionAutoNavigating(conversationPendingItemList) -> {
