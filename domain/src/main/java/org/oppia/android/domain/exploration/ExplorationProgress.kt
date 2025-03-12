@@ -125,7 +125,8 @@ internal class ExplorationProgress {
       stateGraph.getState(explorationCheckpoint.pendingStateName),
       getPreviousStatesFromCheckpoint(),
       explorationCheckpoint.pendingUserAnswersList,
-      explorationCheckpoint.stateIndex
+      explorationCheckpoint.stateIndex,
+      explorationCheckpoint.showLearnAgainButton
     )
   }
 

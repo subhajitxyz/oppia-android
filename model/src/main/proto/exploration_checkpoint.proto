@@ -27,6 +27,10 @@ message ExplorationCheckpoint {
   // Stores answers to the latest state in the deck.
   repeated AnswerAndResponse pending_user_answers = 3;
 
+  //subha
+  //  Stores does learnagain button to the latest state in the deck.
+  bool show_learn_again_button = 11;
+
   // The index of the current selected state from the deck of states.
   int32 state_index = 4;
 

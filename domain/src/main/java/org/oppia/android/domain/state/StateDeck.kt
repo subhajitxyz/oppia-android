@@ -45,7 +45,8 @@ class StateDeck constructor(
     pendingTopState: State,
     previousStates: List<EphemeralState>,
     currentDialogInteractions: List<AnswerAndResponse>,
-    stateIndex: Int
+    stateIndex: Int,
+    showLearnAgainButton: Boolean
   ) {
     this.pendingTopState = pendingTopState
     this.previousStates.clear()
@@ -53,6 +54,8 @@ class StateDeck constructor(
     this.previousStates.addAll(previousStates)
     this.currentDialogInteractions.addAll(currentDialogInteractions)
     this.stateIndex = stateIndex
+    //subha
+    this.showFlashback = showLearnAgainButton
     //if (getStateIndexOfEarlierCard(pendingTopState.name) != null) shouldRevisitEarlierCard = true
   }
 
@@ -240,6 +243,8 @@ class StateDeck constructor(
         )
         pendingStateName = pendingTopState.name
         addAllPendingUserAnswers(currentDialogInteractions)
+        //subha
+        this.showLearnAgainButton = showFlashback
         this.stateIndex = this@StateDeck.stateIndex
         this.explorationVersion = explorationVersion
         this.explorationTitle = explorationTitle
