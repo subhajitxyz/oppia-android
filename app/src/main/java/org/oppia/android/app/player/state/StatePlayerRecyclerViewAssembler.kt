@@ -394,11 +394,16 @@ class StatePlayerRecyclerViewAssembler private constructor(
   private fun addLearnAgainButton(
     conversationPendingItemList: MutableList<StateItemViewModel>,
     extraInteractionPendingItemList: MutableList<StateItemViewModel>,
+    hasPreviousButton: Boolean
   ) {
     val targetList =
       if (isSplitView.get()!!) extraInteractionPendingItemList else conversationPendingItemList
+    val hasPrevious = if (isSplitView.get()!!) false else hasPreviousButton
+
     targetList += LearnAgainButtonViewModel(
       hasConversationView,
+      hasPrevious,
+      previousNavigationButtonListener,
       fragment as LearnAgainButtonListener,
       isSplitView.get()!!
     )
@@ -756,7 +761,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         Log.d("testrevisit", "in maybeAddNavigationButtons to show learnagain button")
         addLearnAgainButton(
           conversationPendingItemList,
-          extraInteractionPendingItemList
+          extraInteractionPendingItemList,
+          hasPreviousButton
         )
       }
 
