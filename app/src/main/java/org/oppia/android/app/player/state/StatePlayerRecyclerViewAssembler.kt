@@ -248,6 +248,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val interaction = ephemeralState.state.interaction
 
     if (ephemeralState.stateTypeCase == StateTypeCase.PENDING_STATE) {
+      Log.d("testrevisit","into pending state in stateplayerrecyclerviewassmebler")
       if (playerFeatureSet.hintsAndSolutionsSupport) {
         (fragment as ShowHintAvailabilityListener).onHintAvailable(
           ephemeralState.pendingState.helpIndex,
@@ -283,6 +284,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
         )
       }
     } else if (ephemeralState.stateTypeCase == StateTypeCase.COMPLETED_STATE) {
+      Log.d("testrevisit","into completed state in stateplayerrecyclerviewassmebler")
       // Ensure any lingering hints are properly cleared.
       if (playerFeatureSet.hintsAndSolutionsSupport) {
         (fragment as ShowHintAvailabilityListener).onHintAvailable(
@@ -319,7 +321,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       addPreviousAnswers(
         conversationPendingItemList,
         extraInteractionPendingItemList,
-        ephemeralState.completedState.answerList,
+        ephemeralState.needToRevisitOldCard.answerList,
         isLastAnswerCorrect = false,
         gcsEntityId,
         ephemeralState.writtenTranslationContext
@@ -741,7 +743,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       //subha
       // i need to understand in which case we show the submitbutton
       doesMostRecentInteractionRequireExplicitSubmission(conversationPendingItemList) &&
-        playerFeatureSet.interactionSupport -> {
+        !hasLearnAgainButton && playerFeatureSet.interactionSupport -> {
         Log.d("testrevisit", "in maybeAddNavigationButtons to show submit button")
         addSubmitButton(
           conversationPendingItemList,
