@@ -30,7 +30,7 @@ class StateDeck constructor(
   //private var shouldRevisitEarlierCard: Boolean = false
   //subha two
   private var showFlashback: Boolean = false
-  var flashbackIdx: Int? = null
+  private var flashbackIdx: Int? = null
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -69,6 +69,7 @@ class StateDeck constructor(
   //subhha
   fun revisitOldCard() {
     if (showFlashback && flashbackIdx != null) {
+      Log.d("testrevisit","in revisitOldCard in statedeck showflashback = ${showFlashback} and flashbackidx = ${flashbackIdx}")
       stateIndex = flashbackIdx!!
       showFlashback = false
     }
