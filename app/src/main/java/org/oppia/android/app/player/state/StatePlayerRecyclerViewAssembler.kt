@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -306,6 +307,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       //no edittext
       //no submit button
       //does not handle learn again here, it is handled by maybeAddNavigationButtons
+      Log.d("testrevisit","in stateplayerecyclerviewassmber iin conditjion StateTypeCase.NEED_TO_REVISIT_OLD_CARD")
 
       if (playerFeatureSet.hintsAndSolutionsSupport) {
         (fragment as ShowHintAvailabilityListener).onHintAvailable(

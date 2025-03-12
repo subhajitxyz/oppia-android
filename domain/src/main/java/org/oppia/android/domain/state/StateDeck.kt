@@ -1,5 +1,6 @@
 package org.oppia.android.domain.state
 
+import android.util.Log
 import org.oppia.android.app.model.AnswerAndResponse
 import org.oppia.android.app.model.CompletedState
 import org.oppia.android.app.model.CompletedStateInCheckpoint
@@ -129,6 +130,7 @@ class StateDeck constructor(
       // state is the top of the deck, and that state is the terminal one. Otherwise the terminal
       // check would never be triggered since the second case assumes the top of the deck must be
       // pending.
+      Log.d("testrevisit","call getCurrentEphemeralState")
       return when {
         //
         isCurrentStateNeedToRevisitOldCard() -> getCurrentRevisitOldCardState(
@@ -148,6 +150,7 @@ class StateDeck constructor(
   //subha
 
   fun isCurrentStateNeedToRevisitOldCard(): Boolean {
+    Log.d("testrevisit","isCurrentStateNeedToRevisitOldCard return ${isCurrentStateTopOfDeck() && showFlashback}")
     return isCurrentStateTopOfDeck() && showFlashback
   }
 
@@ -270,7 +273,8 @@ class StateDeck constructor(
      timestamp: Long,
      isContinueButtonAnimationSeen: Boolean
    ): EphemeralState {
-     return EphemeralState.newBuilder()
+    Log.d("testrevisit","in statedeck in getCurrentRevisitOldCardState")
+    return EphemeralState.newBuilder()
        .setState(pendingTopState)
        .setHasPreviousState(!isCurrentStateInitial())
        .setNeedToRevisitOldCard(CompletedState.newBuilder().addAllAnswer(currentDialogInteractions))

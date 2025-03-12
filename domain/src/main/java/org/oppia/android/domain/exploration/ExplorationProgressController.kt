@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -840,6 +841,7 @@ class ExplorationProgressController @Inject constructor(
       }
       //subha
       if(explorationProgress.stateDeck.isCurrentStateNeedToRevisitOldCard()) {
+        Log.d("testrevisit","in moveToNextStateImpl with condition isCurrentStateNeedToRevisitOldCard")
         explorationProgress.stateDeck.revisitOldCard()
       }
       explorationProgress.stateDeck.navigateToNextState()
