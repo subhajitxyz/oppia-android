@@ -68,8 +68,8 @@ class StateDeck constructor(
 
   //subhha
   fun revisitOldCard() {
+    Log.d("testrevisit","in revisitOldCard in statedeck showflashback = ${showFlashback} and flashbackidx = ${flashbackIdx}")
     if (showFlashback && flashbackIdx != null) {
-      Log.d("testrevisit","in revisitOldCard in statedeck showflashback = ${showFlashback} and flashbackidx = ${flashbackIdx}")
       stateIndex = flashbackIdx!!
       showFlashback = false
     }
