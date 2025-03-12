@@ -843,8 +843,9 @@ class ExplorationProgressController @Inject constructor(
       if(explorationProgress.stateDeck.isCurrentStateNeedToRevisitOldCard()) {
         Log.d("testrevisit","in moveToNextStateImpl with condition isCurrentStateNeedToRevisitOldCard")
         explorationProgress.stateDeck.revisitOldCard()
+      } else {
+        explorationProgress.stateDeck.navigateToNextState()
       }
-      explorationProgress.stateDeck.navigateToNextState()
 
       if (explorationProgress.stateDeck.isCurrentStateTopOfDeck()) {
         hintHandler.navigateBackToLatestPendingState()

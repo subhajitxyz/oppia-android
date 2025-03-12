@@ -276,7 +276,7 @@ message EphemeralState {
   int64 continue_button_animation_timestamp_ms = 11;
 
   //subha
-  bool show_flashback_card = 12;
+  //bool show_flashback_card = 12;
 }
 
 // Corresponds to an exploration state that hasn't yet had a correct answer filled in.

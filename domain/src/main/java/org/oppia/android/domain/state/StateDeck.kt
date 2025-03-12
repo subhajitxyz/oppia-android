@@ -263,7 +263,7 @@ class StateDeck constructor(
         )
         .setContinueButtonAnimationTimestampMs(timestamp)
         //subha
-        .setShowFlashbackCard(showFlashback)
+        //.setShowFlashbackCard(showFlashback)
         .setShowContinueButtonAnimation(!isContinueButtonAnimationSeen && isCurrentStateInitial())
         .build()
     }
