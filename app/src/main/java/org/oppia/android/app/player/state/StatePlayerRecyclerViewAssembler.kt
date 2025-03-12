@@ -319,7 +319,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       addPreviousAnswers(
         conversationPendingItemList,
         extraInteractionPendingItemList,
-        ephemeralState.pendingState.wrongAnswerList,
+        ephemeralState.completedState.answerList,
         isLastAnswerCorrect = false,
         gcsEntityId,
         ephemeralState.writtenTranslationContext
@@ -742,6 +742,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       // i need to understand in which case we show the submitbutton
       doesMostRecentInteractionRequireExplicitSubmission(conversationPendingItemList) &&
         playerFeatureSet.interactionSupport -> {
+        Log.d("testrevisit", "in maybeAddNavigationButtons to show submit button")
         addSubmitButton(
           conversationPendingItemList,
           extraInteractionPendingItemList,
@@ -750,6 +751,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       }
       //subha i think we need to handle learn again button here. because it is also a navigation button
       hasLearnAgainButton && playerFeatureSet.flashbackSupport -> {
+        Log.d("testrevisit", "in maybeAddNavigationButtons to show learnagain button")
         addLearnAgainButton(
           conversationPendingItemList,
           extraInteractionPendingItemList
