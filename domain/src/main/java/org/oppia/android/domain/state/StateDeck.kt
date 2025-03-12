@@ -246,7 +246,6 @@ class StateDeck constructor(
         addAllPendingUserAnswers(currentDialogInteractions)
         //subha
         this.showLearnAgainButton = showFlashback
-        this.flashbackIndex = flashbackIdx!!
         this.stateIndex = this@StateDeck.stateIndex
         this.explorationVersion = explorationVersion
         this.explorationTitle = explorationTitle
