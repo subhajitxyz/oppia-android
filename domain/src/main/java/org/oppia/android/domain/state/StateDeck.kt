@@ -58,6 +58,11 @@ class StateDeck constructor(
     //subha
     this.showFlashback = showLearnAgainButton
     if(showLearnAgainButton) doesExistStatePreviously(pendingTopState.name)
+    Log.d("testrevisit","in resume deck shoeflashback = ${showFlashback}")
+    Log.d("testrevisit","in resume deck flashbackidx = ${flashbackIdx}")
+
+
+
     //if (getStateIndexOfEarlierCard(pendingTopState.name) != null) shouldRevisitEarlierCard = true
   }
 
@@ -384,6 +389,7 @@ class StateDeck constructor(
     }
     return false
   }
+
   //subha two
   fun enableFlashback() {
     showFlashback = true
