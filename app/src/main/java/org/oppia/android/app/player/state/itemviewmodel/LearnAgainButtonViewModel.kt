@@ -4,6 +4,7 @@ import org.oppia.android.app.player.state.listener.LearnAgainButtonListener
 import org.oppia.android.app.player.state.listener.PreviousNavigationButtonListener
 
 //subha two
+/** [StateItemViewModel] for navigation to old states for revision. */
 class LearnAgainButtonViewModel(
   val hasConversationView: Boolean,
   val hasPreviousButton: Boolean,

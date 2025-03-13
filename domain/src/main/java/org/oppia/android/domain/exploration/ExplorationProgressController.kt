@@ -683,11 +683,11 @@ class ExplorationProgressController @Inject constructor(
 
         //trying to pass if it is flashback state and set it into statedeck
         //subha
-        if(answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
-          explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)) {
-          explorationProgress.stateDeck.enableFlashback()
+        if(answerOutcome.destinationCase == AnswerOutcome.DestinationCase.PREVIOUS_STATE_NAME &&
+          explorationProgress.stateDeck.isStatePreviouslyVisited(answerOutcome.previousStateName)) {
+          explorationProgress.stateDeck.enableLearnAgainButton()
         } else {
-          explorationProgress.stateDeck.disableFlashback()
+          explorationProgress.stateDeck.disableLearnAgainButton()
         }
 
         explorationProgress.stateDeck.submitAnswer(
@@ -708,22 +708,8 @@ class ExplorationProgressController @Inject constructor(
         // Follow the answer's outcome to another part of the graph if it's different.
         val ephemeralState = computeBaseCurrentEphemeralState()
         when {
-          answerOutcome.destinationCase == AnswerOutcome.DestinationCase.FLASHBACK_STATE_NAME &&
-            explorationProgress.stateDeck.doesExistStatePreviously(answerOutcome.flashbackStateName)-> {
-              //subha
-              //i donot i need this condition or not
-              //i donot have code here to execute
-            }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             endState()
-            // Determines if a revision is required for the user based on the answer outcome.
-//            if (!answerOutcome.labelledAsCorrectAnswer &&
-//              answerOutcome.feedback.contentId.contains("feedback", true)
-//            ) {
-//              explorationProgress.stateDeck.turnOnRevisitEarlierCard(true)
-//            } else {
-//              explorationProgress.stateDeck.turnOnRevisitEarlierCard(false)
-//            }
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(
               newState,
@@ -840,8 +826,7 @@ class ExplorationProgressController @Inject constructor(
         "Cannot navigate to a next state if an answer submission is pending."
       }
       //subha
-      if(explorationProgress.stateDeck.isCurrentStateNeedToRevisitOldCard()) {
-        Log.d("testrevisit","in moveToNextStateImpl with condition isCurrentStateNeedToRevisitOldCard")
+      if(explorationProgress.stateDeck.doesCurrentStateNeedToRevisitOldState()) {
         explorationProgress.stateDeck.revisitOldCard()
       } else {
         explorationProgress.stateDeck.navigateToNextState()

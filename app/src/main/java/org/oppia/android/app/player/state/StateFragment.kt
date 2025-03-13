@@ -126,7 +126,6 @@ class StateFragment :
   override fun onContinueButtonClicked() = stateFragmentPresenter.onContinueButtonClicked()
   //subha two
   override fun onLearnAgainButtonClicked() {
-    Log.d("testflashback","in onLearnAgainButtonClicked in state fragment")
     stateFragmentPresenter.onLearnAgainButtonClicked()
   }
 

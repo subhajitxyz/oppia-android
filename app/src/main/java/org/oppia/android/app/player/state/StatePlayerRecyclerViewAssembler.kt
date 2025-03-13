@@ -303,12 +303,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         gcsEntityId,
         ephemeralState.writtenTranslationContext
       )
-    } else if ( ephemeralState.stateTypeCase == StateTypeCase.NEED_TO_REVISIT_OLD_CARD) {
-      // i need some knowledge about the onhintavailable
-      //show previous answer and response
-      //no edittext
-      //no submit button
-      //does not handle learn again here, it is handled by maybeAddNavigationButtons
+    } else if ( ephemeralState.stateTypeCase == StateTypeCase.NEED_TO_REVISIT_OLD_CARD) { //subha
+
       Log.d("testrevisit","in stateplayerecyclerviewassmber iin conditjion StateTypeCase.NEED_TO_REVISIT_OLD_CARD")
 
       if (playerFeatureSet.hintsAndSolutionsSupport) {

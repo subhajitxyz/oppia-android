@@ -252,7 +252,7 @@ message EphemeralState {
     CompletedState completed_state = 5;
 
     //subha ben idea
-    //change it 13 to 12 and remove show_flashback_card = 12;
+    // A state where user need to revisit old card for revision.
     CompletedState need_to_revisit_old_card = 13;
 
     // This value is always true in the case where the state type is terminal. This type may change in the future to a
@@ -274,9 +274,6 @@ message EphemeralState {
 
   // The timestamp at which continue buttons (both interaction & navigation) should start animating.
   int64 continue_button_animation_timestamp_ms = 11;
-
-  //subha
-  //bool show_flashback_card = 12;
 }
 
 // Corresponds to an exploration state that hasn't yet had a correct answer filled in.
@@ -369,8 +366,8 @@ message AnswerOutcome {
     // to restart the current exploration.
     string refresher_exploration_id = 7;
 
-    //subha
-    string flashback_state_name = 8;
+    // Indicates that the learner should move to the one of previous state for revision.
+    string previous_state_name = 8;
   }
 }
 

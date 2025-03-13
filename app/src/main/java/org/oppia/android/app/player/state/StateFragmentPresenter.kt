@@ -185,9 +185,6 @@ class StateFragmentPresenter @Inject constructor(
 
   //subha
   fun onLearnAgainButtonClicked() {
-    Log.d("testflashback","in onLearnAgainButtonClicked in state fragment presenter")
-//    stateViewModel.setHintBulbVisibility(false)
-//    hideKeyboard()
     moveToNextState()
   }
 

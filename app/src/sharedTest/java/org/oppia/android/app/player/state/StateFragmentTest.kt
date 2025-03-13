@@ -197,6 +197,7 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.player.state.itemviewmodel.StateItemViewModel.ViewType.LEARN_AGAIN_BUTTON
 
 /** Tests for [StateFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -378,6 +379,99 @@ class StateFragmentTest {
 
       scrollToViewType(SUBMIT_ANSWER_BUTTON)
       onView(withId(R.id.submit_answer_button)).check(matches(isEnabled()))
+    }
+  }
+  //subha
+  fun testStateFragment_usesSofterRedirection_afterRevisitingEarlierCard1(){
+    setUpTestWithLanguageSwitchingFeatureOff()
+    launchForExploration(RATIOS_EXPLORATION_ID_0, shouldSavePartialProgress = false).use {
+      startPlayingExploration()
+
+      playThroughRatioExplorationState1()
+      playThroughRatioExplorationState2()
+      playThroughRatioExplorationState3()
+      playThroughRatioExplorationState4()
+      playThroughRatioExplorationState5()
+      playThroughRatioExplorationState6()
+      playThroughRatioExplorationState7()
+      playThroughRatioExplorationState8()
+      playThroughRatioExplorationState9()
+      playThroughRatioExplorationState10()
+      playThroughRatioExplorationState11()
+      playThroughRatioExplorationState12()
+      playThroughRatioExplorationState13()
+      playThroughRatioExplorationState14()
+      playThroughRatioExplorationState15()
+
+      onView(
+        atPositionOnView(
+          recyclerViewId = R.id.selection_interaction_recyclerview,
+          position = 1,
+          targetViewId = R.id.multiple_choice_content_text_view
+        )
+      ).perform(click())
+      clickSubmitAnswerButton()
+      clickLearnAgainButton()
+
+      scrollToViewType(NEXT_NAVIGATION_BUTTON)
+      onView(withId(R.id.next_state_navigation_button)).check(matches(isDisplayed()))
+      onView(withId(R.id.feedback_text_view))
+        .check(matches(withText(containsString("Please continue."))))
+
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+
+      verifySubmitAnswerButtonIsEnabled()
+    }
+  }
+
+
+  //subha
+  @Test
+  fun testStateFragment_usesSofterRedirection_afterRevisitingEarlierCard() {
+    setUpTestWithLanguageSwitchingFeatureOff()
+    launchForExploration(RATIOS_EXPLORATION_ID_0, shouldSavePartialProgress = false).use {
+      startPlayingExploration()
+
+      playThroughRatioExplorationState1()
+      playThroughRatioExplorationState2()
+      playThroughRatioExplorationState3()
+      playThroughRatioExplorationState4()
+      playThroughRatioExplorationState5()
+      playThroughRatioExplorationState6()
+      playThroughRatioExplorationState7()
+      playThroughRatioExplorationState8()
+      playThroughRatioExplorationState9()
+      playThroughRatioExplorationState10()
+      playThroughRatioExplorationState11()
+      playThroughRatioExplorationState12()
+      playThroughRatioExplorationState13()
+      playThroughRatioExplorationState14()
+      playThroughRatioExplorationState15()
+
+      onView(
+        atPositionOnView(
+          recyclerViewId = R.id.selection_interaction_recyclerview,
+          position = 1,
+          targetViewId = R.id.multiple_choice_content_text_view
+        )
+      ).perform(click())
+      clickSubmitAnswerButton()
+      clickLearnAgainButton()
+
+      scrollToViewType(NEXT_NAVIGATION_BUTTON)
+      onView(withId(R.id.next_state_navigation_button)).check(matches(isDisplayed()))
+      onView(withId(R.id.feedback_text_view))
+        .check(matches(withText(containsString("Please continue."))))
+
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+      clickNextNavigationButton()
+
+      verifySubmitAnswerButtonIsEnabled()
     }
   }
 
@@ -5781,6 +5875,13 @@ class StateFragmentTest {
   private fun clickSubmitAnswerButton() {
     scrollToViewType(SUBMIT_ANSWER_BUTTON)
     onView(withId(R.id.submit_answer_button)).perform(click())
+    testCoroutineDispatchers.runCurrent()
+  }
+
+  //subha
+  private fun clickLearnAgainButton() {
+    scrollToViewType(LEARN_AGAIN_BUTTON)
+    onView(withId(R.id.learn_again_button)).perform(click())
     testCoroutineDispatchers.runCurrent()
   }
 

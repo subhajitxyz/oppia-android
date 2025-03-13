@@ -38,7 +38,8 @@ class StateGraph constructor(
       //how can we optimize this condition -> if we can able to check the [outcome.destStateName present in statedeck earlier]
       //then we do not need to check [outcome.feedback.contentId contains feedback] because i have a doubt on this condition
       !outcome.labelledAsCorrect &&
-        outcome.feedback.contentId.contains("feedback", true) -> answerOutcomeBuilder.flashbackStateName = outcome.destStateName
+        outcome.feedback.contentId.contains("feedback", true) ->
+        answerOutcomeBuilder.previousStateName = outcome.destStateName
       else -> answerOutcomeBuilder.stateName = outcome.destStateName
     }
     return answerOutcomeBuilder.build()
