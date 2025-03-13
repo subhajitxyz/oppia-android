@@ -31,6 +31,8 @@ message ExplorationCheckpoint {
   //  Stores does learnagain button to the latest state in the deck.
   bool show_learn_again_button = 11;
 
+  optional int32 revision_index = 12;
+
   // The index of the current selected state from the deck of states.
   int32 state_index = 4;
 

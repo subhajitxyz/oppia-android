@@ -46,7 +46,8 @@ class StateDeck constructor(
     previousStates: List<EphemeralState>,
     currentDialogInteractions: List<AnswerAndResponse>,
     stateIndex: Int,
-    showLearnAgainButton: Boolean
+    showLearnAgainButton: Boolean,
+    revisionIndex: Int?
   ) {
     Log.d("testrevisit","in resume deck")
     this.pendingTopState = pendingTopState
@@ -57,9 +58,13 @@ class StateDeck constructor(
     this.stateIndex = stateIndex
     //subha
     this.showFlashback = showLearnAgainButton
-    if(showLearnAgainButton) doesExistStatePreviously(pendingTopState.name)
+    this.flashbackIdx = revisionIndex
     Log.d("testrevisit","in resume deck shoeflashback = ${showFlashback}")
     Log.d("testrevisit","in resume deck flashbackidx = ${flashbackIdx}")
+    Log.d("testrevisit","in resume deck pendingtopstate = $pendingTopState")
+    Log.d("testrevisit","in resume deck previousStates = ${previousStates}")
+
+
 
 
 
@@ -253,6 +258,7 @@ class StateDeck constructor(
         addAllPendingUserAnswers(currentDialogInteractions)
         //subha
         this.showLearnAgainButton = showFlashback
+        flashbackIdx?.let { this.revisionIndex = it }
         this.stateIndex = this@StateDeck.stateIndex
         this.explorationVersion = explorationVersion
         this.explorationTitle = explorationTitle

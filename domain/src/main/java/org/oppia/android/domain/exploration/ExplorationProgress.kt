@@ -126,7 +126,8 @@ internal class ExplorationProgress {
       getPreviousStatesFromCheckpoint(),
       explorationCheckpoint.pendingUserAnswersList,
       explorationCheckpoint.stateIndex,
-      explorationCheckpoint.showLearnAgainButton
+      explorationCheckpoint.showLearnAgainButton,
+      explorationCheckpoint.hasRevisionIndex()? explorationCheckpoint.revisionIndex : null
     )
   }
 
