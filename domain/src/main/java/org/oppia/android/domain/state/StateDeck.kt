@@ -60,6 +60,8 @@ class StateDeck constructor(
     this.showLearnAgainButton = showLearnAgainButton
     this.revisionIndex = revisionIndex
 
+    Log.d("testrevisit","in resume deck, showLearnAgainButton = ${showLearnAgainButton},  revisionIndex = ${revisionIndex} ")
+
 
 
     //if (getStateIndexOfEarlierCard(pendingTopState.name) != null) shouldRevisitEarlierCard = true
@@ -163,6 +165,7 @@ class StateDeck constructor(
    * and learner needs to revisit old card for revision.
    */
   fun doesCurrentStateNeedToRevisitOldState(): Boolean {
+    Log.d("testrevisit","isCurrentStateNeedToRevisitOldCard return ${showLearnAgainButton}")
     Log.d("testrevisit","isCurrentStateNeedToRevisitOldCard return ${isCurrentStateTopOfDeck() && showLearnAgainButton}")
     return isCurrentStateTopOfDeck() && showLearnAgainButton
   }
@@ -242,6 +245,8 @@ class StateDeck constructor(
       timestamp: Long,
       helpIndex: HelpIndex
     ): ExplorationCheckpoint {
+
+      Log.d("testrevisit","in createexplorationpoint  showLearnAgainButton = ${showLearnAgainButton},  revisionIndex = ${revisionIndex}")
       return ExplorationCheckpoint.newBuilder().apply {
         addAllCompletedStatesInCheckpoint(
           previousStates.map { state ->
