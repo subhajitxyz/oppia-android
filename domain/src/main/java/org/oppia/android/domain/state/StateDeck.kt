@@ -259,8 +259,8 @@ class StateDeck constructor(
         pendingStateName = pendingTopState.name
         addAllPendingUserAnswers(currentDialogInteractions)
         //subha
-        this.showLearnAgainButton = showLearnAgainButton
-        this.revisionIndex = revisionIndex
+        this.showLearnAgainButton = this@StateDeck.showLearnAgainButton
+        this.revisionIndex = this@StateDeck.revisionIndex
         this.stateIndex = this@StateDeck.stateIndex
         this.explorationVersion = explorationVersion
         this.explorationTitle = explorationTitle
