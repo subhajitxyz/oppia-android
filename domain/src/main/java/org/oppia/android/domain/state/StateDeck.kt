@@ -30,7 +30,7 @@ class StateDeck constructor(
   //private var shouldRevisitEarlierCard: Boolean = false
   //subha two
   private var showFlashback: Boolean = false
-  private var flashbackIdx: Int? = null
+  private var flashbackIdx: Int = -1
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -47,7 +47,7 @@ class StateDeck constructor(
     currentDialogInteractions: List<AnswerAndResponse>,
     stateIndex: Int,
     showLearnAgainButton: Boolean,
-    revisionIndex: Int?
+    revisionIndex: Int
   ) {
     Log.d("testrevisit","in resume deck")
     this.pendingTopState = pendingTopState
@@ -66,8 +66,6 @@ class StateDeck constructor(
 
 
 
-
-
     //if (getStateIndexOfEarlierCard(pendingTopState.name) != null) shouldRevisitEarlierCard = true
   }
 
@@ -80,9 +78,10 @@ class StateDeck constructor(
   //subhha
   fun revisitOldCard() {
     Log.d("testrevisit","in revisitOldCard in statedeck showflashback = ${showFlashback} and flashbackidx = ${flashbackIdx}")
-    if (showFlashback && flashbackIdx != null) {
-      stateIndex = flashbackIdx!!
+    if (showFlashback && flashbackIdx != -1) {
+      stateIndex = flashbackIdx
       showFlashback = false
+      flashbackIdx = -1
     }
   }
   /** Navigates to the next state in the deck, or fails if this isn't possible. */
@@ -258,7 +257,7 @@ class StateDeck constructor(
         addAllPendingUserAnswers(currentDialogInteractions)
         //subha
         this.showLearnAgainButton = showFlashback
-        flashbackIdx?.let { this.revisionIndex = it }
+        this.revisionIndex = flashbackIdx
         this.stateIndex = this@StateDeck.stateIndex
         this.explorationVersion = explorationVersion
         this.explorationTitle = explorationTitle
