@@ -375,14 +375,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs,
       hasLearnAgainButton = hasLearnAgainButton
     )
-    //subha
-//    if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
-//     // Log.d("testephe", "inside con in stateplayerrecyviewassembler to show learagainbutaon")
-//      addLearnAgainButton(
-//        conversationPendingItemList,
-//        extraInteractionPendingItemList
-//      )
-//    }
+
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
   }
 
@@ -753,7 +746,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
         )
       }
       //subha i think we need to handle learn again button here. because it is also a navigation button
-      hasLearnAgainButton && playerFeatureSet.flashbackSupport -> {
+      hasLearnAgainButton && playerFeatureSet.learnAgainSupport -> {
         Log.d("testrevisit", "in maybeAddNavigationButtons to show learnagain button")
         addLearnAgainButton(
           conversationPendingItemList,
@@ -1094,14 +1087,14 @@ class StatePlayerRecyclerViewAssembler private constructor(
     }
 
     //subha two
-    fun addFlashbackSupport(): Builder {
+    fun addLearnAgainSupport(): Builder {
       adapterBuilder.registerViewDataBinder(
         viewType = StateItemViewModel.ViewType.LEARN_AGAIN_BUTTON,
         inflateDataBinding = LearnAgainButtonItemBinding::inflate,
         setViewModel = LearnAgainButtonItemBinding::setButtonViewModel,
         transformViewModel = { it as LearnAgainButtonViewModel }
       )
-      featureSets += PlayerFeatureSet(flashbackSupport = true)
+      featureSets += PlayerFeatureSet(learnAgainSupport = true)
       return this
     }
 
@@ -1592,7 +1585,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val feedbackSupport: Boolean = false,
     val interactionSupport: Boolean = false,
     //subha two
-    val flashbackSupport: Boolean = false,
+    val learnAgainSupport: Boolean = false,
     val pastAnswerSupport: Boolean = false,
     val wrongAnswerCollapsing: Boolean = false,
     val backwardNavigation: Boolean = false,
@@ -1615,7 +1608,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
         feedbackSupport = feedbackSupport || other.feedbackSupport,
         interactionSupport = interactionSupport || other.interactionSupport,
         //subha
-        flashbackSupport = flashbackSupport || other.flashbackSupport,
+        learnAgainSupport = learnAgainSupport || other.learnAgainSupport,
         pastAnswerSupport = pastAnswerSupport || other.pastAnswerSupport,
         wrongAnswerCollapsing = wrongAnswerCollapsing || other.wrongAnswerCollapsing,
         backwardNavigation = backwardNavigation || other.backwardNavigation,
@@ -1647,13 +1640,13 @@ class StatePlayerRecyclerViewAssembler private constructor(
 
   /** Saves the expanded state to a protobuf message. */
   fun saveState(): StatePlayerRecyclerViewAssemblerState {
-    return StatePlayerRecyclerViewAssemblerState .newBuilder()
+    return StatePlayerRecyclerViewAssemblerState.newBuilder()
       .setHasPreviousResponsesExpanded(hasPreviousResponsesExpanded)
       .build()
   }
 
   /** Restores the expanded state from a protobuf message. */
-  fun restoreState(state: StatePlayerRecyclerViewAssemblerState ) {
+  fun restoreState(state: StatePlayerRecyclerViewAssemblerState) {
     hasPreviousResponsesExpanded = state.hasPreviousResponsesExpanded
   }
 }

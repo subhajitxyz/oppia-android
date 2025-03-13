@@ -400,6 +400,9 @@ class StateDeck constructor(
     showLearnAgainButton = true
   }
   //subha two
-  fun disableLearnAgainButton() { showLearnAgainButton = false}
+  fun disableLearnAgainButton() {
+    Log.d("testrevisit","in disableLearnAgainButton ")
+    showLearnAgainButton = false
+  }
 
   }

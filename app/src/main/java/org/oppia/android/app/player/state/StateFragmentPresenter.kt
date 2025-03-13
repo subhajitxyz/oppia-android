@@ -250,7 +250,7 @@ class StateFragmentPresenter @Inject constructor(
       .addFeedbackSupport()
       .addInteractionSupport(stateViewModel.getCanSubmitAnswer())
     //subha
-      .addFlashbackSupport()
+      .addLearnAgainSupport()
       .addPastAnswersSupport()
       .addWrongAnswerCollapsingSupport()
       .addBackwardNavigationSupport()
