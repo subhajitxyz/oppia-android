@@ -351,6 +351,16 @@ class ExplorationProgressController @Inject constructor(
     return moveResultFlow.convertToSessionProvider(MOVE_TO_PREVIOUS_STATE_RESULT_PROVIDER_ID)
   }
 
+
+  //subha final test
+  fun moveToOldState(): DataProvider<Any?> {
+    val moveResultFlow = createAsyncResultStateFlow<Any?>()
+    val message = ControllerMessage.MoveToOldState(activeSessionId, moveResultFlow)
+    sendCommandForOperation(message) {
+      "Failed to schedule command for moving to the previous state."
+    }
+    return moveResultFlow.convertToSessionProvider(MOVE_TO_PREVIOUS_STATE_RESULT_PROVIDER_ID)
+  }
   /**
    * Navigates to the next state in the graph. This method is only valid if the current
    * [EphemeralState] reported by [getCurrentState] is a completed state. Calling code is
@@ -538,6 +548,8 @@ class ExplorationProgressController @Inject constructor(
               controllerState.logViewedSolutionImpl(activeSessionId, message.callbackFlow)
             is ControllerMessage.MoveToPreviousState ->
               controllerState.moveToPreviousStateImpl(message.callbackFlow)
+            is ControllerMessage.MoveToOldState ->
+              controllerState.moveToOldStateImpl(message.callbackFlow)     //subha final
             is ControllerMessage.MoveToNextState ->
               controllerState.moveToNextStateImpl(message.callbackFlow)
             is ControllerMessage.LogUpdatedHelpIndex ->
@@ -812,6 +824,25 @@ class ExplorationProgressController @Inject constructor(
     }
   }
 
+  //subha final
+  private suspend fun ControllerState.moveToOldStateImpl(
+    moveToPreviousStateResultFlow: MutableStateFlow<AsyncResult<Any?>>
+  ) {
+    tryOperation(moveToPreviousStateResultFlow) {
+      check(explorationProgress.playStage != NOT_PLAYING) {
+        "Cannot navigate to a previous state if an exploration is not being played."
+      }
+      check(explorationProgress.playStage != LOADING_EXPLORATION) {
+        "Cannot navigate to a previous state if an exploration is being loaded."
+      }
+      check(explorationProgress.playStage != SUBMITTING_ANSWER) {
+        "Cannot navigate to a previous state if an answer submission is pending."
+      }
+      hintHandler.navigateToPreviousState()
+      explorationProgress.stateDeck.revisitOldCard()
+    }
+  }
+
   private suspend fun ControllerState.moveToNextStateImpl(
     moveToNextStateResultFlow: MutableStateFlow<AsyncResult<Any?>>
   ) {
@@ -825,12 +856,13 @@ class ExplorationProgressController @Inject constructor(
       check(explorationProgress.playStage != SUBMITTING_ANSWER) {
         "Cannot navigate to a next state if an answer submission is pending."
       }
-      //subha
-      if(explorationProgress.stateDeck.doesCurrentStateNeedToRevisitOldState()) {
-        explorationProgress.stateDeck.revisitOldCard()
-      } else {
-        explorationProgress.stateDeck.navigateToNextState()
-      }
+      //subha final
+//      if(explorationProgress.stateDeck.doesCurrentStateNeedToRevisitOldState()) {
+//        explorationProgress.stateDeck.revisitOldCard()
+//      } else {
+//        explorationProgress.stateDeck.navigateToNextState()
+//      }
+      explorationProgress.stateDeck.navigateToNextState()
 
       if (explorationProgress.stateDeck.isCurrentStateTopOfDeck()) {
         hintHandler.navigateBackToLatestPendingState()
@@ -1436,6 +1468,12 @@ class ExplorationProgressController @Inject constructor(
 
     /** [ControllerMessage] to move to the previous state in the exploration. */
     data class MoveToPreviousState(
+      override val sessionId: String,
+      override val callbackFlow: MutableStateFlow<AsyncResult<Any?>>
+    ) : ControllerMessage<Any?>()
+
+    //subha final
+    data class MoveToOldState(
       override val sessionId: String,
       override val callbackFlow: MutableStateFlow<AsyncResult<Any?>>
     ) : ControllerMessage<Any?>()

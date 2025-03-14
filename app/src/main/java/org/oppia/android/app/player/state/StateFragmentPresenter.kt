@@ -185,7 +185,10 @@ class StateFragmentPresenter @Inject constructor(
 
   //subha
   fun onLearnAgainButtonClicked() {
-    moveToNextState()
+    //moveToNextState()
+    //subha final
+    explorationProgressController.moveToOldState()
+
   }
 
   fun onNextButtonClicked() = moveToNextState()
