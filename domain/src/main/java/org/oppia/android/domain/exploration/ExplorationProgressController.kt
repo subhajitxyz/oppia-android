@@ -690,8 +690,10 @@ class ExplorationProgressController @Inject constructor(
             userAnswer.answer,
             userAnswer.writtenTranslationContext
           ).outcome
+        //subha solar
+        val destStatePresentPreviously = explorationProgress.stateDeck.isStatePreviouslyVisited(outcome.destStateName)
         answerOutcome =
-          explorationProgress.stateGraph.computeAnswerOutcomeForResult(topPendingState, outcome)
+          explorationProgress.stateGraph.computeAnswerOutcomeForResult(topPendingState, outcome, destStatePresentPreviously)
 
         //trying to pass if it is flashback state and set it into statedeck
         //subha

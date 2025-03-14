@@ -22,7 +22,7 @@ class StateGraph constructor(
   }
 
   /** Returns an [AnswerOutcome] based on the current state and resulting [Outcome] from the learner's answer. */
-  fun computeAnswerOutcomeForResult(currentState: State, outcome: Outcome): AnswerOutcome {
+  fun computeAnswerOutcomeForResult(currentState: State, outcome: Outcome, destStatePresentPreviously: Boolean): AnswerOutcome {
     val answerOutcomeBuilder = AnswerOutcome.newBuilder()
       .setFeedback(outcome.feedback)
       .setLabelledAsCorrectAnswer(outcome.labelledAsCorrect)
@@ -38,7 +38,7 @@ class StateGraph constructor(
       //how can we optimize this condition -> if we can able to check the [outcome.destStateName present in statedeck earlier]
       //then we do not need to check [outcome.feedback.contentId contains feedback] because i have a doubt on this condition
       !outcome.labelledAsCorrect &&
-        outcome.feedback.contentId.contains("feedback", true) ->
+        outcome.feedback.contentId.contains("feedback", true) && destStatePresentPreviously ->
         answerOutcomeBuilder.previousStateName = outcome.destStateName
       else -> answerOutcomeBuilder.stateName = outcome.destStateName
     }
