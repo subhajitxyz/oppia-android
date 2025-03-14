@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -679,6 +680,8 @@ class ExplorationProgressController @Inject constructor(
           ).outcome
         answerOutcome =
           explorationProgress.stateGraph.computeAnswerOutcomeForResult(topPendingState, outcome)
+        Log.d("testsolar","answeroutcome = ${outcome}")
+
         explorationProgress.stateDeck.submitAnswer(
           userAnswer, answerOutcome.feedback, answerOutcome.labelledAsCorrectAnswer
         )
@@ -696,8 +699,11 @@ class ExplorationProgressController @Inject constructor(
 
         // Follow the answer's outcome to another part of the graph if it's different.
         val ephemeralState = computeBaseCurrentEphemeralState()
+        Log.d("testsolar","ephemeralState = ${ephemeralState}")
+
         when {
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
+            Log.d("testsolar","inside 1st condition in answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME")
             endState()
             val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
             explorationProgress.stateDeck.pushState(
@@ -709,6 +715,8 @@ class ExplorationProgressController @Inject constructor(
             hintHandler.finishState(newState)
           }
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
+            Log.d("testsolar","inside 1st condition in ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE")
+
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
             hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
