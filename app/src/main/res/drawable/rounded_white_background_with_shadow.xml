@@ -1,4 +1,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
   <item>
     <shape android:shape="oval">
       <corners android:radius="10dp" />
@@ -7,12 +8,12 @@
         android:height="48dp" />
       <gradient
         android:endColor="@android:color/transparent"
-        android:gradientRadius="125%"
+        android:gradientRadius="33%"
         android:startColor="@color/color_def_black_54"
         android:type="radial" />
     </shape>
   </item>
-<!--  <item android:drawable="@drawable/shadow" />-->
+
   <item
     android:bottom="8dp"
     android:left="8dp"
@@ -30,5 +31,4 @@
     android:right="16dp"
     android:state_enabled="true"
     android:top="16dp" />
-  <item android:drawable="@drawable/shadow" />
 </layer-list>
