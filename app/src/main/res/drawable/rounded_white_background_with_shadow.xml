@@ -12,7 +12,7 @@
 <!--        android:type="radial" />-->
 <!--    </shape>-->
 <!--  </item>-->
-  <item android:drawable="@drawable/shadow" />
+<!--  <item android:drawable="@drawable/shadow" />-->
   <item
     android:bottom="8dp"
     android:left="8dp"
@@ -30,4 +30,5 @@
     android:right="16dp"
     android:state_enabled="true"
     android:top="16dp" />
+  <item android:drawable="@drawable/shadow" />
 </layer-list>
