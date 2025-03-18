@@ -858,4 +858,7 @@
   <dimen name="classrooms_card_elevation">4dp</dimen>
   <dimen name="classrooms_card_margin_start">8dp</dimen>
   <dimen name="classrooms_card_margin_end">0dp</dimen>
+
+  <!-- rounded_white_background_with_shadow -->
+  <dimen name="shadow_gradient_radius">60px</dimen>
 </resources>

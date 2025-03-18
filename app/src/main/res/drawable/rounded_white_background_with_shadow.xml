@@ -8,7 +8,7 @@
         android:height="48dp" />
       <gradient
         android:endColor="@android:color/transparent"
-        android:gradientRadius="50%"
+        android:gradientRadius="@dimen/shadow_gradient_radius"
         android:startColor="@color/color_def_black_54"
         android:type="radial" />
     </shape>
