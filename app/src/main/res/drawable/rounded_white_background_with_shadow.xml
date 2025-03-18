@@ -1,18 +1,18 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <item>
-    <shape android:shape="oval">
-      <corners android:radius="10dp" />
-      <size
-        android:width="48dp"
-        android:height="48dp" />
-      <gradient
-        android:endColor="@android:color/transparent"
-        android:gradientRadius="@dimen/shadow_gradient_radius"
-        android:startColor="@color/color_def_black_54"
-        android:type="radial" />
-    </shape>
-  </item>
+<!--  <item>-->
+<!--    <shape android:shape="oval">-->
+<!--      <corners android:radius="10dp" />-->
+<!--      <size-->
+<!--        android:width="48dp"-->
+<!--        android:height="48dp" />-->
+<!--      <gradient-->
+<!--        android:endColor="@android:color/transparent"-->
+<!--        android:gradientRadius="@dimen/shadow_gradient_radius"-->
+<!--        android:startColor="@color/color_def_black_54"-->
+<!--        android:type="radial" />-->
+<!--    </shape>-->
+<!--  </item>-->
 
   <item
     android:bottom="8dp"
@@ -31,4 +31,17 @@
     android:right="16dp"
     android:state_enabled="true"
     android:top="16dp" />
+  <item>
+    <shape android:shape="oval">
+      <corners android:radius="10dp" />
+      <size
+        android:width="48dp"
+        android:height="48dp" />
+      <gradient
+        android:endColor="@android:color/transparent"
+        android:gradientRadius="@dimen/shadow_gradient_radius"
+        android:startColor="@color/color_def_black_54"
+        android:type="radial" />
+    </shape>
+  </item>
 </layer-list>

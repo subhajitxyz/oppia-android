@@ -7,5 +7,5 @@
   <dimen name="profile_chooser_add_view_margin_top_profile_not_added">60dp</dimen>
 
   <!-- rounded_white_background_with_shadow -->
-  <dimen name="shadow_gradient_radius">60px</dimen>
+  <dimen name="shadow_gradient_radius">30px</dimen>
 </resources>
