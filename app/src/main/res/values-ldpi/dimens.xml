@@ -6,6 +6,6 @@
   <dimen name="profile_chooser_profile_view_view_margin_top">32dp</dimen>
   <dimen name="profile_chooser_add_view_margin_top_profile_not_added">32dp</dimen>
 
-  <!-- rounded_white_background_with_shadow -->
-  <dimen name="shadow_gradient_radius">20px</dimen>
+  <!-- Add Profile Activity -->
+  <dimen name="edit_profile_picture_shadow_gradient_radius">22px</dimen>
 </resources>
