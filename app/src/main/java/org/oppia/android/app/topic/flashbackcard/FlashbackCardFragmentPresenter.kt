@@ -90,6 +90,8 @@ class FlashbackCardFragmentPresenter @Inject constructor(
     )
     //subha mile 2.1
 
+    Log.d("testmile2.1"," ${id},${writtenTranslationContext},${ephemeralState}")
+
     recyclerViewAssembler = createRecyclerViewAssembler(
       assemblerBuilderFactory.create(resourceBucketName, entityType, profileId, UserAnswerState.getDefaultInstance())
     )
