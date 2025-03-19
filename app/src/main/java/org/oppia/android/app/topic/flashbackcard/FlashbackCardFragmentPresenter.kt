@@ -250,7 +250,7 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       .hasConversationView(hasConversationView)
       .addContentSupport()
       .addFeedbackSupport()
-      .addInteractionSupport(flashbackCardViewModel.getCanSubmitAnswer())
+      //.addInteractionSupport(flashbackCardViewModel.getCanSubmitAnswer())
       //.addPastAnswersSupport()
       //.addWrongAnswerCollapsingSupport()
       //.addForwardNavigationSupport()

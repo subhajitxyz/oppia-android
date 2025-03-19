@@ -14,6 +14,7 @@ import javax.inject.Inject
 import org.oppia.android.R
 import org.oppia.android.app.fragment.FragmentComponentImpl
 import org.oppia.android.app.fragment.InjectableDialogFragment
+import org.oppia.android.app.fragment.InjectableFragment
 import org.oppia.android.app.hintsandsolution.HintsAndSolutionDialogFragment
 import org.oppia.android.app.model.ConceptCardFragmentArguments
 import org.oppia.android.app.model.EphemeralState
@@ -23,6 +24,15 @@ import org.oppia.android.app.model.HintsAndSolutionDialogFragmentArguments
 import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.model.State
 import org.oppia.android.app.model.WrittenTranslationContext
+import org.oppia.android.app.player.state.answerhandling.InteractionAnswerErrorOrAvailabilityCheckReceiver
+import org.oppia.android.app.player.state.answerhandling.InteractionAnswerReceiver
+import org.oppia.android.app.player.state.listener.ContinueNavigationButtonListener
+import org.oppia.android.app.player.state.listener.NextNavigationButtonListener
+import org.oppia.android.app.player.state.listener.PreviousResponsesHeaderClickListener
+import org.oppia.android.app.player.state.listener.ReplayButtonListener
+import org.oppia.android.app.player.state.listener.ReturnToTopicNavigationButtonListener
+import org.oppia.android.app.player.state.listener.ShowHintAvailabilityListener
+import org.oppia.android.app.player.state.listener.SubmitNavigationButtonListener
 import org.oppia.android.app.topic.conceptcard.ConceptCardFragment
 import org.oppia.android.app.topic.conceptcard.ConceptCardFragmentPresenter
 import org.oppia.android.util.extensions.getProto
@@ -34,7 +44,8 @@ import org.oppia.android.util.profile.CurrentUserProfileIdIntentDecorator.extrac
 //private const val PROFILE_ID_ARGUMENT_KEY = "FlashbackFragment.profile_id"
 
 /* Fragment that displays a fullscreen dialog for concept cards */
-class FlashbackCardFragment : InjectableDialogFragment() {
+class FlashbackCardFragment :
+  InjectableDialogFragment() {
 
   companion object {
 
