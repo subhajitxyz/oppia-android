@@ -137,6 +137,7 @@ class StateDeck constructor(
   private fun isTimeToShowFlashbackCard(): Boolean {
     if(flashbackEphemeralState != EphemeralState.getDefaultInstance() && showFlashbackCardFlag) {
       Log.d("testmile2.1","it  isTimeToShowFlashbackCard")
+      showFlashbackCardFlag = false
       return true
     }
     return false
