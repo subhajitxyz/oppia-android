@@ -209,7 +209,7 @@ class StateFragmentPresenter @Inject constructor(
   fun onLearnAgainButtonClicked() {
     if(stateViewModel.getFlashbackIsOn()) {
 
-      moveToNextState()
+      explorationProgressController.moveToFlashbackState()
       Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashbackIsOn()}")
 
       //subha mile 2.1
