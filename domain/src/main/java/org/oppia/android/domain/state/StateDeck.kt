@@ -123,7 +123,7 @@ class StateDeck constructor(
 
   //subha mile 2.1
   private fun isTimeToShowFlashbackCard(): Boolean {
-    return flashbackEphemeralState != EphemeralState.getDefaultInstance())
+    return flashbackEphemeralState != EphemeralState.getDefaultInstance()
   }
   private fun getTemporaryState(): EphemeralState {
     return flashbackEphemeralState
