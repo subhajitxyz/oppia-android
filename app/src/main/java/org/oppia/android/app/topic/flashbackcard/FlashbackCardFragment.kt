@@ -31,7 +31,7 @@ import org.oppia.android.util.profile.CurrentUserProfileIdIntentDecorator.decora
 import org.oppia.android.util.profile.CurrentUserProfileIdIntentDecorator.extractCurrentUserProfileId
 
 //private const val SKILL_ID_ARGUMENT_KEY = "ConceptCardFragment.skill_id"
-private const val PROFILE_ID_ARGUMENT_KEY = "FlashbackFragment.profile_id"
+//private const val PROFILE_ID_ARGUMENT_KEY = "FlashbackFragment.profile_id"
 
 /* Fragment that displays a fullscreen dialog for concept cards */
 class FlashbackCardFragment : InjectableDialogFragment() {
@@ -41,7 +41,7 @@ class FlashbackCardFragment : InjectableDialogFragment() {
     const val FLASHBACK_CARD_FRAGMENT_ARGUMENTS_KEY = "FlashbackCardFragment.arguments"
 
     /** The fragment tag corresponding to the concept card dialog fragment. */
-    private const val FLASHBACK_CARD_DIALOG_FRAGMENT_TAG = "FLASHBACK_CARD_FRAGMENT"
+    //private const val FLASHBACK_CARD_DIALOG_FRAGMENT_TAG = "FLASHBACK_CARD_FRAGMENT"
 
     fun newInstance(
       id: String,

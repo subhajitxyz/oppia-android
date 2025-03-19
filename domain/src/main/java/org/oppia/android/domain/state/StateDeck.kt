@@ -306,12 +306,12 @@ class StateDeck constructor(
 
     flashbackEphemeralState = findEphemeralState(questionAnswerState.name)
 
-    val questionAnswerEphemeralState = findEphemeralState(questionAnswerState.name)
-
-    val questionContent = questionAnswerState.content
-
-    val userSubmittedAnswer = questionAnswerEphemeralState.completedState.answerList
-    val userSubmittedCorrectAnswer = userSubmittedAnswer[userSubmittedAnswer.size-1]
+//    val questionAnswerEphemeralState = findEphemeralState(questionAnswerState.name)
+//
+//    val questionContent = questionAnswerState.content
+//
+//    val userSubmittedAnswer = questionAnswerEphemeralState.completedState.answerList
+//    val userSubmittedCorrectAnswer = userSubmittedAnswer[userSubmittedAnswer.size-1]
 
 
   }

@@ -49,13 +49,13 @@ class FlashbackCardFragmentPresenter @Inject constructor(
   //subha mile 2.1
   private val explorationProgressController: ExplorationProgressController,
   private val splitScreenManager: SplitScreenManager,
-  private val htmlParserFactory: HtmlParser.Factory,
+  //private val htmlParserFactory: HtmlParser.Factory,
   private val assemblerBuilderFactory: StatePlayerRecyclerViewAssembler.Builder.Factory,
   @ExplorationHtmlParserEntityType private val entityType: String,
   @DefaultResourceBucketName private val resourceBucketName: String,
   private val flashbackCardViewModel: FlashbackCardViewModel,
 //  private val translationController: TranslationController,
-  private val appLanguageResourceHandler: AppLanguageResourceHandler
+//  private val appLanguageResourceHandler: AppLanguageResourceHandler
 ) : HtmlParser.CustomOppiaTagActionListener {
   private lateinit var profileId: ProfileId
 
