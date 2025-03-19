@@ -208,6 +208,8 @@ class StateFragmentPresenter @Inject constructor(
   //subha two
   fun onLearnAgainButtonClicked() {
     if(stateViewModel.getFlashbackIsOn()) {
+
+      moveToNextState()
       Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashbackIsOn()}")
 
       //subha mile 2.1

@@ -31,6 +31,9 @@ class StateDeck constructor(
   private var showFlashback: Boolean = false
   private var flashbackEphemeralState: EphemeralState = EphemeralState.getDefaultInstance()
 
+  //subha mile 2.1
+  private var showFlashbackCardFlag: Boolean = false
+
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
     pendingTopState = initialState
@@ -56,6 +59,15 @@ class StateDeck constructor(
 
   /** Navigates to the previous state in the deck, or fails if this isn't possible. */
   fun navigateToPreviousState() {
+    check(!isCurrentStateInitial()) { "Cannot navigate to previous state; at initial state." }
+    stateIndex--
+  }
+
+  //subha mile 2.1
+  fun navigateToFlashbackState() {
+    if(showFlashback) {
+      showFlashbackCardFlag = true
+    }
     check(!isCurrentStateInitial()) { "Cannot navigate to previous state; at initial state." }
     stateIndex--
   }
@@ -123,7 +135,7 @@ class StateDeck constructor(
 
   //subha mile 2.1
   private fun isTimeToShowFlashbackCard(): Boolean {
-    return flashbackEphemeralState != EphemeralState.getDefaultInstance()
+    return flashbackEphemeralState != EphemeralState.getDefaultInstance() && showFlashbackCardFlag
   }
   private fun getTemporaryState(): EphemeralState {
     return flashbackEphemeralState

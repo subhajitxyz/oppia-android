@@ -72,6 +72,10 @@ private const val SUBMIT_SOLUTION_VIEWED_RESULT_PROVIDER_ID =
   "ExplorationProgressController.submit_solution_revealed_result"
 private const val MOVE_TO_PREVIOUS_STATE_RESULT_PROVIDER_ID =
   "ExplorationProgressController.move_to_previous_state_result"
+// subha mile 2.1
+private const val MOVE_TO_FLASHBACK_STATE_RESULT_PROVIDER_ID =
+  "ExplorationProgressController.move_to_flashback_state_result"
+
 private const val MOVE_TO_NEXT_STATE_RESULT_PROVIDER_ID =
   "ExplorationProgressController.move_to_next_state_result"
 private const val CURRENT_STATE_PROVIDER_ID = "ExplorationProgressController.current_state"
@@ -134,6 +138,7 @@ class ExplorationProgressController @Inject constructor(
   var isFlashbackOn = false
   private lateinit var flashbackState: EphemeralState
   fun getFlashbackEphemeralState(): EphemeralState { return flashbackState }
+
 
   fun getIsFlashbackOn(): Boolean {
     return isFlashbackOn
@@ -389,6 +394,16 @@ class ExplorationProgressController @Inject constructor(
     return moveResultFlow.convertToSessionProvider(MOVE_TO_PREVIOUS_STATE_RESULT_PROVIDER_ID)
   }
 
+  // subha mile 2.1
+  fun moveToFlashbackState(): DataProvider<Any?> {
+    val moveResultFlow = createAsyncResultStateFlow<Any?>()
+    val message = ControllerMessage.MoveToFlashbackState(activeSessionId, moveResultFlow)
+    sendCommandForOperation(message) {
+      "Failed to schedule command for moving to the previous state."
+    }
+    return moveResultFlow.convertToSessionProvider(MOVE_TO_FLASHBACK_STATE_RESULT_PROVIDER_ID)
+  }
+
 
   /**
    * Navigates to the next state in the graph. This method is only valid if the current
@@ -577,6 +592,9 @@ class ExplorationProgressController @Inject constructor(
               controllerState.logViewedSolutionImpl(activeSessionId, message.callbackFlow)
             is ControllerMessage.MoveToPreviousState ->
               controllerState.moveToPreviousStateImpl(message.callbackFlow)
+            //subha mile 2.1
+            is ControllerMessage.MoveToFlashbackState ->
+              controllerState.moveToFlashbackStateImpl(message.callbackFlow)
             is ControllerMessage.MoveToNextState ->
               controllerState.moveToNextStateImpl(message.callbackFlow)
             is ControllerMessage.LogUpdatedHelpIndex ->
@@ -881,6 +899,25 @@ class ExplorationProgressController @Inject constructor(
       }
       hintHandler.navigateToPreviousState()
       explorationProgress.stateDeck.navigateToPreviousState()
+    }
+  }
+
+  // subha mile 2.1
+  private suspend fun ControllerState.moveToFlashbackStateImpl(
+    moveToFlashbackStateResultFlow: MutableStateFlow<AsyncResult<Any?>>
+  ) {
+    tryOperation(moveToFlashbackStateResultFlow) {
+      check(explorationProgress.playStage != NOT_PLAYING) {
+        "Cannot navigate to a previous state if an exploration is not being played."
+      }
+      check(explorationProgress.playStage != LOADING_EXPLORATION) {
+        "Cannot navigate to a previous state if an exploration is being loaded."
+      }
+//      check(explorationProgress.playStage != SUBMITTING_ANSWER) {
+//        "Cannot navigate to a previous state if an answer submission is pending."
+//      }
+      //hintHandler.navigateToPreviousState()
+      explorationProgress.stateDeck.navigateToFlashbackState()
     }
   }
 
@@ -1519,6 +1556,13 @@ class ExplorationProgressController @Inject constructor(
       override val sessionId: String,
       override val callbackFlow: MutableStateFlow<AsyncResult<Any?>>
     ) : ControllerMessage<Any?>()
+
+    //subha mile 2.1
+    data class MoveToFlashbackState(
+      override val sessionId: String,
+      override val callbackFlow: MutableStateFlow<AsyncResult<Any?>>
+    ) : ControllerMessage<Any?>()
+
 
     /** [ControllerMessage] to move to the next state in the exploration. */
     data class MoveToNextState(
