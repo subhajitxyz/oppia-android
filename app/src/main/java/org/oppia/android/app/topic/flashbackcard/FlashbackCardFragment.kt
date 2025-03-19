@@ -46,12 +46,15 @@ class FlashbackCardFragment : InjectableDialogFragment() {
     fun newInstance(
       id: String,
       writtenTranslationContext: WrittenTranslationContext,
-      ephemeralState: EphemeralState
+      ephemeralState: EphemeralState,
+      explorationId: String
     ): FlashbackCardFragment {
       val args = FlashbackFragmentArguments.newBuilder().apply {
         this.idArgument = id
         this.writtenTranslationContext = writtenTranslationContext
         this.ephemeralState = ephemeralState
+        //subha mile 2.1
+        this.explorationId = explorationId
       }.build()
       return FlashbackCardFragment().apply {
         arguments = Bundle().apply {
@@ -118,8 +121,10 @@ class FlashbackCardFragment : InjectableDialogFragment() {
     val profileId = arguments.getProto(HintsAndSolutionDialogFragment.PROFILE_ID_KEY, ProfileId.getDefaultInstance())
 
     val ephemeralState = args.ephemeralState ?: EphemeralState.getDefaultInstance()
+    val explorationId =
+      args.explorationId!!
 
-    return flashbackCardFragmentPresenter.handleCreateView(inflater, container, id, writtenTranslationContext, profileId, ephemeralState)
+    return flashbackCardFragmentPresenter.handleCreateView(inflater, container, id, writtenTranslationContext, profileId, explorationId, ephemeralState)
   }
 
   override fun onStart() {

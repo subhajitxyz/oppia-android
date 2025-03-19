@@ -15,4 +15,15 @@ class FlashbackCardViewModel @Inject constructor(): ObservableViewModel(){
 //  fun updateFlashbackContent(newText: String) {
 //    contentSubtitledHtml.set(newText)  // Updates UI automatically
 //  }
+
+
+  //subha mile 2.1
+  val isSplitView = ObservableField(false)
+  val centerGuidelinePercentage = ObservableField(0.5f)
+  private val canSubmitAnswer = ObservableField(false)
+
+  val itemList: ObservableList<StateItemViewModel> = ObservableArrayList()
+  val rightItemList: ObservableList<StateItemViewModel> = ObservableArrayList()
+
+  fun getCanSubmitAnswer(): ObservableField<Boolean> = canSubmitAnswer
 }

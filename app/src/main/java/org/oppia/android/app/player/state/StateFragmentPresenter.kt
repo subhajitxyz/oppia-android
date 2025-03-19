@@ -210,6 +210,8 @@ class StateFragmentPresenter @Inject constructor(
     if(stateViewModel.getFlashbackIsOn()) {
       Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashbackIsOn()}")
 
+      //subha mile 2.1
+      //go to exploration progress controller -> try to make a new ephemeral state and add to stategraph
       flashbackCardListener.routeToFlashBackCard(
         this.explorationId,
         ephemeralState = explorationProgressController.getFlashbackEphemeralState()

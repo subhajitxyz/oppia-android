@@ -60,6 +60,9 @@ class ExplorationActivity :
   private lateinit var state: State
   private lateinit var writtenTranslationContext: WrittenTranslationContext
 
+  //subha mile 2.1
+  private lateinit var flashbackExplorationId: String
+
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -76,6 +79,7 @@ class ExplorationActivity :
       params.parentScreen,
       params.isCheckpointingEnabled
     )
+    flashbackExplorationId = params.explorationId
     onBackPressedDispatcher.addCallback(
       this,
       object : OnBackPressedCallback(/* enabled = */ true) {
@@ -193,9 +197,11 @@ class ExplorationActivity :
       val flashbackCardFragment = FlashbackCardFragment.newInstance(
         id,
         writtenTranslationContext,
-        ephemeralState
+        ephemeralState,
+        flashbackExplorationId
       )
       flashbackCardFragment.showNow(supportFragmentManager, TAG_FLASHBACK_CARD)
+      //explorationActivityPresenter.routeToFlashbackCard(id, ephemeralState)
       //explorationActivityPresenter.onFlashbackCard()
     }
   }

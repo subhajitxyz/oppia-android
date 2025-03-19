@@ -767,16 +767,12 @@ class ExplorationProgressController @Inject constructor(
             flashbackState = explorationProgress.stateDeck.getFlashbackEphemeralState(answerOutcome.flashbackStateName)
             Log.d("testflashback","logging x = true")
 
-            //this code just for bring the continue button in place of Learn again button forcefully
-//            endState()
-//            val newState = explorationProgress.stateGraph.getState(answerOutcome.flashbackStateName)
-//            explorationProgress.stateDeck.pushState(
-//              newState,
-//              prohibitSameStateName = true,
-//              timestamp = startSessionTimeMs + continueButtonAnimationDelay,
-//              isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
-//            )
-//            hintHandler.finishState(newState)
+
+            ///subha mile 2.1
+            //we detect the user need to see flashback -> we will try to create ephemeral state for user
+            //which will show only question , corrent solution from asset and user submitted correct answer
+            explorationProgress.stateDeck.prepareTemporaryEphemeralStateForQusAns(answerOutcome.flashbackStateName)
+
           }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
             //subha

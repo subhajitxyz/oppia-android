@@ -939,4 +939,6 @@ message FlashbackFragmentArguments {
   WrittenTranslationContext written_translation_context = 4;
 
   EphemeralState ephemeral_state = 5;
+  //subha mile 2.1
+  string exploration_id = 6;
 }

@@ -43,6 +43,8 @@ import org.oppia.android.util.accessibility.AccessibilityService
 import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
+import org.oppia.android.app.model.WrittenTranslationContext
+import org.oppia.android.app.topic.flashbackcard.FlashbackCardFragment
 import org.oppia.android.app.topic.flashbackcard.FlashbackCardListener
 
 private const val TAG_UNSAVED_EXPLORATION_DIALOG = "UNSAVED_EXPLORATION_DIALOG"
@@ -194,6 +196,17 @@ class ExplorationActivityPresenter @Inject constructor(
       SpotlightManager.SPOTLIGHT_FRAGMENT_TAG
     ) as? SpotlightManager
   }
+
+  //subha mile 2.1
+//  fun routeToFlashbackCard() {
+//    val flashbackCardFragment = FlashbackCardFragment.newInstance(
+//      "1",
+//      WrittenTranslationContext.getDefaultInstance(),
+//      Ephemeralstate.getDefaultInstance(),
+//      explorationId,
+//    )
+//    flashbackCardFragment.showNow(supportFragmentManager, TAG_FLASHBACK_CARD)
+//  }
 
   fun loadExplorationFragment(readingTextSize: ReadingTextSize) {
     if (getExplorationFragment() == null) {

@@ -8,6 +8,7 @@ import org.oppia.android.app.model.EphemeralState
 import org.oppia.android.app.model.ExplorationCheckpoint
 import org.oppia.android.app.model.HelpIndex
 import org.oppia.android.app.model.PendingState
+import org.oppia.android.app.model.Question
 import org.oppia.android.app.model.State
 import org.oppia.android.app.model.SubtitledHtml
 import org.oppia.android.app.model.UserAnswer
@@ -28,6 +29,7 @@ class StateDeck constructor(
 
   //subha two
   private var showFlashback: Boolean = false
+  private var flashbackEphemeralState: EphemeralState = EphemeralState.getDefaultInstance()
 
   /** Resets this deck to a new, specified initial [State]. */
   fun resetDeck(initialState: State) {
@@ -106,6 +108,9 @@ class StateDeck constructor(
     // check would never be triggered since the second case assumes the top of the deck must be
     // pending.
     return when {
+      //subha mile 2.1
+      //if it is time to show flashback card -> we pass the out temporary ephemeral state
+      isTimeToShowFlashbackCard() -> getTemporaryState()
       isCurrentStateTerminal() -> getCurrentTerminalState()
       isCurrentStateTopOfDeck() -> getCurrentPendingState(
         helpIndex,
@@ -114,6 +119,14 @@ class StateDeck constructor(
       )
       else -> getPreviousState()
     }
+  }
+
+  //subha mile 2.1
+  private fun isTimeToShowFlashbackCard(): Boolean {
+    return flashbackEphemeralState != EphemeralState.getDefaultInstance())
+  }
+  private fun getTemporaryState(): EphemeralState {
+    return flashbackEphemeralState
   }
 
   /**
@@ -280,6 +293,66 @@ class StateDeck constructor(
       }
     }
     return EphemeralState.getDefaultInstance()
+  }
+
+  //subha mile 2.1
+  //we will try to create temporary ephemeral state for user
+  //which will show only question , corrent solution from asset and user submitted correct answer
+  fun prepareTemporaryEphemeralStateForQusAns(stateName: String) {
+    //first find which state has question and answer
+    val initialEphemeralState = getFlashbackEphemeralState(stateName)
+    val initialIdx = calculateIdx(stateName)
+    val questionAnswerState = findQuestionAnswerState(initialEphemeralState.state, initialIdx)
+
+    flashbackEphemeralState = findEphemeralState(questionAnswerState.name)
+
+    val questionAnswerEphemeralState = findEphemeralState(questionAnswerState.name)
+
+    val questionContent = questionAnswerState.content
+
+    val userSubmittedAnswer = questionAnswerEphemeralState.completedState.answerList
+    val userSubmittedCorrectAnswer = userSubmittedAnswer[userSubmittedAnswer.size-1]
+
+
+  }
+  private fun findEphemeralState(stateName: String): EphemeralState {
+    for (i in previousStates.size - 1 downTo 0) {
+      if (previousStates[i].state.name == stateName) {
+        return previousStates[i]
+      }
+    }
+    return EphemeralState.getDefaultInstance()
+  }
+
+  private fun findQuestionAnswerState(firstState: State,initialIdx: Int): State {
+    var initialState = firstState
+    while (initialState.interaction.answerGroupsCount == 0) {
+      val destStateName = initialState.interaction.defaultOutcome.destStateName
+
+      val destEphemeralState = findDestEphemeralState(destStateName,initialIdx)
+
+      initialState = destEphemeralState.state
+    }
+    return initialState
+  }
+
+  private fun findDestEphemeralState(destStateName: String, initialIdx: Int): EphemeralState {
+    for (i in initialIdx until previousStates.size) {
+      if (previousStates[i].state.name == destStateName) {
+        return previousStates[i]
+      }
+    }
+    return EphemeralState.getDefaultInstance()
+  }
+
+
+  private fun calculateIdx(stateName: String): Int {
+    for (i in previousStates.size - 1 downTo 0) {
+      if (previousStates[i].state.name == stateName) {
+        return i
+      }
+    }
+    return -1
   }
 
   //subha two
