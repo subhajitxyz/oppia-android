@@ -4,4 +4,7 @@ package org.oppia.android.app.player.state.listener
 interface LearnAgainButtonListener {
 
   fun onLearnAgainButtonClicked()
+
+  //subha test
+  fun onFlashbackStateAvailable(state: String)
 }

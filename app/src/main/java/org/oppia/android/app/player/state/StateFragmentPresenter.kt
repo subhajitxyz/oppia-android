@@ -106,6 +106,9 @@ class StateFragmentPresenter @Inject constructor(
   private lateinit var helpIndex: HelpIndex
   private var forceAnnouncedForHintsBar = false
 
+  //subha test
+  private lateinit var flashbackStatename: String
+
   private lateinit var recyclerViewAssembler: StatePlayerRecyclerViewAssembler
   private val ephemeralStateLiveData: LiveData<AsyncResult<EphemeralState>> by lazy {
     explorationProgressController.getCurrentState().toLiveData()
@@ -185,6 +188,9 @@ class StateFragmentPresenter @Inject constructor(
     handleSubmitAnswer(answer)
   }
 
+  //subha test
+  fun onFlashbackStateAvailable(state: String) {this.flashbackStatename = state }
+
   fun onContinueButtonClicked() {
     //subha
     Log.d("testflashback","in onContinueButtonClicked in statefragmentpresenter")
@@ -207,6 +213,9 @@ class StateFragmentPresenter @Inject constructor(
 
   //subha two
   fun onLearnAgainButtonClicked() {
+
+    //subha test
+    Log.d("subhatest", "this is test for passing state ${flashbackStatename}")
     if(stateViewModel.getFlashbackIsOn()) {
       Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashbackIsOn()}")
 

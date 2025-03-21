@@ -117,6 +117,11 @@ class StateFragment :
     )
   }
 
+  //subha test
+  override fun onFlashbackStateAvailable(state: String) {
+    stateFragmentPresenter.onFlashbackStateAvailable(state)
+  }
+
   //subha
   fun offFlashbackCard() = stateFragmentPresenter.offFlashbackCard()
 

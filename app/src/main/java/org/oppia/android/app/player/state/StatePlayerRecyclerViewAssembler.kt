@@ -350,6 +350,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     Log.d("testephe", "playerfeatureset .flashbacksupprt is   ${playerFeatureSet.flashbackSupport}}")
     if(ephemeralState.showFlashbackCard && playerFeatureSet.flashbackSupport) {
       Log.d("testephe", "inside con in stateplayerrecyviewassembler to show learagainbutaon")
+      (fragment as LearnAgainButtonListener).onFlashbackStateAvailable("hi subhajit")
       addLearnAgainButton(
         conversationPendingItemList,
         extraInteractionPendingItemList
