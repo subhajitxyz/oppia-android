@@ -251,7 +251,7 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       .addContentSupport()
       .addFeedbackSupport()
       //.addInteractionSupport(flashbackCardViewModel.getCanSubmitAnswer())
-      //.addPastAnswersSupport()
+      .addPastAnswersSupport()
       //.addWrongAnswerCollapsingSupport()
       //.addForwardNavigationSupport()
       //.addReplayButtonSupport()
