@@ -323,6 +323,8 @@ class StateDeck constructor(
     val questionAnswerState = findQuestionAnswerState(initialEphemeralState.state, initialIdx)
 
     flashbackEphemeralState = findEphemeralState(questionAnswerState.name)
+    //testing for showing previous state
+    flashbackEphemeralState = previousStates[stateIndex-1]
 
 //    val questionAnswerEphemeralState = findEphemeralState(questionAnswerState.name)
 //

@@ -479,6 +479,26 @@ class ExplorationProgressController @Inject constructor(
     }
   }
 
+  //subha test
+  fun getCurrentFlashbackState(): DataProvider<EphemeralState> {
+    val writtenTranslationContentLocale =
+      translationController.getWrittenTranslationContentLocale(profileId)
+    val ephemeralStateDataProvider =
+      mostRecentEphemeralStateFlow.convertToSessionProvider(CURRENT_STATE_PROVIDER_ID)
+    return writtenTranslationContentLocale.combineWith(
+      ephemeralStateDataProvider, LOCALIZED_STATE_PROVIDER_ID
+    ) { locale, ephemeralState ->
+      ephemeralState.toBuilder().apply {
+        // Augment the state to include translation information (which may not necessarily be
+        // up-to-date in the state deck).
+        writtenTranslationContext =
+          translationController.computeWrittenTranslationContext(
+            state.writtenTranslationsMap, locale
+          )
+      }.build()
+    }
+  }
+
   /**
    * Updates the current written content language for the specified [profileId] and [selection]
    * mid-lesson.

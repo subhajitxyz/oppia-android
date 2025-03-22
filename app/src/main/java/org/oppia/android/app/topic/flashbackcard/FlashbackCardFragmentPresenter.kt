@@ -62,7 +62,8 @@ class FlashbackCardFragmentPresenter @Inject constructor(
   //subha mile 2.1
   private lateinit var recyclerViewAssembler: StatePlayerRecyclerViewAssembler
   private val ephemeralStateLiveData: LiveData<AsyncResult<EphemeralState>> by lazy {
-    explorationProgressController.getCurrentState().toLiveData()
+    //explorationProgressController.getCurrentState().toLiveData()
+    explorationProgressController.getCurrentFlashbackState().toLiveData()
   }
 
   private val hasConversationView = false
