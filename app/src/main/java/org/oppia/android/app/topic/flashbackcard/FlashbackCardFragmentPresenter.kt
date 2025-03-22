@@ -110,7 +110,25 @@ class FlashbackCardFragmentPresenter @Inject constructor(
       adapter = recyclerViewAssembler.rhsAdapter
     }
 
-    subscribeToCurrentQuestion()
+    val shouldSplit = splitScreenManager.shouldSplitScreen(ephemeralState.state.interaction.id)
+    if (shouldSplit) {
+      flashbackCardViewModel.isSplitView.set(true)
+      flashbackCardViewModel.centerGuidelinePercentage.set(0.5f)
+    } else {
+      flashbackCardViewModel.isSplitView.set(false)
+      flashbackCardViewModel.centerGuidelinePercentage.set(1f)
+    }
+    val dataPair = recyclerViewAssembler.compute(
+      ephemeralState,
+      explorationId,
+      shouldSplit
+    )
+
+    flashbackCardViewModel.itemList.clear()
+    flashbackCardViewModel.itemList += dataPair.first
+    flashbackCardViewModel.rightItemList.clear()
+    flashbackCardViewModel.rightItemList += dataPair.second
+    //subscribeToCurrentQuestion()
     return binding.root
 
 

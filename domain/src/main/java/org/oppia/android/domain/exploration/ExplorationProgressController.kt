@@ -484,7 +484,7 @@ class ExplorationProgressController @Inject constructor(
     val writtenTranslationContentLocale =
       translationController.getWrittenTranslationContentLocale(profileId)
     val ephemeralStateDataProvider =
-      mostRecentEphemeralStateFlow.convertToSessionProvider(CURRENT_STATE_PROVIDER_ID)
+      mostRecentEphemeralStateFlow.convertToSessionProvider(MOVE_TO_FLASHBACK_STATE_RESULT_PROVIDER_ID)
     return writtenTranslationContentLocale.combineWith(
       ephemeralStateDataProvider, LOCALIZED_STATE_PROVIDER_ID
     ) { locale, ephemeralState ->
