@@ -212,6 +212,12 @@ class ProfileManagementController @Inject constructor(
       it.profilesMap.values.toList()
     }
   }
+  //subha
+  fun getProfileCount(): DataProvider<Int> {
+    return profileDataStore.transform(GET_PROFILES_PROVIDER_ID) {
+      it.profilesCount
+    }
+  }
 
   /** Returns a single profile, specified by profiledId. */
   fun getProfile(profileId: ProfileId): DataProvider<Profile> {

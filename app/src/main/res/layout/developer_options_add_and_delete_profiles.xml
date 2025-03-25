@@ -25,10 +25,35 @@
       android:paddingBottom="20dp"
       android:text="@string/developer_options_add_and_delete_profiles_label"
       android:textColor="@color/component_color_shared_active_text_color"
-      app:layout_constraintBottom_toTopOf="@id/add_one_profile_text_view"
+      app:layout_constraintBottom_toTopOf="@id/profile_count_text_view"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/profile_count_text_view"
+      style="@style/Subtitle1ViewStart"
+      android:layout_width="match_parent"
+      android:paddingStart="16dp"
+      android:paddingTop="20dp"
+      android:paddingEnd="16dp"
+      android:paddingBottom="20dp"
+      android:text="@{viewModel.profileCount}"
+      android:textColor="@color/component_color_shared_primary_dark_text_color"
+      app:layout_constraintBottom_toTopOf="@id/new_divider1"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/add_and_delete_profiles_text_view" />
+
+    <View
+      android:id="@+id/new_divider1"
+      android:layout_width="match_parent"
+      android:layout_height="2dp"
+      android:background="@color/component_color_shared_divider_color"
+      app:layout_constraintBottom_toTopOf="@id/add_one_profile_text_view"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/profile_count_text_view" />
 
     <TextView
       android:id="@+id/add_one_profile_text_view"
@@ -44,7 +69,7 @@
       app:layout_constraintBottom_toTopOf="@id/view_divider1"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/add_and_delete_profiles_text_view" />
+      app:layout_constraintTop_toBottomOf="@id/new_divider1" />
 
     <View
       android:id="@+id/view_divider1"
