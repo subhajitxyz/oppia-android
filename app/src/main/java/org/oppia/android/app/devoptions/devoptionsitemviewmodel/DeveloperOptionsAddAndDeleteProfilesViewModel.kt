@@ -24,8 +24,10 @@ class DeveloperOptionsAddAndDeleteProfilesViewModel(
 
   //subha
 
+
+
   // Convert AsyncResult<Int> to LiveData<Int>
-  val profileCount: LiveData<Int> = Transformations.map(
+  private val profileCount: LiveData<Int> = Transformations.map(
     profileManagementController.getProfileCount().toLiveData()
   ) { asyncResult ->
     when (asyncResult) {
@@ -33,6 +35,9 @@ class DeveloperOptionsAddAndDeleteProfilesViewModel(
       is AsyncResult.Failure -> 0 // Default to 0 if there's an error
       is AsyncResult.Pending -> 0 // Default to 0 while loading
     }
+  }
+  val profileCountString: LiveData<String> = Transformations.map(profileCount) { count ->
+    count?.toString() ?: "0"
   }
 
 

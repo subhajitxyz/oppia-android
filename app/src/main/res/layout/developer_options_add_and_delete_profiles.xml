@@ -38,7 +38,7 @@
       android:paddingTop="20dp"
       android:paddingEnd="16dp"
       android:paddingBottom="20dp"
-      android:text="@{viewModel.profileCount}"
+      android:text="@{viewModel.profileCountString}"
       android:textColor="@color/component_color_shared_primary_dark_text_color"
       app:layout_constraintBottom_toTopOf="@id/new_divider1"
       app:layout_constraintEnd_toEndOf="parent"
