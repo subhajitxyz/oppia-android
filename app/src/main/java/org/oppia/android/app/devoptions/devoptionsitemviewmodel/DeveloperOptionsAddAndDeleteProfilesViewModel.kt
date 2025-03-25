@@ -18,12 +18,12 @@ class DeveloperOptionsAddAndDeleteProfilesViewModel(
   private val addOneProfileButtonClickListener: AddOneProfileButtonClickListener,
   private val addThreeProfilesButtonClickListener: AddThreeProfilesButtonClickListener,
   private val deleteAllNonAdminProfilesButtonClickListener:
-    DeleteAllNonAdminProfilesButtonClickListener
+    DeleteAllNonAdminProfilesButtonClickListener,
+  private val profileManagementController: ProfileManagementController
 ) : DeveloperOptionsItemViewModel() {
 
   //subha
-  @Inject
-  lateinit var profileManagementController: ProfileManagementController
+
   // Convert AsyncResult<Int> to LiveData<Int>
   val profileCount: LiveData<Int> = Transformations.map(
     profileManagementController.getProfileCount().toLiveData()
