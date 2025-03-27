@@ -11,6 +11,7 @@
   <string name="developer_options_event_logs" translatable="false">Event Logs</string>
   <string name="developer_options_override_app_behaviors_label" translatable="false">Override App Behaviors</string>
   <string name="developer_options_show_all_hints_solution" translatable="false">Show all hints/solution</string>
+  <string name="developer_options_profile_count" translatable="false">Existing Profile Count</string>
   <string name="developer_options_force_network_type" translatable="false">Force network type</string>
   <string name="developer_options_force_crash" translatable="false">Force crash</string>
   <string name="developer_options_test_parsers_label" translatable="false">Test Parsers</string>
