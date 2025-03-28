@@ -113,6 +113,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.classroom.ClassroomListActivity
 
 /** Tests for [DeveloperOptionsFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -640,6 +641,34 @@ class DeveloperOptionsFragmentTest {
       }
     }
   }
+
+  //subha sugg
+  @Test
+  fun testDeveloperOptions_test() {
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+      }
+    }
+  }
   @Test
   fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
     launch<DeveloperOptionsTestActivity>(
@@ -696,9 +725,12 @@ class DeveloperOptionsFragmentTest {
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
           .perform(click())
 
+
+        intended(hasComponent(ClassroomListActivity::class.java.name))
         onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
         onView(withId(R.id.developer_options_linear_layout)).perform(click())
 
+        intended(hasComponent(DeveloperOptionsActivity::class.java.name))
         scrollToPosition(position = 4)
         onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
         onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
