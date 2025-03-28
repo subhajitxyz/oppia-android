@@ -36,6 +36,7 @@ import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
 import org.oppia.android.app.profile.AddProfileViewModel
 import org.oppia.android.app.translation.AppLanguageResourceHandler
+import org.oppia.android.databinding.DeveloperOptionsFragmentBinding
 
 private val COLORS_LIST = listOf(
   R.color.component_color_avatar_background_1_color,
@@ -233,7 +234,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
           .observe(
             activity,
             Observer {
-              handleAddProfileResult(it, binding)
+              handleAddProfileResult(it)//, binding)
             }
           )
       }
@@ -249,7 +250,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
   //subha
   private fun handleAddProfileResult(
     result: AsyncResult<Any?>,
-    binding: AddProfileActivityBinding
+    //binding: DeveloperOptionsFragmentBinding
   ) {
     when (result) {
       is AsyncResult.Success -> {
@@ -272,7 +273,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
               )
             )
         }
-        binding.addProfileActivityScrollView.smoothScrollTo(0, 0)
+        //binding.developerOptionsList.smoothScrollTo(0, 0)
       }
       is AsyncResult.Pending -> {} // Wait for an actual result.
     }
