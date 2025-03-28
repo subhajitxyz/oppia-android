@@ -34,6 +34,8 @@ import org.oppia.android.domain.profile.ProfileManagementController
 import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
+import org.oppia.android.app.profile.AddProfileViewModel
+import org.oppia.android.app.translation.AppLanguageResourceHandler
 
 private val COLORS_LIST = listOf(
   R.color.component_color_avatar_background_1_color,
@@ -62,8 +64,10 @@ private val COLORS_LIST = listOf(
   R.color.component_color_avatar_background_24_color
 )
 
+//subha sugg
 private val PRE_DEFINED_NAMES_LIST = listOf(
-  "Ben", "Nikita", "Adhiambo", "Sean", "Saptak", "Vishwajit", "Subhajit", "Aarav", "Emily", "Fatima"
+  "Ben", "Adhiambo", "Sean", "Saptak", "Vishwajit", "Subhajit", "Tanish", "Ayush", "Jinshu",
+  "Eduard", "Kenneth", "Manas", "Mohit", "RD", "Oyindamola", "Sandeep", "Yash"
 )
 
 /** The presenter for [DeveloperOptionsFragment]. */
@@ -73,8 +77,11 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
   private val fragment: Fragment,
   private val multiTypeBuilderFactory: BindableAdapter.MultiTypeBuilder.Factory,
   private val profileManagementController: ProfileManagementController,
-  private val oppiaLogger: OppiaLogger
-) {
+  //subha sugg
+  private val oppiaLogger: OppiaLogger,
+  private val profileViewModel: AddProfileViewModel,
+  private val resourceHandler: AppLanguageResourceHandler,
+  ) {
 
   private lateinit var binding: DeveloperOptionsFragmentBinding
   private lateinit var linearLayoutManager: LinearLayoutManager
@@ -210,7 +217,8 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
 
       val newNames = PRE_DEFINED_NAMES_LIST.filter {
         !existingProfileNameList.contains(it)
-      }.take(count)
+      }.shuffled() //subha sugg
+        .take(count)
       newNames.forEach { newName ->
         val rgbColor = selectRandomColor()
         profileManagementController.addProfile(
@@ -220,13 +228,53 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
           allowDownloadAccess = true,
           colorRgb = rgbColor,
           isAdmin = false
-        )
+        )//subha sugg
+          .toLiveData()
+          .observe(
+            activity,
+            Observer {
+              handleAddProfileResult(it, binding)
+            }
+          )
       }
+      //subha sugg
 
-      val intent = Intent(fragment.requireContext(), ProfileChooserActivity::class.java).apply {
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+//      val intent = Intent(fragment.requireContext(), ProfileChooserActivity::class.java).apply {
+//        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//      }
+//      fragment.startActivity(intent)
+    }
+  }
+  //subha
+  private fun handleAddProfileResult(
+    result: AsyncResult<Any?>,
+    binding: AddProfileActivityBinding
+  ) {
+    when (result) {
+      is AsyncResult.Success -> {
+        val intent = Intent(activity, ProfileChooserActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        activity.startActivity(intent)
       }
-      fragment.startActivity(intent)
+      is AsyncResult.Failure -> {
+        when (result.error) {
+          is ProfileManagementController.ProfileNameNotUniqueException ->
+            profileViewModel.nameErrorMsg.set(
+              resourceHandler.getStringInLocale(
+                R.string.add_profile_error_name_not_unique
+              )
+            )
+          is ProfileManagementController.ProfileNameOnlyLettersException ->
+            profileViewModel.nameErrorMsg.set(
+              resourceHandler.getStringInLocale(
+                R.string.add_profile_error_name_only_letters
+              )
+            )
+        }
+        binding.addProfileActivityScrollView.smoothScrollTo(0, 0)
+      }
+      is AsyncResult.Pending -> {} // Wait for an actual result.
     }
   }
 
