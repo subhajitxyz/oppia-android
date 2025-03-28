@@ -221,6 +221,8 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
       }.shuffled() //subha sugg
         .take(count)
       newNames.forEach { newName ->
+        //subha sugg
+        profileViewModel.clearAllErrorMessages()
         val rgbColor = selectRandomColor()
         profileManagementController.addProfile(
           name = newName,
