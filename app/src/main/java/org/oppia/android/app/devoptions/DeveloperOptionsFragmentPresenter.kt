@@ -230,22 +230,15 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
           allowDownloadAccess = true,
           colorRgb = rgbColor,
           isAdmin = false
-        )//subha sugg
-          .toLiveData()
-          .observe(
-            activity,
-            Observer {
-              handleAddProfileResult(it)//, binding)
-            }
-          )
+        )
       }
       //subha sugg
 
 
-//      val intent = Intent(fragment.requireContext(), ProfileChooserActivity::class.java).apply {
-//        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//      }
-//      fragment.startActivity(intent)
+      val intent = Intent(fragment.requireContext(), ProfileChooserActivity::class.java).apply {
+        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+      }
+      fragment.startActivity(intent)
     }
   }
   //subha
