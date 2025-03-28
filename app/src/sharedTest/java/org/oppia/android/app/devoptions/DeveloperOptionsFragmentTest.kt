@@ -642,33 +642,6 @@ class DeveloperOptionsFragmentTest {
     }
   }
 
-  //subha sugg
-  @Test
-  fun testDeveloperOptions_test() {
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-      scrollToPosition(position = 4)
-      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-      }
-    }
-  }
   @Test
   fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
     launch<DeveloperOptionsTestActivity>(
@@ -692,27 +665,6 @@ class DeveloperOptionsFragmentTest {
           targetView = R.id.profile_name_text,
           stringToMatch = "Admin"
         )
-        //subha sugg
-//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
-//        verifyTextOnProfileListItemAtPosition(
-//          itemPosition = 1,
-//          targetView = R.id.profile_name_text,
-//          stringToMatch = "Adhiambo"
-//        )
-//
-//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
-//        verifyTextOnProfileListItemAtPosition(
-//          itemPosition = 2,
-//          targetView = R.id.profile_name_text,
-//          stringToMatch = "Ben"
-//        )
-//
-//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(3))
-//        verifyTextOnProfileListItemAtPosition(
-//          itemPosition = 3,
-//          targetView = R.id.profile_name_text,
-//          stringToMatch = "Nikita"
-//        )
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
         verifyTextOnProfileListItemAtPosition(
@@ -722,9 +674,12 @@ class DeveloperOptionsFragmentTest {
         )
 
         //check the profile count
+
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
           .perform(click())
 
+
+        testCoroutineDispatchers.runCurrent()
 
         intended(hasComponent(ClassroomListActivity::class.java.name))
         onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
