@@ -114,6 +114,7 @@ import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.oppia.android.app.classroom.ClassroomListActivity
+import org.oppia.android.app.home.HomeActivity
 
 /** Tests for [DeveloperOptionsFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -678,8 +679,16 @@ class DeveloperOptionsFragmentTest {
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
           .perform(click())
 
-
         testCoroutineDispatchers.runCurrent()
+        launch(HomeActivity::class.java).use {
+          testCoroutineDispatchers.runCurrent()
+          onView(withId(R.id.home_activity_toolbar)).perform(click())
+
+        }
+
+
+
+          testCoroutineDispatchers.runCurrent()
 
         intended(hasComponent(ClassroomListActivity::class.java.name))
         onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
