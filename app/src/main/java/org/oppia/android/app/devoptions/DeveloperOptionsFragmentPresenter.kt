@@ -217,7 +217,7 @@ class DeveloperOptionsFragmentPresenter @Inject constructor(
 
       val newNames = PRE_DEFINED_NAMES_LIST.filter {
         !existingProfileNameList.contains(it)
-      }.shuffled() //subha sugg
+      }.shuffled() // subha sugg
         .take(count)
       newNames.forEach { newName ->
         //subha sugg
