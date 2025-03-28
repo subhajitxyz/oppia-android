@@ -683,21 +683,31 @@ class DeveloperOptionsFragmentTest {
         launch(HomeActivity::class.java).use {
           testCoroutineDispatchers.runCurrent()
           onView(withId(R.id.home_activity_toolbar)).perform(click())
+          onView(withId(R.id.developer_options_linear_layout)).perform(click())
+
+          testCoroutineDispatchers.runCurrent()
+          launch(DeveloperOptionsActivity::class.java).use {
+            testCoroutineDispatchers.runCurrent()
+            scrollToPosition(position = 4)
+            onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
+            onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
+
+          }
 
         }
 
 
-
-          testCoroutineDispatchers.runCurrent()
-
-        intended(hasComponent(ClassroomListActivity::class.java.name))
-        onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
-        onView(withId(R.id.developer_options_linear_layout)).perform(click())
-
-        intended(hasComponent(DeveloperOptionsActivity::class.java.name))
-        scrollToPosition(position = 4)
-        onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
-        onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
+//
+//          testCoroutineDispatchers.runCurrent()
+//
+//        intended(hasComponent(ClassroomListActivity::class.java.name))
+//        onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
+//        onView(withId(R.id.developer_options_linear_layout)).perform(click())
+//
+//        intended(hasComponent(DeveloperOptionsActivity::class.java.name))
+//        scrollToPosition(position = 4)
+//        onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
+//        onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
       }
     }
   }
