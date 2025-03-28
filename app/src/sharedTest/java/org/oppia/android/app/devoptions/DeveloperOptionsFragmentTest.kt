@@ -12,6 +12,8 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.DrawerActions
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -683,10 +685,11 @@ class DeveloperOptionsFragmentTest {
         testCoroutineDispatchers.runCurrent()
         launch(HomeActivity::class.java).use {
           testCoroutineDispatchers.runCurrent()
-          onView(withId(R.id.home_activity_toolbar)).perform(click())
-          //onView(withId(R.id.developer_options_linear_layout)).perform(click())
-          onView(withId(R.id.developer_options_linear_layout))
-            .perform(scrollTo(), click())
+          onView(withId(R.id.home_activity_drawer_layout)).perform(DrawerActions.open())
+//          onView(withId(R.id.home_activity_fragment_navigation_drawer))
+//            .perform(RecyclerViewActions.scrollToPosition<>())
+          onView(withId(R.id.developer_options_linear_layout)).perform(click())
+
 
 
           testCoroutineDispatchers.runCurrent()
