@@ -10,6 +10,7 @@ import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
@@ -683,7 +684,10 @@ class DeveloperOptionsFragmentTest {
         launch(HomeActivity::class.java).use {
           testCoroutineDispatchers.runCurrent()
           onView(withId(R.id.home_activity_toolbar)).perform(click())
-          onView(withId(R.id.developer_options_linear_layout)).perform(click())
+          //onView(withId(R.id.developer_options_linear_layout)).perform(click())
+          onView(withId(R.id.developer_options_linear_layout))
+            .perform(scrollTo(), click())
+
 
           testCoroutineDispatchers.runCurrent()
           launch(DeveloperOptionsActivity::class.java).use {
