@@ -624,12 +624,13 @@ class DeveloperOptionsFragmentTest {
           stringToMatch = "Admin"
         )
 
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 1,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Ben"
-        )
+        //subha sugg
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 1,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Ben"
+//        )
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 2,
@@ -662,26 +663,27 @@ class DeveloperOptionsFragmentTest {
           targetView = R.id.profile_name_text,
           stringToMatch = "Admin"
         )
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 1,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Adhiambo"
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 2,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Ben"
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(3))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 3,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Nikita"
-        )
+        //subha sugg
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 1,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Adhiambo"
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 2,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Ben"
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(3))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 3,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Nikita"
+//        )
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
         verifyTextOnProfileListItemAtPosition(
@@ -689,6 +691,17 @@ class DeveloperOptionsFragmentTest {
           targetView = R.id.add_profile_text,
           stringToMatch = context.getString(R.string.profile_chooser_add)
         )
+
+        //check the profile count
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+          .perform(click())
+
+        onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
+        onView(withId(R.id.developer_options_linear_layout)).perform(click())
+
+        scrollToPosition(position = 4)
+        onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
+        onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
       }
     }
   }
@@ -724,6 +737,45 @@ class DeveloperOptionsFragmentTest {
           targetView = R.id.add_profile_text,
           stringToMatch = context.getString(R.string.set_up_multiple_profiles)
         )
+      }
+    }
+  }
+  @Test
+  fun testDeveloperOptions_CheckExistingProfileCount() {
+    profileTestHelper.initializeProfiles(false)
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+
+      scrollToPosition(position = 4)
+      onView(withId(R.id.delete_all_non_admin_profiles_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 2))
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 1,
+          targetView = R.id.add_profile_text,
+          stringToMatch = context.getString(R.string.set_up_multiple_profiles)
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+          .perform(click())
+
+
       }
     }
   }

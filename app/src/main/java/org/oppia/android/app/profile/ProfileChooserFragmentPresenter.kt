@@ -1,6 +1,7 @@
 package org.oppia.android.app.profile
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -182,8 +183,12 @@ class ProfileChooserFragmentPresenter @Inject constructor(
     binding.profileChooserItem.setOnClickListener {
       updateLearnerIdIfAbsent(model.profile)
       if (enableOnboardingFlowV2.value) {
+        //subha sugg
+        Log.d("testprofile","in enableOnboardingFlowV2 in profilechooserfragment presneter")
         ensureProfileOnboarded(model.profile)
       } else {
+        Log.d("testprofile","not in enableOnboardingFlowV2 profilechooserfragment presneter")
+
         logInToProfile(model.profile)
       }
     }

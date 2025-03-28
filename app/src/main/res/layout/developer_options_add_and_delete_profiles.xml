@@ -38,24 +38,24 @@
       android:paddingTop="20dp"
       android:paddingEnd="16dp"
       android:paddingBottom="20dp"
-      app:layout_constraintBottom_toTopOf="@id/new_divider1"
+      app:layout_constraintBottom_toTopOf="@id/view_divider1"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/add_and_delete_profiles_text_view">
 
       <TextView
-        android:id="@+id/show_all_hints_solution_text_view"
+        android:id="@+id/existing_profile_count_text_view"
         style="@style/Subtitle1ViewStart"
         android:layout_width="0dp"
         android:text="@string/developer_options_profile_count"
         android:textColor="@color/component_color_shared_primary_dark_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/show_all_hints_solution_switch"
+        app:layout_constraintEnd_toStartOf="@id/show_profile_count"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
       <TextView
-        android:id="@+id/show_all_hints_solution_switch"
+        android:id="@+id/show_profile_count"
         style="@style/Subtitle1ViewStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
         android:text="@{viewModel.profileCountString}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/show_all_hints_solution_text_view"
+        app:layout_constraintStart_toEndOf="@id/existing_profile_count_text_view"
         app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,7 +84,7 @@
 <!--      app:layout_constraintTop_toBottomOf="@id/add_and_delete_profiles_text_view" />-->
 
     <View
-      android:id="@+id/new_divider1"
+      android:id="@+id/view_divider1"
       android:layout_width="match_parent"
       android:layout_height="2dp"
       android:background="@color/component_color_shared_divider_color"
@@ -104,13 +104,13 @@
       android:paddingBottom="20dp"
       android:text="@string/developer_options_add_one_profile"
       android:textColor="@color/component_color_shared_primary_dark_text_color"
-      app:layout_constraintBottom_toTopOf="@id/view_divider1"
+      app:layout_constraintBottom_toTopOf="@id/view_divider2"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/new_divider1" />
+      app:layout_constraintTop_toBottomOf="@id/view_divider1" />
 
     <View
-      android:id="@+id/view_divider1"
+      android:id="@+id/view_divider2"
       android:layout_width="match_parent"
       android:layout_height="2dp"
       android:background="@color/component_color_shared_divider_color"
@@ -133,10 +133,10 @@
       app:layout_constraintBottom_toTopOf="@id/delete_all_non_admin_profiles_text_view"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/view_divider1" />
+      app:layout_constraintTop_toBottomOf="@id/view_divider2" />
 
     <View
-      android:id="@+id/view_divider2"
+      android:id="@+id/view_divider3"
       android:layout_width="match_parent"
       android:layout_height="2dp"
       android:background="@color/component_color_shared_divider_color"
@@ -159,6 +159,6 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/view_divider2" />
+      app:layout_constraintTop_toBottomOf="@id/view_divider3" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
