@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
@@ -14,6 +15,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
+import androidx.test.espresso.contrib.DrawerMatchers
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
@@ -21,6 +23,7 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
+import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
@@ -689,21 +692,41 @@ class DeveloperOptionsFragmentTest {
           .perform(click())
 
         testCoroutineDispatchers.runCurrent()
-        launch(HomeActivity::class.java).use {
+        launch(HomeActivity::class.java).use { activity ->
           testCoroutineDispatchers.runCurrent()
 
 
           //open navigation drawer
+
           onView(withContentDescription(R.string.drawer_open_content_description))
-            .check(matches(ViewMatchers.isCompletelyDisplayed()))
+            .check(matches(isCompletelyDisplayed()))
             .perform(click())
 
-          onView(withId(R.id.home_activity_drawer_layout)).perform(DrawerActions.open())
+
+          val drawerLayout =
+            activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+          // Note that this only initiates a single computeScroll() in Robolectric. Normally, Android
+          // will compute several of these across multiple draw calls, but one seems sufficient for
+          // Robolectric. Note that Robolectric is also *supposed* to handle the animation loop one call
+          // to this method initiates in the view choreographer class, but it seems to not actually
+          // flush the choreographer per observation. In Espresso, this method is automatically called
+          // during draw (and a few other situations), but it's fine to call it directly once to kick it
+          // off (to avoid disparity between Espresso/Robolectric runs of the tests).
+          // NOTE TO DEVELOPERS: if this ever flakes, we can probably put this in a loop with fake time
+          // adjustments to simulate the render loop.
+          drawerLayout.computeScroll()
+
+          onView(withId(R.id.home_fragment_placeholder)).check(matches(ViewMatchers.isCompletelyDisplayed()))
+          onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
+
 
           //onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+
           onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
-//          onView(withId(R.id.home_activity_fragment_navigation_drawer))
-//            .perform(RecyclerViewActions.scrollToPosition<>())
+
+
+
+
           onView(withId(R.id.developer_options_linear_layout)).perform(click())
 
 
