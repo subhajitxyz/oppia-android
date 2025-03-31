@@ -703,18 +703,18 @@ class DeveloperOptionsFragmentTest {
             .perform(click())
 
 
-          val drawerLayout =
-            activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-          // Note that this only initiates a single computeScroll() in Robolectric. Normally, Android
-          // will compute several of these across multiple draw calls, but one seems sufficient for
-          // Robolectric. Note that Robolectric is also *supposed* to handle the animation loop one call
-          // to this method initiates in the view choreographer class, but it seems to not actually
-          // flush the choreographer per observation. In Espresso, this method is automatically called
-          // during draw (and a few other situations), but it's fine to call it directly once to kick it
-          // off (to avoid disparity between Espresso/Robolectric runs of the tests).
-          // NOTE TO DEVELOPERS: if this ever flakes, we can probably put this in a loop with fake time
-          // adjustments to simulate the render loop.
-          drawerLayout.computeScroll()
+//          val drawerLayout =
+//            activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+//          // Note that this only initiates a single computeScroll() in Robolectric. Normally, Android
+//          // will compute several of these across multiple draw calls, but one seems sufficient for
+//          // Robolectric. Note that Robolectric is also *supposed* to handle the animation loop one call
+//          // to this method initiates in the view choreographer class, but it seems to not actually
+//          // flush the choreographer per observation. In Espresso, this method is automatically called
+//          // during draw (and a few other situations), but it's fine to call it directly once to kick it
+//          // off (to avoid disparity between Espresso/Robolectric runs of the tests).
+//          // NOTE TO DEVELOPERS: if this ever flakes, we can probably put this in a loop with fake time
+//          // adjustments to simulate the render loop.
+          onView(withId(R.id.home_activity_drawer_layout))..computeScroll()
 
           onView(withId(R.id.home_fragment_placeholder)).check(matches(ViewMatchers.isCompletelyDisplayed()))
           onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
