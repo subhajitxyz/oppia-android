@@ -702,6 +702,7 @@ class DeveloperOptionsFragmentTest {
             val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
             drawerLayout.computeScroll()
           }
+          testCoroutineDispatchers.runCurrent()
 
           // Check if the drawer is open
           onView(withId(R.id.home_activity_drawer_layout))
@@ -794,6 +795,7 @@ class DeveloperOptionsFragmentTest {
             // adjustments to simulate the render loop.
             drawerLayout.computeScroll()
           }
+          testCoroutineDispatchers.runCurrent()
 
 
           onView(withId(R.id.home_fragment_placeholder)).check(matches(ViewMatchers.isCompletelyDisplayed()))
