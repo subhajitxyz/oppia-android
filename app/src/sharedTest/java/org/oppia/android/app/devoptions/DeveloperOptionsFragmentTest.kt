@@ -21,6 +21,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -703,7 +704,17 @@ class DeveloperOptionsFragmentTest {
             drawerLayout.computeScroll()
           }
           testCoroutineDispatchers.runCurrent()
+          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
+          onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
 
+
+          onView(withText(R.string.menu_switch_profile)).perform(click())
+          onView(withText(R.string.home_activity_back_dialog_message))
+            .inRoot(RootMatchers.isDialog())
+            .check(matches(isDisplayed()))
+
+          onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+          onView(withId(R.id.administrator_controls_linear_layout)).check(matches(isDisplayed()))
 
           // Verify developer options layout is displayed
           onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
