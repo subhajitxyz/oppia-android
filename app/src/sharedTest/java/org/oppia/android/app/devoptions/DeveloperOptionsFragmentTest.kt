@@ -700,7 +700,7 @@ class DeveloperOptionsFragmentTest {
 
           onView(withId(R.id.home_activity_drawer_layout)).perform(DrawerActions.open())
 
-          onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+          //onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
           onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
 //          onView(withId(R.id.home_activity_fragment_navigation_drawer))
 //            .perform(RecyclerViewActions.scrollToPosition<>())
