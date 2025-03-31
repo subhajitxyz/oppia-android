@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -18,9 +19,11 @@ import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -677,6 +680,9 @@ class DeveloperOptionsFragmentTest {
           stringToMatch = context.getString(R.string.profile_chooser_add)
         )
 
+
+
+
         //check the profile count
 
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
@@ -685,7 +691,17 @@ class DeveloperOptionsFragmentTest {
         testCoroutineDispatchers.runCurrent()
         launch(HomeActivity::class.java).use {
           testCoroutineDispatchers.runCurrent()
+
+
+          //open navigation drawer
+          onView(withContentDescription(R.string.drawer_open_content_description))
+            .check(matches(ViewMatchers.isCompletelyDisplayed()))
+            .perform(click())
+
           onView(withId(R.id.home_activity_drawer_layout)).perform(DrawerActions.open())
+
+          onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+          onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
 //          onView(withId(R.id.home_activity_fragment_navigation_drawer))
 //            .perform(RecyclerViewActions.scrollToPosition<>())
           onView(withId(R.id.developer_options_linear_layout)).perform(click())
