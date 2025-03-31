@@ -24,6 +24,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
+import androidx.test.espresso.contrib.DrawerMatchers.isOpen
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
@@ -705,7 +706,7 @@ class DeveloperOptionsFragmentTest {
           }
           testCoroutineDispatchers.runCurrent()
           onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
-          onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
+          onView(withId(R.id.home_activity_drawer_layout)).check(matches(isOpen()))
 
 
           onView(withText(R.string.menu_switch_profile)).perform(click())
