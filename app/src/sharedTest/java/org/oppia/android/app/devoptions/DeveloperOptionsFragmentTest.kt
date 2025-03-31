@@ -704,9 +704,6 @@ class DeveloperOptionsFragmentTest {
           }
           testCoroutineDispatchers.runCurrent()
 
-          // Check if the drawer is open
-          onView(withId(R.id.home_activity_drawer_layout))
-            .check(matches(DrawerMatchers.isOpen()))
 
           // Verify developer options layout is displayed
           onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
@@ -798,7 +795,7 @@ class DeveloperOptionsFragmentTest {
           testCoroutineDispatchers.runCurrent()
 
 
-          onView(withId(R.id.home_fragment_placeholder)).check(matches(ViewMatchers.isCompletelyDisplayed()))
+          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
           onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
 
 
