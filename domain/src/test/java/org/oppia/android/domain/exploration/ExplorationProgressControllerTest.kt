@@ -1208,7 +1208,7 @@ class ExplorationProgressControllerTest {
     //also we need to test answeroutcome at this state
 
 
-    val ephemeralState = moveToNextState()
+    val ephemeralState = submitContinueButtonAnswerAndContinue()
     assertThat(ephemeralState.stateTypeCase).isEqualTo(StateTypeCase.NEED_TO_REVISIT_OLD_CARD)
 
 
