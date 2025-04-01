@@ -1205,11 +1205,50 @@ class ExplorationProgressControllerTest {
 
     //enter wrong answer
     val ephemeralState = submitMultipleChoiceAnswer(1)
-    //also we need to test answeroutcome at this state
 
 
     //val ephemeralState = submitContinueButtonAnswerAndContinue()
     assertThat(ephemeralState.stateTypeCase).isEqualTo(StateTypeCase.NEED_TO_REVISIT_OLD_CARD)
+
+
+//    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
+//
+//    // Verify that the answer submission failed as expected.
+//    val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
+//    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
+//    assertThat(answerOutcome.feedback.html).contains("It's less than that.")
+  }
+  @Test
+  fun testSubmitAnswer_forSofterRedirection_answer_inRatioExploration() {
+    restartExploration(
+      TEST_CLASSROOM_ID_0, TEST_TOPIC_ID_0, TEST_STORY_ID_0, RATIOS_EXPLORATION_ID_0
+    )
+    waitForGetCurrentStateSuccessfulLoad()
+    playThroughRatioExplorationState1()
+    playThroughRatioExplorationState2()
+    playThroughRatioExplorationState3()
+    playThroughRatioExplorationState4()
+    playThroughRatioExplorationState5()
+    playThroughRatioExplorationState6()
+    playThroughRatioExplorationState7()
+    playThroughRatioExplorationState8()
+    playThroughRatioExplorationState9()
+    playThroughRatioExplorationState10()
+    playThroughRatioExplorationState11()
+    playThroughRatioExplorationState12()
+    playThroughRatioExplorationState13()
+    playThroughRatioExplorationState14()
+    playThroughRatioExplorationState15()
+
+
+    //test answeroutcome
+    val result = explorationProgressController.submitAnswer(createMultipleChoiceAnswer(1))
+
+    // Verify that the answer submission failed as expected.
+    val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
+    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.PREVIOUS_STATE_NAME)
+
+
 
 
 //    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
