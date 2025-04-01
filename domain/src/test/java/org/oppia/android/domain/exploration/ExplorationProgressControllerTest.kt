@@ -1226,13 +1226,13 @@ class ExplorationProgressControllerTest {
     return submitContinueButtonAnswerAndContinue()
   }
   private fun playThroughRatioExplorationState3(): EphemeralState {
-    return moveToNextState()
+    return submitContinueButtonAnswerAndContinue()
   }
   private fun playThroughRatioExplorationState4(): EphemeralState {
-    return moveToNextState()
+    return submitContinueButtonAnswerAndContinue()
   }
   private fun playThroughRatioExplorationState5(): EphemeralState {
-    return moveToNextState()
+    return submitContinueButtonAnswerAndContinue()
   }
   private fun playThroughRatioExplorationState6(): EphemeralState {
     submitTextInputAnswer("2 to 5")
