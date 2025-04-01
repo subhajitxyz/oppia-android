@@ -1220,10 +1220,10 @@ class ExplorationProgressControllerTest {
 //    assertThat(answerOutcome.feedback.html).contains("It's less than that.")
   }
   private fun playThroughRatioExplorationState1(): EphemeralState {
-    return moveToNextState()
+    return submitContinueButtonAnswerAndContinue()
   }
   private fun playThroughRatioExplorationState2(): EphemeralState {
-    return moveToNextState()
+    return submitContinueButtonAnswerAndContinue()
   }
   private fun playThroughRatioExplorationState3(): EphemeralState {
     return moveToNextState()
