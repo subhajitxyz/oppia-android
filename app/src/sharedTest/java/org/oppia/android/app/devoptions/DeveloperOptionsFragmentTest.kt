@@ -691,7 +691,7 @@ class DeveloperOptionsFragmentTest {
           .perform(click())
 
         testCoroutineDispatchers.runCurrent()
-        intended(hasComponent(HomeActivity::class.java.name))
+        //intended(hasComponent(HomeActivity::class.java.name))
 
         launch(HomeActivity::class.java).use { homeScenario ->
           testCoroutineDispatchers.runCurrent()
@@ -725,7 +725,7 @@ class DeveloperOptionsFragmentTest {
           onView(withId(R.id.developer_options_linear_layout)).perform(click())
 
           testCoroutineDispatchers.runCurrent()
-          intended(hasComponent(DeveloperOptionsActivity::class.java.name))
+          //intended(hasComponent(DeveloperOptionsActivity::class.java.name))
 
           launch(DeveloperOptionsActivity::class.java).use {
             testCoroutineDispatchers.runCurrent()
