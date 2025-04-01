@@ -1182,7 +1182,7 @@ class ExplorationProgressControllerTest {
 
   //subha sugg
   @Test
-  fun testSubmitAnswer_forSofterRedirection_inRatioExploration() {
+  fun testSubmitAnswer_forSofterRedirection_receivesNeedToRevisitOldCard_stateType() {
     restartExploration(
       TEST_CLASSROOM_ID_0, TEST_TOPIC_ID_0, TEST_STORY_ID_0, RATIOS_EXPLORATION_ID_0
     )
@@ -1203,23 +1203,14 @@ class ExplorationProgressControllerTest {
     playThroughRatioExplorationState14()
     playThroughRatioExplorationState15()
 
-    //enter wrong answer
     val ephemeralState = submitMultipleChoiceAnswer(1)
 
-
-    //val ephemeralState = submitContinueButtonAnswerAndContinue()
+    // Verify state type as expected for softer redirection.
     assertThat(ephemeralState.stateTypeCase).isEqualTo(StateTypeCase.NEED_TO_REVISIT_OLD_CARD)
-
-
-//    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
-//
-//    // Verify that the answer submission failed as expected.
-//    val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
-//    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
-//    assertThat(answerOutcome.feedback.html).contains("It's less than that.")
   }
+
   @Test
-  fun testSubmitAnswer_forSofterRedirection_answer_inRatioExploration() {
+  fun testAnswerOutcome_forSofterRedirection_receivesPreviousStateName() {
     restartExploration(
       TEST_CLASSROOM_ID_0, TEST_TOPIC_ID_0, TEST_STORY_ID_0, RATIOS_EXPLORATION_ID_0
     )
@@ -1240,23 +1231,11 @@ class ExplorationProgressControllerTest {
     playThroughRatioExplorationState14()
     playThroughRatioExplorationState15()
 
-
-    //test answeroutcome
     val result = explorationProgressController.submitAnswer(createMultipleChoiceAnswer(1))
-
-    // Verify that the answer submission failed as expected.
     val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
+
+    // Verify that the answer outcome as expected for softer redirection.
     assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.PREVIOUS_STATE_NAME)
-
-
-
-
-//    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
-//
-//    // Verify that the answer submission failed as expected.
-//    val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
-//    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
-//    assertThat(answerOutcome.feedback.html).contains("It's less than that.")
   }
   private fun playThroughRatioExplorationState1(): EphemeralState {
     return submitContinueButtonAnswerAndContinue()
