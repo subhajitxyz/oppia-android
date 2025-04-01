@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.core.app.ActivityScenario.launch
@@ -707,6 +708,7 @@ class DeveloperOptionsFragmentTest {
           }
           testCoroutineDispatchers.runCurrent()
           onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
+          onView(withId(R.id.home_activity_drawer_layout)).perform(DrawerActions.open(GravityCompat.START))
           onView(withId(R.id.home_activity_drawer_layout)).check(matches(isOpen()))
 
 
