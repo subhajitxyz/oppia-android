@@ -1202,14 +1202,73 @@ class ExplorationProgressControllerTest {
     playThroughRatioExplorationState14()
     playThroughRatioExplorationState15()
 
-    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
+    //enter wrong answer
+    submitMultipleChoiceAnswer(1)
+    //also we need to test answeroutcome at this state
 
-    // Verify that the answer submission failed as expected.
-    val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
-    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
-    assertThat(answerOutcome.feedback.html).contains("It's less than that.")
+
+    val ephemeralState = moveToNextState()
+    assertThat(ephemeralState.stateTypeCase).isEqualTo(NEED_TO_REVISIT_OLD_CARD)
+
+
+//    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
+//
+//    // Verify that the answer submission failed as expected.
+//    val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
+//    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
+//    assertThat(answerOutcome.feedback.html).contains("It's less than that.")
   }
   private fun playThroughRatioExplorationState1(): EphemeralState {
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState2(): EphemeralState {
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState3(): EphemeralState {
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState4(): EphemeralState {
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState5(): EphemeralState {
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState6(): EphemeralState {
+    submitTextInputAnswer("2 to 5")
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState7(): EphemeralState {
+    submitTextInputAnswer("3 to 1")
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState8(): EphemeralState {
+    submitTextInputAnswer("2:3")
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState9(): EphemeralState {
+    submitTextInputAnswer("5:2")
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState10(): EphemeralState {
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState11(): EphemeralState {
+    submitMultipleChoiceAnswer(2)
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState12(): EphemeralState {
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState13(): EphemeralState {
+    submitTextInputAnswer("1:4")
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState14(): EphemeralState {
+    submitTextInputAnswer("1:4")
+    return moveToNextState()
+  }
+  private fun playThroughRatioExplorationState15(): EphemeralState {
+    submitTextInputAnswer("2:1")
     return moveToNextState()
   }
 
