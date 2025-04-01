@@ -124,6 +124,7 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.domain.topic.RATIOS_EXPLORATION_ID_0
 
 // For context:
 // https://github.com/oppia/oppia/blob/37285a/extensions/interactions/Continue/directives/oppia-interactive-continue.directive.ts.
@@ -1176,6 +1177,40 @@ class ExplorationProgressControllerTest {
     val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
     assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
     assertThat(answerOutcome.feedback.html).contains("It's less than that.")
+  }
+
+  //subha sugg
+  @Test
+  fun testSubmitAnswer_forSofterRedirection_inRatioExploration() {
+    restartExploration(
+      TEST_CLASSROOM_ID_0, TEST_TOPIC_ID_0, TEST_STORY_ID_0, RATIOS_EXPLORATION_ID_0
+    )
+    waitForGetCurrentStateSuccessfulLoad()
+    playThroughRatioExplorationState1()
+    playThroughRatioExplorationState2()
+    playThroughRatioExplorationState3()
+    playThroughRatioExplorationState4()
+    playThroughRatioExplorationState5()
+    playThroughRatioExplorationState6()
+    playThroughRatioExplorationState7()
+    playThroughRatioExplorationState8()
+    playThroughRatioExplorationState9()
+    playThroughRatioExplorationState10()
+    playThroughRatioExplorationState11()
+    playThroughRatioExplorationState12()
+    playThroughRatioExplorationState13()
+    playThroughRatioExplorationState14()
+    playThroughRatioExplorationState15()
+
+    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
+
+    // Verify that the answer submission failed as expected.
+    val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
+    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
+    assertThat(answerOutcome.feedback.html).contains("It's less than that.")
+  }
+  private fun playThroughRatioExplorationState1(): EphemeralState {
+    return moveToNextState()
   }
 
   @Test
