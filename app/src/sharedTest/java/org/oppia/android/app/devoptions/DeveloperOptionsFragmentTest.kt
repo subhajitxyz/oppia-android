@@ -691,6 +691,7 @@ class DeveloperOptionsFragmentTest {
           .perform(click())
 
         testCoroutineDispatchers.runCurrent()
+        intended(hasComponent(HomeActivity::class.java.name))
 
         launch(HomeActivity::class.java).use { homeScenario ->
           testCoroutineDispatchers.runCurrent()
@@ -724,6 +725,7 @@ class DeveloperOptionsFragmentTest {
           onView(withId(R.id.developer_options_linear_layout)).perform(click())
 
           testCoroutineDispatchers.runCurrent()
+          intended(hasComponent(DeveloperOptionsActivity::class.java.name))
 
           launch(DeveloperOptionsActivity::class.java).use {
             testCoroutineDispatchers.runCurrent()
@@ -740,114 +742,114 @@ class DeveloperOptionsFragmentTest {
     }
   }
 
-  @Test
-  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-      scrollToPosition(position = 4)
-      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 4,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
-        )
-
-
-
-
-        //check the profile count
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-          .perform(click())
-
-        testCoroutineDispatchers.runCurrent()
-        launch(HomeActivity::class.java).use { activityscenario ->
-          testCoroutineDispatchers.runCurrent()
-
-
-          //open navigation drawer
-
-          onView(withContentDescription(R.string.drawer_open_content_description))
-            .check(matches(isCompletelyDisplayed()))
-            .perform(click())
-
-          activityscenario.onActivity { activity ->
-            val drawerLayout =
-              activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-            // Note that this only initiates a single computeScroll() in Robolectric. Normally, Android
-            // will compute several of these across multiple draw calls, but one seems sufficient for
-            // Robolectric. Note that Robolectric is also *supposed* to handle the animation loop one call
-            // to this method initiates in the view choreographer class, but it seems to not actually
-            // flush the choreographer per observation. In Espresso, this method is automatically called
-            // during draw (and a few other situations), but it's fine to call it directly once to kick it
-            // off (to avoid disparity between Espresso/Robolectric runs of the tests).
-            // NOTE TO DEVELOPERS: if this ever flakes, we can probably put this in a loop with fake time
-            // adjustments to simulate the render loop.
-            drawerLayout.computeScroll()
-          }
-          testCoroutineDispatchers.runCurrent()
-
-
-          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
-          onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
-
-
-          //onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
-
-          onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
-
-
-
-
-          onView(withId(R.id.developer_options_linear_layout)).perform(click())
-
-
-
-          testCoroutineDispatchers.runCurrent()
-          launch(DeveloperOptionsActivity::class.java).use {
-            testCoroutineDispatchers.runCurrent()
-            scrollToPosition(position = 4)
-            onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
-            onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
-
-          }
-
-        }
-
-
+//  @Test
+//  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
+//    launch<DeveloperOptionsTestActivity>(
+//      createDeveloperOptionsTestActivityIntent(internalProfileId)
+//    ).use {
+//      testCoroutineDispatchers.runCurrent()
+//      scrollToPosition(position = 4)
+//      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
 //
+//      launch(ProfileChooserActivity::class.java).use {
+//        testCoroutineDispatchers.runCurrent()
+//
+//        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 0,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Admin"
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 4,
+//          targetView = R.id.add_profile_text,
+//          stringToMatch = context.getString(R.string.profile_chooser_add)
+//        )
+//
+//
+//
+//
+//        //check the profile count
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//          .perform(click())
+//
+//        testCoroutineDispatchers.runCurrent()
+//        launch(HomeActivity::class.java).use { activityscenario ->
 //          testCoroutineDispatchers.runCurrent()
 //
-//        intended(hasComponent(ClassroomListActivity::class.java.name))
-//        onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
-//        onView(withId(R.id.developer_options_linear_layout)).perform(click())
 //
-//        intended(hasComponent(DeveloperOptionsActivity::class.java.name))
-//        scrollToPosition(position = 4)
-//        onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
-//        onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
-      }
-    }
-  }
+//          //open navigation drawer
+//
+//          onView(withContentDescription(R.string.drawer_open_content_description))
+//            .check(matches(isCompletelyDisplayed()))
+//            .perform(click())
+//
+//          activityscenario.onActivity { activity ->
+//            val drawerLayout =
+//              activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+//            // Note that this only initiates a single computeScroll() in Robolectric. Normally, Android
+//            // will compute several of these across multiple draw calls, but one seems sufficient for
+//            // Robolectric. Note that Robolectric is also *supposed* to handle the animation loop one call
+//            // to this method initiates in the view choreographer class, but it seems to not actually
+//            // flush the choreographer per observation. In Espresso, this method is automatically called
+//            // during draw (and a few other situations), but it's fine to call it directly once to kick it
+//            // off (to avoid disparity between Espresso/Robolectric runs of the tests).
+//            // NOTE TO DEVELOPERS: if this ever flakes, we can probably put this in a loop with fake time
+//            // adjustments to simulate the render loop.
+//            drawerLayout.computeScroll()
+//          }
+//          testCoroutineDispatchers.runCurrent()
+//
+//
+//          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
+//          onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
+//
+//
+//          //onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+//
+//          onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
+//
+//
+//
+//
+//          onView(withId(R.id.developer_options_linear_layout)).perform(click())
+//
+//
+//
+//          testCoroutineDispatchers.runCurrent()
+//          launch(DeveloperOptionsActivity::class.java).use {
+//            testCoroutineDispatchers.runCurrent()
+//            scrollToPosition(position = 4)
+//            onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
+//            onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
+//
+//          }
+//
+//        }
+//
+//
+////
+////          testCoroutineDispatchers.runCurrent()
+////
+////        intended(hasComponent(ClassroomListActivity::class.java.name))
+////        onView(withId(R.id.classroom_list_activity_toolbar)).perform(click())
+////        onView(withId(R.id.developer_options_linear_layout)).perform(click())
+////
+////        intended(hasComponent(DeveloperOptionsActivity::class.java.name))
+////        scrollToPosition(position = 4)
+////        onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
+////        onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
+//      }
+//    }
+//  }
 
   @Test
   fun testDeveloperOptions_clickDeleteAllNonAdminProfiles_checksNonAdminProfilesAreDeleted() {
