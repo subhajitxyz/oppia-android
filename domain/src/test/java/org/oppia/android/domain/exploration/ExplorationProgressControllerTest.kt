@@ -124,6 +124,7 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.model.EphemeralState.StateTypeCase
 import org.oppia.android.domain.topic.RATIOS_EXPLORATION_ID_0
 
 // For context:
@@ -1208,7 +1209,7 @@ class ExplorationProgressControllerTest {
 
 
     val ephemeralState = moveToNextState()
-    assertThat(ephemeralState.stateTypeCase).isEqualTo(NEED_TO_REVISIT_OLD_CARD)
+    assertThat(ephemeralState.stateTypeCase).isEqualTo(StateTypeCase.NEED_TO_REVISIT_OLD_CARD)
 
 
 //    val result = explorationProgressController.submitAnswer(createNumericInputAnswer(122.0))
