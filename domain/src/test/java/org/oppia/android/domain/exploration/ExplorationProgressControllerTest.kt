@@ -1204,11 +1204,11 @@ class ExplorationProgressControllerTest {
     playThroughRatioExplorationState15()
 
     //enter wrong answer
-    submitMultipleChoiceAnswer(1)
+    val ephemeralState = submitMultipleChoiceAnswer(1)
     //also we need to test answeroutcome at this state
 
 
-    val ephemeralState = submitContinueButtonAnswerAndContinue()
+    //val ephemeralState = submitContinueButtonAnswerAndContinue()
     assertThat(ephemeralState.stateTypeCase).isEqualTo(StateTypeCase.NEED_TO_REVISIT_OLD_CARD)
 
 
