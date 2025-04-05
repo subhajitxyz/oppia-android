@@ -802,8 +802,9 @@ class DeveloperOptionsFragmentTest {
           testCoroutineDispatchers.runCurrent()
 
           // Confirm that the drawer is open
-          onView(withId(R.id.classroom_list_activity_fragment_navigation_drawer))
-            .check(matches(DrawerMatchers.isOpen()))
+          onView(withId(R.id.classroom_list_activity_drawer_layout))
+            .check(matches(DrawerMatchers.isOpen(GravityCompat.START)))
+
 
           // Scroll if needed, then verify and click on developer options layout
           onView(withId(R.id.drawer_nested_scroll_view))
