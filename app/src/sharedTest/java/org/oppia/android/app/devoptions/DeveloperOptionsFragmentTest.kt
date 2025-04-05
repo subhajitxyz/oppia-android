@@ -704,6 +704,7 @@ class DeveloperOptionsFragmentTest {
 
           homeScenario.onActivity { activity ->
             val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+            drawerLayout.openDrawer(GravityCompat.START)
             drawerLayout.computeScroll()
           }
           testCoroutineDispatchers.runCurrent()
@@ -805,6 +806,7 @@ class DeveloperOptionsFragmentTest {
             // off (to avoid disparity between Espresso/Robolectric runs of the tests).
             // NOTE TO DEVELOPERS: if this ever flakes, we can probably put this in a loop with fake time
             // adjustments to simulate the render loop.
+            drawerLayout.openDrawer(GravityCompat.START)
             drawerLayout.computeScroll()
           }
           testCoroutineDispatchers.runCurrent()
