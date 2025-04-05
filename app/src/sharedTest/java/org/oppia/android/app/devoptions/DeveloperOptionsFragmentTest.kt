@@ -795,13 +795,17 @@ class DeveloperOptionsFragmentTest {
           activityScenario.onActivity { activity ->
             val drawerLayout =
               activity.findViewById<DrawerLayout>(R.id.classroom_list_activity_drawer_layout)
-            drawerLayout.openDrawer(GravityCompat.START)
-            drawerLayout.computeScroll()
-          }
 
+            drawerLayout.openDrawer(GravityCompat.START)
+
+            // Manually simulate drawer animation progression in Robolectric
+            repeat(10) {
+              drawerLayout.computeScroll()
+            }
+          }
           testCoroutineDispatchers.runCurrent()
 
-          // Confirm that the drawer is open
+        // Now assert it's open
           onView(withId(R.id.classroom_list_activity_drawer_layout))
             .check(matches(DrawerMatchers.isOpen(GravityCompat.START)))
 
