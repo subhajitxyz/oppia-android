@@ -153,6 +153,7 @@ class SelectionInteractionViewModel private constructor(
   }
 
   override fun getPendingAnswer(): UserAnswer = UserAnswer.newBuilder().apply {
+    Log.d("testsubmittedanswer","getPendingAnswer is called")
     val translationContext = this@SelectionInteractionViewModel.writtenTranslationContext
     val selectedItemSubtitledHtmls = selectedItems.map(choiceItems::get).map { it.htmlContent }
     val itemHtmls = selectedItemSubtitledHtmls.map { subtitledHtml ->
