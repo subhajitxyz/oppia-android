@@ -1,5 +1,6 @@
 package org.oppia.android.app.player.state.itemviewmodel
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
@@ -199,6 +200,7 @@ class SelectionInteractionViewModel private constructor(
 
   /** Returns an HTML list containing all of the HTML string elements as items in the list. */
   private fun convertSelectedItemsToHtmlString(itemHtmls: Collection<String>): String {
+    Log.d("testsubmittedanswer","convertSelectedItemsToHtmlString is called")
     return when (itemHtmls.size) {
       0 -> ""
       1 -> itemHtmls.first()
