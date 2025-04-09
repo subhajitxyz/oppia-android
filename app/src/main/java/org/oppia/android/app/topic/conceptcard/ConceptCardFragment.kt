@@ -74,6 +74,8 @@ class ConceptCardFragment : InjectableDialogFragment() {
       }
     }
 
+
+
     /**
      * Removes all [ConceptCardFragment] in the given FragmentManager.
      *

@@ -57,8 +57,12 @@ class ConceptCardFragmentPresenter @Inject constructor(
     binding.conceptCardToolbar.setNavigationContentDescription(
       R.string.navigate_up
     )
+//    binding.conceptCardToolbar.setNavigationOnClickListener {
+//      (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
+//    }
+    //subha cls btn
     binding.conceptCardToolbar.setNavigationOnClickListener {
-      (fragment.requireActivity() as? ConceptCardListener)?.dismissConceptCard()
+      ConceptCardFragment.dismissAll(fragment.parentFragmentManager)
     }
 
     binding.let {
