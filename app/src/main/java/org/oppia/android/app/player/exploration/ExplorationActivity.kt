@@ -183,7 +183,7 @@ class ExplorationActivity :
         helpIndex,
         writtenTranslationContext
       )
-      hintsAndSolutionDialogFragment.showNow(supportFragmentManager, TAG_FLASHBACK_CARD)
+      hintsAndSolutionDialogFragment.showNow(supportFragmentManager, TAG_HINTS_AND_SOLUTION_DIALOG)
     }
   }
 
