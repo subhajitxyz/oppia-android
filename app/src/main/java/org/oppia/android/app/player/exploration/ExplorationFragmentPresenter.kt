@@ -141,6 +141,9 @@ class ExplorationFragmentPresenter @Inject constructor(
     getStateFragment()?.viewSolution()
   }
 
+  //subha
+  fun dismissConceptCard() = getStateFragment()?.dismissConceptCard()
+
   fun getExplorationCheckpointState() = getStateFragment()?.getExplorationCheckpointState()
 
   private fun getStateFragment(): StateFragment? {

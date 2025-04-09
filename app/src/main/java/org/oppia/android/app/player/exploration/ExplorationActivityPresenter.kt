@@ -339,6 +339,11 @@ class ExplorationActivityPresenter @Inject constructor(
     )
   }
 
+  //subha
+  fun dismissConceptCard() {
+    getExplorationFragment()?.dismissConceptCard()
+  }
+
   private fun subscribeToExploration(
     explorationResultLiveData: LiveData<AsyncResult<EphemeralExploration>>
   ) {
