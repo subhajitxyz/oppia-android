@@ -29,8 +29,10 @@ import org.oppia.android.util.extensions.getProtoExtra
 import org.oppia.android.util.extensions.putProtoExtra
 import org.oppia.android.util.logging.CurrentAppScreenNameIntentDecorator.decorateWithScreenName
 import javax.inject.Inject
+import org.oppia.android.app.topic.conceptcard.ConceptCardFragment
 
 const val TAG_HINTS_AND_SOLUTION_DIALOG = "HINTS_AND_SOLUTION_DIALOG"
+const val CONCEPT_CARD_DIALOG_FRAGMENT_TAG = "CONCEPT_CARD_FRAGMENT"
 
 /** The starting point for exploration. */
 class ExplorationActivity :
@@ -169,6 +171,13 @@ class ExplorationActivity :
     ) as HintsAndSolutionDialogFragment?
   }
 
+  //subha
+  private fun getConceptCard(): ConceptCardFragment? {
+    return supportFragmentManager.findFragmentByTag(
+      CONCEPT_CARD_DIALOG_FRAGMENT_TAG
+    ) as ConceptCardFragment?
+  }
+
   override fun routeToHintsAndSolution(id: String, helpIndex: HelpIndex) {
     if (getHintsAndSolution() == null) {
       val hintsAndSolutionDialogFragment = HintsAndSolutionDialogFragment.newInstance(
@@ -200,6 +209,12 @@ class ExplorationActivity :
   override fun dismissConceptCard() {
     if (getHintsAndSolution() == null) {
       Log.d("testclose","getHintsAndSolution is null")
+      if(getConceptCard() == null) {
+        Log.d("testclose","getConceptCard is null")
+
+      }else {
+        getConceptCard()?.dismissConceptCard()
+      }
     }
     getHintsAndSolution()?.dismissConceptCard()
   }

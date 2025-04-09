@@ -147,4 +147,9 @@ class ConceptCardFragment : InjectableDialogFragment() {
       ConceptCardFragmentArguments.getDefaultInstance()
     )?.skillId
   }
+
+  //subha
+  fun dismissConceptCard() {
+    dismissAll(fragmentManager = parentFragmentManager)
+  }
 }
