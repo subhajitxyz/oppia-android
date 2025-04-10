@@ -1913,6 +1913,7 @@ class ExplorationActivityTest {
   @Test
   @RunOn(TestPlatform.ROBOLECTRIC) // TODO(#3858): Enable for Espresso.
   fun testExpActivity_openConceptCard_selectNavigationUp_conceptCardCloses_mytest() {
+    setUpAudioForFractionLesson()
     markAllSpotlightsSeen()
     runWithLaunchedActivityAndStartedExploration(
       TEST_CLASSROOM_ID_0,
