@@ -1899,7 +1899,12 @@ class ExplorationActivityTest {
       onView(withContentDescription(R.string.navigate_up)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
-      onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
+      onView(withId(R.id.concept_card_toolbar)).check(matches(not(isDisplayed())))
+
+      onView(withText("Concept Card"))
+        .inRoot(isDialog())
+        .check(doesNotExist())
+
     }
     explorationDataController.stopPlayingExploration(isCompletion = false)
   }
