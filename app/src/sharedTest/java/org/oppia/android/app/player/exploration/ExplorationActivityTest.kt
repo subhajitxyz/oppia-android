@@ -175,6 +175,7 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.hamcrest.CoreMatchers
 
 /** Tests for [ExplorationActivity]. */
 @RunWith(AndroidJUnit4::class)
@@ -1906,6 +1907,97 @@ class ExplorationActivityTest {
     }
     explorationDataController.stopPlayingExploration(isCompletion = false)
   }
+
+  //subha
+
+  @Test
+  @RunOn(TestPlatform.ROBOLECTRIC) // TODO(#3858): Enable for Espresso.
+  fun testExpActivity_openConceptCard_selectNavigationUp_conceptCardCloses_mytest() {
+    markAllSpotlightsSeen()
+    runWithLaunchedActivityAndStartedExploration(
+      TEST_CLASSROOM_ID_0,
+      TEST_TOPIC_ID_0,
+      TEST_STORY_ID_0,
+      FRACTIONS_EXPLORATION_ID_1,
+      shouldSavePartialProgress = false
+    ) {
+      selectMultipleChoiceOption(
+        optionPosition = 3,
+        expectedOptionText = "No, because, in a fraction, the pieces must be the same size."
+      )
+      clickSubmitAnswerButton()
+      clickContinueButton()
+      submitFractionAnswer(answerText = "3/2")
+
+
+
+      testCoroutineDispatchers.runCurrent()
+
+      onView(withId(R.id.feedback_text_view)).perform(openClickableSpan("refresher lesson"))
+      testCoroutineDispatchers.runCurrent()
+
+      onView(withText("Concept Card")).inRoot(isDialog()).check(matches(isDisplayed()))
+      onView(withId(R.id.concept_card_heading_text))
+        .inRoot(isDialog())
+        .check(matches(withText(containsString("Identify the numerator and denominator"))))
+      onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
+
+      //try to close concept card
+      onView(withContentDescription(R.string.navigate_up)).perform(click())
+
+      testCoroutineDispatchers.runCurrent()
+      onView(withId(R.id.concept_card_toolbar)).check(matches(CoreMatchers.not(isDisplayed())))
+      onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
+
+
+    }
+    explorationDataController.stopPlayingExploration(isCompletion = false)
+  }
+
+  private fun selectMultipleChoiceOption(optionPosition: Int, expectedOptionText: String) {
+    clickSelection(
+      optionPosition,
+      targetClickViewId = R.id.multiple_choice_radio_button,
+      expectedText = expectedOptionText,
+      targetTextViewId = R.id.multiple_choice_content_text_view
+    )
+  }
+  private fun clickSelection(
+    optionPosition: Int,
+    targetClickViewId: Int,
+    expectedText: String,
+    targetTextViewId: Int
+  ) {
+    scrollToViewType(StateItemViewModel.ViewType.SELECTION_INTERACTION)
+    // First, check that the option matches what's expected by the test.
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.selection_interaction_recyclerview,
+        position = optionPosition,
+        targetViewId = targetTextViewId
+      )
+    ).check(matches(withText(containsString(expectedText))))
+    // Then, click on it.
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.selection_interaction_recyclerview,
+        position = optionPosition,
+        targetViewId = targetClickViewId
+      )
+    ).perform(click())
+    testCoroutineDispatchers.runCurrent()
+  }
+  private fun clickSubmitAnswerButton() {
+    scrollToViewType(StateItemViewModel.ViewType.SUBMIT_ANSWER_BUTTON)
+    onView(withId(R.id.submit_answer_button)).perform(click())
+    testCoroutineDispatchers.runCurrent()
+  }
+
+
+
+
+
+
 
   private fun setUpTestApplicationComponent() {
     ApplicationProvider.getApplicationContext<TestApplication>().inject(this)
