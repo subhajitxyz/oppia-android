@@ -207,14 +207,15 @@ class ExplorationActivity :
   }
 
   override fun dismissConceptCard() {
-    if (getHintsAndSolution() == null) {
-      Log.d("testclose","getHintsAndSolution is null")
-      //explorationActivityPresenter.dismissConceptCard()
-//      if(getConceptCard() == null) {
-//        Log.d("testclose","getConceptCard is null")
 
-      }
-    getHintsAndSolution()?.dismissConceptCard()
+    getHintsAndSolution()?.dismissConceptCard() ?: explorationActivityPresenter.dismissConceptCard()
+//    if (getHintsAndSolution() == null) {
+//      explorationActivityPresenter.dismissConceptCard()
+//
+//      }
+//    else {
+//      getHintsAndSolution()?.dismissConceptCard()
+//    }
   }
 
   override fun requestVoiceOverIconSpotlight(numberOfLogins: Int) {

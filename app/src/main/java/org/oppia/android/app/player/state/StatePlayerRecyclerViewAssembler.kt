@@ -163,7 +163,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
   private var userAnswerState: UserAnswerState,
   private val consoleLogger: ConsoleLogger,
   private val conceptCardTagHandlerFactory: ConceptCardTagHandler.Factory,
-) : HtmlParser.CustomOppiaTagActionListener, ConceptCardListener { //subha
+) : HtmlParser.CustomOppiaTagActionListener {
   /**
    * A list of view models corresponding to past view models that are hidden by default. These are
    * intentionally not retained upon configuration changes since the user can just re-expand the
@@ -222,10 +222,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
     ConceptCardFragment.bringToFrontOrCreateIfNew(skillId, profileId, fragment.childFragmentManager)
   }
 
-  //subha
-  override fun dismissConceptCard() {
-    ConceptCardFragment.dismissAll(fragment.childFragmentManager)
-  }
   /**
    * Computes a list of view models corresponding to the specified [EphemeralState] and the
    * configuration of this assembler, as well as the GCS entity ID that should be associated with
