@@ -1894,16 +1894,14 @@ class ExplorationActivityTest {
 
       onView(withText("Concept Card")).inRoot(isDialog()).check(matches(isDisplayed()))
       onView(withText("Another important skill")).inRoot(isDialog()).check(matches(isDisplayed()))
+      onView(withText("Concept Card")).inRoot(isDialog()).check(matches(isDisplayed()))
+      onView(withText("Another important skill")).inRoot(isDialog()).check(matches(isDisplayed()))
       onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
 
       onView(withContentDescription(R.string.navigate_up)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
-      onView(withId(R.id.concept_card_toolbar)).check(matches(not(isDisplayed())))
-
-      onView(withText("Concept Card"))
-        .inRoot(isDialog())
-        .check(doesNotExist())
+      onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
 
     }
     explorationDataController.stopPlayingExploration(isCompletion = false)

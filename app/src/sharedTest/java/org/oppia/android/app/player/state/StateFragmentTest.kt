@@ -2140,9 +2140,9 @@ class StateFragmentTest {
       onView(withId(R.id.concept_card_heading_text))
         .inRoot(isDialog())
         .check(matches(withText(containsString("Identify the numerator and denominator"))))
-
       onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
 
+      //try to close concept card
       onView(withContentDescription(R.string.navigate_up)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
