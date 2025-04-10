@@ -1947,7 +1947,7 @@ class ExplorationActivityTest {
       onView(withContentDescription(R.string.navigate_up)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
-      onView(withId(R.id.concept_card_toolbar)).check(matches(CoreMatchers.not(isDisplayed())))
+      //onView(withId(R.id.concept_card_toolbar)).check(matches(CoreMatchers.not(isDisplayed())))
       onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
 
 
