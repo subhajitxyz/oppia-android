@@ -2128,8 +2128,13 @@ class ExplorationActivityTest {
         explorationId = FRACTIONS_EXPLORATION_ID_0,
         audioFileName = "content-hi-en-l8ik9pdxj2a.mp3"
       )
+      val dataSource3 = createAudioDataSource(
+        explorationId = FRACTIONS_EXPLORATION_ID_1,
+        audioFileName = "content-en-ouqm7j21vt8.mp3"
+      )
       addShadowMediaPlayerException(dataSource!!, IOException("Test does not have networking"))
       addShadowMediaPlayerException(dataSource2!!, IOException("Test does not have networking"))
+      addShadowMediaPlayerException(dataSource3!!, IOException("Test does not have networking"))
     }
   }
 
