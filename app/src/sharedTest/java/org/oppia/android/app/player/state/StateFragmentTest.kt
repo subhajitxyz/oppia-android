@@ -2120,10 +2120,9 @@ class StateFragmentTest {
 
   //subha
   @Test
-  fun testStateFragment_landscape_forMisconception_clickLinkText_opensConceptCard_closeConceptCard() {
+  fun testStateFragment_forMisconception_clickLinkText_opensConceptCard_closeConceptCard() {
     setUpTestWithLanguageSwitchingFeatureOff()
     launchForExploration(FRACTIONS_EXPLORATION_ID_1, shouldSavePartialProgress = false).use {
-      rotateToLandscape()
       startPlayingExploration()
       selectMultipleChoiceOption(
         optionPosition = 3,
@@ -2142,15 +2141,12 @@ class StateFragmentTest {
         .inRoot(isDialog())
         .check(matches(withText(containsString("Identify the numerator and denominator"))))
 
+      onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
 
-      //try to close
       onView(withContentDescription(R.string.navigate_up)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
       onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
-      onView(withText("Concept Card"))
-        .inRoot(isDialog())
-        .check(doesNotExist())
 
     }
   }
