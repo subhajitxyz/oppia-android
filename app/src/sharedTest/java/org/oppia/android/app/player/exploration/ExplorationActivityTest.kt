@@ -1927,7 +1927,7 @@ class ExplorationActivityTest {
         expectedOptionText = "No, because, in a fraction, the pieces must be the same size."
       )
       clickSubmitAnswerButton()
-      clickContinueButton()
+      clickContinueNavigationButton()
       submitFractionAnswer(answerText = "3/2")
 
 
@@ -1953,6 +1953,12 @@ class ExplorationActivityTest {
 
     }
     explorationDataController.stopPlayingExploration(isCompletion = false)
+  }
+
+  private fun clickContinueNavigationButton() {
+    scrollToViewType(StateItemViewModel.ViewType.CONTINUE_NAVIGATION_BUTTON)
+    onView(withId(R.id.continue_navigation_button)).perform(click())
+    testCoroutineDispatchers.runCurrent()
   }
 
   private fun selectMultipleChoiceOption(optionPosition: Int, expectedOptionText: String) {
