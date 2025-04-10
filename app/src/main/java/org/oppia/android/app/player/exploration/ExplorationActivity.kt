@@ -209,13 +209,11 @@ class ExplorationActivity :
   override fun dismissConceptCard() {
     if (getHintsAndSolution() == null) {
       Log.d("testclose","getHintsAndSolution is null")
-      explorationActivityPresenter.dismissConceptCard()
+      //explorationActivityPresenter.dismissConceptCard()
 //      if(getConceptCard() == null) {
 //        Log.d("testclose","getConceptCard is null")
 
-      }else {
-        getConceptCard()?.dismissConceptCard() }
-
+      }
     getHintsAndSolution()?.dismissConceptCard()
   }
 
