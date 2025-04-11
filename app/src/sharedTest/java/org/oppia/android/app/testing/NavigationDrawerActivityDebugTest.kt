@@ -337,6 +337,19 @@ class NavigationDrawerActivityDebugTest {
     }
   }
 
+  //subha
+  @Test
+  fun testNavDrawer_inDebugMode_openNavDrawer_test_profile_count() {
+    launch<NavigationDrawerTestActivity>(
+      createNavigationDrawerActivityIntent(internalProfileId)
+    ).use {
+      it.openNavigationDrawer()
+      onView(isRoot()).perform(orientationLandscape())
+      onView(withId(R.id.drawer_nested_scroll_view)).perform(swipeUp())
+      onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
+    }
+  }
+
   private fun ActivityScenario<NavigationDrawerTestActivity>.openNavigationDrawer() {
     onView(withContentDescription(R.string.drawer_open_content_description))
       .check(matches(isCompletelyDisplayed()))

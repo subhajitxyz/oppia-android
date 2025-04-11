@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewParent
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +18,14 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -116,6 +119,9 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.home.HomeActivity
+import org.oppia.android.app.profile.ProfileChooserActivity
+import org.oppia.android.app.recyclerview.RecyclerViewMatcher
 
 /** Tests for [DeveloperOptionsActivity]. */
 @RunWith(AndroidJUnit4::class)
@@ -207,25 +213,137 @@ class DeveloperOptionsActivityTest {
   }
 
   @Test
-  fun testDeveloperOptions_selectMathExpressionsEquations_routesToMathExpressionParserActivity() {
+  fun testDeveloperOptions_selectMathExpressionsEquations_routesToMathExpressionParserActivity()
+
+  //subha
+  @Test
+  fun testDeveloperOptions_profileCount() {
     launch<DeveloperOptionsActivity>(
       createDeveloperOptionsActivityIntent(internalProfileId)
     ).use {
-      onView(withId(R.id.developer_options_list))
-        .perform(scrollToPosition<RecyclerView.ViewHolder>(3))
       testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
+//
+//      onView(withId(R.id.developer_options_linear_layout)).perform(nestedScrollTo())
+//        .perform(click())
+//      onView(withId(R.id.developer_options_list)).check(matches(isDisplayed()))
+//      testCoroutineDispatchers.runCurrent()
+//
+//      //correct the position i have a doubt
+//      onView(
+//        atPositionOnView(
+//          recyclerViewId = R.id.developer_options_list,
+//          position = 4,
+//          targetViewId = R.id.add_three_profiles_text_view
+//        )
+//      ).perform(click())
+//      testCoroutineDispatchers.runCurrent()
 
-      onView(
-        atPositionOnView(
-          recyclerViewId = R.id.developer_options_list,
-          position = 3,
-          targetViewId = R.id.math_expressions_text_view
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
+
+        onView(withId(R.id.profile_recycler_view)).perform(
+          scrollToPosition<RecyclerView.ViewHolder>(
+            0
+          )
         )
-      ).perform(click())
-      testCoroutineDispatchers.runCurrent()
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
 
-      intended(hasComponent(MathExpressionParserActivity::class.java.name))
+        onView(withId(R.id.profile_recycler_view)).perform(
+          scrollToPosition<RecyclerView.ViewHolder>(
+            4
+          )
+        )
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 4,
+          targetView = R.id.add_profile_text,
+          stringToMatch = context.getString(R.string.profile_chooser_add)
+        )
+
+        // Click the first profile
+        onView(withId(R.id.profile_recycler_view))
+          .perform(scrollToPosition<RecyclerView.ViewHolder>(1))
+          .perform(click())
+
+        testCoroutineDispatchers.runCurrent()
+        intended(hasComponent(HomeActivity::class.java.name))
+
+
+
+        launch(HomeActivity::class.java).use { homeScenario ->
+          testCoroutineDispatchers.runCurrent()
+
+          // Open the navigation drawer
+          onView(withContentDescription(R.string.drawer_open_content_description))
+            .check(matches(isCompletelyDisplayed()))
+            .perform(click())
+
+          homeScenario.onActivity { activity ->
+            val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+            drawerLayout.openDrawer(GravityCompat.START)
+            drawerLayout.computeScroll()
+          }
+          testCoroutineDispatchers.runCurrent()
+          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
+
+          onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+
+          onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
+
+          // Click developer options
+          onView(withId(R.id.developer_options_linear_layout)).perform(click())
+
+          testCoroutineDispatchers.runCurrent()
+          intended(hasComponent(DeveloperOptionsActivity::class.java.name))
+
+          launch(DeveloperOptionsActivity::class.java).use {
+            testCoroutineDispatchers.runCurrent()
+            scrollToPosition(position = 4)
+
+            onView(withId(R.id.existing_profile_count_text_view))
+              .check(matches(ViewMatchers.withText("Existing Profile Count")))
+
+            onView(withId(R.id.show_profile_count))
+              .check(matches(ViewMatchers.withText("4")))
+          }
+        }
+
+      }
     }
+  }
+
+  private fun scrollToPosition(position: Int) {
+    onView(withId(R.id.developer_options_list)).perform(
+      scrollToPosition<RecyclerView.ViewHolder>(
+        position
+      )
+    )
+  }
+
+  private fun verifyTextOnProfileListItemAtPosition(
+    itemPosition: Int,
+    targetView: Int,
+    stringToMatch: String
+  ) {
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.profile_recycler_view,
+        position = itemPosition,
+        targetViewId = targetView
+      )
+    ).check(matches(ViewMatchers.withText(stringToMatch)))
   }
 
   private fun createDeveloperOptionsActivityIntent(internalProfileId: Int): Intent {
