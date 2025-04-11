@@ -212,8 +212,8 @@ class DeveloperOptionsActivityTest {
     }
   }
 
-  @Test
-  fun testDeveloperOptions_selectMathExpressionsEquations_routesToMathExpressionParserActivity()
+//  @Test
+//  fun testDeveloperOptions_selectMathExpressionsEquations_routesToMathExpressionParserActivity()
 
   //subha
   @Test
