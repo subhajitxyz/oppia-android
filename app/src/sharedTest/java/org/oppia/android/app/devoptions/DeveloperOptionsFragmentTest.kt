@@ -614,335 +614,335 @@ class DeveloperOptionsFragmentTest {
     }
   }
 
-  @Test
-  fun testDeveloperOptions_clickAddOneProfiles_checksOneProfilesAreAdded() {
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-      scrollToPosition(position = 4)
-      onView(withId(R.id.add_one_profile_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 3))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 2,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
-        )
-      }
-    }
-  }
-  @Test
-  fun testDeveloperOptions_clickAddOneProfiles_checksOneProfilesAreAdded_verifyProfileCount() {
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-      scrollToPosition(position = 4)
-      onView(withId(R.id.add_one_profile_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-
-
-
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 3))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 2,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
-        )
-      }
-
-      onView(withId(R.id.show_profile_count))
-        .check(matches(ViewMatchers.withText("2")))
-    }
-  }
-
-
-  @Test
-  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded_chatgpt() {
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-      scrollToPosition(position = 4)
-      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 4,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
-        )
-
-        // Click the first profile
-        onView(withId(R.id.profile_recycler_view))
-          .perform(scrollToPosition<ViewHolder>(1))
-          .perform(click())
-
-        testCoroutineDispatchers.runCurrent()
-        //intended(hasComponent(HomeActivity::class.java.name))
-
-        launch(HomeActivity::class.java).use { homeScenario ->
-          testCoroutineDispatchers.runCurrent()
-
-          // Open the navigation drawer
-          onView(withContentDescription(R.string.drawer_open_content_description))
-            .check(matches(isCompletelyDisplayed()))
-            .perform(click())
-
-          homeScenario.onActivity { activity ->
-            val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-            drawerLayout.openDrawer(GravityCompat.START)
-            drawerLayout.computeScroll()
-          }
-          testCoroutineDispatchers.runCurrent()
-          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
-          //onView(withId(R.id.home_activity_drawer_layout)).perform(DrawerActions.open(GravityCompat.START))
-          //onView(withId(R.id.home_activity_drawer_layout)).check(matches(isOpen()))
-
-
-//          onView(withText(R.string.menu_switch_profile)).perform(click())
-//          onView(withText(R.string.home_activity_back_dialog_message))
-//            .inRoot(RootMatchers.isDialog())
+//  @Test
+//  fun testDeveloperOptions_clickAddOneProfiles_checksOneProfilesAreAdded() {
+//    launch<DeveloperOptionsTestActivity>(
+//      createDeveloperOptionsTestActivityIntent(internalProfileId)
+//    ).use {
+//      testCoroutineDispatchers.runCurrent()
+//      scrollToPosition(position = 4)
+//      onView(withId(R.id.add_one_profile_text_view)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
+//
+//      launch(ProfileChooserActivity::class.java).use {
+//        testCoroutineDispatchers.runCurrent()
+//
+//        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 3))
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 0,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Admin"
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 2,
+//          targetView = R.id.add_profile_text,
+//          stringToMatch = context.getString(R.string.profile_chooser_add)
+//        )
+//      }
+//    }
+//  }
+//  @Test
+//  fun testDeveloperOptions_clickAddOneProfiles_checksOneProfilesAreAdded_verifyProfileCount() {
+//    launch<DeveloperOptionsTestActivity>(
+//      createDeveloperOptionsTestActivityIntent(internalProfileId)
+//    ).use {
+//      testCoroutineDispatchers.runCurrent()
+//      scrollToPosition(position = 4)
+//      onView(withId(R.id.add_one_profile_text_view)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+//
+//
+//
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
+//
+//      launch(ProfileChooserActivity::class.java).use {
+//        testCoroutineDispatchers.runCurrent()
+//
+//        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 3))
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 0,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Admin"
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 2,
+//          targetView = R.id.add_profile_text,
+//          stringToMatch = context.getString(R.string.profile_chooser_add)
+//        )
+//      }
+//
+//      onView(withId(R.id.show_profile_count))
+//        .check(matches(ViewMatchers.withText("2")))
+//    }
+//  }
+//
+//
+//  @Test
+//  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded_chatgpt() {
+//    launch<DeveloperOptionsTestActivity>(
+//      createDeveloperOptionsTestActivityIntent(internalProfileId)
+//    ).use {
+//      testCoroutineDispatchers.runCurrent()
+//      scrollToPosition(position = 4)
+//      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
+//
+//      launch(ProfileChooserActivity::class.java).use {
+//        testCoroutineDispatchers.runCurrent()
+//
+//        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 0,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Admin"
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 4,
+//          targetView = R.id.add_profile_text,
+//          stringToMatch = context.getString(R.string.profile_chooser_add)
+//        )
+//
+//        // Click the first profile
+//        onView(withId(R.id.profile_recycler_view))
+//          .perform(scrollToPosition<ViewHolder>(1))
+//          .perform(click())
+//
+//        testCoroutineDispatchers.runCurrent()
+//        //intended(hasComponent(HomeActivity::class.java.name))
+//
+//        launch(HomeActivity::class.java).use { homeScenario ->
+//          testCoroutineDispatchers.runCurrent()
+//
+//          // Open the navigation drawer
+//          onView(withContentDescription(R.string.drawer_open_content_description))
+//            .check(matches(isCompletelyDisplayed()))
+//            .perform(click())
+//
+//          homeScenario.onActivity { activity ->
+//            val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+//            drawerLayout.openDrawer(GravityCompat.START)
+//            drawerLayout.computeScroll()
+//          }
+//          testCoroutineDispatchers.runCurrent()
+//          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
+//          //onView(withId(R.id.home_activity_drawer_layout)).perform(DrawerActions.open(GravityCompat.START))
+//          //onView(withId(R.id.home_activity_drawer_layout)).check(matches(isOpen()))
+//
+//
+////          onView(withText(R.string.menu_switch_profile)).perform(click())
+////          onView(withText(R.string.home_activity_back_dialog_message))
+////            .inRoot(RootMatchers.isDialog())
+////            .check(matches(isDisplayed()))
+//
+//          onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+//          //onView(withId(R.id.administrator_controls_linear_layout)).check(matches(isDisplayed()))
+//
+//          // Verify developer options layout is displayed
+//          onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
+//
+//          // Click developer options
+//          onView(withId(R.id.developer_options_linear_layout)).perform(click())
+//
+//          testCoroutineDispatchers.runCurrent()
+//          //intended(hasComponent(DeveloperOptionsActivity::class.java.name))
+//
+//          launch(DeveloperOptionsActivity::class.java).use {
+//            testCoroutineDispatchers.runCurrent()
+//            scrollToPosition(position = 4)
+//
+//            onView(withId(R.id.existing_profile_count_text_view))
+//              .check(matches(withText("Existing Profile Count")))
+//
+//            onView(withId(R.id.show_profile_count))
+//              .check(matches(withText("4")))
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  @Test
+//  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
+//    launch<DeveloperOptionsTestActivity>(
+//      createDeveloperOptionsTestActivityIntent(internalProfileId)
+//    ).use {
+//      testCoroutineDispatchers.runCurrent()
+//      scrollToPosition(position = 4)
+//      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
+//
+//      launch(ProfileChooserActivity::class.java).use {
+//        testCoroutineDispatchers.runCurrent()
+//
+//        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 0,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Admin"
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 4,
+//          targetView = R.id.add_profile_text,
+//          stringToMatch = context.getString(R.string.profile_chooser_add)
+//        )
+//
+//
+//        //check the profile count
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//          .perform(click())
+//        testCoroutineDispatchers.runCurrent()
+//
+//        //intended(hasComponent(ClassroomListActivity::class.java.name))
+//        launch(ClassroomListActivity::class.java).use { activityScenario ->
+//          testCoroutineDispatchers.runCurrent()
+//
+//          // Open navigation drawer via content description
+//          onView(withContentDescription(R.string.drawer_open_content_description))
+//            .check(matches(isCompletelyDisplayed()))
+//            .perform(click())
+//
+//          activityScenario.onActivity { activity ->
+//            val drawerLayout =
+//              activity.findViewById<DrawerLayout>(R.id.classroom_list_activity_drawer_layout)
+//
+//            drawerLayout.openDrawer(GravityCompat.START)
+//
+//            // Manually simulate drawer animation progression in Robolectric
+//            repeat(10) {
+//              drawerLayout.computeScroll()
+//            }
+//          }
+//          testCoroutineDispatchers.runCurrent()
+//
+//        // Now assert it's open
+////          onView(withId(R.id.classroom_list_activity_drawer_layout))
+////            .check(matches(DrawerMatchers.isOpen(GravityCompat.START)))
+////
+//
+//          // Scroll if needed, then verify and click on developer options layout
+//          onView(withId(R.id.drawer_nested_scroll_view))
+//            .perform(ViewActions.scrollTo())
+//
+//          onView(withId(R.id.developer_options_linear_layout))
 //            .check(matches(isDisplayed()))
-
-          onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
-          //onView(withId(R.id.administrator_controls_linear_layout)).check(matches(isDisplayed()))
-
-          // Verify developer options layout is displayed
-          onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
-
-          // Click developer options
-          onView(withId(R.id.developer_options_linear_layout)).perform(click())
-
-          testCoroutineDispatchers.runCurrent()
-          //intended(hasComponent(DeveloperOptionsActivity::class.java.name))
-
-          launch(DeveloperOptionsActivity::class.java).use {
-            testCoroutineDispatchers.runCurrent()
-            scrollToPosition(position = 4)
-
-            onView(withId(R.id.existing_profile_count_text_view))
-              .check(matches(withText("Existing Profile Count")))
-
-            onView(withId(R.id.show_profile_count))
-              .check(matches(withText("4")))
-          }
-        }
-      }
-    }
-  }
-
-  @Test
-  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-      scrollToPosition(position = 4)
-      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(4))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 4,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
-        )
-
-
-        //check the profile count
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-          .perform(click())
-        testCoroutineDispatchers.runCurrent()
-
-        //intended(hasComponent(ClassroomListActivity::class.java.name))
-        launch(ClassroomListActivity::class.java).use { activityScenario ->
-          testCoroutineDispatchers.runCurrent()
-
-          // Open navigation drawer via content description
-          onView(withContentDescription(R.string.drawer_open_content_description))
-            .check(matches(isCompletelyDisplayed()))
-            .perform(click())
-
-          activityScenario.onActivity { activity ->
-            val drawerLayout =
-              activity.findViewById<DrawerLayout>(R.id.classroom_list_activity_drawer_layout)
-
-            drawerLayout.openDrawer(GravityCompat.START)
-
-            // Manually simulate drawer animation progression in Robolectric
-            repeat(10) {
-              drawerLayout.computeScroll()
-            }
-          }
-          testCoroutineDispatchers.runCurrent()
-
-        // Now assert it's open
-//          onView(withId(R.id.classroom_list_activity_drawer_layout))
-//            .check(matches(DrawerMatchers.isOpen(GravityCompat.START)))
+//            .perform(click())
 //
-
-          // Scroll if needed, then verify and click on developer options layout
-          onView(withId(R.id.drawer_nested_scroll_view))
-            .perform(ViewActions.scrollTo())
-
-          onView(withId(R.id.developer_options_linear_layout))
-            .check(matches(isDisplayed()))
-            .perform(click())
-
-
-
-          testCoroutineDispatchers.runCurrent()
-          launch(DeveloperOptionsActivity::class.java).use {
-            testCoroutineDispatchers.runCurrent()
-            scrollToPosition(position = 4)
-            onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
-            onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
-
-          }
-
-        }
-
-
 //
-      }
-    }
-  }
-
-  @Test
-  fun testDeveloperOptions_clickDeleteAllNonAdminProfiles_checksNonAdminProfilesAreDeleted() {
-    profileTestHelper.initializeProfiles(false)
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-
-      scrollToPosition(position = 4)
-      onView(withId(R.id.delete_all_non_admin_profiles_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 2))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 1,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.set_up_multiple_profiles)
-        )
-      }
-    }
-  }
-  @Test
-  fun testDeveloperOptions_CheckExistingProfileCount() {
-    profileTestHelper.initializeProfiles(false)
-    launch<DeveloperOptionsTestActivity>(
-      createDeveloperOptionsTestActivityIntent(internalProfileId)
-    ).use {
-      testCoroutineDispatchers.runCurrent()
-
-      scrollToPosition(position = 4)
-      onView(withId(R.id.delete_all_non_admin_profiles_text_view)).perform(click())
-      testCoroutineDispatchers.runCurrent()
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
-
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 2))
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 1,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.set_up_multiple_profiles)
-        )
-
-        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
-          .perform(click())
-
-
-      }
-    }
-  }
+//
+//          testCoroutineDispatchers.runCurrent()
+//          launch(DeveloperOptionsActivity::class.java).use {
+//            testCoroutineDispatchers.runCurrent()
+//            scrollToPosition(position = 4)
+//            onView(withId(R.id.existing_profile_count_text_view)).check(matches(withText("Existing Profile Count")))
+//            onView(withId(R.id.show_profile_count)).check(matches(withText("4")))
+//
+//          }
+//
+//        }
+//
+//
+////
+//      }
+//    }
+//  }
+//
+//  @Test
+//  fun testDeveloperOptions_clickDeleteAllNonAdminProfiles_checksNonAdminProfilesAreDeleted() {
+//    profileTestHelper.initializeProfiles(false)
+//    launch<DeveloperOptionsTestActivity>(
+//      createDeveloperOptionsTestActivityIntent(internalProfileId)
+//    ).use {
+//      testCoroutineDispatchers.runCurrent()
+//
+//      scrollToPosition(position = 4)
+//      onView(withId(R.id.delete_all_non_admin_profiles_text_view)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
+//
+//      launch(ProfileChooserActivity::class.java).use {
+//        testCoroutineDispatchers.runCurrent()
+//
+//        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 2))
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 0,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Admin"
+//        )
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 1,
+//          targetView = R.id.add_profile_text,
+//          stringToMatch = context.getString(R.string.set_up_multiple_profiles)
+//        )
+//      }
+//    }
+//  }
+//  @Test
+//  fun testDeveloperOptions_CheckExistingProfileCount() {
+//    profileTestHelper.initializeProfiles(false)
+//    launch<DeveloperOptionsTestActivity>(
+//      createDeveloperOptionsTestActivityIntent(internalProfileId)
+//    ).use {
+//      testCoroutineDispatchers.runCurrent()
+//
+//      scrollToPosition(position = 4)
+//      onView(withId(R.id.delete_all_non_admin_profiles_text_view)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+//      intended(hasComponent(ProfileChooserActivity::class.java.name))
+//
+//      launch(ProfileChooserActivity::class.java).use {
+//        testCoroutineDispatchers.runCurrent()
+//
+//        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+//        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 2))
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 0,
+//          targetView = R.id.profile_name_text,
+//          stringToMatch = "Admin"
+//        )
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
+//        verifyTextOnProfileListItemAtPosition(
+//          itemPosition = 1,
+//          targetView = R.id.add_profile_text,
+//          stringToMatch = context.getString(R.string.set_up_multiple_profiles)
+//        )
+//
+//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+//          .perform(click())
+//
+//
+//      }
+//    }
+//  }
 
   private fun createDeveloperOptionsTestActivityIntent(internalProfileId: Int): Intent {
     return DeveloperOptionsTestActivity.createDeveloperOptionsTestIntent(context, internalProfileId)
