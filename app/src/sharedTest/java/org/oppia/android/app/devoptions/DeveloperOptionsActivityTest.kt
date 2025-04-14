@@ -124,6 +124,7 @@ import javax.inject.Singleton
 import org.oppia.android.app.home.HomeActivity
 import org.oppia.android.app.profile.ProfileChooserActivity
 import org.oppia.android.app.recyclerview.RecyclerViewMatcher
+import org.oppia.android.app.testing.NavigationDrawerTestActivity
 
 /** Tests for [DeveloperOptionsActivity]. */
 @RunWith(AndroidJUnit4::class)
@@ -287,20 +288,18 @@ class DeveloperOptionsActivityTest {
           testCoroutineDispatchers.runCurrent()
 
           // Open the navigation drawer
-          onView(withContentDescription(R.string.drawer_open_content_description))
-            .check(matches(isCompletelyDisplayed()))
-            .perform(click())
+//          onView(withContentDescription(R.string.drawer_open_content_description))
+//            .check(matches(isCompletelyDisplayed()))
+//            .perform(click())
+//
+//          homeScenario.onActivity { activity ->
+//            val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+//            drawerLayout.openDrawer(GravityCompat.START)
+//            drawerLayout.computeScroll()
+//          }
+//          testCoroutineDispatchers.runCurrent()
 
-          homeScenario.onActivity { activity ->
-            val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-            drawerLayout.openDrawer(GravityCompat.START)
-            drawerLayout.computeScroll()
-//////////////////////////////////////
-            onView(withId(R.id.drawer_nested_scroll_view)).perform(swipeUp())
-
-            onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
-          }
-          testCoroutineDispatchers.runCurrent()
+          homeScenario.openNavigationDrawer()
 
           onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
 
@@ -329,6 +328,35 @@ class DeveloperOptionsActivityTest {
       }
     }
   }
+
+
+  private fun ActivityScenario<HomeActivity>.openNavigationDrawer() {
+    onView(withContentDescription(R.string.drawer_open_content_description))
+      .check(matches(isCompletelyDisplayed()))
+      .perform(click())
+
+    // Force the drawer animation to start. See https://github.com/oppia/oppia-android/pull/2204 for
+    // background context.
+    onActivity { activity ->
+      val drawerLayout =
+        activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+      // Note that this only initiates a single computeScroll() in Robolectric. Normally, Android
+      // will compute several of these across multiple draw calls, but one seems sufficient for
+      // Robolectric. Note that Robolectric is also *supposed* to handle the animation loop one call
+      // to this method initiates in the view choreographer class, but it seems to not actually
+      // flush the choreographer per observation. In Espresso, this method is automatically called
+      // during draw (and a few other situations), but it's fine to call it directly once to kick it
+      // off (to avoid disparity between Espresso/Robolectric runs of the tests).
+      // NOTE TO DEVELOPERS: if this ever flakes, we can probably put this in a loop with fake time
+      // adjustments to simulate the render loop.
+      drawerLayout.computeScroll()
+    }
+
+    // Wait for the drawer to fully open (mostly for Espresso since Robolectric should synchronously
+    // stabilize the drawer layout after the previous logic completes).
+    testCoroutineDispatchers.runCurrent()
+  }
+
 
   private fun scrollToPosition(position: Int) {
     onView(withId(R.id.developer_options_list)).perform(
