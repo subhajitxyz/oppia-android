@@ -21,6 +21,7 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
@@ -282,7 +283,6 @@ class DeveloperOptionsActivityTest {
         //intended(hasComponent(HomeActivity::class.java.name))
 
 
-
         launch(HomeActivity::class.java).use { homeScenario ->
           testCoroutineDispatchers.runCurrent()
 
@@ -295,12 +295,16 @@ class DeveloperOptionsActivityTest {
             val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
             drawerLayout.openDrawer(GravityCompat.START)
             drawerLayout.computeScroll()
+//////////////////////////////////////
+            onView(withId(R.id.drawer_nested_scroll_view)).perform(swipeUp())
+
+            onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
           }
           testCoroutineDispatchers.runCurrent()
 
           onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
 
-          onView(withId(R.id.drawer_nested_scroll_view)).perform(scrollTo())
+          onView(withId(R.id.drawer_nested_scroll_view)).perform(swipeUp())
 
           onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
 
