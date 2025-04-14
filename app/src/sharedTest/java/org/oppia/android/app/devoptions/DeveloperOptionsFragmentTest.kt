@@ -638,13 +638,6 @@ class DeveloperOptionsFragmentTest {
           stringToMatch = "Admin"
         )
 
-        //subha sugg
-//        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(1))
-//        verifyTextOnProfileListItemAtPosition(
-//          itemPosition = 1,
-//          targetView = R.id.profile_name_text,
-//          stringToMatch = "Ben"
-//        )
         onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
         verifyTextOnProfileListItemAtPosition(
           itemPosition = 2,
