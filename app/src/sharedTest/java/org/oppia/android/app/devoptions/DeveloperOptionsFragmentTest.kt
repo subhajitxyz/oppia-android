@@ -647,6 +647,44 @@ class DeveloperOptionsFragmentTest {
       }
     }
   }
+  @Test
+  fun testDeveloperOptions_clickAddOneProfiles_checksOneProfilesAreAdded_verifyProfileCount() {
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_one_profile_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+      onView(withId(R.id.show_profile_count))
+        .check(matches(ViewMatchers.withText("2")))
+
+
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      launch(ProfileChooserActivity::class.java).use {
+        testCoroutineDispatchers.runCurrent()
+
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 3))
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(0))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 0,
+          targetView = R.id.profile_name_text,
+          stringToMatch = "Admin"
+        )
+
+        onView(withId(R.id.profile_recycler_view)).perform(scrollToPosition<ViewHolder>(2))
+        verifyTextOnProfileListItemAtPosition(
+          itemPosition = 2,
+          targetView = R.id.add_profile_text,
+          stringToMatch = context.getString(R.string.profile_chooser_add)
+        )
+      }
+    }
+  }
+
 
   @Test
   fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded_chatgpt() {
