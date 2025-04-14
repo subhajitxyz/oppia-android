@@ -288,18 +288,18 @@ class DeveloperOptionsActivityTest {
           testCoroutineDispatchers.runCurrent()
 
           // Open the navigation drawer
-//          onView(withContentDescription(R.string.drawer_open_content_description))
-//            .check(matches(isCompletelyDisplayed()))
-//            .perform(click())
-//
-//          homeScenario.onActivity { activity ->
-//            val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-//            drawerLayout.openDrawer(GravityCompat.START)
-//            drawerLayout.computeScroll()
-//          }
-//          testCoroutineDispatchers.runCurrent()
+          onView(withContentDescription(R.string.drawer_open_content_description))
+            .check(matches(isCompletelyDisplayed()))
+            .perform(click())
 
-          homeScenario.openNavigationDrawer()
+          homeScenario.onActivity { activity ->
+            val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+            drawerLayout.openDrawer(GravityCompat.START)
+            drawerLayout.computeScroll()
+          }
+          testCoroutineDispatchers.runCurrent()
+
+          //homeScenario.openNavigationDrawer()
 
           onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
 
