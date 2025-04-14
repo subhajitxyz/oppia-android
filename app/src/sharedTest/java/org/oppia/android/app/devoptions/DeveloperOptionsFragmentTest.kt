@@ -697,7 +697,7 @@ class DeveloperOptionsFragmentTest {
       onView(withId(R.id.show_profile_count))
         .check(matches(ViewMatchers.withText("4")))
     }
-    }
+
   }
 
   private fun createDeveloperOptionsTestActivityIntent(internalProfileId: Int): Intent {
