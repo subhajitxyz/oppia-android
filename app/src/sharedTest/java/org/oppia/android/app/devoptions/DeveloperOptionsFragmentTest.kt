@@ -656,8 +656,7 @@ class DeveloperOptionsFragmentTest {
       scrollToPosition(position = 4)
       onView(withId(R.id.add_one_profile_text_view)).perform(click())
       testCoroutineDispatchers.runCurrent()
-      onView(withId(R.id.show_profile_count))
-        .check(matches(ViewMatchers.withText("2")))
+
 
 
       intended(hasComponent(ProfileChooserActivity::class.java.name))
@@ -682,6 +681,9 @@ class DeveloperOptionsFragmentTest {
           stringToMatch = context.getString(R.string.profile_chooser_add)
         )
       }
+
+      onView(withId(R.id.show_profile_count))
+        .check(matches(ViewMatchers.withText("2")))
     }
   }
 
