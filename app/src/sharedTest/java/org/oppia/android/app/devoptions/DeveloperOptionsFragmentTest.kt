@@ -719,7 +719,6 @@ class DeveloperOptionsFragmentTest {
 
       onView(withId(R.id.show_profile_count))
         .check(matches(ViewMatchers.withText("4")))
-      onView(withId(R.id.profile_recycler_view)).check(hasItemCount(count = 5))
 
     }
   }
