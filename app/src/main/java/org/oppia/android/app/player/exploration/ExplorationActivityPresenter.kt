@@ -70,6 +70,10 @@ class ExplorationActivityPresenter @Inject constructor(
 
   private lateinit var explorationToolbar: Toolbar
   private lateinit var explorationToolbarTitle: TextView
+  //ben mail
+  private lateinit var flashbackToolbar: Toolbar
+  private lateinit var flashbackToolbarTitle: TextView
+
   private lateinit var profileId: ProfileId
   private lateinit var classroomId: String
   private lateinit var topicId: String
@@ -349,6 +353,20 @@ class ExplorationActivityPresenter @Inject constructor(
     subscribeToExploration(
       explorationDataController.getExplorationById(profileId, explorationId).toLiveData()
     )
+  }
+
+  //ben mail
+  fun updateToolbarForFlashback(isFlashbackOn: Boolean) {
+    if(isFlashbackOn) {
+      exploreViewModel.currentlyShowingFlashback.set(true)
+      explorationToolbar.visibility = View.GONE
+      flashbackToolbar.visibility = View.VISIBLE
+      //flashbackToolbarTitle.text = "Review Previous Questions"
+    } else {
+      flashbackToolbar.visibility = View.GONE
+      explorationToolbar.visibility = View.VISIBLE
+    }
+
   }
 
   private fun subscribeToExploration(

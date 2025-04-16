@@ -200,6 +200,11 @@ class ExplorationActivity :
     }
   }
 
+  //ben mail
+  override fun updateToolbarForFlashback() {
+    explorationActivityPresenter.updateToolbarForFlashback()
+  }
+
   override fun dismissFlashbackCard() {
     getFlashbackCard()?.dismissFlashbackCard()
     explorationActivityPresenter.offFlashbackCard()

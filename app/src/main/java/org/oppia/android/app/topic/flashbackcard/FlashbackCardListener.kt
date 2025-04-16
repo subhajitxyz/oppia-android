@@ -6,4 +6,7 @@ interface FlashbackCardListener {
   fun routeToFlashBackCard(id: String, ephemeralState: EphemeralState)
 
   fun dismissFlashbackCard()
+
+  //ben mail
+  fun updateToolbarForFlashback()
 }

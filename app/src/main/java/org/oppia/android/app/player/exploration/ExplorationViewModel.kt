@@ -17,4 +17,7 @@ class ExplorationViewModel @Inject constructor() : ObservableViewModel() {
   //subha
   val isFlashbackCardOn = ObservableField(false)
 
+  //ben mail
+  val currentlyShowingFlashback = ObservableField(false)
+
 }

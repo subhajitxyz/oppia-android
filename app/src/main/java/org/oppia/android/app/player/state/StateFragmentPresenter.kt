@@ -194,10 +194,17 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   fun onContinueButtonClicked() {
+
+    //ben mail
+    //try to update toolbar of exploration on click of continuebutton
+    flashbackCardListener.updateToolbarForFlashback()
+
+
     //subha
     Log.d("testflashback","in onContinueButtonClicked in statefragmentpresenter")
 
     if(stateViewModel.getFlashbackIsOn()) {
+
        Log.d("testflashback","A received data in oncontinue ${stateViewModel.getFlashbackIsOn()}")
 
       flashbackCardListener.routeToFlashBackCard(
