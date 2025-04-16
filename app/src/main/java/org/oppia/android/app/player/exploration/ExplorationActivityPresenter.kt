@@ -117,10 +117,10 @@ class ExplorationActivityPresenter @Inject constructor(
     flashbackToolbar = binding.flashbackToolbar
     flashbackToolbarTitle = binding.flashbackToolbarTitle
 
-    if(exploreViewModel.currentlyShowingFlashback.get() == true) {
-      Log.d("testtoolbar","currentlyShowingFlashback is true")
-      updateToolbarForFlashback(true)
-    }
+//    if(exploreViewModel.currentlyShowingFlashback.get() == true) {
+//      Log.d("testtoolbar","currentlyShowingFlashback is true")
+//      updateToolbarForFlashback(true)
+//    }
 
     binding.flashbackToolbar.setNavigationOnClickListener {
       updateToolbarForFlashback(false)

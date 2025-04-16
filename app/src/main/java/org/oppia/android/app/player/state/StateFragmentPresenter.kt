@@ -197,7 +197,7 @@ class StateFragmentPresenter @Inject constructor(
 
     //ben mail
     //try to update toolbar of exploration on click of continuebutton
-    flashbackCardListener.updateToolbarForFlashback()
+    //flashbackCardListener.updateToolbarForFlashback()
 
 
     //subha
