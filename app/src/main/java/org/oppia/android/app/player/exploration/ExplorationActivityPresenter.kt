@@ -358,6 +358,8 @@ class ExplorationActivityPresenter @Inject constructor(
   }
 
   private fun updateToolbarTitle(explorationId: String) {
+    //ben mail
+    flashbackToolbar.visibility = View.GONE
     subscribeToExploration(
       explorationDataController.getExplorationById(profileId, explorationId).toLiveData()
     )
@@ -374,7 +376,6 @@ class ExplorationActivityPresenter @Inject constructor(
       flashbackToolbar.visibility = View.GONE
       explorationToolbar.visibility = View.VISIBLE
     }
-
   }
 
   private fun subscribeToExploration(

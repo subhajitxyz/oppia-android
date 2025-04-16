@@ -3,6 +3,7 @@ package org.oppia.android.app.player.exploration
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import org.oppia.android.app.activity.ActivityComponentImpl
 import org.oppia.android.app.activity.InjectableAutoLocalizedAppCompatActivity
@@ -202,6 +203,7 @@ class ExplorationActivity :
 
   //ben mail
   override fun updateToolbarForFlashback() {
+    Log.d("testtoolbar","called updateToolbarForFlashback in explorationactivity")
     explorationActivityPresenter.updateToolbarForFlashback(true)
   }
 
