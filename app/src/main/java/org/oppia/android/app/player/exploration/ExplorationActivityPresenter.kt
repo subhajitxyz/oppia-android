@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.exploration
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -117,6 +118,7 @@ class ExplorationActivityPresenter @Inject constructor(
     flashbackToolbarTitle = binding.flashbackToolbarTitle
 
     if(exploreViewModel.currentlyShowingFlashback.get() == true) {
+      Log.d("testtoolbar","currentlyShowingFlashback is true")
       updateToolbarForFlashback(true)
     }
 
