@@ -112,6 +112,14 @@ class ExplorationActivityPresenter @Inject constructor(
     explorationToolbarTitle = binding.explorationToolbarTitle
     activity.setSupportActionBar(explorationToolbar)
 
+    //ben mail
+    flashbackToolbar = binding.flashbackToolbar
+    flashbackToolbarTitle = binding.flashbackToolbarTitle
+
+    binding.flashbackToolbar.setNavigationOnClickListener {
+      updateToolbarForFlashback(false)
+    }
+
     if (!accessibilityService.isScreenReaderEnabled()) {
       binding.explorationToolbarTitle.setOnClickListener {
         binding.explorationToolbarTitle.isSelected = true
