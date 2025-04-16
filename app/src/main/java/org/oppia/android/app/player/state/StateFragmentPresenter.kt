@@ -373,6 +373,12 @@ class StateFragmentPresenter @Inject constructor(
 
     showOrHideAudioByState(ephemeralState.state)
 
+    //ben mail
+    //trying to color toolbar when statetype is completed state.
+    if(ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.COMPLETED_STATE) {
+      flashbackCardListener.updateToolbarForFlashback()
+    }
+
     val dataPair = recyclerViewAssembler.compute(
       ephemeralState,
       explorationId,
