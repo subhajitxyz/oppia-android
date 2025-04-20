@@ -177,4 +177,10 @@ class StateFragmentTestActivityPresenter @Inject constructor(
       TAG_HINTS_AND_SOLUTION_EXPLORATION_MANAGER
     ) as HintsAndSolutionExplorationManagerFragment?
   }
+
+  //subha
+  fun dismissConceptCard() {
+    getStateFragment()?.dismissConceptCard()
+  }
+
 }

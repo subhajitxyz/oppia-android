@@ -23,6 +23,7 @@ import org.oppia.android.app.player.stopplaying.StopStatePlayingSessionWithSaved
 import org.oppia.android.util.extensions.getProtoExtra
 import org.oppia.android.util.extensions.putProtoExtra
 import javax.inject.Inject
+import org.oppia.android.app.topic.conceptcard.ConceptCardListener
 
 /** Test Activity used for testing StateFragment. */
 class StateFragmentTestActivity :
@@ -34,7 +35,8 @@ class StateFragmentTestActivity :
   RouteToHintsAndSolutionListener,
   RevealHintListener,
   RevealSolutionInterface,
-  HintsAndSolutionExplorationManagerListener {
+  HintsAndSolutionExplorationManagerListener,
+  ConceptCardListener {// subha
   @Inject
   lateinit var stateFragmentTestActivityPresenter: StateFragmentTestActivityPresenter
   private lateinit var state: State
@@ -144,5 +146,11 @@ class StateFragmentTestActivity :
     return supportFragmentManager.findFragmentByTag(
       TAG_HINTS_AND_SOLUTION_DIALOG
     ) as HintsAndSolutionDialogFragment?
+  }
+
+  //subha
+  override fun dismissConceptCard() {
+
+    getHintsAndSolution()?.dismissConceptCard() ?: stateFragmentTestActivityPresenter.dismissConceptCard()
   }
 }
