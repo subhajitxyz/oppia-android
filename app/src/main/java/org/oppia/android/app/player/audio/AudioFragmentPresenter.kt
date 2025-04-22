@@ -98,6 +98,16 @@ class AudioFragmentPresenter @Inject constructor(
           userIsSeeking = false
         }
       })
+
+    //subha
+    binding.playPauseAudioIcon.setOnClickListener {
+      if(networkConnectionUtil.getCurrentConnectionStatus() == NetworkConnectionUtil.ProdConnectionStatus.NONE) {
+        showOfflineDialog()
+        setAudioFragmentVisible(false)
+        return@setOnClickListener
+      }
+      audioViewModel.togglePlayPause()
+    }
     audioViewModel.playStatusLiveData.observe(
       fragment,
       {

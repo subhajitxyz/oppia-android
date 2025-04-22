@@ -30,14 +30,10 @@ import org.oppia.android.util.networking.NetworkConnectionUtil
 /** [ObservableViewModel] for audio-player state. */
 @FragmentScope
 class AudioViewModel @Inject constructor(
-  private val fragment: Fragment, //subha
-  private val activity: AppCompatActivity,
-  private val context: Context,
   private val audioPlayerController: AudioPlayerController,
   @DefaultResourceBucketName private val gcsResource: String,
   private val machineLocale: OppiaLocale.MachineLocale,
   private val resourceHandler: AppLanguageResourceHandler,
-  private val networkConnectionUtil: NetworkConnectionUtil,
 
 ) : ObservableViewModel() {
 
@@ -150,46 +146,13 @@ class AudioViewModel @Inject constructor(
   }
 
   /** Plays or pauses AudioController depending on passed in state. */
-  fun togglePlayPause(type: UiAudioPlayStatus?) {
-    if (type == UiAudioPlayStatus.PLAYING) {
+  fun togglePlayPause() { //subha
+    if (playStatusLiveData.value == UiAudioPlayStatus.PLAYING) {
       audioPlayerController.pause(isFromExplicitUserAction = true)
     } else {
-      //subha
-      if(networkConnectionUtil.getCurrentConnectionStatus() == NetworkConnectionUtil.ProdConnectionStatus.NONE){
-        showOfflineDialog()
-        hideAudioFragment()
-        return
-      }
       audioPlayerController.play(isPlayingFromAutoPlay = false, reloadingMainContent = false)
     }
   }
-  //subha
-  private fun showOfflineDialog() {
-    AlertDialog.Builder(activity, R.style.OppiaAlertDialogTheme)
-      .setTitle(resourceHandler.getStringInLocale(R.string.audio_dialog_offline_title))
-      .setMessage(resourceHandler.getStringInLocale(R.string.audio_dialog_offline_message))
-      .setPositiveButton(
-        resourceHandler.getStringInLocale(R.string.audio_dialog_offline_positive)
-      ) { dialog, _ ->
-        dialog.dismiss()
-      }.create().show()
-  }
-
-  private fun hideAudioFragment() {
-    (activity as AudioButtonListener).showAudioStreamingOff()
-    (fragment as AudioUiManager).pauseAudio()
-    val animation = AnimationUtils.loadAnimation(context, R.anim.slide_up_audio)
-    animation.setAnimationListener(object : Animation.AnimationListener {
-      override fun onAnimationEnd(p0: Animation?) {
-        (activity as AudioButtonListener).setAudioBarVisibility(false)
-      }
-
-      override fun onAnimationStart(p0: Animation?) {}
-      override fun onAnimationRepeat(p0: Animation?) {}
-    })
-    fragment.view?.startAnimation(animation)
-  }
-
 
 
   fun pauseAudio() = audioPlayerController.pause(isFromExplicitUserAction = false)
