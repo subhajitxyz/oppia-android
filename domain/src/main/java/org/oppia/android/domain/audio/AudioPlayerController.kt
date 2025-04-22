@@ -115,6 +115,7 @@ class AudioPlayerController @Inject constructor(
    */
   fun changeDataSource(url: String, contentId: String?, languageCode: String) {
     audioLock.withLock {
+      Log.d("testmedia","called in changeDataSource set prepared to false")
       prepared = false
       currentContentId = contentId
       currentLanguageCode = languageCode
@@ -127,6 +128,7 @@ class AudioPlayerController @Inject constructor(
   private fun setMediaPlayerListeners() {
     Log.d("testmedia","called in setMediaPlayerListeners in audiocontroller")
     mediaPlayer.setOnCompletionListener {
+      Log.d("testmedia","called in ssetOnCompletionListener.")
       completed = true
       stopUpdatingSeekBar()
       playProgress?.value =
@@ -140,6 +142,7 @@ class AudioPlayerController @Inject constructor(
         AsyncResult.Success(PlayProgress(PlayStatus.PREPARED, 0, duration))
     }
     mediaPlayer.setOnErrorListener { _, what, extra ->
+      Log.d("testmedia","called in setOnErrorListener.")
       playProgress?.value =
         AsyncResult.Failure(
           AudioPlayerException("Audio Player put in error state with what: $what and extra: $extra")
