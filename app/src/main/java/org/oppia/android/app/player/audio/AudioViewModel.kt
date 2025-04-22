@@ -30,14 +30,15 @@ import org.oppia.android.util.networking.NetworkConnectionUtil
 /** [ObservableViewModel] for audio-player state. */
 @FragmentScope
 class AudioViewModel @Inject constructor(
+  private val fragment: Fragment, //subha
+  private val activity: AppCompatActivity,
+  private val context: Context,
   private val audioPlayerController: AudioPlayerController,
   @DefaultResourceBucketName private val gcsResource: String,
   private val machineLocale: OppiaLocale.MachineLocale,
   private val resourceHandler: AppLanguageResourceHandler,
-  private val networkConnectionUtil: NetworkConnectionUtil, //subha
-  private val fragment: Fragment,
-  private val activity: AppCompatActivity,
-  private val context: Context,
+  private val networkConnectionUtil: NetworkConnectionUtil,
+
 ) : ObservableViewModel() {
 
   private lateinit var state: State
