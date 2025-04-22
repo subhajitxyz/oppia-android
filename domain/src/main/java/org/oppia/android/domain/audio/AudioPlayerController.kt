@@ -1,6 +1,7 @@
 package org.oppia.android.domain.audio
 
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -124,6 +125,7 @@ class AudioPlayerController @Inject constructor(
   }
 
   private fun setMediaPlayerListeners() {
+    Log.d("testmedia","called in setMediaPlayerListeners in audiocontroller")
     mediaPlayer.setOnCompletionListener {
       completed = true
       stopUpdatingSeekBar()
@@ -131,6 +133,7 @@ class AudioPlayerController @Inject constructor(
         AsyncResult.Success(PlayProgress(PlayStatus.COMPLETED, 0, duration))
     }
     mediaPlayer.setOnPreparedListener {
+      Log.d("testmedia","called in setMediaPlayerListeners set prepared to true.")
       prepared = true
       duration = it.duration
       playProgress?.value =
@@ -255,6 +258,7 @@ class AudioPlayerController @Inject constructor(
         check(mediaPlayerActive) { "Media player has not been previously initialized" }
         mediaPlayerActive = false
         isReleased = true
+        Log.d("testmedia","called in releaseMediaPlayer in set prepared to false")
         prepared = false
         mediaPlayer.release()
         stopUpdatingSeekBar()
