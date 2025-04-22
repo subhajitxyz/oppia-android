@@ -1,7 +1,13 @@
 package org.oppia.android.app.player.audio
 
+import android.content.Context
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import org.oppia.android.app.fragment.FragmentScope
@@ -19,6 +25,7 @@ import org.oppia.android.util.gcsresource.DefaultResourceBucketName
 import org.oppia.android.util.locale.OppiaLocale
 import java.util.Locale
 import javax.inject.Inject
+import org.oppia.android.util.networking.NetworkConnectionUtil
 
 /** [ObservableViewModel] for audio-player state. */
 @FragmentScope
@@ -26,7 +33,11 @@ class AudioViewModel @Inject constructor(
   private val audioPlayerController: AudioPlayerController,
   @DefaultResourceBucketName private val gcsResource: String,
   private val machineLocale: OppiaLocale.MachineLocale,
-  private val resourceHandler: AppLanguageResourceHandler
+  private val resourceHandler: AppLanguageResourceHandler,
+  private val networkConnectionUtil: NetworkConnectionUtil, //subha
+  private val fragment: Fragment,
+  private val activity: AppCompatActivity,
+  private val context: Context,
 ) : ObservableViewModel() {
 
   private lateinit var state: State
@@ -142,9 +153,43 @@ class AudioViewModel @Inject constructor(
     if (type == UiAudioPlayStatus.PLAYING) {
       audioPlayerController.pause(isFromExplicitUserAction = true)
     } else {
+      //subha
+      if(networkConnectionUtil.getCurrentConnectionStatus() == NetworkConnectionUtil.ProdConnectionStatus.NONE){
+        showOfflineDialog()
+        hideAudioFragment()
+        return
+      }
       audioPlayerController.play(isPlayingFromAutoPlay = false, reloadingMainContent = false)
     }
   }
+  //subha
+  private fun showOfflineDialog() {
+    AlertDialog.Builder(activity, R.style.OppiaAlertDialogTheme)
+      .setTitle(resourceHandler.getStringInLocale(R.string.audio_dialog_offline_title))
+      .setMessage(resourceHandler.getStringInLocale(R.string.audio_dialog_offline_message))
+      .setPositiveButton(
+        resourceHandler.getStringInLocale(R.string.audio_dialog_offline_positive)
+      ) { dialog, _ ->
+        dialog.dismiss()
+      }.create().show()
+  }
+
+  private fun hideAudioFragment() {
+    (activity as AudioButtonListener).showAudioStreamingOff()
+    (fragment as AudioUiManager).pauseAudio()
+    val animation = AnimationUtils.loadAnimation(context, R.anim.slide_up_audio)
+    animation.setAnimationListener(object : Animation.AnimationListener {
+      override fun onAnimationEnd(p0: Animation?) {
+        (activity as AudioButtonListener).setAudioBarVisibility(false)
+      }
+
+      override fun onAnimationStart(p0: Animation?) {}
+      override fun onAnimationRepeat(p0: Animation?) {}
+    })
+    fragment.view?.startAnimation(animation)
+  }
+
+
 
   fun pauseAudio() = audioPlayerController.pause(isFromExplicitUserAction = false)
   fun handleSeekTo(position: Int) = audioPlayerController.seekTo(position)
