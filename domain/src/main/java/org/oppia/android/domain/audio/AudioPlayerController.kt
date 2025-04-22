@@ -129,7 +129,6 @@ class AudioPlayerController @Inject constructor(
 
     Log.d("testmedia","called in setMediaPlayerListeners in audiocontroller")
 
-    mediaPlayer.setOn
     mediaPlayer.setOnCompletionListener {
       Log.d("testmedia","called in ssetOnCompletionListener.")
       completed = true
