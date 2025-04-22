@@ -1954,6 +1954,7 @@ class ExplorationActivityTest {
     explorationDataController.stopPlayingExploration(isCompletion = false)
   }
 
+  //subha adhiambo suggested
   @Test
   @RunOn(TestPlatform.ROBOLECTRIC) // TODO(#3858): Enable for Espresso.
   fun testExpActivity_openConceptCard_onConceptCard_selectNavigationUp_conceptCardCloses() {

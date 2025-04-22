@@ -2118,7 +2118,7 @@ class StateFragmentTest {
     }
   }
 
-  //subha
+  //subha adhiambo suggested
   @Test
   @RunOn(TestPlatform.ROBOLECTRIC)
   fun testStateFragment_forMisconception_clickLinkText_opensConceptCard_closeConceptCard() {

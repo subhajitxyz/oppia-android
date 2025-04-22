@@ -148,7 +148,7 @@ class StateFragmentTestActivity :
     ) as HintsAndSolutionDialogFragment?
   }
 
-  //subha
+  //subha adhiambo suggested
   override fun dismissConceptCard() {
 
     getHintsAndSolution()?.dismissConceptCard() ?: stateFragmentTestActivityPresenter.dismissConceptCard()
