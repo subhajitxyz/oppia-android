@@ -103,7 +103,7 @@ class AudioFragmentPresenter @Inject constructor(
     binding.playPauseAudioIcon.setOnClickListener {
       if(networkConnectionUtil.getCurrentConnectionStatus() == NetworkConnectionUtil.ProdConnectionStatus.NONE) {
         showOfflineDialog()
-        setAudioFragmentVisible(false)
+        handleAudioClick(shouldEnableAudioPlayback = false, feedbackId = null)
         return@setOnClickListener
       }
       audioViewModel.togglePlayPause()
