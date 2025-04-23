@@ -3,6 +3,7 @@ package org.oppia.android.app.devoptions.testing
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.LiveData
 import org.oppia.android.app.activity.ActivityComponentImpl
 import org.oppia.android.app.activity.InjectableAutoLocalizedAppCompatActivity
 import org.oppia.android.app.devoptions.DeveloperOptionsActivity
@@ -12,6 +13,7 @@ import org.oppia.android.app.devoptions.RouteToMarkChaptersCompletedListener
 import org.oppia.android.app.devoptions.RouteToMarkStoriesCompletedListener
 import org.oppia.android.app.devoptions.RouteToMarkTopicsCompletedListener
 import org.oppia.android.app.devoptions.RouteToViewEventLogsListener
+import org.oppia.android.app.devoptions.devoptionsitemviewmodel.DeveloperOptionsAddAndDeleteProfilesViewModel
 import org.oppia.android.app.devoptions.markchapterscompleted.MarkChaptersCompletedActivity
 import org.oppia.android.app.devoptions.markstoriescompleted.MarkStoriesCompletedActivity
 import org.oppia.android.app.devoptions.marktopicscompleted.MarkTopicsCompletedActivity
@@ -53,6 +55,11 @@ class DeveloperOptionsTestActivity :
       R.id.developer_options_fragment_placeholder
     ) as DeveloperOptionsFragment?
   }
+//  //subha
+//  fun getProfileCountText(): LiveData<String> {
+//    val viewmodel = getDeveloperOptionsFragment()?.developerOptionsFragmentPresenter?.developerOptionsViewModel?.developerOptionsList?.get(4) as DeveloperOptionsAddAndDeleteProfilesViewModel
+//    return viewmodel.profileCountString
+//  }
 
   override fun routeToMarkChaptersCompleted() {
     startActivity(

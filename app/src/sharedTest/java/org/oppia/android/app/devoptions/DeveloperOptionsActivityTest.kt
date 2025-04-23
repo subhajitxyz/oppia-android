@@ -215,9 +215,6 @@ class DeveloperOptionsActivityTest {
     }
   }
 
-//  @Test
-//  fun testDeveloperOptions_selectMathExpressionsEquations_routesToMathExpressionParserActivity()
-
   //subha
   @Test
   fun testDeveloperOptions_profileCount() {
@@ -228,22 +225,6 @@ class DeveloperOptionsActivityTest {
       scrollToPosition(position = 4)
       onView(withId(R.id.add_three_profiles_text_view)).perform(click())
       testCoroutineDispatchers.runCurrent()
-//      intended(hasComponent(ProfileChooserActivity::class.java.name))
-//
-//      onView(withId(R.id.developer_options_linear_layout)).perform(nestedScrollTo())
-//        .perform(click())
-//      onView(withId(R.id.developer_options_list)).check(matches(isDisplayed()))
-//      testCoroutineDispatchers.runCurrent()
-//
-//      //correct the position i have a doubt
-//      onView(
-//        atPositionOnView(
-//          recyclerViewId = R.id.developer_options_list,
-//          position = 4,
-//          targetViewId = R.id.add_three_profiles_text_view
-//        )
-//      ).perform(click())
-//      testCoroutineDispatchers.runCurrent()
 
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
