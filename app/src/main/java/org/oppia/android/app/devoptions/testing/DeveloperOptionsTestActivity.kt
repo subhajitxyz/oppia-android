@@ -56,10 +56,10 @@ class DeveloperOptionsTestActivity :
     ) as DeveloperOptionsFragment?
   }
 //  //subha
-//  fun getProfileCountText(): LiveData<String> {
-//    val viewmodel = getDeveloperOptionsFragment()?.developerOptionsFragmentPresenter?.developerOptionsViewModel?.developerOptionsList?.get(4) as DeveloperOptionsAddAndDeleteProfilesViewModel
-//    return viewmodel.profileCountString
-//  }
+  fun getProfileCountText(): LiveData<String> {
+    val viewmodel = getDeveloperOptionsFragment()?.developerOptionsFragmentPresenter?.developerOptionsViewModel?.developerOptionsList?.get(4) as DeveloperOptionsAddAndDeleteProfilesViewModel
+    return viewmodel.profileCountString
+  }
 
   override fun routeToMarkChaptersCompleted() {
     startActivity(
