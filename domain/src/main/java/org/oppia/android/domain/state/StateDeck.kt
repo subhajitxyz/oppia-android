@@ -1,5 +1,6 @@
 package org.oppia.android.domain.state
 
+import android.util.Log
 import org.oppia.android.app.model.AnswerAndResponse
 import org.oppia.android.app.model.CompletedState
 import org.oppia.android.app.model.CompletedStateInCheckpoint
@@ -83,6 +84,7 @@ class StateDeck constructor(
 
   /** Returns the current [State] being viewed by the learner. */
   fun getCurrentState(): State {
+    Log.d("testcontroller", "in getCurrentState in statedeck")
     return when {
       isCurrentStateTopOfDeck() -> pendingTopState
       else -> previousStates[stateIndex].state
