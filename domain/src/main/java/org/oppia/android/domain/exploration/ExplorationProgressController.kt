@@ -407,6 +407,7 @@ class ExplorationProgressController @Inject constructor(
    * subscription to this method's returned [DataProvider].
    */
   fun getCurrentState(): DataProvider<EphemeralState> {
+    Log.d("testcontroller", "in getCurrentState")
     val writtenTranslationContentLocale =
       translationController.getWrittenTranslationContentLocale(profileId)
     val ephemeralStateDataProvider =
