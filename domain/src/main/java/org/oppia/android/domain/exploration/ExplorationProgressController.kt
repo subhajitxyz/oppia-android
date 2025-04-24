@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -467,6 +468,7 @@ class ExplorationProgressController @Inject constructor(
           @Suppress("UNUSED_VARIABLE") // A variable is used to create an exhaustive when statement.
           val unused = when (message) {
             is ControllerMessage.InitializeController -> {
+              Log.d("testcontroller","in InitializeController")
               // Synchronously fetch the learner & installation IDs (these may result in file I/O).
               val learnerId = profileManagementController.fetchLearnerId(message.profileId)
               val installationId = loggingIdentifierController.fetchInstallationId()
