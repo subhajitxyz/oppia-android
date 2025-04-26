@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -786,6 +787,8 @@ class ExplorationProgressController @Inject constructor(
   private suspend fun ControllerState.moveToPreviousStateImpl(
     moveToPreviousStateResultFlow: MutableStateFlow<AsyncResult<Any?>>
   ) {
+    Log.d("testimpl", "called moveToPreviousStateImpl")
+
     tryOperation(moveToPreviousStateResultFlow) {
       check(explorationProgress.playStage != NOT_PLAYING) {
         "Cannot navigate to a previous state if an exploration is not being played."
@@ -804,6 +807,7 @@ class ExplorationProgressController @Inject constructor(
   private suspend fun ControllerState.moveToNextStateImpl(
     moveToNextStateResultFlow: MutableStateFlow<AsyncResult<Any?>>
   ) {
+    Log.d("testimpl", "called moveToNextStateImpl")
     tryOperation(moveToNextStateResultFlow) {
       check(explorationProgress.playStage != NOT_PLAYING) {
         "Cannot navigate to a next state if an exploration is not being played."
@@ -905,9 +909,11 @@ class ExplorationProgressController @Inject constructor(
     recomputeState: Boolean = true,
     operation: suspend ControllerState.() -> T
   ) {
+    Log.d("testimpl", "called tryOperation")
     try {
       resultFlow.emit(AsyncResult.Success(operation()))
       if (recomputeState) {
+        Log.d("testimpl", " inside recomputeState in tryOperation")
         recomputeCurrentStateAndNotifySync()
       }
     } catch (e: Exception) {
@@ -925,6 +931,7 @@ class ExplorationProgressController @Inject constructor(
    * All other cases must use [recomputeCurrentStateAndNotifyAsync].
    */
   private suspend fun ControllerState.recomputeCurrentStateAndNotifySync() {
+    Log.d("testimpl", " called recomputeCurrentStateAndNotifySync")
     recomputeCurrentStateAndNotifyImpl()
   }
 

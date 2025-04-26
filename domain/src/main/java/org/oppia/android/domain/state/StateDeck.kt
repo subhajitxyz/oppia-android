@@ -1,5 +1,6 @@
 package org.oppia.android.domain.state
 
+import android.util.Log
 import org.oppia.android.app.model.AnswerAndResponse
 import org.oppia.android.app.model.CompletedState
 import org.oppia.android.app.model.CompletedStateInCheckpoint
@@ -50,12 +51,14 @@ class StateDeck constructor(
 
   /** Navigates to the previous state in the deck, or fails if this isn't possible. */
   fun navigateToPreviousState() {
+    Log.d("testimpl", "called navigateToPreviousState in statedeck")
     check(!isCurrentStateInitial()) { "Cannot navigate to previous state; at initial state." }
     stateIndex--
   }
 
   /** Navigates to the next state in the deck, or fails if this isn't possible. */
   fun navigateToNextState() {
+    Log.d("testimpl", "called navigateToNextState in statedeck")
     check(!isCurrentStateTopOfDeck()) { "Cannot navigate to next state; at most recent state." }
     val previousState = previousStates[stateIndex]
     stateIndex++
