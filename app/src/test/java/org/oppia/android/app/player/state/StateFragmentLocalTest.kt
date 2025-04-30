@@ -2288,6 +2288,8 @@ class StateFragmentLocalTest {
       onView(withId(R.id.concept_card_heading_text))
         .inRoot(isDialog())
         .check(matches(withText("Another important skill")))
+      onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
+
 
       //try to close concept card
       onView(withContentDescription(R.string.navigate_up)).perform(click())
@@ -2317,6 +2319,8 @@ class StateFragmentLocalTest {
       onView(withId(R.id.concept_card_heading_text))
         .inRoot(isDialog())
         .check(matches(withText("Another important skill")))
+      onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
+
 
       //try to close concept card
       onView(withContentDescription(R.string.navigate_up)).perform(click())
