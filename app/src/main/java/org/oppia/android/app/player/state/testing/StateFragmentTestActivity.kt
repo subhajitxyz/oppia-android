@@ -23,8 +23,6 @@ import org.oppia.android.app.player.stopplaying.StopStatePlayingSessionWithSaved
 import org.oppia.android.util.extensions.getProtoExtra
 import org.oppia.android.util.extensions.putProtoExtra
 import javax.inject.Inject
-import org.oppia.android.app.player.exploration.ExplorationFragment
-import org.oppia.android.app.player.exploration.TAG_EXPLORATION_FRAGMENT
 import org.oppia.android.app.topic.conceptcard.ConceptCardListener
 
 /** Test Activity used for testing StateFragment. */
