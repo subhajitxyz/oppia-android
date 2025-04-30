@@ -2154,6 +2154,7 @@ class StateFragmentTest {
 
   //subha adhiambo suggested
   @Test
+  @RunOn(TestPlatform.ROBOLECTRIC)
   fun testStateFragment_landScape_forMisconception_clickLinkText_opensConceptCard_closeConceptCard() {
     setUpTestWithLanguageSwitchingFeatureOff()
     launchForExploration(FRACTIONS_EXPLORATION_ID_1, shouldSavePartialProgress = false).use {

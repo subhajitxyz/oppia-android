@@ -180,6 +180,7 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.testing.TestPlatform
 
 /**
  * Tests for [StateFragment] that can only be run locally, e.g. using Robolectric, and not on an
@@ -2268,6 +2269,7 @@ class StateFragmentLocalTest {
   // subha adhiambo suggested
 
   @Test
+  @RunOn(TestPlatform.ROBOLECTRIC)
   fun testStateFragment_openHint_clickConceptCardLink_opensConceptCard_closeConceptcard() {
     launchForExploration(TEST_EXPLORATION_ID_2).use {
       startPlayingExploration()
@@ -2297,6 +2299,7 @@ class StateFragmentLocalTest {
 
   // subha adhiambo suggested
   @Test
+  @RunOn(TestPlatform.ROBOLECTRIC)
   fun testStateFragment_openSolution_clickConceptCardLink_opensConceptCard_closeConceptcard() {
     launchForExploration(TEST_EXPLORATION_ID_2).use { scenario ->
       startPlayingExploration()
