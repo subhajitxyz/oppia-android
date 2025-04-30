@@ -151,7 +151,8 @@ class StateFragmentTestActivity :
   //subha adhiambo suggested
   override fun dismissConceptCard() {
 
-    getHintsAndSolution()?.dismissConceptCard() ?: stateFragmentTestActivityPresenter.dismissConceptCard()
+    //getHintsAndSolution()?.dismissConceptCard() ?: stateFragmentTestActivityPresenter.dismissConceptCard()
+    stateFragmentTestActivityPresenter.dismissConceptCard()
   }
 
 

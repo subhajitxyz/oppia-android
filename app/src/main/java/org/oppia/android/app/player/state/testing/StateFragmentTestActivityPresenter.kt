@@ -183,8 +183,8 @@ class StateFragmentTestActivityPresenter @Inject constructor(
 
   //subha
   fun dismissConceptCard() {
-    //getStateFragment()?.dismissConceptCard()
-    getExplorationFragment()?.dismissConceptCard()
+    getStateFragment()?.dismissConceptCard()
+    //getExplorationFragment()?.dismissConceptCard()
   }
 
   //new subha
