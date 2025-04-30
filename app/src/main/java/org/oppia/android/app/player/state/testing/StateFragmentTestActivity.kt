@@ -111,7 +111,10 @@ class StateFragmentTestActivity :
     stateFragmentTestActivityPresenter.stopExploration(isCompletion)
   }
 
-  override fun dismiss() {}
+  override fun dismiss() {
+    //subha
+    getHintsAndSolution()?.dismiss()
+  }
 
   override fun routeToHintsAndSolution(id: String, helpIndex: HelpIndex) {
     if (getHintsAndSolution() == null) {
@@ -151,8 +154,8 @@ class StateFragmentTestActivity :
   //subha adhiambo suggested
   override fun dismissConceptCard() {
 
-    //getHintsAndSolution()?.dismissConceptCard() ?: stateFragmentTestActivityPresenter.dismissConceptCard()
-    stateFragmentTestActivityPresenter.dismissConceptCard()
+    getHintsAndSolution()?.dismissConceptCard() ?: stateFragmentTestActivityPresenter.dismissConceptCard()
+    //stateFragmentTestActivityPresenter.dismissConceptCard()
   }
 
 
