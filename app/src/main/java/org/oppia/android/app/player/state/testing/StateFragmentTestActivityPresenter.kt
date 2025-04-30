@@ -22,8 +22,12 @@ import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import org.oppia.android.util.extensions.getProtoExtra
 import javax.inject.Inject
+import org.oppia.android.app.player.exploration.ExplorationFragment
+import org.oppia.android.app.player.exploration.TAG_EXPLORATION_FRAGMENT
 
 private const val TEST_ACTIVITY_TAG = "TestActivity"
+private const val TAG_EXPLORATION_FRAGMENT = "TAG_EXPLORATION_FRAGMENT"
+
 
 /** The presenter for [StateFragmentTestActivity]. */
 @ActivityScope
@@ -180,7 +184,15 @@ class StateFragmentTestActivityPresenter @Inject constructor(
 
   //subha
   fun dismissConceptCard() {
-    getStateFragment()?.dismissConceptCard()
+    //getStateFragment()?.dismissConceptCard()
+    getExplorationFragment()?.dismissConceptCard()
+  }
+
+  //new subha
+  private fun getExplorationFragment(): ExplorationFragment? {
+    return activity.supportFragmentManager.findFragmentByTag(
+      TAG_EXPLORATION_FRAGMENT
+    ) as? ExplorationFragment
   }
 
 }
