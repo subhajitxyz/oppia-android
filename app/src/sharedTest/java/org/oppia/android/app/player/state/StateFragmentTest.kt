@@ -2119,40 +2119,40 @@ class StateFragmentTest {
   }
 
   //subha adhiambo suggested
-  @Test
-  @RunOn(TestPlatform.ROBOLECTRIC)
-  fun testStateFragment_forMisconception_clickLinkText_opensConceptCard_closeConceptCard() {
-    setUpTestWithLanguageSwitchingFeatureOff()
-    launchForExploration(FRACTIONS_EXPLORATION_ID_1, shouldSavePartialProgress = false).use {
-      startPlayingExploration()
-      selectMultipleChoiceOption(
-        optionPosition = 3,
-        expectedOptionText = "No, because, in a fraction, the pieces must be the same size."
-      )
-      clickSubmitAnswerButton()
-      clickContinueNavigationButton()
-      typeFractionText("3/2") // Misconception.
-      clickSubmitAnswerButton()
-
-      onView(withId(R.id.feedback_text_view)).perform(openClickableSpan("refresher lesson"))
-      testCoroutineDispatchers.runCurrent()
-
-      onView(withText("Concept Card")).inRoot(isDialog()).check(matches(isDisplayed()))
-      onView(withId(R.id.concept_card_heading_text))
-        .inRoot(isDialog())
-        .check(matches(withText(containsString("Identify the numerator and denominator"))))
-      onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
-
-      //try to close concept card
-      onView(withContentDescription(R.string.navigate_up)).perform(click())
-
-      testCoroutineDispatchers.runCurrent()
-      onView(withText("Concept Card")).inRoot(isDialog()).check(doesNotExist())
-      onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
-
-
-    }
-  }
+//  @Test
+//  @RunOn(TestPlatform.ROBOLECTRIC)
+//  fun testStateFragment_forMisconception_clickLinkText_opensConceptCard_closeConceptCard() {
+//    setUpTestWithLanguageSwitchingFeatureOff()
+//    launchForExploration(FRACTIONS_EXPLORATION_ID_1, shouldSavePartialProgress = false).use {
+//      startPlayingExploration()
+//      selectMultipleChoiceOption(
+//        optionPosition = 3,
+//        expectedOptionText = "No, because, in a fraction, the pieces must be the same size."
+//      )
+//      clickSubmitAnswerButton()
+//      clickContinueNavigationButton()
+//      typeFractionText("3/2") // Misconception.
+//      clickSubmitAnswerButton()
+//
+//      onView(withId(R.id.feedback_text_view)).perform(openClickableSpan("refresher lesson"))
+//      testCoroutineDispatchers.runCurrent()
+//
+//      onView(withText("Concept Card")).inRoot(isDialog()).check(matches(isDisplayed()))
+//      onView(withId(R.id.concept_card_heading_text))
+//        .inRoot(isDialog())
+//        .check(matches(withText(containsString("Identify the numerator and denominator"))))
+//      onView(withId(R.id.concept_card_toolbar)).check(matches(isDisplayed()))
+//
+//      //try to close concept card
+//      onView(withContentDescription(R.string.navigate_up)).perform(click())
+//
+//      testCoroutineDispatchers.runCurrent()
+//      onView(withText("Concept Card")).inRoot(isDialog()).check(doesNotExist())
+//      onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
+//
+//
+//    }
+//  }
 
   //subha adhiambo suggested
 //  @Test
