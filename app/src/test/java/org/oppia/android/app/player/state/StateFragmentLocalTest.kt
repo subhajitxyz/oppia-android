@@ -2269,7 +2269,7 @@ class StateFragmentLocalTest {
   // subha adhiambo suggested
 
   @Test
-  @RunOn(TestPlatform.ROBOLECTRIC)
+  //@RunOn(TestPlatform.ROBOLECTRIC)
   fun testStateFragment_openHint_clickConceptCardLink_opensConceptCard_closeConceptcard() {
     launchForExploration(TEST_EXPLORATION_ID_2).use {
       startPlayingExploration()
