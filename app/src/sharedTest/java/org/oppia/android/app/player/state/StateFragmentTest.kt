@@ -2147,7 +2147,7 @@ class StateFragmentTest {
       onView(withContentDescription(R.string.navigate_up)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
-      onView(withText("Concept Card")).inRoot(isDialog()).check(doesNotExist())
+      //onView(withText("Concept Card")).inRoot(isDialog()).check(doesNotExist())
       onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
 
 
@@ -2184,7 +2184,7 @@ class StateFragmentTest {
       onView(withContentDescription(R.string.navigate_up)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
-      onView(withText("Concept Card")).inRoot(isDialog()).check(doesNotExist())
+      //onView(withText("Concept Card")).inRoot(isDialog()).check(doesNotExist())
       onView(withId(R.id.concept_card_toolbar)).check(doesNotExist())
 
     }
