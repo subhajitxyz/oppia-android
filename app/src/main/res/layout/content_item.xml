@@ -39,11 +39,12 @@
     app:questionViewMarginStart="@{@dimen/content_item_question_view_margin_start}"
     app:questionViewMarginTop="@{@dimen/content_item_question_view_margin_top}">
 
+<!--    subha-->
     <TextView
       android:id="@+id/content_text_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:breakStrategy="simple"
+      android:breakStrategy="high_quality"
       android:fontFamily="sans-serif"
       android:minWidth="48dp"
       android:minHeight="48dp"
