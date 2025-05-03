@@ -10,10 +10,11 @@
       type="org.oppia.android.app.topic.revisioncard.RevisionCardViewModel" />
   </data>
 
+  <!--    android:background="@color/component_color_shared_screen_secondary_background_color"-->
+<!--subha-->
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/component_color_shared_screen_secondary_background_color"
     android:overScrollMode="never"
     android:scrollbars="none">
 
