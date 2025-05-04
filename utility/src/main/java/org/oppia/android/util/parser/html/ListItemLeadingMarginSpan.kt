@@ -8,6 +8,7 @@ import android.graphics.RectF
 import android.text.Layout
 import android.text.Spanned
 import android.text.style.LeadingMarginSpan
+import android.util.Log
 import androidx.core.view.ViewCompat
 import org.oppia.android.util.R
 import org.oppia.android.util.locale.OppiaLocale
@@ -182,6 +183,9 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
       }
     }
 
-    override fun getLeadingMargin(first: Boolean) = computedLeadingMargin
+    override fun getLeadingMargin(first: Boolean):Int {
+      Log.d("testspan","computedLeadingMargin = $computedLeadingMargin")
+      return computedLeadingMargin
+    }
   }
 }
