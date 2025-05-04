@@ -7,8 +7,12 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.text.Layout
 import android.text.Spanned
+import android.text.TextPaint
 import android.text.style.LeadingMarginSpan
 import android.util.Log
+import android.util.TypedValue
+import android.view.View
+import android.widget.TextView
 import androidx.core.view.ViewCompat
 import org.oppia.android.util.R
 import org.oppia.android.util.locale.OppiaLocale
@@ -131,13 +135,29 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
     private val spacingBeforeNumberPrefix =
       resources.getDimensionPixelSize(R.dimen.spacing_before_number_prefix)
 
-    //subha
-    private val bulletRadius = resources.getDimensionPixelSize(R.dimen.number_radius)
-    private val bulletDiameter by lazy { bulletRadius * 2 }
+
+
+    val paint = TextPaint().apply {
+      textSize = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_SP,
+        16f,
+        context.resources.displayMetrics
+      )
+    }
+
+    val longestTextWidth = Rect().also {
+      paint.getTextBounds(
+        longestNumberedItemPrefix,
+        /* start= */ 0,
+        /* end= */ longestNumberedItemPrefix.length,
+        it
+      )
+    }.width()
+
 
     // Try to use a computed margin, but otherwise guess if there's no guaranteed spacing.
     private var computedLeadingMargin =
-      spacingBeforeText + spacingBeforeNumberPrefix //subha
+      longestTextWidth + spacingBeforeText + spacingBeforeNumberPrefix //subha
 
     private val isRtl by lazy {
       displayLocale.getLayoutDirection() == ViewCompat.LAYOUT_DIRECTION_RTL
@@ -175,7 +195,7 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
           )
         }.width()
 
-        computedLeadingMargin = bulletDiameter + spacingBeforeNumberPrefix + spacingBeforeText
+        computedLeadingMargin = longestTextWidth + spacingBeforeNumberPrefix + spacingBeforeText
 
         // Compute the prefix's start x value such that it is right-aligned with other numbers in
         // the list.
@@ -186,9 +206,10 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
       }
     }
 
-    override fun getLeadingMargin(first: Boolean):Int {
-      Log.d("testspan","computedLeadingMargin = $computedLeadingMargin")
-      return computedLeadingMargin
+    override fun getLeadingMargin(first: Boolean) :Int {
+      val x = computedLeadingMargin
+      Log.d("testspanul","computedLeadingMargin = $x")
+      return x
     }
   }
 }
