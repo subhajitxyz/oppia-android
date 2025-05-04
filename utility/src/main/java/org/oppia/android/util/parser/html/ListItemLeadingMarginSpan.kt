@@ -126,10 +126,12 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
     private val spacingBeforeText = resources.getDimensionPixelSize(R.dimen.spacing_before_text)
     private val spacingBeforeNumberPrefix =
       resources.getDimensionPixelSize(R.dimen.spacing_before_number_prefix)
+    //subha
+   // private val spacingBeforeBullet = resources.getDimensionPixelSize(R.dimen.spacing_before_bullet)
 
     // Try to use a computed margin, but otherwise guess if there's no guaranteed spacing.
     private var computedLeadingMargin =
-      2 * longestNumberedItemPrefix.length + spacingBeforeText
+      2 * longestNumberedItemPrefix.length + spacingBeforeText + spacingBeforeNumberPrefix //subha
 
     private val isRtl by lazy {
       displayLocale.getLayoutDirection() == ViewCompat.LAYOUT_DIRECTION_RTL
