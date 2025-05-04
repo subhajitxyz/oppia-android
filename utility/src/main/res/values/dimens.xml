@@ -2,7 +2,7 @@
 <resources>
   <!-- While 3dp isn't a standard material size, it seems to be the best size to use for bullets (so that they're not too small/large). -->
 <!--  subha-->
-  <dimen name="number_radius">4sp</dimen>
+  <dimen name="number_radius">6sp</dimen>
   <dimen name="bullet_radius">3sp</dimen>
   <dimen name="bullet_y_offset">2dp</dimen>
   <!-- Space between the start of the line and the bullet in a bullet span. -->
