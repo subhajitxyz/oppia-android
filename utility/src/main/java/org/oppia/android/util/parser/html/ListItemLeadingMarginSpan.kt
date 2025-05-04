@@ -137,7 +137,7 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
 
     // Try to use a computed margin, but otherwise guess if there's no guaranteed spacing.
     private var computedLeadingMargin =
-      bulletDiameter + spacingBeforeText + spacingBeforeNumberPrefix //subha
+      spacingBeforeText + spacingBeforeNumberPrefix //subha
 
     private val isRtl by lazy {
       displayLocale.getLayoutDirection() == ViewCompat.LAYOUT_DIRECTION_RTL
