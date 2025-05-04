@@ -111,8 +111,11 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
       }
     }
 
-    override fun getLeadingMargin(first: Boolean) =
-      bulletDiameter + spacingBeforeBullet + spacingBeforeText
+    override fun getLeadingMargin(first: Boolean) :Int {
+      val x = bulletDiameter + spacingBeforeBullet + spacingBeforeText
+      Log.d("testspanul","computedLeadingMargin = $x")
+      return x
+    }
   }
 
   /** A subclass of [LeadingMarginSpan] that shows nested list span for <ol> tags. */
