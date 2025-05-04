@@ -126,12 +126,10 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
     private val spacingBeforeText = resources.getDimensionPixelSize(R.dimen.spacing_before_text)
     private val spacingBeforeNumberPrefix =
       resources.getDimensionPixelSize(R.dimen.spacing_before_number_prefix)
-    //subha
-   // private val spacingBeforeBullet = resources.getDimensionPixelSize(R.dimen.spacing_before_bullet)
 
     // Try to use a computed margin, but otherwise guess if there's no guaranteed spacing.
     private var computedLeadingMargin =
-      2 * longestNumberedItemPrefix.length + spacingBeforeText + spacingBeforeNumberPrefix //subha
+      2 * longestNumberedItemPrefix.length + spacingBeforeText
 
     private val isRtl by lazy {
       displayLocale.getLayoutDirection() == ViewCompat.LAYOUT_DIRECTION_RTL
@@ -160,20 +158,22 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
             numberedItemPrefix, /* start= */ 0, /* end= */ numberedItemPrefix.length, it
           )
         }.width()
-        val longestTextWidth = Rect().also {
-          paint.getTextBounds(
-            longestNumberedItemPrefix,
-            /* start= */ 0,
-            /* end= */ longestNumberedItemPrefix.length,
-            it
-          )
-        }.width()
-        computedLeadingMargin = longestTextWidth + spacingBeforeNumberPrefix + spacingBeforeText
+//        val longestTextWidth = Rect().also {
+//          paint.getTextBounds(
+//            longestNumberedItemPrefix,
+//            /* start= */ 0,
+//            /* end= */ longestNumberedItemPrefix.length,
+//            it
+//          )
+//        }.width()
+        //subha
+        val totalPrefixWidth = paint.measureText(longestNumberedItemPrefix)
+        computedLeadingMargin = totalPrefixWidth.toInt() + spacingBeforeNumberPrefix + spacingBeforeText
 
         // Compute the prefix's start x value such that it is right-aligned with other numbers in
         // the list.
         val indentedX = parentAbsoluteLeadingMargin + spacingBeforeNumberPrefix
-        val endAlignedX = (max(textWidth, longestTextWidth) - textWidth) + indentedX
+        val endAlignedX = (max(textWidth, totalPrefixWidth.toInt()) - textWidth) + indentedX //subha
         val prefixStartX = if (isRtl) canvas.width - endAlignedX - 1 else endAlignedX
         canvas.drawText(numberedItemPrefix, prefixStartX.toFloat(), baseline.toFloat(), paint)
       }
