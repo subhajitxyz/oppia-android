@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Typeface
 import android.text.Layout
 import android.text.Spanned
 import android.text.TextPaint
@@ -137,7 +138,9 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
 
 
 
-    val paint = TextPaint().apply {
+    //subha
+    private val paint = TextPaint().apply {
+      typeface = Typeface.SANS_SERIF
       textSize = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_SP,
         16f,
@@ -145,7 +148,13 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
       )
     }
 
-    val longestTextWidth = Rect().also {
+    private val textWidth = Rect().also {
+      paint.getTextBounds(
+        numberedItemPrefix, /* start= */ 0, /* end= */ numberedItemPrefix.length, it
+      )
+    }.width()
+
+    private val longestTextWidth = Rect().also {
       paint.getTextBounds(
         longestNumberedItemPrefix,
         /* start= */ 0,
@@ -153,6 +162,7 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
         it
       )
     }.width()
+
 
 
     // Try to use a computed margin, but otherwise guess if there's no guaranteed spacing.
@@ -181,21 +191,21 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
       val isFirstCharacter = startCharOfSpan == start
 
       if (isFirstCharacter) {
-        val textWidth = Rect().also {
-          paint.getTextBounds(
-            numberedItemPrefix, /* start= */ 0, /* end= */ numberedItemPrefix.length, it
-          )
-        }.width()
-        val longestTextWidth = Rect().also {
-          paint.getTextBounds(
-            longestNumberedItemPrefix,
-            /* start= */ 0,
-            /* end= */ longestNumberedItemPrefix.length,
-            it
-          )
-        }.width()
+//        val textWidth = Rect().also {
+//          paint.getTextBounds(
+//            numberedItemPrefix, /* start= */ 0, /* end= */ numberedItemPrefix.length, it
+//          )
+//        }.width()
+//        val longestTextWidth = Rect().also {
+//          paint.getTextBounds(
+//            longestNumberedItemPrefix,
+//            /* start= */ 0,
+//            /* end= */ longestNumberedItemPrefix.length,
+//            it
+//          )
+//        }.width()
 
-        computedLeadingMargin = longestTextWidth + spacingBeforeNumberPrefix + spacingBeforeText
+        //computedLeadingMargin = longestTextWidth + spacingBeforeNumberPrefix + spacingBeforeText
 
         // Compute the prefix's start x value such that it is right-aligned with other numbers in
         // the list.
