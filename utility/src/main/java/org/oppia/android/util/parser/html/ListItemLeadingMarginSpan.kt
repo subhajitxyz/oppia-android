@@ -12,7 +12,6 @@ import android.text.TextPaint
 import android.text.style.LeadingMarginSpan
 import android.util.Log
 import android.util.TypedValue
-import android.view.View
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import org.oppia.android.util.R
@@ -129,7 +128,8 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
     context: Context,
     private val numberedItemPrefix: String,
     private val longestNumberedItemPrefix: String,
-    private val displayLocale: OppiaLocale.DisplayLocale
+    private val displayLocale: OppiaLocale.DisplayLocale,
+    private val textView: TextView? = null //subha
   ) : ListItemLeadingMarginSpan() {
     private val resources = context.resources
     private val spacingBeforeText = resources.getDimensionPixelSize(R.dimen.spacing_before_text)
@@ -138,24 +138,26 @@ sealed class ListItemLeadingMarginSpan : LeadingMarginSpan {
 
 
 
+    private val paint = textView?.paint
     //subha
-    private val paint = TextPaint().apply {
-      typeface = Typeface.SANS_SERIF
-      textSize = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_SP,
-        16f,
-        context.resources.displayMetrics
-      )
-    }
+//    private val paint = TextPaint().apply {
+//      typeface = Typeface.SANS_SERIF
+//      textSize = TypedValue.applyDimension(
+//        TypedValue.COMPLEX_UNIT_SP,
+//        16f,
+//        context.resources.displayMetrics
+//      )
+//    }
 
+    //paint will be null when , it calls form viewmodel for contentdescription.
     private val textWidth = Rect().also {
-      paint.getTextBounds(
+      paint?.getTextBounds(
         numberedItemPrefix, /* start= */ 0, /* end= */ numberedItemPrefix.length, it
       )
     }.width()
 
     private val longestTextWidth = Rect().also {
-      paint.getTextBounds(
+      paint?.getTextBounds(
         longestNumberedItemPrefix,
         /* start= */ 0,
         /* end= */ longestNumberedItemPrefix.length,

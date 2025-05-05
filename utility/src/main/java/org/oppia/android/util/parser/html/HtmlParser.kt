@@ -130,10 +130,12 @@ class HtmlParser private constructor(
       imageCenterAlign
     )
 
+    //subha
     val htmlSpannable = CustomHtmlContentHandler.fromHtml(
       htmlContent,
       imageGetter,
-      computeCustomTagHandlers(supportsConceptCards, htmlContentTextView)
+      computeCustomTagHandlers(supportsConceptCards, htmlContentTextView),
+      htmlContentTextView
     )
 
     val urlPattern = Patterns.WEB_URL
