@@ -702,7 +702,7 @@ class DeveloperOptionsFragmentTest {
 
   @Test
   fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded_Chatgpt() {
-    Intents.init() // If not already handled by @RunOn
+   // Intents.init() // If not already handled by @RunOn
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
     ).use {
@@ -730,7 +730,7 @@ class DeveloperOptionsFragmentTest {
       intended(hasComponent(HomeActivity::class.java.name))
       intended(IntentMatchers.hasExtraWithKey(PROFILE_ID_INTENT_DECORATOR))
     }
-    Intents.release()
+   // Intents.release()
   }
 
 
