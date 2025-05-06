@@ -707,66 +707,73 @@ class DeveloperOptionsFragmentTest {
       scrollToPosition(position = 4)
       onView(withId(R.id.add_three_profiles_text_view)).perform(click())
       testCoroutineDispatchers.runCurrent()
+    }
 
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
+    intended(hasComponent(ProfileChooserActivity::class.java.name))
 
-      //launch(ProfileChooserActivity::class.java).use {
-      launch<ProfileChooserActivity>(createProfileChooserActivityIntent()).use {
-        testCoroutineDispatchers.runCurrent()
+    //launch(ProfileChooserActivity::class.java).use {
+    launch<ProfileChooserActivity>(createProfileChooserActivityIntent()).use {
+      testCoroutineDispatchers.runCurrent()
 
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
+      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+      onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
 
-        onView(withId(R.id.profile_recycler_view)).perform(
-          scrollToPosition<ViewHolder>(
-            0
-          )
+      onView(withId(R.id.profile_recycler_view)).perform(
+        scrollToPosition<ViewHolder>(
+          0
         )
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
-        )
+      )
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 0,
+        targetView = R.id.profile_name_text,
+        stringToMatch = "Admin"
+      )
 
-        onView(withId(R.id.profile_recycler_view)).perform(
-          scrollToPosition<ViewHolder>(
-            4
-          )
+      onView(withId(R.id.profile_recycler_view)).perform(
+        scrollToPosition<ViewHolder>(
+          4
         )
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 4,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
-        )
+      )
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 4,
+        targetView = R.id.add_profile_text,
+        stringToMatch = context.getString(R.string.profile_chooser_add)
+      )
 
-        // Click the first profile
-        onView(withId(R.id.profile_recycler_view))
-          .perform(scrollToPosition<ViewHolder>(0))
-          .perform(click())
+      // Click the first profile
+      onView(withId(R.id.profile_recycler_view))
+        .perform(scrollToPosition<ViewHolder>(0))
+        .perform(click())
 
-        testCoroutineDispatchers.runCurrent()
+      testCoroutineDispatchers.runCurrent()
+    }
+
+
+    intended(hasComponent(HomeActivity::class.java.name))
+
+    val homeScenario =
+      ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
+
+    homeScenario.use {
+      onView(withContentDescription(R.string.drawer_open_content_description))
+        .check(matches(isCompletelyDisplayed()))
+        .perform(click())
+
+      testCoroutineDispatchers.runCurrent()
+
+      it.onActivity { activity ->
+        val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+        drawerLayout.computeScroll()
       }
 
+      onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
+      onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+      //there can be problem to show developer options
+      onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
 
-      intended(hasComponent(HomeActivity::class.java.name))
-
-      val homeScenario =
-        ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
-
-      homeScenario.use {
-        onView(withContentDescription(R.string.drawer_open_content_description))
-          .check(matches(isCompletelyDisplayed()))
-          .perform(click())
-
-        testCoroutineDispatchers.runCurrent()
-
-        it.onActivity { activity ->
-          val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-          drawerLayout.computeScroll()
-        }
-
-        onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
-      }
+      // Click developer options
+      onView(withId(R.id.developer_options_linear_layout)).perform(click())
+    }
 
       //}
 
@@ -805,12 +812,7 @@ class DeveloperOptionsFragmentTest {
 //
 //      onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
 //    }
-      onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
-      //there can be problem to show developer options
-      onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
 
-      // Click developer options
-      onView(withId(R.id.developer_options_linear_layout)).perform(click())
 
       testCoroutineDispatchers.runCurrent()
       intended(hasComponent(DeveloperOptionsActivity::class.java.name))
@@ -825,7 +827,7 @@ class DeveloperOptionsFragmentTest {
         onView(withId(R.id.show_profile_count))
           .check(matches(ViewMatchers.withText("4")))
       }
-    }
+
   }
 
   //subha
