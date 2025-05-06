@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -125,8 +126,10 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.mockito.ArgumentCaptor
 import org.oppia.android.app.classroom.ClassroomListActivity
 import org.oppia.android.app.home.HomeActivity
+import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.recyclerview.RecyclerViewMatcher
 
 /** Tests for [DeveloperOptionsFragment]. */
@@ -686,6 +689,11 @@ class DeveloperOptionsFragmentTest {
 //    }
 //  }
 
+  private fun createHomeActivityIntent(internalProfileId: Int): Intent {
+    val profileId = ProfileId.newBuilder().setInternalId(internalProfileId).build()
+    return HomeActivity.createHomeActivity(context, profileId)
+  }
+
   @Test
   fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
     launch<DeveloperOptionsTestActivity>(
@@ -700,7 +708,7 @@ class DeveloperOptionsFragmentTest {
 
     intended(hasComponent(ProfileChooserActivity::class.java.name))
 
-    //launch(ProfileChooserActivity::class.java).use {
+    launch(ProfileChooserActivity::class.java).use {
       testCoroutineDispatchers.runCurrent()
 
       onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
@@ -734,7 +742,7 @@ class DeveloperOptionsFragmentTest {
         .perform(click())
 
       testCoroutineDispatchers.runCurrent()
-
+    }
 
     //}
 
@@ -757,7 +765,10 @@ class DeveloperOptionsFragmentTest {
 //      onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
 
 
-    val homeScenario = launch(HomeActivity::class.java)
+
+// Manually launch HomeActivity using the captured intent
+    val homeScenario = ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
+
     homeScenario.use {
       onView(withContentDescription(R.string.drawer_open_content_description))
         .check(matches(isCompletelyDisplayed()))
