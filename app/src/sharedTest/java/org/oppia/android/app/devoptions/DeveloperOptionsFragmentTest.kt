@@ -711,7 +711,7 @@ class DeveloperOptionsFragmentTest {
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
       //launch(ProfileChooserActivity::class.java).use {
-      launch<ProfileChooserActivity>(createProfileChooserActivityIntent())
+      launch<ProfileChooserActivity>(createProfileChooserActivityIntent()).use {
         testCoroutineDispatchers.runCurrent()
 
         onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
@@ -750,7 +750,8 @@ class DeveloperOptionsFragmentTest {
 
       intended(hasComponent(HomeActivity::class.java.name))
 
-      val homeScenario = ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
+      val homeScenario =
+        ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
 
       homeScenario.use {
         onView(withContentDescription(R.string.drawer_open_content_description))
@@ -766,15 +767,12 @@ class DeveloperOptionsFragmentTest {
 
         onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
       }
-    }
 
+      //}
 
+      //intended(hasComponent(HomeActivity::class.java.name))
 
-    //}
-
-    intended(hasComponent(HomeActivity::class.java.name))
-
-    //launch(HomeActivity::class.java).use { homeScenario ->
+      //launch(HomeActivity::class.java).use { homeScenario ->
 
 //      onView(withContentDescription(R.string.drawer_open_content_description))
 //        .check(matches(isCompletelyDisplayed()))
@@ -790,27 +788,23 @@ class DeveloperOptionsFragmentTest {
 //      testCoroutineDispatchers.runCurrent()
 //      onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
 
-
-
 // Manually launch HomeActivity using the captured intent
-    val homeScenario = ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
-
-    homeScenario.use {
-      onView(withContentDescription(R.string.drawer_open_content_description))
-        .check(matches(isCompletelyDisplayed()))
-        .perform(click())
-
-      testCoroutineDispatchers.runCurrent()
-
-      it.onActivity { activity ->
-        val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-        drawerLayout.computeScroll()
-      }
-
-      onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
-    }
-
-
+//    val homeScenario = ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
+//
+//    homeScenario.use {
+//      onView(withContentDescription(R.string.drawer_open_content_description))
+//        .check(matches(isCompletelyDisplayed()))
+//        .perform(click())
+//
+//      testCoroutineDispatchers.runCurrent()
+//
+//      it.onActivity { activity ->
+//        val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+//        drawerLayout.computeScroll()
+//      }
+//
+//      onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
+//    }
       onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
       //there can be problem to show developer options
       onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
@@ -831,7 +825,7 @@ class DeveloperOptionsFragmentTest {
         onView(withId(R.id.show_profile_count))
           .check(matches(ViewMatchers.withText("4")))
       }
-   // }
+    }
   }
 
   //subha
