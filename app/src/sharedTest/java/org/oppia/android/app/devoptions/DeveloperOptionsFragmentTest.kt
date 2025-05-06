@@ -743,7 +743,7 @@ class DeveloperOptionsFragmentTest {
       }
 
 
-      intended(hasComponent(HomeActivity::class.java.name))
+      intended(hasComponent(ClassroomListActivity::class.java.name))
 
       val homeScenario = ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
 
