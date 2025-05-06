@@ -709,31 +709,31 @@ class DeveloperOptionsFragmentTest {
       scrollToPosition(position = 4)
       onView(withId(R.id.add_three_profiles_text_view)).perform(click())
       testCoroutineDispatchers.runCurrent()
-    }
-
-    intended(hasComponent(ProfileChooserActivity::class.java.name))
-
-    //launch(ProfileChooserActivity::class.java).use {
-    launch<ProfileChooserActivity>(createProfileChooserActivityIntent()).use {
-      testCoroutineDispatchers.runCurrent()
-
-      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-      onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
 
 
-      // Click the first profile
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
 
-      onView(
-        atPositionOnView(
-          recyclerViewId = R.id.profile_recycler_view,
-          position = 0,
-          targetViewId = R.id.profile_chooser_item
-        )
-      ).perform(click())
-      intended(hasComponent(HomeActivity::class.java.name))
-      IntentMatchers.hasExtraWithKey(PROFILE_ID_INTENT_DECORATOR)
+      //launch(ProfileChooserActivity::class.java).use {
+      launch<ProfileChooserActivity>(createProfileChooserActivityIntent()).use {
+        testCoroutineDispatchers.runCurrent()
 
-      testCoroutineDispatchers.runCurrent()
+        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
+
+        // Click the first profile
+
+        onView(
+          atPositionOnView(
+            recyclerViewId = R.id.profile_recycler_view,
+            position = 0,
+            targetViewId = R.id.profile_chooser_item
+          )
+        ).perform(click())
+        intended(hasComponent(HomeActivity::class.java.name))
+        IntentMatchers.hasExtraWithKey(PROFILE_ID_INTENT_DECORATOR)
+
+        testCoroutineDispatchers.runCurrent()
+      }
     }
 
 
