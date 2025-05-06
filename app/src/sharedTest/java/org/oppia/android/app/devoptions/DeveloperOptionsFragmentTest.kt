@@ -749,6 +749,8 @@ class DeveloperOptionsFragmentTest {
     }
 
 
+    intended(hasComponent(ProfileChooserActivity::class.java.name))
+
     intended(hasComponent(HomeActivity::class.java.name))
 
     val homeScenario =
