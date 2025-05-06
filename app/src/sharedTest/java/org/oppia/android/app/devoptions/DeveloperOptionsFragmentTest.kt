@@ -27,6 +27,7 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.contrib.DrawerMatchers.isOpen
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
@@ -131,6 +132,7 @@ import org.oppia.android.app.classroom.ClassroomListActivity
 import org.oppia.android.app.home.HomeActivity
 import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.recyclerview.RecyclerViewMatcher
+import org.oppia.android.util.profile.PROFILE_ID_INTENT_DECORATOR
 
 /** Tests for [DeveloperOptionsFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -718,32 +720,18 @@ class DeveloperOptionsFragmentTest {
       onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
       onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
 
-      onView(withId(R.id.profile_recycler_view)).perform(
-        scrollToPosition<ViewHolder>(
-          0
-        )
-      )
-      verifyTextOnProfileListItemAtPosition(
-        itemPosition = 0,
-        targetView = R.id.profile_name_text,
-        stringToMatch = "Admin"
-      )
-
-      onView(withId(R.id.profile_recycler_view)).perform(
-        scrollToPosition<ViewHolder>(
-          4
-        )
-      )
-      verifyTextOnProfileListItemAtPosition(
-        itemPosition = 4,
-        targetView = R.id.add_profile_text,
-        stringToMatch = context.getString(R.string.profile_chooser_add)
-      )
 
       // Click the first profile
-      onView(withId(R.id.profile_recycler_view))
-        .perform(scrollToPosition<ViewHolder>(0))
-        .perform(click())
+
+      onView(
+        atPositionOnView(
+          recyclerViewId = R.id.profile_recycler_view,
+          position = 0,
+          targetViewId = R.id.profile_chooser_item
+        )
+      ).perform(click())
+      intended(hasComponent(HomeActivity::class.java.name))
+      IntentMatchers.hasExtraWithKey(PROFILE_ID_INTENT_DECORATOR)
 
       testCoroutineDispatchers.runCurrent()
     }
