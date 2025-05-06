@@ -746,6 +746,16 @@ class DeveloperOptionsFragmentTest {
           homeScenario.onActivity { activity ->
             val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
             drawerLayout.computeScroll()
+
+            //testing
+            onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
+
+            onView(withId(R.id.drawer_nested_scroll_view)).perform(ViewActions.swipeUp())
+            //there can be problem to show developer options
+            onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
+
+            // Click developer options
+            onView(withId(R.id.developer_options_linear_layout)).perform(click())
           }
           testCoroutineDispatchers.runCurrent()
           onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
