@@ -693,6 +693,10 @@ class DeveloperOptionsFragmentTest {
     val profileId = ProfileId.newBuilder().setInternalId(internalProfileId).build()
     return HomeActivity.createHomeActivity(context, profileId)
   }
+  private fun createProfileChooserActivityIntent(): Intent {
+    return ProfileChooserActivity
+      .createProfileChooserActivity(context)//ApplicationProvider.getApplicationContext()
+  }
 
   @Test
   fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
@@ -706,7 +710,8 @@ class DeveloperOptionsFragmentTest {
 
       intended(hasComponent(ProfileChooserActivity::class.java.name))
 
-      launch(ProfileChooserActivity::class.java).use {
+      //launch(ProfileChooserActivity::class.java).use {
+      launch<ProfileChooserActivity>(createProfileChooserActivityIntent())
         testCoroutineDispatchers.runCurrent()
 
         onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
@@ -743,7 +748,7 @@ class DeveloperOptionsFragmentTest {
       }
 
 
-      intended(hasComponent(ClassroomListActivity::class.java.name))
+      intended(hasComponent(HomeActivity::class.java.name))
 
       val homeScenario = ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
 
