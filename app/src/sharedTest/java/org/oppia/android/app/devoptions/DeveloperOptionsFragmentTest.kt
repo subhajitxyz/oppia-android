@@ -696,45 +696,46 @@ class DeveloperOptionsFragmentTest {
       onView(withId(R.id.add_three_profiles_text_view)).perform(click())
       testCoroutineDispatchers.runCurrent()
 
-      intended(hasComponent(ProfileChooserActivity::class.java.name))
+    }
 
-      launch(ProfileChooserActivity::class.java).use {
-        testCoroutineDispatchers.runCurrent()
+    intended(hasComponent(ProfileChooserActivity::class.java.name))
 
-        onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
+    launch(ProfileChooserActivity::class.java).use {
+      testCoroutineDispatchers.runCurrent()
 
-        onView(withId(R.id.profile_recycler_view)).perform(
-          scrollToPosition<ViewHolder>(
-            0
-          )
+      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+      onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
+
+      onView(withId(R.id.profile_recycler_view)).perform(
+        scrollToPosition<ViewHolder>(
+          0
         )
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 0,
-          targetView = R.id.profile_name_text,
-          stringToMatch = "Admin"
+      )
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 0,
+        targetView = R.id.profile_name_text,
+        stringToMatch = "Admin"
+      )
+
+      onView(withId(R.id.profile_recycler_view)).perform(
+        scrollToPosition<ViewHolder>(
+          4
         )
+      )
+      verifyTextOnProfileListItemAtPosition(
+        itemPosition = 4,
+        targetView = R.id.add_profile_text,
+        stringToMatch = context.getString(R.string.profile_chooser_add)
+      )
 
-        onView(withId(R.id.profile_recycler_view)).perform(
-          scrollToPosition<ViewHolder>(
-            4
-          )
-        )
-        verifyTextOnProfileListItemAtPosition(
-          itemPosition = 4,
-          targetView = R.id.add_profile_text,
-          stringToMatch = context.getString(R.string.profile_chooser_add)
-        )
+      // Click the first profile
+      onView(withId(R.id.profile_recycler_view))
+        .perform(scrollToPosition<ViewHolder>(0))
+        .perform(click())
 
-        // Click the first profile
-        onView(withId(R.id.profile_recycler_view))
-          .perform(scrollToPosition<ViewHolder>(0))
-          .perform(click())
-
-        testCoroutineDispatchers.runCurrent()
+      testCoroutineDispatchers.runCurrent()
 
 
-      }
     }
 
     intended(hasComponent(HomeActivity::class.java.name))
