@@ -701,6 +701,40 @@ class DeveloperOptionsFragmentTest {
   }
 
   @Test
+  fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded_Chatgpt() {
+    Intents.init() // If not already handled by @RunOn
+    launch<DeveloperOptionsTestActivity>(
+      createDeveloperOptionsTestActivityIntent(internalProfileId)
+    ).use {
+      testCoroutineDispatchers.runCurrent()
+      scrollToPosition(position = 4)
+      onView(withId(R.id.add_three_profiles_text_view)).perform(click())
+      testCoroutineDispatchers.runCurrent()
+
+      // At this point, ProfileChooserActivity is expected to be launched by an intent
+      intended(hasComponent(ProfileChooserActivity::class.java.name))
+
+      // Continue by interacting with the UI that results from that intent
+      onView(withId(R.id.profile_recycler_view)).check(matches(isDisplayed()))
+      onView(withId(R.id.profile_recycler_view)).check(RecyclerViewMatcher.hasItemCount(count = 5))
+
+      onView(
+        atPositionOnView(
+          recyclerViewId = R.id.profile_recycler_view,
+          position = 0,
+          targetViewId = R.id.profile_chooser_item
+        )
+      ).perform(click())
+
+      // This is the actual intent triggered by that click
+      intended(hasComponent(HomeActivity::class.java.name))
+      intended(IntentMatchers.hasExtraWithKey(PROFILE_ID_INTENT_DECORATOR))
+    }
+    Intents.release()
+  }
+
+
+  @Test
   fun testDeveloperOptions_clickAddThreeProfiles_checksThreeProfilesAreAdded() {
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
