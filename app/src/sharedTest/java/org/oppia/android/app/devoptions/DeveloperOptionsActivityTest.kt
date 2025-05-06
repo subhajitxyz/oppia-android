@@ -23,6 +23,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.DrawerMatchers
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -216,6 +217,8 @@ class DeveloperOptionsActivityTest {
   }
 
   //subha
+
+  //subha
   @Test
   fun testDeveloperOptions_profileCount() {
     launch<DeveloperOptionsActivity>(
@@ -258,7 +261,7 @@ class DeveloperOptionsActivityTest {
 
         // Click the first profile
         onView(withId(R.id.profile_recycler_view))
-          .perform(scrollToPosition<RecyclerView.ViewHolder>(1))
+          .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
           .perform(click())
 
         testCoroutineDispatchers.runCurrent()
@@ -266,27 +269,22 @@ class DeveloperOptionsActivityTest {
 
 
         launch(HomeActivity::class.java).use { homeScenario ->
-          homeScenario.openNavigationDrawer()
-          testCoroutineDispatchers.runCurrent()
 
-          // Open the navigation drawer
           onView(withContentDescription(R.string.drawer_open_content_description))
             .check(matches(isCompletelyDisplayed()))
             .perform(click())
+          testCoroutineDispatchers.runCurrent()
 
-          homeScenario.onActivity { activity ->
+          // Open the navigation drawer
+         homeScenario.onActivity { activity ->
             val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
-            drawerLayout.openDrawer(GravityCompat.START)
             drawerLayout.computeScroll()
           }
           testCoroutineDispatchers.runCurrent()
-
-          //homeScenario.openNavigationDrawer()
-
-          onView(withId(R.id.home_fragment_placeholder)).check(matches(isCompletelyDisplayed()))
+          onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
 
           onView(withId(R.id.drawer_nested_scroll_view)).perform(swipeUp())
-
+          //there can be problem to show developer options
           onView(withId(R.id.developer_options_linear_layout)).check(matches(isDisplayed()))
 
           // Click developer options

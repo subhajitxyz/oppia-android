@@ -724,7 +724,7 @@ class DeveloperOptionsFragmentTest {
 
   //subha
   @Test
-  fun mytest() {
+  fun mytest_toCheckProfileCount() {
     launch<DeveloperOptionsTestActivity>(
       createDeveloperOptionsTestActivityIntent(internalProfileId)
     ).use { scenario ->
