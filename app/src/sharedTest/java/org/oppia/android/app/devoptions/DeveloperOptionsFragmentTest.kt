@@ -741,6 +741,26 @@ class DeveloperOptionsFragmentTest {
 
         testCoroutineDispatchers.runCurrent()
       }
+
+
+      intended(hasComponent(HomeActivity::class.java.name))
+
+      val homeScenario = ActivityScenario.launch<HomeActivity>(createHomeActivityIntent(internalProfileId))
+
+      homeScenario.use {
+        onView(withContentDescription(R.string.drawer_open_content_description))
+          .check(matches(isCompletelyDisplayed()))
+          .perform(click())
+
+        testCoroutineDispatchers.runCurrent()
+
+        it.onActivity { activity ->
+          val drawerLayout = activity.findViewById<DrawerLayout>(R.id.home_activity_drawer_layout)
+          drawerLayout.computeScroll()
+        }
+
+        onView(withId(R.id.home_activity_drawer_layout)).check(matches(DrawerMatchers.isOpen()))
+      }
     }
 
 
