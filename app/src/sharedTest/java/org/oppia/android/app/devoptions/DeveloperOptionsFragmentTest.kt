@@ -697,7 +697,7 @@ class DeveloperOptionsFragmentTest {
   }
   private fun createProfileChooserActivityIntent(): Intent {
     return ProfileChooserActivity
-      .createProfileChooserActivity(context)//ApplicationProvider.getApplicationContext()
+      .createProfileChooserActivity(ApplicationProvider.getApplicationContext())//ApplicationProvider.getApplicationContext()
   }
 
   @Test
