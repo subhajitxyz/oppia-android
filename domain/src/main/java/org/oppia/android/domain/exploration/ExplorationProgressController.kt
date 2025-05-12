@@ -1113,9 +1113,10 @@ class ExplorationProgressController @Inject constructor(
 //    return true
 //  }
   private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState {
-   Log.d("testnewstate", "${explorationProgress.stateGraph.getState("Final Test").name}")
+    val state = explorationProgress.stateDeck.getPendingTopState()
+   Log.d("testnewstate", "${state.name}")
     return EphemeralState.newBuilder()
-      .setState(explorationProgress.stateGraph.getState("Final Test"))
+      .setState(state)
       .setHasPreviousState(false)
       .setPendingState(
         PendingState.getDefaultInstance()
