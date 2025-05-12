@@ -1138,6 +1138,7 @@ class ExplorationProgressController @Inject constructor(
       .setPendingState(
         PendingState.getDefaultInstance()
       )
+      .setCheckpointState(explorationProgress.checkpointState)
       .build()
   }
 
