@@ -883,11 +883,11 @@ class ExplorationProgressController @Inject constructor(
       check(explorationProgress.playStage != SUBMITTING_ANSWER) {
         "Cannot navigate to a previous state if an answer submission is pending."
       }
-      hintHandler.navigateToPreviousState()
-      explorationProgress.stateDeck.navigateToPreviousState()
+//      hintHandler.navigateToPreviousState()
+//      explorationProgress.stateDeck.navigateToPreviousState()
 
       //subha test
-     // explorationProgress.advancePlayStageTo(FLASHBACK_VIEWING_STATE)
+      explorationProgress.advancePlayStageTo(FLASHBACK_VIEWING_STATE)
     }
   }
 
@@ -1112,22 +1112,13 @@ class ExplorationProgressController @Inject constructor(
 //    explorationProgress.checkFlashBack()
 //    return true
 //  }
-  private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState {
-    val state = explorationProgress.stateDeck.getPendingTopState()
-   Log.d("testnewstate", "${state.name}")
-    return EphemeralState.newBuilder()
-      .setState(state)
-      .setHasPreviousState(false)
-      .setPendingState(
-        PendingState.getDefaultInstance()
-      )
-      .build()
-  }
-//    explorationProgress.stateDeck.getCurrentEphemeralState(
-//      retrieveCurrentHelpIndex(),
-//      startSessionTimeMs + continueButtonAnimationDelay,
-//      isContinueButtonAnimationSeen
-//    )
+  private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState =
+
+    explorationProgress.stateDeck.getCurrentEphemeralState(
+      retrieveCurrentHelpIndex(),
+      startSessionTimeMs + continueButtonAnimationDelay,
+      isContinueButtonAnimationSeen
+    )
 
   private fun ControllerState.computeCurrentEphemeralState(): EphemeralState {
     return computeBaseCurrentEphemeralState().toBuilder().apply {
@@ -1139,8 +1130,8 @@ class ExplorationProgressController @Inject constructor(
   //subha test
   private fun ControllerState.computeCurrentFlashbackState(): EphemeralState {
 
-    //get state name form statedeck
-    val state = explorationProgress.stateGraph.getState("Final Test")
+    val state = explorationProgress.stateDeck.getPendingTopState()
+    Log.d("testnewstate", "${state.name}")
     return EphemeralState.newBuilder()
       .setState(state)
       .setHasPreviousState(false)
