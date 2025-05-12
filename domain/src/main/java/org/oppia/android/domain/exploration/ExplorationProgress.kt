@@ -84,6 +84,11 @@ internal class ExplorationProgress {
         }
         playStage = nextPlayStage
       }
+
+      //subha test
+      PlayStage.FLASHBACK_VIEWING_STATE -> {
+        playStage = nextPlayStage
+      }
     }
   }
 
@@ -116,7 +121,10 @@ internal class ExplorationProgress {
     VIEWING_STATE,
 
     /** The controller is in the process of submitting an answer. */
-    SUBMITTING_ANSWER
+    SUBMITTING_ANSWER,
+
+    //subha test
+    FLASHBACK_VIEWING_STATE
   }
 
   /**

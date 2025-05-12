@@ -55,6 +55,8 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.model.PendingState
+import org.oppia.android.domain.exploration.ExplorationProgress.PlayStage.FLASHBACK_VIEWING_STATE
 
 private const val BEGIN_EXPLORATION_RESULT_PROVIDER_ID =
   "ExplorationProgressController.begin_exploration_result"
@@ -881,8 +883,11 @@ class ExplorationProgressController @Inject constructor(
       check(explorationProgress.playStage != SUBMITTING_ANSWER) {
         "Cannot navigate to a previous state if an answer submission is pending."
       }
-      hintHandler.navigateToPreviousState()
-      explorationProgress.stateDeck.navigateToPreviousState()
+//      hintHandler.navigateToPreviousState()
+//      explorationProgress.stateDeck.navigateToPreviousState()
+//
+      //subha test
+      explorationProgress.advancePlayStageTo(FLASHBACK_VIEWING_STATE)
     }
   }
 
@@ -899,6 +904,7 @@ class ExplorationProgressController @Inject constructor(
       check(explorationProgress.playStage != SUBMITTING_ANSWER) {
         "Cannot navigate to a next state if an answer submission is pending."
       }
+
       explorationProgress.stateDeck.navigateToNextState()
 
       if (explorationProgress.stateDeck.isCurrentStateTopOfDeck()) {
@@ -1052,6 +1058,8 @@ class ExplorationProgressController @Inject constructor(
       }
       VIEWING_STATE -> AsyncResult.Success(computeCurrentEphemeralState())
       SUBMITTING_ANSWER -> AsyncResult.Pending()
+      //subha test
+      FLASHBACK_VIEWING_STATE -> AsyncResult.Success(computeCurrentFlashbackState())
     }
   }
 
@@ -1116,6 +1124,20 @@ class ExplorationProgressController @Inject constructor(
       // Ensure that the state has an up-to-date checkpoint state.
       checkpointState = explorationProgress.checkpointState
     }.build()
+  }
+
+  //subha test
+  private fun ControllerState.computeCurrentFlashbackState(): EphemeralState {
+
+    //get state name form statedeck
+    val state = explorationProgress.stateGraph.getState("Final Test")
+    return EphemeralState.newBuilder()
+      .setState(state)
+      .setHasPreviousState(false)
+      .setPendingState(
+        PendingState.getDefaultInstance()
+      )
+      .build()
   }
 
   private fun ControllerState.retrieveCurrentHelpIndex(): HelpIndex =
