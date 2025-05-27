@@ -14,7 +14,6 @@ android_sdk_repository(
     name = "androidsdk",
     api_level = BUILD_SDK_VERSION,
     build_tools_version = BUILD_TOOLS_VERSION,
-    path="/home/subhajitmallick/Android/Sdk"
 )
 
 # The rules_java contains the java_lite_proto_library rule used in the model module.
