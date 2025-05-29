@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -698,15 +699,29 @@ class ExplorationProgressController @Inject constructor(
         val ephemeralState = computeBaseCurrentEphemeralState()
         when {
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
-            endState()
-            val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
-            explorationProgress.stateDeck.pushState(
-              newState,
-              prohibitSameStateName = true,
-              timestamp = startSessionTimeMs + continueButtonAnimationDelay,
-              isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
-            )
-            hintHandler.finishState(newState)
+
+            val wasVisited = explorationProgress.stateDeck.wasStateVisitedBefore(answerOutcome.stateName)
+            // Checks whether Learner submits wrong answer and destination state name was
+            // visited by Learner previously.
+            if (!doesInteractionAutoContinue(answerOutcome.state.interaction.id) && !answerOutcome.labelledAsCorrectAnswer && wasVisited) {
+
+              Log.d("subhatest", "Condition fulfill")
+              // Build an AnswerAndResponse instance with the destination state name.
+              // Call setFlashbackState() in StateDeck which add this
+              // AnswerAndResponse in currentDialogInteractions.
+              explorationProgress.stateDeck.updateAnswerAndResponse(answerOutcome.stateName)
+
+            } else {
+              endState()
+              val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
+              explorationProgress.stateDeck.pushState(
+                newState,
+                prohibitSameStateName = true,
+                timestamp = startSessionTimeMs + continueButtonAnimationDelay,
+                isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
+              )
+              hintHandler.finishState(newState)
+            }
           }
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             // Schedule, or show immediately, a new hint or solution based on the current

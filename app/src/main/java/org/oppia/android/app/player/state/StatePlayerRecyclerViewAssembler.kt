@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -24,6 +25,7 @@ import org.oppia.android.app.databinding.databinding.ContinueInteractionItemBind
 import org.oppia.android.app.databinding.databinding.ContinueNavigationButtonItemBinding
 import org.oppia.android.app.databinding.databinding.DragDropInteractionItemBinding
 import org.oppia.android.app.databinding.databinding.FeedbackItemBinding
+import org.oppia.android.app.databinding.databinding.FlashbackButtonItemBinding
 import org.oppia.android.app.databinding.databinding.FractionInteractionItemBinding
 import org.oppia.android.app.databinding.databinding.ImageRegionSelectionInteractionItemBinding
 import org.oppia.android.app.databinding.databinding.MathExpressionInteractionsItemBinding
@@ -62,6 +64,7 @@ import org.oppia.android.app.player.state.itemviewmodel.ContinueInteractionViewM
 import org.oppia.android.app.player.state.itemviewmodel.ContinueNavigationButtonViewModel
 import org.oppia.android.app.player.state.itemviewmodel.DragAndDropSortInteractionViewModel
 import org.oppia.android.app.player.state.itemviewmodel.FeedbackViewModel
+import org.oppia.android.app.player.state.itemviewmodel.FlashbackButtonViewModel
 import org.oppia.android.app.player.state.itemviewmodel.FractionInteractionViewModel
 import org.oppia.android.app.player.state.itemviewmodel.ImageRegionSelectionInteractionViewModel
 import org.oppia.android.app.player.state.itemviewmodel.MathExpressionInteractionsViewModel
@@ -107,7 +110,6 @@ import org.oppia.android.util.parser.html.LiTagHandler
 import org.oppia.android.util.parser.html.MathTagHandler
 import org.oppia.android.util.threading.BackgroundDispatcher
 import javax.inject.Inject
-import org.oppia.android.app.player.state.itemviewmodel.FlashbackButtonViewModel
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -234,6 +236,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
   ): Pair<List<StateItemViewModel>, List<StateItemViewModel>> {
     this.isSplitView.set(isSplitView)
 
+    //subha
+    var hasFlashbackButton = false
+    var flashbackStateName: String? = null
+
     val hasPreviousState = ephemeralState.hasPreviousState
     previousAnswerViewModels.clear()
     val conversationPendingItemList = mutableListOf<StateItemViewModel>()
@@ -244,6 +250,26 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val interaction = ephemeralState.state.interaction
 
     if (ephemeralState.stateTypeCase == StateTypeCase.PENDING_STATE) {
+
+      //subha
+//      val answerlist = ephemeralState.pendingState.wrongAnswerList
+//      val lastidx = answerlist.isNotEmpty().lastidx
+//      hasFlashbackButton =
+//        ephemeralState.pendingState.wrongAnswerList[lastidx].stateNameToRevisit.isNotEmpty()
+      val answer = ephemeralState.pendingState.wrongAnswerList.lastOrNull()
+      hasFlashbackButton = answer?.stateNameToRevisit?.isNotEmpty() == true
+      flashbackStateName = answer?.stateNameToRevisit
+
+      Log.d("subhatest","{$hasFlashbackButton}")
+      Log.d("subhatest","{$flashbackStateName}")
+
+      if(flashbackStateName.isNullOrBlank()) {
+        Log.d("subhatest","flashback is nullor blank")
+      }
+      if(flashbackStateName.isNullOrEmpty()) {
+        Log.d("subhatest","flashback is nullor empty")
+      }
+
       if (playerFeatureSet.hintsAndSolutionsSupport) {
         (fragment as ShowHintAvailabilityListener).onHintAvailable(
           ephemeralState.pendingState.helpIndex,
@@ -330,8 +356,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
       maybeShowCelebrationForEndOfSession()
     }
 
-      //subha
-    val hasFlashbackButton: Boolean = ephemeralState.pendingState.wrongAnswerList[lastidx].stateNameToRevisit !=stateNameToRevisit.getDefaultINstance
     maybeAddNavigationButtons(
       conversationPendingItemList,
       extraInteractionPendingItemList,
@@ -340,7 +364,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
       hasGeneralContinueButton,
       isTerminalState,
       shouldAnimateContinueButton = ephemeralState.showContinueButtonAnimation,
-      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs
+      continueButtonAnimationTimestampMs = ephemeralState.continueButtonAnimationTimestampMs,
+      hasFlashbackButton,
+      flashbackStateName
     )
     return Pair(conversationPendingItemList, extraInteractionPendingItemList)
   }
@@ -648,7 +674,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
     hasGeneralContinueButton: Boolean,
     stateIsTerminal: Boolean,
     shouldAnimateContinueButton: Boolean,
-    continueButtonAnimationTimestampMs: Long
+    continueButtonAnimationTimestampMs: Long,
+    hasFlashbackButton: Boolean,
+    flashbackStateName: String?
   ) {
     val hasPreviousButton = playerFeatureSet.backwardNavigation && hasPreviousState
     when {
@@ -696,6 +724,16 @@ class StatePlayerRecyclerViewAssembler private constructor(
       // Otherwise, there's no navigation button that should be shown since the current interaction
       // handles this or navigation in this context is disabled.
     }
+    //subha
+    if(hasFlashbackButton && !flashbackStateName.isNullOrBlank() && playerFeatureSet.flashbackNavigationSupport) {
+      Log.d("subhatest","inside 1")
+      addFlashbackButton(
+        conversationPendingItemList,
+        extraInteractionPendingItemList,
+        hasPreviousButton,
+        flashbackStateName
+      )
+    }
   }
 
   private fun addSubmitButton(
@@ -723,6 +761,27 @@ class StatePlayerRecyclerViewAssembler private constructor(
       addPreviousButtonNavigation(hasPreviousButton, conversationPendingItemList)
     }
   }
+
+  //subha
+  private fun addFlashbackButton(
+    conversationPendingItemList: MutableList<StateItemViewModel>,
+    extraInteractionPendingItemList: MutableList<StateItemViewModel>,
+    hasPreviousButton: Boolean,
+    flashbackStateName: String
+  ) {
+    val targetList =
+      if (isSplitView.get()!!) extraInteractionPendingItemList else conversationPendingItemList
+    val hasPrevious = if (isSplitView.get()!!) false else hasPreviousButton
+
+    targetList += FlashbackButtonViewModel(
+      hasConversationView,
+      hasPrevious,
+      isSplitView.get()!!,
+      flashbackStateName
+    )
+  }
+
+
 
   private fun addReturnTopTopicNavigation(
     conversationPendingItemList: MutableList<StateItemViewModel>,
@@ -1523,6 +1582,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val wrongAnswerCollapsing: Boolean = false,
     val backwardNavigation: Boolean = false,
     val forwardNavigation: Boolean = false,
+    val flashbackNavigationSupport: Boolean = false, //subha
     val replaySupport: Boolean = false,
     val returnToTopicNavigation: Boolean = false,
     val showCelebrationOnCorrectAnswer: Boolean = false,
@@ -1530,7 +1590,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val hintsAndSolutionsSupport: Boolean = false,
     val supportAudioVoiceovers: Boolean = false,
     val conceptCardSupport: Boolean = false,
-    val flashbackNavigationSupport: Boolean = false //subha
   ) {
     /**
      * Returns a union of this feature set with other one. Loosely based on
@@ -1545,7 +1604,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         wrongAnswerCollapsing = wrongAnswerCollapsing || other.wrongAnswerCollapsing,
         backwardNavigation = backwardNavigation || other.backwardNavigation,
         forwardNavigation = forwardNavigation || other.forwardNavigation,
-        replaySupport = replaySupport || other.replaySupport,
+        flashbackNavigationSupport = flashbackNavigationSupport || other.flashbackNavigationSupport,
+          replaySupport = replaySupport || other.replaySupport,
         returnToTopicNavigation = returnToTopicNavigation || other.returnToTopicNavigation,
         showCelebrationOnCorrectAnswer = showCelebrationOnCorrectAnswer ||
           other.showCelebrationOnCorrectAnswer,
@@ -1554,7 +1614,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
         hintsAndSolutionsSupport = hintsAndSolutionsSupport || other.hintsAndSolutionsSupport,
         supportAudioVoiceovers = supportAudioVoiceovers || other.supportAudioVoiceovers,
         conceptCardSupport = conceptCardSupport || other.conceptCardSupport,
-        flashbackNavigationSupport = flashbackNavigationSupport || other.flashbackNavigationSupport
       )
     }
   }

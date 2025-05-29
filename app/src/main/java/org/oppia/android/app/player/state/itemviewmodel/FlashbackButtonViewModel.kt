@@ -4,5 +4,7 @@ package org.oppia.android.app.player.state.itemviewmodel
 class FlashbackButtonViewModel(
   val hasConversationView: Boolean,
   val hasPreviousButton: Boolean,
-  val isSplitView: Boolean
+  val isSplitView: Boolean,
+  val flashbackStateName: String
 ) : StateItemViewModel(ViewType.FLASHBACK_BUTTON)
+
