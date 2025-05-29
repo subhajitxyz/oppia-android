@@ -264,6 +264,7 @@ class StateFragmentPresenter @Inject constructor(
         this::getAudioUiManager
       )
       .addConceptCardSupport()
+      .addRedirectionSupport()
       .build()
   }
 

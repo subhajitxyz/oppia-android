@@ -107,6 +107,7 @@ import org.oppia.android.util.parser.html.LiTagHandler
 import org.oppia.android.util.parser.html.MathTagHandler
 import org.oppia.android.util.threading.BackgroundDispatcher
 import javax.inject.Inject
+import org.oppia.android.app.player.state.itemviewmodel.FlashbackButtonViewModel
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -329,6 +330,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
       maybeShowCelebrationForEndOfSession()
     }
 
+      //subha
+    val hasFlashbackButton: Boolean = ephemeralState.pendingState.wrongAnswerList[lastidx].stateNameToRevisit !=stateNameToRevisit.getDefaultINstance
     maybeAddNavigationButtons(
       conversationPendingItemList,
       extraInteractionPendingItemList,
@@ -1120,6 +1123,21 @@ class StatePlayerRecyclerViewAssembler private constructor(
       return this
     }
 
+    //subha
+    /** Adds support for displaying flashback button. */
+    fun addRedirectionSupport(): Builder {
+      adapterBuilder.registerViewDataBinder(
+        viewType = StateItemViewModel.ViewType.FLASHBACK_BUTTON,
+        inflateDataBinding = FlashbackButtonItemBinding::inflate,
+        setViewModel = FlashbackButtonItemBinding::setButtonViewModel,
+        transformViewModel = { it as FlashbackButtonViewModel }
+      )
+      featureSets += PlayerFeatureSet(flashbackNavigationSupport = true)
+      return this
+    }
+
+
+
     /** Adds support for displaying previously submitted answers. */
     fun addPastAnswersSupport(): Builder {
       adapterBuilder.registerViewBinder(
@@ -1511,7 +1529,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     val showCelebrationAtEndOfSession: Boolean = false,
     val hintsAndSolutionsSupport: Boolean = false,
     val supportAudioVoiceovers: Boolean = false,
-    val conceptCardSupport: Boolean = false
+    val conceptCardSupport: Boolean = false,
+    val flashbackNavigationSupport: Boolean = false //subha
   ) {
     /**
      * Returns a union of this feature set with other one. Loosely based on
@@ -1534,7 +1553,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
           other.showCelebrationAtEndOfSession,
         hintsAndSolutionsSupport = hintsAndSolutionsSupport || other.hintsAndSolutionsSupport,
         supportAudioVoiceovers = supportAudioVoiceovers || other.supportAudioVoiceovers,
-        conceptCardSupport = conceptCardSupport || other.conceptCardSupport
+        conceptCardSupport = conceptCardSupport || other.conceptCardSupport,
+        flashbackNavigationSupport = flashbackNavigationSupport || other.flashbackNavigationSupport
       )
     }
   }
