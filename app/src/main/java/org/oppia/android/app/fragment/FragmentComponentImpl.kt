@@ -51,6 +51,7 @@ import org.oppia.android.app.player.audio.LanguageDialogFragment
 import org.oppia.android.app.player.exploration.ExplorationFragment
 import org.oppia.android.app.player.exploration.ExplorationManagerFragment
 import org.oppia.android.app.player.exploration.HintsAndSolutionExplorationManagerFragment
+import org.oppia.android.app.player.state.OpenFlashbackConfirmationDialogFragment
 import org.oppia.android.app.player.state.StateFragment
 import org.oppia.android.app.player.state.itemviewmodel.InteractionViewModelModule
 import org.oppia.android.app.player.stopplaying.ProgressDatabaseFullDialogFragment
@@ -204,4 +205,5 @@ interface FragmentComponentImpl : FragmentComponent, ViewComponentBuilderInjecto
   fun inject(onboardingProfileTypeFragment: OnboardingProfileTypeFragment)
   fun inject(createProfileFragment: CreateProfileFragment)
   fun inject(introFragment: IntroFragment)
+  fun inject(flashbackConfirmationDialogFragment: OpenFlashbackConfirmationDialogFragment)
 }

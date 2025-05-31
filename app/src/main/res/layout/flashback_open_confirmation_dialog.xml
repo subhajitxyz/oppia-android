@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+
+<!--    <TextView-->
+<!--      android:id="@+id/exit_survey_confirmation_text"-->
+<!--      style="@style/SurveyQuestionTextStyle"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:layout_marginStart="@dimen/survey_question_text_margin"-->
+<!--      android:layout_marginEnd="@dimen/survey_question_text_margin"-->
+<!--      android:text="@string/survey_exit_confirmation_text"-->
+<!--      app:layout_constraintTop_toTopOf="parent" />-->
+
+    <Button
+      android:id="@+id/not_now_button"
+      style="@style/StateButtonActive"
+      android:text="Not Now"
+      android:elevation="2dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      android:contentDescription="@string/previous_button_content_description" />
+
+    <Button
+      android:id="@+id/continue_confirmation_button"
+      style="@style/StateButtonActive"
+      android:button="@drawable/state_button_primary_background"
+      android:text="Continue"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHeight_min="48dp"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
