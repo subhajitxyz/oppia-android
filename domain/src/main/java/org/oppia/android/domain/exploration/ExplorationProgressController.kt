@@ -1,5 +1,6 @@
 package org.oppia.android.domain.exploration
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -75,6 +76,10 @@ private const val CURRENT_STATE_PROVIDER_ID = "ExplorationProgressController.cur
 private const val LOCALIZED_STATE_PROVIDER_ID = "ExplorationProgressController.localized_state"
 private const val UPDATE_WRITTEN_TRANSLATION_CONTENT_PROVIDER_ID =
   "ExplorationProgressController.update_written_translation_content"
+//subha 1.4
+private const val MOVE_TO_FLASHBACK_STATE_RESULT_PROVIDER_ID =
+  "ExplorationProgressController.move_to_flashback_state_result"
+
 
 /**
  * A default session ID to be used before a session has been initialized.
@@ -259,6 +264,19 @@ class ExplorationProgressController @Inject constructor(
     val message = ControllerMessage.SubmitAnswer(userAnswer, activeSessionId, submitResultFlow)
     sendCommandForOperation(message) { "Failed to schedule command for answer submission." }
     return submitResultFlow.convertToSessionProvider(SUBMIT_ANSWER_RESULT_PROVIDER_ID)
+  }
+
+  //subha 1.4
+  /**
+   * Navigates to the flashback state in the graph.
+   * @return a [DataProvider] indicating whether the movement to the flashback state
+   * was successful.
+   */
+  fun moveToFlashback(stateName: String): DataProvider<Any?> {
+    val moveResultFlow = createAsyncResultStateFlow<Any?>()
+    val message = ControllerMessage.MoveToFlashback(stateName, activeSessionId, moveResultFlow)
+    sendCommandForOperation(message) { "Failed to schedule command for moving to the next state." }
+    return moveResultFlow.convertToSessionProvider(MOVE_TO_FLASHBACK_STATE_RESULT_PROVIDER_ID)
   }
 
   /**
@@ -524,6 +542,9 @@ class ExplorationProgressController @Inject constructor(
             }
             is ControllerMessage.SubmitAnswer ->
               controllerState.submitAnswerImpl(message.callbackFlow, message.userAnswer)
+            //subha 1.4
+            is ControllerMessage.MoveToFlashback ->
+              controllerState.moveToFlashbackImpl(message.callbackFlow, message.stateName)
             is ControllerMessage.HintIsRevealed -> {
               controllerState.submitHintIsRevealedImpl(message.callbackFlow, message.hintIndex)
             }
@@ -812,6 +833,41 @@ class ExplorationProgressController @Inject constructor(
     }
   }
 
+  //subha 1.4
+  private suspend fun ControllerState.moveToFlashbackImpl(
+    moveToFlashbackStateResultFlow: MutableStateFlow<AsyncResult<Any?>>,
+    stateName: String
+  ) {
+    // get flashback state name from statedeck’s AnswerAndResponse.
+    // calculate ephemeralState with flashback state.
+    // Updates getCurrentState().
+
+    tryOperation(moveToFlashbackStateResultFlow, false) {
+      check(explorationProgress.playStage != NOT_PLAYING) {
+        "Cannot navigate to a previous state if an exploration is not being played."
+      }
+      check(explorationProgress.playStage != LOADING_EXPLORATION) {
+        "Cannot navigate to a previous state if an exploration is being loaded."
+      }
+      check(explorationProgress.playStage != SUBMITTING_ANSWER) {
+        "Cannot navigate to a previous state if an answer submission is pending."
+      }
+//      hintHandler.navigateToPreviousState()
+//      explorationProgress.stateDeck.navigateToPreviousState
+
+      val state = explorationProgress.stateGraph.getState(stateName)
+      val ephemeralState = EphemeralState.newBuilder()
+        .setState(state)
+        .setFlashbackState(true)
+        .build()
+      Log.d("subharevisit","{$state}")
+      Log.d("subharevisit","{$ephemeralState}")
+
+      recomputeCurrentFlashbackStateAndNotifySync(ephemeralState)
+
+    }
+  }
+
   private suspend fun ControllerState.moveToNextStateImpl(
     moveToNextStateResultFlow: MutableStateFlow<AsyncResult<Any?>>
   ) {
@@ -953,6 +1009,19 @@ class ExplorationProgressController @Inject constructor(
     ephemeralStateFlow.emit(retrieveCurrentStateAsync())
   }
 
+  //subha 1.4
+  private suspend fun ControllerState.recomputeCurrentFlashbackStateAndNotifySync(
+    ephemeralState: EphemeralState
+  ) {
+    recomputeCurrentFlashbackStateAndNotifyImpl(ephemeralState)
+  }
+
+  private suspend fun ControllerState.recomputeCurrentFlashbackStateAndNotifyImpl(
+    ephemeralState: EphemeralState) {
+    ephemeralStateFlow.emit(AsyncResult.Success(ephemeralState))
+  }
+
+
   private suspend fun ControllerState.retrieveCurrentStateAsync(): AsyncResult<EphemeralState> {
     return try {
       retrieveStateWithinCache()
@@ -1025,12 +1094,14 @@ class ExplorationProgressController @Inject constructor(
     saveExplorationCheckpoint()
   }
 
-  private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState =
-    explorationProgress.stateDeck.getCurrentEphemeralState(
+  private fun ControllerState.computeBaseCurrentEphemeralState(): EphemeralState {
+    Log.d("subharevisit","compute normal ephemeral state")
+    return explorationProgress.stateDeck.getCurrentEphemeralState(
       retrieveCurrentHelpIndex(),
       startSessionTimeMs + continueButtonAnimationDelay,
       isContinueButtonAnimationSeen
     )
+  }
 
   private fun ControllerState.computeCurrentEphemeralState(): EphemeralState {
     return computeBaseCurrentEphemeralState().toBuilder().apply {
@@ -1410,6 +1481,16 @@ class ExplorationProgressController @Inject constructor(
       override val sessionId: String,
       override val callbackFlow: MutableStateFlow<AsyncResult<AnswerOutcome>>
     ) : ControllerMessage<AnswerOutcome>()
+
+    //subha 1.4
+    /**
+     * [ControllerMessage] to move to the Flashback state in the exploration.
+     */
+    data class MoveToFlashback(
+      val stateName: String,
+      override val sessionId: String,
+      override val callbackFlow: MutableStateFlow<AsyncResult<Any?>>
+    ) : ControllerMessage<Any?>()
 
     /**
      * [ControllerMessage] for indicating that the user revealed the hint corresponding to

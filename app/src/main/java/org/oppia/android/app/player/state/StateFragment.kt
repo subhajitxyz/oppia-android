@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ import org.oppia.android.app.player.state.listener.SubmitNavigationButtonListene
 import org.oppia.android.util.extensions.getProto
 import org.oppia.android.util.extensions.putProto
 import javax.inject.Inject
+import org.oppia.android.app.player.state.listener.RevisitButtonListener
 
 /** Fragment that represents the current state of an exploration. */
 class StateFragment :
@@ -38,7 +40,8 @@ class StateFragment :
   ReturnToTopicNavigationButtonListener,
   SubmitNavigationButtonListener,
   PreviousResponsesHeaderClickListener,
-  ShowHintAvailabilityListener {
+  ShowHintAvailabilityListener,
+  RevisitButtonListener {
   companion object {
 
     /** Arguments key for StateFragment. */
@@ -122,6 +125,12 @@ class StateFragment :
   override fun onContinueButtonClicked() = stateFragmentPresenter.onContinueButtonClicked()
 
   override fun onNextButtonClicked() = stateFragmentPresenter.onNextButtonClicked()
+
+  //subha
+  override fun onRevisitButtonClicked(stateName: String) {
+    Log.d("subharevisit","button clicked in statefragment")
+    stateFragmentPresenter.onRevisitButtonClicked(stateName)
+  }
 
   override fun onPreviousButtonClicked() = stateFragmentPresenter.onPreviousButtonClicked()
 

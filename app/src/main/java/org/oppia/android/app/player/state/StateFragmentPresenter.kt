@@ -1,6 +1,7 @@
 package org.oppia.android.app.player.state
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,8 @@ import org.oppia.android.util.gcsresource.DefaultResourceBucketName
 import org.oppia.android.util.parser.html.ExplorationHtmlParserEntityType
 import org.oppia.android.util.system.OppiaClock
 import javax.inject.Inject
+import org.oppia.android.app.survey.ExitSurveyConfirmationDialogFragment
+import org.oppia.android.app.survey.TAG_EXIT_SURVEY_CONFIRMATION_DIALOG
 
 const val STATE_FRAGMENT_PROFILE_ID_ARGUMENT_KEY =
   "StateFragmentPresenter.state_fragment_profile_id"
@@ -64,6 +67,9 @@ const val STATE_FRAGMENT_STORY_ID_ARGUMENT_KEY = "StateFragmentPresenter.state_f
 const val STATE_FRAGMENT_EXPLORATION_ID_ARGUMENT_KEY =
   "StateFragmentPresenter.state_fragment_exploration_id"
 private const val TAG_AUDIO_FRAGMENT = "AUDIO_FRAGMENT"
+//subha dialog test
+const val TAG_EXIT_SURVEY_CONFIRMATION_DIALOG = "EXIT_SURVEY_CONFIRMATION_DIALOG"
+
 
 /** The presenter for [StateFragment]. */
 @FragmentScope
@@ -184,6 +190,18 @@ class StateFragmentPresenter @Inject constructor(
   }
 
   fun onNextButtonClicked() = moveToNextState()
+
+  //subha 1.4
+  fun onRevisitButtonClicked(stateName: String) {
+    Log.d("subharevisit","button clicked in flashabckviewmodel")
+    //subha dialog test
+
+    val dialogFragment = ExitSurveyConfirmationDialogFragment.newInstance(profileId)
+    dialogFragment.showNow(fragment.childFragmentManager, TAG_EXIT_SURVEY_CONFIRMATION_DIALOG)
+    //explorationProgressController.moveToFlashback(stateName)
+    Log.d("subharevisit","{$stateName}")
+
+  }
 
   fun onPreviousButtonClicked() {
     explorationProgressController.moveToPreviousState()

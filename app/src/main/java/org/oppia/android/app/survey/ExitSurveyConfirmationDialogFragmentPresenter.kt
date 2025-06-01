@@ -12,6 +12,7 @@ import org.oppia.android.domain.survey.SurveyController
 import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
+import org.oppia.android.domain.exploration.ExplorationProgressController
 
 const val TAG_EXIT_SURVEY_CONFIRMATION_DIALOG = "EXIT_SURVEY_CONFIRMATION_DIALOG"
 
@@ -21,8 +22,9 @@ class ExitSurveyConfirmationDialogFragmentPresenter @Inject constructor(
   private val fragment: Fragment,
   private val activity: AppCompatActivity,
   private val surveyController: SurveyController,
-  private val oppiaLogger: OppiaLogger
-) {
+  private val oppiaLogger: OppiaLogger,
+  private val explorationProgressController: ExplorationProgressController, //subha dialog test
+  ) {
 
   /** Sets up data binding. */
   fun handleCreateView(
@@ -38,6 +40,8 @@ class ExitSurveyConfirmationDialogFragmentPresenter @Inject constructor(
       fragment.parentFragmentManager.beginTransaction()
         .remove(fragment)
         .commitNow()
+      explorationProgressController.moveToFlashback("Ratio shows relative relationship 2") //subha dialog test
+
     }
 
     binding.exitSurveyButton.setOnClickListener {
