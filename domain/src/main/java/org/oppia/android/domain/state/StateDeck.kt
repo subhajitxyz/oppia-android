@@ -281,4 +281,23 @@ class StateDeck constructor(
     return previousStates.find { it.state.name == stateName }
       ?: EphemeralState.getDefaultInstance()
   }
+
+  //subha pr 2.1
+  fun addFlashbackButtonInPreviousSection() { // can be named as updateAnswerAndResponse()
+    //get the flashback statename from previous answerAnd Response.
+    if (currentDialogInteractions.isNotEmpty()) {
+      val lastIndex = currentDialogInteractions.lastIndex
+      val lastAnswerAndResponse = currentDialogInteractions[lastIndex]
+      val stateName = lastAnswerAndResponse.stateNameToRevisit
+      val feedback = lastAnswerAndResponse.feedback
+
+      if(!stateName.isNullOrEmpty() && feedback.contentId != "flashback_button_feedback") { // the check is for -> to ensure we are not adding flashback button when user see flashback for previus section's button.
+        currentDialogInteractions += AnswerAndResponse.newBuilder()
+          .setStateNameToRevisit(stateName)
+          .setFeedback(SubtitledHtml.newBuilder().setContentId("flashback_button_feedback").setHtml("You have viewed the flashback. Let's try"))
+          .build()
+      }
+
+    }
+  }
 }

@@ -256,8 +256,25 @@ class StatePlayerRecyclerViewAssembler private constructor(
     var flashbackStateName: String? = null
 
     if (ephemeralState.stateTypeCase == StateTypeCase.PENDING_STATE) {
-      val latestAnswer = ephemeralState.pendingState.wrongAnswerList.lastOrNull()
-      flashbackStateName = latestAnswer?.stateNameToRevisit
+//      val latestAnswer = ephemeralState.pendingState.wrongAnswerList.lastOrNull()
+//      //subha 2.1
+//      if(latestAnswer?.feedback?.contentId != "flashback_button_feedback") {
+//        flashbackStateName = latestAnswer?.stateNameToRevisit
+//      }
+
+      //subha 2.1
+      ephemeralState.pendingState.wrongAnswerList.lastOrNull()?.let { latestAnswer ->
+        if (latestAnswer.feedback?.contentId != "flashback_button_feedback") {
+          flashbackStateName = latestAnswer.stateNameToRevisit
+        }
+      }
+
+
+//      latestAnswer?.feedback?.html?.let { html ->
+//        if (!html.contains("You have viewed the flashback. Let's try")) {
+//          flashbackStateName = latestAnswer.stateNameToRevisit
+//        }
+//      }
 
       if (playerFeatureSet.hintsAndSolutionsSupport) {
         (fragment as ShowHintAvailabilityListener).onHintAvailable(
@@ -439,6 +456,11 @@ class StatePlayerRecyclerViewAssembler private constructor(
     }
   }
 
+  //subha 2.1
+  fun calculatePreviousAnswerCount(answersAndResponses: List<AnswerAndResponse>): Int {
+    return answersAndResponses.count { it.feedback.contentId != "flashback_button_feedback" } - 1
+  }
+
   private fun addPreviousAnswers(
     pendingItemList: MutableList<StateItemViewModel>,
     rightPendingItemList: MutableList<StateItemViewModel>,
@@ -465,31 +487,61 @@ class StatePlayerRecyclerViewAssembler private constructor(
       val showPreviousAnswers = !playerFeatureSet.wrongAnswerCollapsing ||
         hasPreviousResponsesExpanded
       for (answerAndResponse in answersAndResponses.take(answersAndResponses.size - 1)) {
+
+        //subha pr 2.1
+        //here we need to show flashback button and feedback => when the AnswerAndResponse contains our flashback button's feedback
+
         if (playerFeatureSet.pastAnswerSupport) {
           // Earlier answers can't be correct (since otherwise new answers wouldn't be able to be
           // submitted), hence the assumption that these aren't.
-          createSubmittedAnswer(
-            answerAndResponse.userAnswer,
-            gcsEntityId,
-            /* isAnswerCorrect= */ false
-          )?.let { viewModel ->
-            if (showPreviousAnswers) {
-              pendingItemList += viewModel
+
+          //subha 2.1 -> ensure answerResponse is for flashback button in previous section.
+          // in that case, add only button, not submitted answer
+          if (answerAndResponse.feedback.contentId == "flashback_button_feedback") {
+            if (playerFeatureSet.flashbackNavigationSupport) {
+              addFlashbackButtonInPrevious(
+                answerAndResponse.stateNameToRevisit
+              ).let {viewModel ->
+                if (showPreviousAnswers) {
+                  pendingItemList += viewModel
+                }
+                previousAnswerViewModels += viewModel
+              }
             }
-            previousAnswerViewModels += viewModel
+          } else {
+
+            createSubmittedAnswer(
+              answerAndResponse.userAnswer,
+              gcsEntityId,
+              /* isAnswerCorrect= */ false
+            )?.let { viewModel ->
+              if (showPreviousAnswers) {
+                pendingItemList += viewModel
+              }
+              previousAnswerViewModels += viewModel
+            }
           }
         }
         if (playerFeatureSet.feedbackSupport) {
-          createFeedbackItem(
-            answerAndResponse.feedback,
-            gcsEntityId,
-            writtenTranslationContext
-          )?.let { viewModel ->
-            if (showPreviousAnswers) {
-              pendingItemList += viewModel
+          //subha 2.1
+
+          val shouldSkipFeedback =
+            answerAndResponse.feedback.contentId == "flashback_button_feedback" &&
+              !playerFeatureSet.flashbackNavigationSupport
+
+          if(!shouldSkipFeedback) {
+            createFeedbackItem(
+              answerAndResponse.feedback,
+              gcsEntityId,
+              writtenTranslationContext
+            )?.let { viewModel ->
+              if (showPreviousAnswers) {
+                pendingItemList += viewModel
+              }
+              previousAnswerViewModels += viewModel
             }
-            previousAnswerViewModels += viewModel
           }
+
         }
       }
     }
@@ -502,17 +554,53 @@ class StatePlayerRecyclerViewAssembler private constructor(
             isAnswerCorrect = true
           )?.let(rightPendingItemList::add)
         } else {
-          createSubmittedAnswer(
-            answerAndResponse.userAnswer,
-            gcsEntityId,
-            isLastAnswerCorrect || answerAndResponse.isCorrectAnswer
-          )?.let(pendingItemList::add)
+
+          //subha 2.1
+
+          if (answerAndResponse.feedback.contentId == "flashback_button_feedback") {
+            if (playerFeatureSet.flashbackNavigationSupport) {
+              addFlashbackButtonInPrevious(
+                answerAndResponse.stateNameToRevisit
+              ).let(pendingItemList::add)
+            }
+          } else {
+            createSubmittedAnswer(
+              answerAndResponse.userAnswer,
+              gcsEntityId,
+              isLastAnswerCorrect || answerAndResponse.isCorrectAnswer
+            )?.let(pendingItemList::add)
+          }
+
+//          createSubmittedAnswer(
+//            answerAndResponse.userAnswer,
+//            gcsEntityId,
+//            isLastAnswerCorrect || answerAndResponse.isCorrectAnswer
+//          )?.let(pendingItemList::add)
+
+
+          //subha 2.1
+          //here we need to show flashback button and feedback
+
+          // if last answer response is for previous section flashback button.
+          // in this case Answer and response does not have user answer, it only contains Flashback statename , feedback for flashback button.
+
         }
       }
       if (playerFeatureSet.feedbackSupport) {
-        createFeedbackItem(answerAndResponse.feedback, gcsEntityId, writtenTranslationContext)?.let(
-          pendingItemList::add
-        )
+        //subha 2.1
+        // we need to gate feedback for button.
+        // check -> if it is flahback_button_feedback && playfeatureset.flashbacNavigationsupport
+
+        val shouldSkipFeedback =
+          answerAndResponse.feedback.contentId == "flashback_button_feedback" &&
+            !playerFeatureSet.flashbackNavigationSupport
+
+        if (!shouldSkipFeedback) {
+          createFeedbackItem(answerAndResponse.feedback, gcsEntityId, writtenTranslationContext)?.let(
+            pendingItemList::add
+          )
+        }
+
       }
     }
   }
@@ -880,6 +968,20 @@ class StatePlayerRecyclerViewAssembler private constructor(
       if (isSplitView.get()!!) extraInteractionPendingItemList else conversationPendingItemList
 
     targetList += FlashbackButtonViewModel(
+      hasConversationView,
+      isSplitView.get()!!,
+      fragment as FlashbackButtonListener,
+      flashbackStateName
+    )
+  }
+
+  //subha 2.1
+  //This is test, if it works, we will modify existing function.
+  private fun addFlashbackButtonInPrevious(
+    flashbackStateName: String
+  ): FlashbackButtonViewModel {
+
+    return FlashbackButtonViewModel(
       hasConversationView,
       isSplitView.get()!!,
       fragment as FlashbackButtonListener,

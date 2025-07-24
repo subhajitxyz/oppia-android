@@ -5720,8 +5720,11 @@ class StateFragmentTest {
       verifyContentContains(expectedText)
 
       // Verify feedback is visible.
-      val expectedFeedback = "This doesn't seem right. Let's go back and look at the previous" +
-        " question and answer to understand better."
+//      val expectedFeedback = "This doesn't seem right. Let's go back and look at the previous" +
+//        " question and answer to understand better."
+
+      //subha 2.1
+      val expectedFeedback = "You have viewed the flashback. Let's try"
       scrollToViewType(FEEDBACK)
       onView(withId(R.id.feedback_text_view))
         .check(matches(withText(containsString(expectedFeedback))))

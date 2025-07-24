@@ -3461,7 +3461,7 @@ class ExplorationProgressControllerTest {
     assertThat(expectedEphemeralState.state.name).isEqualTo("RatioInput")
 
     // Verify that there is exactly one wrong answer.
-    assertThat(expectedEphemeralState.pendingState.wrongAnswerCount).isEqualTo(1)
+    assertThat(expectedEphemeralState.pendingState.wrongAnswerCount).isEqualTo(2)
   }
 
   @Test

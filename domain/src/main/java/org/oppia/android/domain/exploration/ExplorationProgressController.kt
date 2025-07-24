@@ -54,6 +54,7 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.oppia.android.app.model.AnswerAndResponse
 
 private const val BEGIN_EXPLORATION_RESULT_PROVIDER_ID =
   "ExplorationProgressController.begin_exploration_result"
@@ -759,7 +760,9 @@ class ExplorationProgressController @Inject constructor(
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             // Schedule, or show immediately, a new hint or solution based on the current
             // ephemeral state of the exploration because a new wrong answer was submitted.
-            hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
+            //hintHandler.handleWrongAnswerSubmission(ephemeralState.pendingState.wrongAnswerCount)
+            //subha 2.1
+            hintHandler.handleWrongAnswerSubmission(calculatePreviousAnswerCount(ephemeralState.pendingState.wrongAnswerList))
           }
         }
       } finally {
@@ -780,6 +783,11 @@ class ExplorationProgressController @Inject constructor(
 
       return@tryOperation checkNotNull(answerOutcome) { "Expected answer outcome." }
     }
+  }
+
+  //subha 2.1
+  private fun calculatePreviousAnswerCount(answersAndResponses: List<AnswerAndResponse>): Int {
+    return answersAndResponses.count { it.feedback.contentId != "flashback_button_feedback" }
   }
 
   private suspend fun ControllerState.submitHintIsRevealedImpl(
@@ -914,6 +922,11 @@ class ExplorationProgressController @Inject constructor(
       check(explorationProgress.playStage != SUBMITTING_ANSWER) {
         "Cannot navigate to a next state if an answer submission is pending."
       }
+
+      // subha pr 2.1
+      // update AnswerAndResponse to show “Revisit Previous Question” in Previous
+      // Response section.
+      explorationProgress.stateDeck.addFlashbackButtonInPreviousSection()
 
       if (explorationProgress.stateDeck.isCurrentStateTopOfDeck()) {
         hintHandler.navigateBackToLatestPendingState()
