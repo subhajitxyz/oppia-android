@@ -5724,7 +5724,7 @@ class StateFragmentTest {
 //        " question and answer to understand better."
 
       //subha 2.1
-      val expectedFeedback = "You have viewed the flashback. Let's try"
+      val expectedFeedback = "Now that you have reviewed the solution to the previous question, let's try again"
       scrollToViewType(FEEDBACK)
       onView(withId(R.id.feedback_text_view))
         .check(matches(withText(containsString(expectedFeedback))))

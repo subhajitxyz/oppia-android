@@ -294,7 +294,7 @@ class StateDeck constructor(
       if(!stateName.isNullOrEmpty() && feedback.contentId != "flashback_button_feedback") { // the check is for -> to ensure we are not adding flashback button when user see flashback for previus section's button.
         currentDialogInteractions += AnswerAndResponse.newBuilder()
           .setStateNameToRevisit(stateName)
-          .setFeedback(SubtitledHtml.newBuilder().setContentId("flashback_button_feedback").setHtml("You have viewed the flashback. Let's try"))
+          .setFeedback(SubtitledHtml.newBuilder().setContentId("flashback_button_feedback").setHtml("Now that you have reviewed the solution to the previous question, let's try again"))
           .build()
       }
 
