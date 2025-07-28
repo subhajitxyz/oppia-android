@@ -118,6 +118,10 @@ import org.oppia.android.util.platformparameter.EnableFlashbackSupport
 import org.oppia.android.util.platformparameter.PlatformParameterValue
 import org.oppia.android.util.threading.BackgroundDispatcher
 import javax.inject.Inject
+import org.oppia.android.app.databinding.databinding.ItemSelectionSubmittedItemBinding
+import org.oppia.android.app.databinding.databinding.MultipleChoiceSubmittedItemBinding
+import org.oppia.android.app.player.state.itemviewmodel.SelectionItemInputType
+import org.oppia.android.app.player.state.itemviewmodel.SelectionSubmittedItemViewModel
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -271,7 +275,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         ephemeralState.pendingState.wrongAnswerList,
         isLastAnswerCorrect = false,
         gcsEntityId,
-        ephemeralState.writtenTranslationContext
+        ephemeralState.writtenTranslationContext,
+        interaction// demo subha
       )
       if (playerFeatureSet.interactionSupport) {
         val interactionItemList =
@@ -318,7 +323,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
           conversationPendingItemList,
           extraInteractionPendingItemList,
           ephemeralState.completedState.answerList,
-          gcsEntityId
+          gcsEntityId,
+          interaction,
+          ephemeralState.writtenTranslationContext
         )
         if (playerFeatureSet.flashbackNavigationSupport) {
           addReturnToQuestionButton(
@@ -335,7 +342,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
           ephemeralState.completedState.answerList,
           isLastAnswerCorrect = true,
           gcsEntityId,
-          ephemeralState.writtenTranslationContext
+          ephemeralState.writtenTranslationContext,
+          interaction //demo subha
         )
       }
     }
@@ -445,7 +453,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     answersAndResponses: List<AnswerAndResponse>,
     isLastAnswerCorrect: Boolean,
     gcsEntityId: String,
-    writtenTranslationContext: WrittenTranslationContext
+    writtenTranslationContext: WrittenTranslationContext,
+    interaction: Interaction //demo subha,
   ) {
     if (answersAndResponses.size > 1) {
       if (playerFeatureSet.wrongAnswerCollapsing) {
@@ -471,7 +480,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
           createSubmittedAnswer(
             answerAndResponse.userAnswer,
             gcsEntityId,
-            /* isAnswerCorrect= */ false
+            /* isAnswerCorrect= */ false,
+            interaction,
+            writtenTranslationContext
           )?.let { viewModel ->
             if (showPreviousAnswers) {
               pendingItemList += viewModel
@@ -499,13 +510,17 @@ class StatePlayerRecyclerViewAssembler private constructor(
           createSubmittedAnswer(
             answerAndResponse.userAnswer,
             gcsEntityId,
-            isAnswerCorrect = true
+            isAnswerCorrect = true,
+            interaction,
+            writtenTranslationContext
           )?.let(rightPendingItemList::add)
         } else {
           createSubmittedAnswer(
             answerAndResponse.userAnswer,
             gcsEntityId,
-            isLastAnswerCorrect || answerAndResponse.isCorrectAnswer
+            isLastAnswerCorrect || answerAndResponse.isCorrectAnswer,
+            interaction,
+            writtenTranslationContext
           )?.let(pendingItemList::add)
         }
       }
@@ -649,16 +664,25 @@ class StatePlayerRecyclerViewAssembler private constructor(
   private fun createSubmittedAnswer(
     userAnswer: UserAnswer,
     gcsEntityId: String,
-    isAnswerCorrect: Boolean
+    isAnswerCorrect: Boolean,
+    interaction: Interaction, // demo subha
+    writtenTranslationContext: WrittenTranslationContext
   ): SubmittedAnswerViewModel? {
     return userAnswer.takeIf { it.hasAnswerToDisplayToUser() }?.let {
+      // subha idea
+      // Step 4 :::::::
+      // pass interaction.id in SubmittedAnswerViewModel
       SubmittedAnswerViewModel(
         userAnswer,
         gcsEntityId,
         hasConversationView,
         isSplitView.get()!!,
         playerFeatureSet.conceptCardSupport,
-        resourceHandler
+        resourceHandler,
+        interaction,
+        writtenTranslationContext,
+        translationController,
+        consoleLogger
       ).also { submittedAnswerViewModel ->
         submittedAnswerViewModel.setIsCorrectAnswer(isAnswerCorrect)
         submittedAnswerViewModel.isExtraInteractionAnswerCorrect.set(isAnswerCorrect)
@@ -948,7 +972,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
     pendingItemList: MutableList<StateItemViewModel>,
     rightPendingItemList: MutableList<StateItemViewModel>,
     answersAndResponses: List<AnswerAndResponse>,
-    gcsEntityId: String
+    gcsEntityId: String,
+    interaction: Interaction,
+    writtenTranslationContext: WrittenTranslationContext
   ) {
     answersAndResponses.lastOrNull()?.let { answerAndResponse ->
       if (playerFeatureSet.pastAnswerSupport) {
@@ -956,13 +982,17 @@ class StatePlayerRecyclerViewAssembler private constructor(
           createSubmittedAnswer(
             answerAndResponse.userAnswer,
             gcsEntityId,
-            isAnswerCorrect = true
+            isAnswerCorrect = true,
+            interaction, //demo subha
+            writtenTranslationContext = writtenTranslationContext
           )?.let(rightPendingItemList::add)
         } else {
           createSubmittedAnswer(
             answerAndResponse.userAnswer,
             gcsEntityId,
-            isAnswerCorrect = true
+            isAnswerCorrect = true,
+            interaction,
+            writtenTranslationContext
           )?.let(pendingItemList::add)
         }
       }
@@ -1290,28 +1320,44 @@ class StatePlayerRecyclerViewAssembler private constructor(
           val submittedAnswerViewModel = viewModel as SubmittedAnswerViewModel
           binding.viewModel = submittedAnswerViewModel
           val userAnswer = submittedAnswerViewModel.submittedUserAnswer
+
           when (userAnswer.textualAnswerCase) {
             UserAnswer.TextualAnswerCase.HTML_ANSWER -> {
-              showSingleAnswer(binding)
-              val accessibleAnswer = if (userAnswer.contentDescription.isNotEmpty()) {
-                userAnswer.contentDescription
-              } else null
-              val htmlParser = htmlParserFactory.create(
-                resourceBucketName,
-                entityType,
-                submittedAnswerViewModel.gcsEntityId,
-                imageCenterAlign = false,
-                customOppiaTagActionListener = customTagListener,
-                displayLocale = resourceHandler.getDisplayLocale()
-              )
-              submittedAnswerViewModel.setSubmittedAnswer(
-                htmlParser.parseOppiaHtml(
-                  userAnswer.htmlAnswer,
-                  binding.submittedAnswerTextView,
-                  supportsConceptCards = submittedAnswerViewModel.supportsConceptCards
-                ),
-                accessibleAnswer
-              )
+              //subha idea
+              //here we fetch interaction.id
+
+              // if interaction.id == item_selection -> bind item_selection_submitted_item and SelectionSubmittedItemViewModel
+              // else if interaction.id == item_selection -> bind multiple_choice_submitted_item and SelectionSubmittedItemViewModel
+              // showItemOrMultiSubmittedAnswer() -> which will make visibile my demo submitted answer
+
+              val interactionId = submittedAnswerViewModel.interaction.id
+              if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
+                showItemOrMultiSubmittedAnswer(binding)
+                binding.itemMultiSubmittedRecyclerView.adapter =
+                  createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
+              } else {
+                showSingleAnswer(binding)
+                val accessibleAnswer = if (userAnswer.contentDescription.isNotEmpty()) {
+                  userAnswer.contentDescription
+                } else null
+                val htmlParser = htmlParserFactory.create(
+                  resourceBucketName,
+                  entityType,
+                  submittedAnswerViewModel.gcsEntityId,
+                  imageCenterAlign = false,
+                  customOppiaTagActionListener = customTagListener,
+                  displayLocale = resourceHandler.getDisplayLocale()
+                )
+                submittedAnswerViewModel.setSubmittedAnswer(
+                  htmlParser.parseOppiaHtml(
+                    userAnswer.htmlAnswer,
+                    binding.submittedAnswerTextView,
+                    supportsConceptCards = submittedAnswerViewModel.supportsConceptCards
+                  ),
+                  accessibleAnswer
+                )
+              }
+
             }
             UserAnswer.TextualAnswerCase.LIST_OF_HTML_ANSWERS -> {
               showListOfAnswers(binding)
@@ -1329,6 +1375,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
               )
             }
           }
+
+
+
         }
       )
       featureSets += PlayerFeatureSet(pastAnswerSupport = true)
@@ -1423,6 +1472,57 @@ class StatePlayerRecyclerViewAssembler private constructor(
         )
         .build()
     }
+    // demo subha
+    private fun createItemMultiListAnswerAdapter(selectionItemInputType: SelectionItemInputType): BindableAdapter<SelectionSubmittedItemViewModel> {
+      return when (selectionItemInputType) {
+        SelectionItemInputType.CHECKBOXES ->
+          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>()
+            .registerViewBinder(
+              inflateView = { parent ->
+                ItemSelectionSubmittedItemBinding.inflate(
+                  LayoutInflater.from(parent.context), parent, /* attachToParent= */ false
+                ).root
+              },
+              bindView = { view, viewModel ->
+                val binding = DataBindingUtil.findBinding<ItemSelectionSubmittedItemBinding>(view)!!
+                binding.htmlContent =
+                  htmlParserFactory.create(
+                    resourceBucketName, entityType, viewModel.entityId, /* imageCenterAlign= */ false,
+                    displayLocale = viewModel.resourceHandler.getDisplayLocale()
+                  ).parseOppiaHtml(
+                    translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
+                    binding.itemSelectionContentsTextView
+                  )
+                binding.viewModel = viewModel
+                //binding.itemSelectionContentsTextView.text = viewModel.id
+              }
+            )
+            .build()
+        SelectionItemInputType.RADIO_BUTTONS ->
+          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>()
+            .registerViewBinder(
+              inflateView = { parent ->
+                MultipleChoiceSubmittedItemBinding.inflate(
+                  LayoutInflater.from(parent.context), parent, /* attachToParent= */ false
+                ).root
+              },
+              bindView = { view, viewModel ->
+                val binding = DataBindingUtil.findBinding<MultipleChoiceSubmittedItemBinding>(view)!!
+                binding.htmlContent =
+                  htmlParserFactory.create(
+                    resourceBucketName, entityType, viewModel.entityId, /* imageCenterAlign= */ false,
+                    displayLocale = viewModel.resourceHandler.getDisplayLocale()
+                  ).parseOppiaHtml(
+                    translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
+                    binding.multipleChoiceContentTextView
+                  )
+                binding.viewModel = viewModel
+                //binding.multipleChoiceContentTextView.text = viewModel.id
+              }
+            )
+            .build()
+      }
+    }
 
     private fun createNestedAdapter(
       gcsEntityId: String,
@@ -1455,9 +1555,22 @@ class StatePlayerRecyclerViewAssembler private constructor(
         .build()
     }
 
+    // demo subha
+    private fun showItemOrMultiSubmittedAnswer(binding: ViewDataBinding) {
+      when (binding) {
+        is SubmittedAnswerItemBinding -> {
+          binding.submittedAnswerRecyclerView.visibility = View.GONE
+          binding.submittedAnswerTextView.visibility = View.GONE
+          binding.itemMultiSubmittedRecyclerView.visibility = View.VISIBLE
+        }
+      }
+    }
+
     private fun showSingleAnswer(binding: ViewDataBinding) {
       when (binding) {
         is SubmittedAnswerItemBinding -> {
+          //demo subha
+          binding.itemMultiSubmittedRecyclerView.visibility = View.GONE
           binding.submittedAnswerRecyclerView.visibility = View.GONE
           binding.submittedAnswerTextView.visibility = View.VISIBLE
         }
@@ -1467,6 +1580,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     private fun showListOfAnswers(binding: ViewDataBinding) {
       when (binding) {
         is SubmittedAnswerItemBinding -> {
+          //demo subha
+          binding.itemMultiSubmittedRecyclerView.visibility = View.GONE
           binding.submittedAnswerRecyclerView.visibility = View.VISIBLE
           binding.submittedAnswerTextView.visibility = View.GONE
         }

@@ -114,4 +114,13 @@ public final class ImageViewBindingAdapters {
         setImageDrawableCompat(imageView, R.drawable.circular_stroke_2dp_grey_32dp);
     }
   }
+
+  //demo subha
+  @BindingAdapter("submittedAnswerIcon")
+  public static void setSubmittedAnswerIcon(@NonNull ImageView imageView, boolean isCorrect) {
+    int drawableResId = isCorrect
+            ? R.drawable.radio_checked
+            : R.drawable.radio_unchecked;
+    setImageDrawableCompat(imageView, drawableResId);
+  }
 }

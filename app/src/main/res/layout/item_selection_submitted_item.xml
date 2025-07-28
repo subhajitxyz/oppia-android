@@ -1,0 +1,77 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+    <variable
+      name="htmlContent"
+      type="CharSequence" />
+
+    <variable
+      name="viewModel"
+      type="org.oppia.android.app.player.state.itemviewmodel.SelectionSubmittedItemViewModel" />
+  </data>
+
+  <RelativeLayout
+    android:id="@+id/checkbox_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:importantForAccessibility="yes"
+    android:minHeight="48dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/item_selection_checkbox"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:buttonTint="@{viewModel.isEnabled ? @color/color_def_checkbox_green : @color/component_color_shared_item_selection_interaction_disabled_color}"
+      android:clickable="false"
+      android:focusable="false"
+      android:checked="@{viewModel.isEnabled}"
+      />
+<!--    <TextView-->
+<!--      android:id="@+id/item_selection_contents_text_view"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:layout_marginStart="8dp"-->
+<!--      android:layout_marginTop="4dp"-->
+<!--      android:layout_marginEnd="8dp"-->
+<!--      android:layout_toEndOf="@+id/item_selection_checkbox"-->
+<!--      android:fontFamily="sans-serif"-->
+<!--      android:text="@{htmlContent}"-->
+<!--      android:contentDescription="@{viewModel.getContentDescription()}"-->
+<!--      android:textColor="@color/color_def_black"-->
+<!--      android:textSize="16sp" />-->
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="4dp"
+      android:layout_marginEnd="8dp"
+      android:layout_toEndOf="@+id/item_selection_checkbox"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/item_selection_contents_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="@{htmlContent}"
+        android:contentDescription="@{viewModel.getContentDescription()}"
+        android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
+        android:textSize="16sp" />
+
+      <TextView
+        android:id="@+id/correct_answer_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="This is user selected answer"
+        android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
+        android:textSize="12sp" />
+    </LinearLayout>
+  </RelativeLayout>
+</layout>

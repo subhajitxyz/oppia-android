@@ -323,6 +323,10 @@ message UserAnswer {
   // instead of whatever is currently being used in the active progress controller since that one
   // may have changed, but the user's answer is fixed.
   WrittenTranslationContext written_translation_context = 6;
+
+  //demo subha idea 2
+  // User's selection for selection input interactions.
+  ItemSelectionAnswerState item_selection = 7;
 }
 
 message AnswerAndResponse {
@@ -338,6 +342,7 @@ message AnswerAndResponse {
   // The name of the state the learner can revisit to review a concept. It's presence indicates that
   // a flashback button should be shown.
   string state_name_to_revisit = 4;
+
 }
 
 message AnswerOutcome {

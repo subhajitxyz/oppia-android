@@ -177,6 +177,11 @@ class SelectionInteractionViewModel private constructor(
       htmlAnswer = convertSelectedItemsToHtmlString(itemHtmls)
     }
     writtenTranslationContext = translationContext
+
+    // subha idea 2
+    itemSelection = ItemSelectionAnswerState.newBuilder().addAllSelectedIndexes(
+      selectedItems
+    ).build()
   }.build()
 
   /**
