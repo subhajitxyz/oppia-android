@@ -80,7 +80,7 @@
         android:paddingEnd="8dp"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:list="@{viewModel.choiceItems}" />
+        app:list="@{viewpuaModel.choiceItems}" />
 
 
       <androidx.recyclerview.widget.RecyclerView
