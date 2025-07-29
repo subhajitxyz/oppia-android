@@ -3,6 +3,8 @@
 
   <data>
 
+    <import type="android.view.View" />
+
     <variable
       name="htmlContent"
       type="CharSequence" />
@@ -12,7 +14,7 @@
       type="org.oppia.android.app.player.state.itemviewmodel.SelectionSubmittedItemViewModel" />
   </data>
 
-  <RelativeLayout
+  <LinearLayout
     android:id="@+id/radio_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,57 +22,31 @@
     android:importantForAccessibility="yes"
     android:minHeight="48dp"
     android:paddingTop="12dp"
-    android:paddingBottom="12dp">
+    android:paddingBottom="12dp"
+    android:orientation="horizontal">
 
-<!--    <androidx.appcompat.widget.AppCompatRadioButton-->
-<!--      android:id="@+id/multiple_choice_radio_button"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:checked="@{viewModel.isEnabled}"-->
-<!--      android:clickable="false"-->
-<!--      android:focusable="false"-->
-<!--      android:buttonTint="@color/component_color_submitted_answer_subha"/>-->
-
-<!--    try to use custom icon-->
-<!--    <androidx.appcompat.widget.AppCompatRadioButton-->
-<!--      android:id="@+id/multiple_choice_radio_button"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:checked="@{viewModel.isEnabled}"-->
-<!--      android:clickable="false"-->
-<!--      android:focusable="false"-->
-<!--      android:buttonTint="@color/component_color_submitted_answer_subha"/>-->
     <ImageView
       android:id="@+id/multiple_choice_radio_button"
-      android:layout_width="20dp"
-      android:layout_height="20dp"
-      android:layout_marginEnd="12dp"
-      android:importantForAccessibility="no"
-      app:submittedAnswerIcon="@{viewModel.isEnabled}"
-      />
-<!--    <TextView-->
-<!--      android:id="@+id/multiple_choice_content_text_view"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:layout_marginStart="12dp"-->
-<!--      android:layout_marginTop="4dp"-->
-<!--      android:layout_marginEnd="12dp"-->
-<!--      android:layout_toEndOf="@+id/multiple_choice_radio_button"-->
-<!--      android:fontFamily="sans-serif"-->
-<!--      android:text="@{htmlContent}"-->
-<!--      android:contentDescription="@{viewModel.getContentDescription()}"-->
-<!--      android:textColor="@color/color_def_black"-->
-<!--      android:textSize="16sp" />-->
-
-    <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="12dp"
-      android:layout_marginTop="4dp"
+      android:importantForAccessibility="no"
+      app:srcCompat="@{viewModel.isEnabled ? @drawable/radio_checked : @drawable/radio_unchecked}"
+      />
+<!--    app:submittedAnswerIcon="@{viewModel.isEnabled}"-->
+
+
+<!--    android:layout_marginTop="4dp"-->
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="18dp"
       android:layout_marginEnd="12dp"
-      android:layout_toEndOf="@+id/multiple_choice_radio_button"
       android:orientation="vertical">
 
+
+
+<!--      app:boldStyle="@{viewModel.isEnabled}"-->
       <TextView
         android:id="@+id/multiple_choice_content_text_view"
         android:layout_width="wrap_content"
@@ -85,10 +61,11 @@
         android:id="@+id/correct_answer_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:fontFamily="sans-serif"
-        android:text="This is user selected answer"
+        android:text="(This is user selected answer)"
         android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
         android:textSize="12sp" />
     </LinearLayout>
-  </RelativeLayout>
+  </LinearLayout>
 </layout>

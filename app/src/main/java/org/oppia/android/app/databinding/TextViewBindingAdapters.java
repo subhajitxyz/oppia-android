@@ -3,6 +3,7 @@ package org.oppia.android.app.databinding;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
@@ -66,6 +67,14 @@ public final class TextViewBindingAdapters {
         /* start= */ null, /* top= */ null, /* end= */ drawable, /* bottom= */ null
     );
   }
+
+  //demo subha
+  /** Applies bold text style to a TextView if enabled, otherwise normal. */
+  @BindingAdapter("boldStyle")
+  public static void setBoldStyle(@NonNull TextView textView, boolean isEnabled) {
+    textView.setTypeface(null, isEnabled ? Typeface.BOLD : Typeface.NORMAL);
+  }
+
 
   private static String getTimeAgo(View view, long lastVisitedTimestamp) {
     long currentTimeMillis = getOppiaClock(view).getCurrentTimeMs();

@@ -12,7 +12,7 @@
       type="org.oppia.android.app.player.state.itemviewmodel.SelectionSubmittedItemViewModel" />
   </data>
 
-  <RelativeLayout
+  <LinearLayout
     android:id="@+id/checkbox_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,36 +20,24 @@
     android:importantForAccessibility="yes"
     android:minHeight="48dp"
     android:paddingTop="12dp"
-    android:paddingBottom="12dp">
+    android:paddingBottom="12dp"
+    android:orientation="horizontal">
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/item_selection_checkbox"
+    <ImageView
+      android:id="@+id/multiple_choice_radio_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      app:buttonTint="@{viewModel.isEnabled ? @color/color_def_checkbox_green : @color/component_color_shared_item_selection_interaction_disabled_color}"
-      android:clickable="false"
-      android:focusable="false"
-      android:checked="@{viewModel.isEnabled}"
+      android:layout_marginStart="12dp"
+      android:importantForAccessibility="no"
+      app:srcCompat="@{viewModel.isEnabled ? @drawable/rect_radio_checked : @drawable/rect_radio_unchecked}"
       />
-<!--    <TextView-->
-<!--      android:id="@+id/item_selection_contents_text_view"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:layout_marginStart="8dp"-->
-<!--      android:layout_marginTop="4dp"-->
-<!--      android:layout_marginEnd="8dp"-->
-<!--      android:layout_toEndOf="@+id/item_selection_checkbox"-->
-<!--      android:fontFamily="sans-serif"-->
-<!--      android:text="@{htmlContent}"-->
-<!--      android:contentDescription="@{viewModel.getContentDescription()}"-->
-<!--      android:textColor="@color/color_def_black"-->
-<!--      android:textSize="16sp" />-->
 
+
+<!--    android:layout_marginTop="4dp"-->
     <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="4dp"
+      android:layout_marginStart="20dp"
       android:layout_marginEnd="8dp"
       android:layout_toEndOf="@+id/item_selection_checkbox"
       android:orientation="vertical">
@@ -58,6 +46,7 @@
         android:id="@+id/item_selection_contents_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:boldStyle="@{viewModel.isEnabled}"
         android:fontFamily="sans-serif"
         android:text="@{htmlContent}"
         android:contentDescription="@{viewModel.getContentDescription()}"
@@ -68,10 +57,11 @@
         android:id="@+id/correct_answer_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:fontFamily="sans-serif"
         android:text="This is user selected answer"
         android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
         android:textSize="12sp" />
     </LinearLayout>
-  </RelativeLayout>
+  </LinearLayout>
 </layout>

@@ -2,6 +2,8 @@ package org.oppia.android.app.player.state
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Typeface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -1360,6 +1362,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
 
             }
             UserAnswer.TextualAnswerCase.LIST_OF_HTML_ANSWERS -> {
+              //subha
+              Log.d("testdrag","in cond LIST_OF_HTML_ANSWERS")
               showListOfAnswers(binding)
               binding.submittedListAnswer = userAnswer.listOfHtmlAnswers
               binding.submittedAnswerRecyclerView.adapter =
@@ -1375,8 +1379,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
               )
             }
           }
-
-
 
         }
       )
@@ -1472,6 +1474,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
         )
         .build()
     }
+
     // demo subha
     private fun createItemMultiListAnswerAdapter(selectionItemInputType: SelectionItemInputType): BindableAdapter<SelectionSubmittedItemViewModel> {
       return when (selectionItemInputType) {
@@ -1493,8 +1496,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
                     translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
                     binding.itemSelectionContentsTextView
                   )
+                if (viewModel.isEnabled) {
+                  binding.correctAnswerTextView.visibility = View.VISIBLE
+                }
                 binding.viewModel = viewModel
-                //binding.itemSelectionContentsTextView.text = viewModel.id
               }
             )
             .build()
@@ -1516,8 +1521,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
                     translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
                     binding.multipleChoiceContentTextView
                   )
+                if (viewModel.isEnabled) {
+                  binding.correctAnswerTextView.visibility = View.VISIBLE
+                }
                 binding.viewModel = viewModel
-                //binding.multipleChoiceContentTextView.text = viewModel.id
               }
             )
             .build()
@@ -1582,8 +1589,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         is SubmittedAnswerItemBinding -> {
           //demo subha
           binding.itemMultiSubmittedRecyclerView.visibility = View.GONE
-          binding.submittedAnswerRecyclerView.visibility = View.VISIBLE
           binding.submittedAnswerTextView.visibility = View.GONE
+          binding.submittedAnswerRecyclerView.visibility = View.VISIBLE
         }
       }
     }
