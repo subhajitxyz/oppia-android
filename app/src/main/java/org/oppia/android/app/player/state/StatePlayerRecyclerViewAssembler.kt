@@ -1332,12 +1332,12 @@ class StatePlayerRecyclerViewAssembler private constructor(
               // else if interaction.id == item_selection -> bind multiple_choice_submitted_item and SelectionSubmittedItemViewModel
               // showItemOrMultiSubmittedAnswer() -> which will make visibile my demo submitted answer
 
-              val interactionId = submittedAnswerViewModel.interaction.id
-              if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
-                showItemOrMultiSubmittedAnswer(binding)
-                binding.itemMultiSubmittedRecyclerView.adapter =
-                  createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
-              } else {
+//              val interactionId = submittedAnswerViewModel.interaction.id
+//              if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
+//                showItemOrMultiSubmittedAnswer(binding)
+//                binding.itemMultiSubmittedRecyclerView.adapter =
+//                  createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
+//              } else {
                 showSingleAnswer(binding)
                 val accessibleAnswer = if (userAnswer.contentDescription.isNotEmpty()) {
                   userAnswer.contentDescription
@@ -1358,7 +1358,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
                   ),
                   accessibleAnswer
                 )
-              }
+              //}
 
             }
             UserAnswer.TextualAnswerCase.LIST_OF_HTML_ANSWERS -> {

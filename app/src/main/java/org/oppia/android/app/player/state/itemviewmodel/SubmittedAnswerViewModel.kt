@@ -207,35 +207,62 @@ class SubmittedAnswerViewModel(
       submittedUserAnswer.itemSelection.selectedIndexesList,
       writtenTranslationContext,
       translationController,
-      customTagHandlers
+      customTagHandlers,
+      gcsEntityId,
+      resourceHandler
     )
-  private fun computeChoiceItems(
-    choiceSubtitledHtmls: List<SubtitledHtml>,
-    hasConversationView: Boolean,
-    enabledItemsList: List<Int>,
-    writtenTranslationContext: WrittenTranslationContext,
-    translationController: TranslationController,
-    customTagHandlers: Map<String, CustomHtmlContentHandler.CustomTagHandler>
-  ): List<SelectionSubmittedItemViewModel> {
-    return choiceSubtitledHtmls.mapIndexed { index, subtitledHtml ->
-      SelectionSubmittedItemViewModel(
-        htmlContent = subtitledHtml,
-        hasConversationView = hasConversationView,
-        itemIndex = index,
-        isEnabled = enabledItemsList.contains(index),
-        customTagHandlers = customTagHandlers,
-        writtenTranslationContext = writtenTranslationContext,
-        translationController = translationController,
-        gcsEntityId,
-        resourceHandler
-      )
-    }
-  }
+//  private fun computeChoiceItems(
+//    choiceSubtitledHtmls: List<SubtitledHtml>,
+//    hasConversationView: Boolean,
+//    enabledItemsList: List<Int>,
+//    writtenTranslationContext: WrittenTranslationContext,
+//    translationController: TranslationController,
+//    customTagHandlers: Map<String, CustomHtmlContentHandler.CustomTagHandler>
+//  ): List<SelectionSubmittedItemViewModel> {
+//    return choiceSubtitledHtmls.mapIndexed { index, subtitledHtml ->
+//      SelectionSubmittedItemViewModel(
+//        htmlContent = subtitledHtml,
+//        hasConversationView = hasConversationView,
+//        itemIndex = index,
+//        isEnabled = enabledItemsList.contains(index),
+//        customTagHandlers = customTagHandlers,
+//        writtenTranslationContext = writtenTranslationContext,
+//        translationController = translationController,
+//        gcsEntityId,
+//        resourceHandler
+//      )
+//    }
+//  }
 
 
   private companion object {
     private const val DEFAULT_IS_CORRECT_ANSWER = false
     private const val DEFAULT_SUBMITTED_ANSWER = ""
     private val DEFAULT_ACCESSIBLE_ANSWER: String? = null
+
+    private fun computeChoiceItems(
+      choiceSubtitledHtmls: List<SubtitledHtml>,
+      hasConversationView: Boolean,
+      enabledItemsList: List<Int>,
+      writtenTranslationContext: WrittenTranslationContext,
+      translationController: TranslationController,
+      customTagHandlers: Map<String, CustomHtmlContentHandler.CustomTagHandler>,
+      gcsEntityId: String,
+      resourceHandler: AppLanguageResourceHandler
+    ): List<SelectionSubmittedItemViewModel> {
+      return choiceSubtitledHtmls.mapIndexed { index, subtitledHtml ->
+        SelectionSubmittedItemViewModel(
+          htmlContent = subtitledHtml,
+          hasConversationView = hasConversationView,
+          itemIndex = index,
+          isEnabled = enabledItemsList.contains(index),
+          customTagHandlers = customTagHandlers,
+          writtenTranslationContext = writtenTranslationContext,
+          translationController = translationController,
+          gcsEntityId,
+          resourceHandler
+        )
+      }
+    }
   }
 }
