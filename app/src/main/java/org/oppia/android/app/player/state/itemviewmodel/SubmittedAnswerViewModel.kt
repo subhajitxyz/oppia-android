@@ -187,6 +187,7 @@ class SubmittedAnswerViewModel(
     }
   }
 
+
   private val choiceSubtitledHtmls: List<SubtitledHtml> by lazy {
     interaction.customizationArgsMap["choices"]
       ?.schemaObjectList

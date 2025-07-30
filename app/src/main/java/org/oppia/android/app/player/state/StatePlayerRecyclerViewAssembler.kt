@@ -1458,6 +1458,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
       gcsEntityId: String,
       supportsConceptCards: Boolean
     ): BindableAdapter<StringList> {
+      Log.d("testdrag","in cond createListAnswerAdapter")
+
       return singleTypeBuilderFactory.create<StringList>()
         .registerViewBinder(
           inflateView = { parent ->
@@ -1569,6 +1571,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
           binding.submittedAnswerRecyclerView.visibility = View.GONE
           binding.submittedAnswerTextView.visibility = View.GONE
           binding.itemMultiSubmittedRecyclerView.visibility = View.VISIBLE
+
         }
       }
     }
@@ -1585,6 +1588,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     }
 
     private fun showListOfAnswers(binding: ViewDataBinding) {
+      Log.d("testdrag","in cond showListOfAnswers")
       when (binding) {
         is SubmittedAnswerItemBinding -> {
           //demo subha
