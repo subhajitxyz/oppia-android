@@ -9,6 +9,11 @@
     <import type="androidx.constraintlayout.widget.ConstraintSet" />
 
     <variable
+      name="submittedMultiChoiceAnswer"
+      type="java.util.List&lt;org.oppia.android.app.player.state.itemviewmodel.SelectionSubmittedItemViewModel&gt;" />
+
+
+    <variable
       name="submittedListAnswer"
       type="org.oppia.android.app.model.ListOfSetsOfHtmlStrings" />
 
@@ -69,19 +74,6 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent">
 
-<!--      demo subha-->
-
-      <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/item_multi_submitted_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/submitted_answer_background"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:list="@{viewModel.choiceItems}" />
-
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/submitted_answer_recycler_view"
@@ -93,7 +85,22 @@
         android:visibility="gone"
         app:itemDecorator="@{@drawable/divider}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:list="@{submittedListAnswer.setOfHtmlStringsList}" />
+        app:list="@{submittedListAnswer.setOfHtmlStringsList}"/>
+
+
+      <!--      demo subha-->
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_multi_submitted_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/submitted_answer_background"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:list="@{submittedMultiChoiceAnswer}" />
+<!--      app:list="@{viewModel.choiceItems}"-->
     </LinearLayout>
 
     <ImageView

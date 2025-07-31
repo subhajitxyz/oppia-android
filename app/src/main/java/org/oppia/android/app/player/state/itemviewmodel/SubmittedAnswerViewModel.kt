@@ -27,7 +27,7 @@ class SubmittedAnswerViewModel(
   val interaction: Interaction, //demo subha
   val writtenTranslationContext: WrittenTranslationContext,
   private val translationController: TranslationController,
-  consoleLogger: ConsoleLogger
+  val consoleLogger: ConsoleLogger
 ) : StateItemViewModel(ViewType.SUBMITTED_ANSWER) {
   val isCorrectAnswer = ObservableField(DEFAULT_IS_CORRECT_ANSWER)
   val submittedAnswer: ObservableField<CharSequence> = ObservableField(DEFAULT_SUBMITTED_ANSWER)
@@ -187,6 +187,11 @@ class SubmittedAnswerViewModel(
     }
   }
 
+  //subha
+  fun isDragAndDropAnswerType(): Boolean {
+    return interaction.id == "DragAndDropSortInput"
+  }
+
 
   private val choiceSubtitledHtmls: List<SubtitledHtml> by lazy {
     interaction.customizationArgsMap["choices"]
@@ -240,7 +245,7 @@ class SubmittedAnswerViewModel(
     private const val DEFAULT_SUBMITTED_ANSWER = ""
     private val DEFAULT_ACCESSIBLE_ANSWER: String? = null
 
-    private fun computeChoiceItems(
+    fun computeChoiceItems(
       choiceSubtitledHtmls: List<SubtitledHtml>,
       hasConversationView: Boolean,
       enabledItemsList: List<Int>,
@@ -266,3 +271,5 @@ class SubmittedAnswerViewModel(
     }
   }
 }
+
+

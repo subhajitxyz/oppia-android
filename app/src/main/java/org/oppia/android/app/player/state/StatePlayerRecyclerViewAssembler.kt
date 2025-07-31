@@ -1323,14 +1323,33 @@ class StatePlayerRecyclerViewAssembler private constructor(
           binding.viewModel = submittedAnswerViewModel
           val userAnswer = submittedAnswerViewModel.submittedUserAnswer
 
-          when (userAnswer.textualAnswerCase) {
-            UserAnswer.TextualAnswerCase.HTML_ANSWER -> {
-              //subha idea
-              //here we fetch interaction.id
+          //subha idea
+          //here we fetch interaction.id
 
-              // if interaction.id == item_selection -> bind item_selection_submitted_item and SelectionSubmittedItemViewModel
-              // else if interaction.id == item_selection -> bind multiple_choice_submitted_item and SelectionSubmittedItemViewModel
-              // showItemOrMultiSubmittedAnswer() -> which will make visibile my demo submitted answer
+//           if interaction.id == item_selection -> bind item_selection_submitted_item and SelectionSubmittedItemViewModel
+//           else if interaction.id == item_selection -> bind multiple_choice_submitted_item and SelectionSubmittedItemViewModel
+//           showItemOrMultiSubmittedAnswer() -> which will make visibile my demo submitted answer
+
+//          binding.itemMultiSubmittedRecyclerView.adapter =
+//            createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
+          val interactionId = submittedAnswerViewModel.interaction.id
+          if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
+            showItemOrMultiSubmittedAnswer(binding)
+           // binding.itemMultiSubmittedRecyclerView.adapter =
+            binding.submittedAnswerRecyclerView.adapter =
+              createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
+            binding.submittedMultiChoiceAnswer = viewModel.choiceItems
+          } else {
+
+
+            when (userAnswer.textualAnswerCase) {
+              UserAnswer.TextualAnswerCase.HTML_ANSWER -> {
+                //subha idea
+                //here we fetch interaction.id
+
+                // if interaction.id == item_selection -> bind item_selection_submitted_item and SelectionSubmittedItemViewModel
+                // else if interaction.id == item_selection -> bind multiple_choice_submitted_item and SelectionSubmittedItemViewModel
+                // showItemOrMultiSubmittedAnswer() -> which will make visibile my demo submitted answer
 
 //              val interactionId = submittedAnswerViewModel.interaction.id
 //              if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
@@ -1358,25 +1377,29 @@ class StatePlayerRecyclerViewAssembler private constructor(
                   ),
                   accessibleAnswer
                 )
-              //}
+                //}
 
-            }
-            UserAnswer.TextualAnswerCase.LIST_OF_HTML_ANSWERS -> {
-              //subha
-              Log.d("testdrag","in cond LIST_OF_HTML_ANSWERS")
-              showListOfAnswers(binding)
-              binding.submittedListAnswer = userAnswer.listOfHtmlAnswers
-              binding.submittedAnswerRecyclerView.adapter =
-                createListAnswerAdapter(
-                  submittedAnswerViewModel.gcsEntityId,
-                  submittedAnswerViewModel.supportsConceptCards
+              }
+
+              UserAnswer.TextualAnswerCase.LIST_OF_HTML_ANSWERS -> {
+                //subha
+                Log.d("testdrag", "in cond LIST_OF_HTML_ANSWERS")
+                showListOfAnswers(binding)
+                binding.submittedAnswerRecyclerView.adapter =
+                  createListAnswerAdapter(
+                    submittedAnswerViewModel.gcsEntityId,
+                    submittedAnswerViewModel.supportsConceptCards
+                  )
+
+                binding.submittedListAnswer = userAnswer.listOfHtmlAnswers
+              }
+
+              else -> {
+                showSingleAnswer(binding)
+                submittedAnswerViewModel.setSubmittedAnswer(
+                  userAnswer.plainAnswer, accessibleAnswer = userAnswer.contentDescription
                 )
-            }
-            else -> {
-              showSingleAnswer(binding)
-              submittedAnswerViewModel.setSubmittedAnswer(
-                userAnswer.plainAnswer, accessibleAnswer = userAnswer.contentDescription
-              )
+              }
             }
           }
 
@@ -1481,7 +1504,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     private fun createItemMultiListAnswerAdapter(selectionItemInputType: SelectionItemInputType): BindableAdapter<SelectionSubmittedItemViewModel> {
       return when (selectionItemInputType) {
         SelectionItemInputType.CHECKBOXES ->
-          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>()
+          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>() //subha drag corr
             .registerViewBinder(
               inflateView = { parent ->
                 ItemSelectionSubmittedItemBinding.inflate(
@@ -1506,7 +1529,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
             )
             .build()
         SelectionItemInputType.RADIO_BUTTONS ->
-          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>()
+          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>() ////subha drag corr
             .registerViewBinder(
               inflateView = { parent ->
                 MultipleChoiceSubmittedItemBinding.inflate(
@@ -1537,6 +1560,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       gcsEntityId: String,
       supportsConceptCards: Boolean
     ): BindableAdapter<String> {
+      Log.d("testdrag","in cond createNestedAdapter")
       return singleTypeBuilderFactory.create<String>()
         .registerViewBinder(
           inflateView = { parent ->
@@ -1592,9 +1616,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
       when (binding) {
         is SubmittedAnswerItemBinding -> {
           //demo subha
+
+          binding.submittedAnswerRecyclerView.visibility = View.VISIBLE
           binding.itemMultiSubmittedRecyclerView.visibility = View.GONE
           binding.submittedAnswerTextView.visibility = View.GONE
-          binding.submittedAnswerRecyclerView.visibility = View.VISIBLE
         }
       }
     }
