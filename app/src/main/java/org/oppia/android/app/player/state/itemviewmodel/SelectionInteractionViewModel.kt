@@ -178,10 +178,10 @@ class SelectionInteractionViewModel private constructor(
     }
     writtenTranslationContext = translationContext
 
-    // subha idea 2
-    itemSelection = ItemSelectionAnswerState.newBuilder().addAllSelectedIndexes(
-      selectedItems
-    ).build()
+    // subha
+    itemSelection = ItemSelectionAnswerState.newBuilder()
+      .addAllSelectedIndexes(selectedItems)
+      .build()
   }.build()
 
   /**

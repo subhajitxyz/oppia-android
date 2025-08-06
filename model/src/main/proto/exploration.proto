@@ -324,7 +324,7 @@ message UserAnswer {
   // may have changed, but the user's answer is fixed.
   WrittenTranslationContext written_translation_context = 6;
 
-  //demo subha idea 2
+  //subha
   // User's selection for selection input interactions.
   ItemSelectionAnswerState item_selection = 7;
 }

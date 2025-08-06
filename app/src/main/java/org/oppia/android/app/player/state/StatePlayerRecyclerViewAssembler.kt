@@ -667,13 +667,11 @@ class StatePlayerRecyclerViewAssembler private constructor(
     userAnswer: UserAnswer,
     gcsEntityId: String,
     isAnswerCorrect: Boolean,
-    interaction: Interaction, // demo subha
+    interaction: Interaction, //subha
     writtenTranslationContext: WrittenTranslationContext
   ): SubmittedAnswerViewModel? {
     return userAnswer.takeIf { it.hasAnswerToDisplayToUser() }?.let {
-      // subha idea
-      // Step 4 :::::::
-      // pass interaction.id in SubmittedAnswerViewModel
+      // subha
       SubmittedAnswerViewModel(
         userAnswer,
         gcsEntityId,
@@ -1325,60 +1323,75 @@ class StatePlayerRecyclerViewAssembler private constructor(
 
           //subha idea
           //here we fetch interaction.id
-
 //           if interaction.id == item_selection -> bind item_selection_submitted_item and SelectionSubmittedItemViewModel
 //           else if interaction.id == item_selection -> bind multiple_choice_submitted_item and SelectionSubmittedItemViewModel
 //           showItemOrMultiSubmittedAnswer() -> which will make visibile my demo submitted answer
-
 //          binding.itemMultiSubmittedRecyclerView.adapter =
 //            createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
-          val interactionId = submittedAnswerViewModel.interaction.id
-          if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
-            showItemOrMultiSubmittedAnswer(binding)
-           // binding.itemMultiSubmittedRecyclerView.adapter =
-            binding.submittedAnswerRecyclerView.adapter =
-              createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
-            binding.submittedMultiChoiceAnswer = viewModel.choiceItems
-          } else {
 
-
+//          val interactionId = submittedAnswerViewModel.interaction.id
+//          if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
+//            showSelectionSubmittedAnswer(binding)
+//            binding.selectionSubmittedAnswerRecyclerView.adapter =
+//              createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
+//            binding.selectionSubmittedListAnswer = viewModel.choiceItems
+//          } else {
             when (userAnswer.textualAnswerCase) {
               UserAnswer.TextualAnswerCase.HTML_ANSWER -> {
-                //subha idea
-                //here we fetch interaction.id
+                // subha next
+                val interactionId = submittedAnswerViewModel.interaction.id
+                if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
 
-                // if interaction.id == item_selection -> bind item_selection_submitted_item and SelectionSubmittedItemViewModel
-                // else if interaction.id == item_selection -> bind multiple_choice_submitted_item and SelectionSubmittedItemViewModel
-                // showItemOrMultiSubmittedAnswer() -> which will make visibile my demo submitted answer
+                  showSelectionSubmittedAnswer(binding)
+                  binding.selectionSubmittedAnswerRecyclerView.adapter =
+                    createSelectionSubmittedListAnswerAdapter(viewModel.getSelectionItemInputType())
+                  binding.selectionSubmittedListAnswer = viewModel.choiceItems
 
-//              val interactionId = submittedAnswerViewModel.interaction.id
-//              if (interactionId == "ItemSelectionInput" || interactionId == "MultipleChoiceInput" ) {
-//                showItemOrMultiSubmittedAnswer(binding)
-//                binding.itemMultiSubmittedRecyclerView.adapter =
-//                  createItemMultiListAnswerAdapter(viewModel.getSelectionItemInputType())
-//              } else {
-                showSingleAnswer(binding)
-                val accessibleAnswer = if (userAnswer.contentDescription.isNotEmpty()) {
-                  userAnswer.contentDescription
-                } else null
-                val htmlParser = htmlParserFactory.create(
-                  resourceBucketName,
-                  entityType,
-                  submittedAnswerViewModel.gcsEntityId,
-                  imageCenterAlign = false,
-                  customOppiaTagActionListener = customTagListener,
-                  displayLocale = resourceHandler.getDisplayLocale()
-                )
-                submittedAnswerViewModel.setSubmittedAnswer(
-                  htmlParser.parseOppiaHtml(
-                    userAnswer.htmlAnswer,
-                    binding.submittedAnswerTextView,
-                    supportsConceptCards = submittedAnswerViewModel.supportsConceptCards
-                  ),
-                  accessibleAnswer
-                )
-                //}
+                } else {
+                  //below part
+                  showSingleAnswer(binding)
+                  val accessibleAnswer = if (userAnswer.contentDescription.isNotEmpty()) {
+                    userAnswer.contentDescription
+                  } else null
+                  val htmlParser = htmlParserFactory.create(
+                    resourceBucketName,
+                    entityType,
+                    submittedAnswerViewModel.gcsEntityId,
+                    imageCenterAlign = false,
+                    customOppiaTagActionListener = customTagListener,
+                    displayLocale = resourceHandler.getDisplayLocale()
+                  )
+                  submittedAnswerViewModel.setSubmittedAnswer(
+                    htmlParser.parseOppiaHtml(
+                      userAnswer.htmlAnswer,
+                      binding.submittedAnswerTextView,
+                      supportsConceptCards = submittedAnswerViewModel.supportsConceptCards
+                    ),
+                    accessibleAnswer
+                  )
+                }
 
+
+//                showSingleAnswer(binding)
+//                val accessibleAnswer = if (userAnswer.contentDescription.isNotEmpty()) {
+//                  userAnswer.contentDescription
+//                } else null
+//                val htmlParser = htmlParserFactory.create(
+//                  resourceBucketName,
+//                  entityType,
+//                  submittedAnswerViewModel.gcsEntityId,
+//                  imageCenterAlign = false,
+//                  customOppiaTagActionListener = customTagListener,
+//                  displayLocale = resourceHandler.getDisplayLocale()
+//                )
+//                submittedAnswerViewModel.setSubmittedAnswer(
+//                  htmlParser.parseOppiaHtml(
+//                    userAnswer.htmlAnswer,
+//                    binding.submittedAnswerTextView,
+//                    supportsConceptCards = submittedAnswerViewModel.supportsConceptCards
+//                  ),
+//                  accessibleAnswer
+//                )
               }
 
               UserAnswer.TextualAnswerCase.LIST_OF_HTML_ANSWERS -> {
@@ -1401,7 +1414,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
                 )
               }
             }
-          }
+          //}
 
         }
       )
@@ -1481,8 +1494,6 @@ class StatePlayerRecyclerViewAssembler private constructor(
       gcsEntityId: String,
       supportsConceptCards: Boolean
     ): BindableAdapter<StringList> {
-      Log.d("testdrag","in cond createListAnswerAdapter")
-
       return singleTypeBuilderFactory.create<StringList>()
         .registerViewBinder(
           inflateView = { parent ->
@@ -1500,11 +1511,13 @@ class StatePlayerRecyclerViewAssembler private constructor(
         .build()
     }
 
-    // demo subha
-    private fun createItemMultiListAnswerAdapter(selectionItemInputType: SelectionItemInputType): BindableAdapter<SelectionSubmittedItemViewModel> {
+    //subha
+    private fun createSelectionSubmittedListAnswerAdapter(
+      selectionItemInputType: SelectionItemInputType
+    ): BindableAdapter<SelectionSubmittedItemViewModel> {
       return when (selectionItemInputType) {
-        SelectionItemInputType.CHECKBOXES ->
-          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>() //subha drag corr
+        SelectionItemInputType.CHECKBOXES -> {
+          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>()
             .registerViewBinder(
               inflateView = { parent ->
                 ItemSelectionSubmittedItemBinding.inflate(
@@ -1515,7 +1528,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
                 val binding = DataBindingUtil.findBinding<ItemSelectionSubmittedItemBinding>(view)!!
                 binding.htmlContent =
                   htmlParserFactory.create(
-                    resourceBucketName, entityType, viewModel.entityId, /* imageCenterAlign= */ false,
+                    resourceBucketName,
+                    entityType,
+                    viewModel.entityId,
+                    false,
                     displayLocale = viewModel.resourceHandler.getDisplayLocale()
                   ).parseOppiaHtml(
                     translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
@@ -1528,8 +1544,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
               }
             )
             .build()
-        SelectionItemInputType.RADIO_BUTTONS ->
-          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>() ////subha drag corr
+        }
+
+        SelectionItemInputType.RADIO_BUTTONS -> {
+          singleTypeBuilderFactory.create<SelectionSubmittedItemViewModel>()
             .registerViewBinder(
               inflateView = { parent ->
                 MultipleChoiceSubmittedItemBinding.inflate(
@@ -1547,12 +1565,14 @@ class StatePlayerRecyclerViewAssembler private constructor(
                     binding.multipleChoiceContentTextView
                   )
                 if (viewModel.isEnabled) {
+                  binding.multipleChoiceContentTextView.setTypeface(null, Typeface.BOLD) // keep it or use bindingadapter("boldstyle")
                   binding.correctAnswerTextView.visibility = View.VISIBLE
                 }
                 binding.viewModel = viewModel
               }
             )
             .build()
+        }
       }
     }
 
@@ -1588,13 +1608,13 @@ class StatePlayerRecyclerViewAssembler private constructor(
         .build()
     }
 
-    // demo subha
-    private fun showItemOrMultiSubmittedAnswer(binding: ViewDataBinding) {
+    //subha
+    private fun showSelectionSubmittedAnswer(binding: ViewDataBinding) {
       when (binding) {
         is SubmittedAnswerItemBinding -> {
           binding.submittedAnswerRecyclerView.visibility = View.GONE
           binding.submittedAnswerTextView.visibility = View.GONE
-          binding.itemMultiSubmittedRecyclerView.visibility = View.VISIBLE
+          binding.selectionSubmittedAnswerRecyclerView.visibility = View.VISIBLE
 
         }
       }
@@ -1604,7 +1624,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
       when (binding) {
         is SubmittedAnswerItemBinding -> {
           //demo subha
-          binding.itemMultiSubmittedRecyclerView.visibility = View.GONE
+          binding.selectionSubmittedAnswerRecyclerView.visibility = View.GONE
           binding.submittedAnswerRecyclerView.visibility = View.GONE
           binding.submittedAnswerTextView.visibility = View.VISIBLE
         }
@@ -1615,10 +1635,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
       Log.d("testdrag","in cond showListOfAnswers")
       when (binding) {
         is SubmittedAnswerItemBinding -> {
-          //demo subha
-
+          //demo
           binding.submittedAnswerRecyclerView.visibility = View.VISIBLE
-          binding.itemMultiSubmittedRecyclerView.visibility = View.GONE
+          binding.selectionSubmittedAnswerRecyclerView.visibility = View.GONE
           binding.submittedAnswerTextView.visibility = View.GONE
         }
       }

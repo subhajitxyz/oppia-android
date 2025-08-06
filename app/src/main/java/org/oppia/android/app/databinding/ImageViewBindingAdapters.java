@@ -115,12 +115,12 @@ public final class ImageViewBindingAdapters {
     }
   }
 
-  //demo subha
-  @BindingAdapter("submittedAnswerIcon")
-  public static void setSubmittedAnswerIcon(@NonNull ImageView imageView, boolean isCorrect) {
-    int drawableResId = isCorrect
-            ? R.drawable.radio_checked
-            : R.drawable.radio_unchecked;
-    setImageDrawableCompat(imageView, drawableResId);
-  }
+//  //demo subha donot this, i am using srccom = with condition
+//  @BindingAdapter("submittedAnswerIcon")
+//  public static void setSubmittedAnswerIcon(@NonNull ImageView imageView, boolean isCorrect) {
+//    int drawableResId = isCorrect
+//            ? R.drawable.radio_checked
+//            : R.drawable.radio_unchecked;
+//    setImageDrawableCompat(imageView, drawableResId);
+//  }
 }

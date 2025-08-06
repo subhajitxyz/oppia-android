@@ -121,9 +121,6 @@ class SubmittedAnswerViewModel(
 
 
 
-
-
-
   /// FINAL ANSWER IDEA
   //  Submitted answer design should be like this---->
   /// 1. place circular/ square icon in place of radio buttons (with correct color in light/dark mode).
@@ -131,40 +128,7 @@ class SubmittedAnswerViewModel(
   /// 3. Try to match figma view.
 
 
-
-  // demo subha
-//  fun computeItemOrMultiSubmittedAnswerList(): List<SelectionSubmittedItemViewModel> {
-//    return when (interactionId) {
-//      "ItemSelectionInput" -> listOf(
-//        // First item in the list
-//        SelectionSubmittedItemViewModel(
-//          id = "hi",
-//        ),
-//        // Second item in the list
-//        SelectionSubmittedItemViewModel(
-//          id = "hi",
-//        )
-//      )
-//
-//      "MultipleChoiceInput" -> listOf(
-//        // First item in the list
-//        SelectionSubmittedItemViewModel(
-//          id = "Hello",
-//        ),
-//        // Second item in the list
-//        SelectionSubmittedItemViewModel(
-//          id = "hello",
-//        )
-//      )
-//
-//      else -> emptyList() // Return an empty list if no condition matches
-//    }
-//  }
-
-  // subha idea 2
-
-
-
+  // subha
   private val minAllowableSelectionCount: Int by lazy {
     interaction.customizationArgsMap["minAllowableSelectionCount"]?.signedInt ?: 1
   }
@@ -175,6 +139,7 @@ class SubmittedAnswerViewModel(
     interaction.customizationArgsMap["maxAllowableSelectionCount"]?.signedInt
       ?: minAllowableSelectionCount
   }
+
   private fun areCheckboxesBound(): Boolean {
     return interaction.id == "ItemSelectionInput" && maxAllowableSelectionCount > 1
   }
@@ -187,11 +152,10 @@ class SubmittedAnswerViewModel(
     }
   }
 
-  //subha
+  //subha, if it has no use, can remove it
   fun isDragAndDropAnswerType(): Boolean {
     return interaction.id == "DragAndDropSortInput"
   }
-
 
   private val choiceSubtitledHtmls: List<SubtitledHtml> by lazy {
     interaction.customizationArgsMap["choices"]
@@ -216,29 +180,6 @@ class SubmittedAnswerViewModel(
       gcsEntityId,
       resourceHandler
     )
-//  private fun computeChoiceItems(
-//    choiceSubtitledHtmls: List<SubtitledHtml>,
-//    hasConversationView: Boolean,
-//    enabledItemsList: List<Int>,
-//    writtenTranslationContext: WrittenTranslationContext,
-//    translationController: TranslationController,
-//    customTagHandlers: Map<String, CustomHtmlContentHandler.CustomTagHandler>
-//  ): List<SelectionSubmittedItemViewModel> {
-//    return choiceSubtitledHtmls.mapIndexed { index, subtitledHtml ->
-//      SelectionSubmittedItemViewModel(
-//        htmlContent = subtitledHtml,
-//        hasConversationView = hasConversationView,
-//        itemIndex = index,
-//        isEnabled = enabledItemsList.contains(index),
-//        customTagHandlers = customTagHandlers,
-//        writtenTranslationContext = writtenTranslationContext,
-//        translationController = translationController,
-//        gcsEntityId,
-//        resourceHandler
-//      )
-//    }
-//  }
-
 
   private companion object {
     private const val DEFAULT_IS_CORRECT_ANSWER = false
@@ -259,7 +200,6 @@ class SubmittedAnswerViewModel(
         SelectionSubmittedItemViewModel(
           htmlContent = subtitledHtml,
           hasConversationView = hasConversationView,
-          itemIndex = index,
           isEnabled = enabledItemsList.contains(index),
           customTagHandlers = customTagHandlers,
           writtenTranslationContext = writtenTranslationContext,

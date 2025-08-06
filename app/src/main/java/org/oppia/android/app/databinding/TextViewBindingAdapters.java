@@ -75,7 +75,6 @@ public final class TextViewBindingAdapters {
     textView.setTypeface(null, isEnabled ? Typeface.BOLD : Typeface.NORMAL);
   }
 
-
   private static String getTimeAgo(View view, long lastVisitedTimestamp) {
     long currentTimeMillis = getOppiaClock(view).getCurrentTimeMs();
     AppLanguageResourceHandler resourceHandler = getResourceHandler(view);

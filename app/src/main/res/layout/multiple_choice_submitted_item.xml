@@ -3,8 +3,6 @@
 
   <data>
 
-    <import type="android.view.View" />
-
     <variable
       name="htmlContent"
       type="CharSequence" />
@@ -31,22 +29,15 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="12dp"
       android:importantForAccessibility="no"
-      app:srcCompat="@{viewModel.isEnabled ? @drawable/radio_checked : @drawable/radio_unchecked}"
-      />
-<!--    app:submittedAnswerIcon="@{viewModel.isEnabled}"-->
+      app:srcCompat="@{viewModel.isEnabled ? @drawable/radio_checked : @drawable/radio_unchecked}" />
 
-
-<!--    android:layout_marginTop="4dp"-->
     <LinearLayout
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginStart="18dp"
       android:layout_marginEnd="12dp"
       android:orientation="vertical">
 
-
-
-<!--      app:boldStyle="@{viewModel.isEnabled}"-->
       <TextView
         android:id="@+id/multiple_choice_content_text_view"
         android:layout_width="wrap_content"
@@ -63,7 +54,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:fontFamily="sans-serif"
-        android:text="(This is user selected answer)"
+        android:text="@string/submitted_answer_text"
         android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
         android:textSize="12sp" />
     </LinearLayout>
