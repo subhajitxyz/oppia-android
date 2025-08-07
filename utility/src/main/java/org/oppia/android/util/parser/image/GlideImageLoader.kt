@@ -23,6 +23,7 @@ import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 /** An [ImageLoader] that uses Glide. */
 @Singleton
 class GlideImageLoader @Inject constructor(
@@ -33,6 +34,7 @@ class GlideImageLoader @Inject constructor(
   private val glide by lazy { Glide.with(context) }
   private val bitmapBlurTransformation by lazy { BitmapBlurTransformation(context) }
   private val pictureBitmapBlurTransformation by lazy { SvgBlurTransformation() }
+  private val greyScaleTransformation by lazy { GreyScaleTransformation() }
 
   override fun loadBitmap(
     imageUrl: String,
@@ -126,6 +128,7 @@ class GlideImageLoader @Inject constructor(
       return map {
         when (it) {
           ImageTransformation.BLUR -> bitmapBlurTransformation
+          ImageTransformation.GREYSCALE -> greyScaleTransformation//subha
         }
       }
     }
@@ -135,6 +138,7 @@ class GlideImageLoader @Inject constructor(
       return map {
         when (it) {
           ImageTransformation.BLUR -> pictureBitmapBlurTransformation
+          else -> pictureBitmapBlurTransformation//subha
         }
       } + UpdatePictureDrawableSize(imageUrl)
     }

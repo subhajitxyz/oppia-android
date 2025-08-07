@@ -19,6 +19,7 @@ import org.oppia.android.util.parser.image.UrlImageParser
 import org.oppia.android.util.platformparameter.CacheLatexRendering
 import org.oppia.android.util.platformparameter.PlatformParameterValue
 import javax.inject.Inject
+import org.oppia.android.util.parser.image.ImageTransformation
 
 /** Html Parser to parse custom Oppia tags with Android-compatible versions. */
 class HtmlParser private constructor(
@@ -76,7 +77,8 @@ class HtmlParser private constructor(
     rawString: String,
     htmlContentTextView: TextView,
     supportsLinks: Boolean = false,
-    supportsConceptCards: Boolean = false
+    supportsConceptCards: Boolean = false,
+    transformations: List<ImageTransformation> = listOf() //subha
   ): Spannable {
     var htmlContent = rawString
 
@@ -127,7 +129,8 @@ class HtmlParser private constructor(
       gcsResourceName,
       entityType,
       entityId,
-      imageCenterAlign
+      imageCenterAlign,
+      transformations //subha
     )
 
     val htmlSpannable = CustomHtmlContentHandler.fromHtml(

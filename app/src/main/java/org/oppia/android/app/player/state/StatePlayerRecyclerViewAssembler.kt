@@ -124,6 +124,7 @@ import org.oppia.android.app.databinding.databinding.ItemSelectionSubmittedItemB
 import org.oppia.android.app.databinding.databinding.MultipleChoiceSubmittedItemBinding
 import org.oppia.android.app.player.state.itemviewmodel.SelectionItemInputType
 import org.oppia.android.app.player.state.itemviewmodel.SelectionSubmittedItemViewModel
+import org.oppia.android.util.parser.image.ImageTransformation
 
 private typealias AudioUiManagerRetriever = () -> AudioUiManager?
 
@@ -1535,7 +1536,11 @@ class StatePlayerRecyclerViewAssembler private constructor(
                     displayLocale = viewModel.resourceHandler.getDisplayLocale()
                   ).parseOppiaHtml(
                     translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
-                    binding.itemSelectionContentsTextView
+                    binding.itemSelectionContentsTextView,
+                    transformations = if (!viewModel.isEnabled) //subha
+                      listOf(ImageTransformation.GREYSCALE)
+                    else
+                      emptyList()
                   )
                 if (viewModel.isEnabled) {
                   binding.correctAnswerTextView.visibility = View.VISIBLE
@@ -1562,7 +1567,11 @@ class StatePlayerRecyclerViewAssembler private constructor(
                     displayLocale = viewModel.resourceHandler.getDisplayLocale()
                   ).parseOppiaHtml(
                     translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
-                    binding.multipleChoiceContentTextView
+                    binding.multipleChoiceContentTextView,
+                    transformations = if (!viewModel.isEnabled) //subha
+                      listOf(ImageTransformation.GREYSCALE)
+                    else
+                      emptyList()
                   )
                 if (viewModel.isEnabled) {
                   binding.multipleChoiceContentTextView.setTypeface(null, Typeface.BOLD) // keep it or use bindingadapter("boldstyle")

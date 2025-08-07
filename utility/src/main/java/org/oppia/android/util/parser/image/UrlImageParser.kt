@@ -60,7 +60,8 @@ class UrlImageParser private constructor(
   private val imageCenterAlign: Boolean,
   private val imageLoader: ImageLoader,
   private val consoleLogger: ConsoleLogger,
-  private val machineLocale: OppiaLocale.MachineLocale
+  private val machineLocale: OppiaLocale.MachineLocale,
+  val transformations: List<ImageTransformation> = listOf() //subha
 ) : Html.ImageGetter, ImageRetriever {
   private val diagonalPixelsPerInch by lazy {
     context.resources.displayMetrics.computeDiagonalPpi()
@@ -117,7 +118,8 @@ class UrlImageParser private constructor(
             createCustomTarget(
               proxyDrawable,
               AutoAdjustingImageTarget.BlockImageTarget.BitmapTarget::create
-            )
+            ),
+            transformations //subha
           )
         }
         proxyDrawable
@@ -501,7 +503,8 @@ class UrlImageParser private constructor(
       gcsResourceName: String,
       entityType: String,
       entityId: String,
-      imageCenterAlign: Boolean
+      imageCenterAlign: Boolean,
+      transformations: List<ImageTransformation> = listOf() //subha
     ): UrlImageParser {
       return UrlImageParser(
         context,
@@ -514,7 +517,8 @@ class UrlImageParser private constructor(
         imageCenterAlign,
         imageLoader,
         consoleLogger,
-        machineLocale
+        machineLocale,
+        transformations
       )
     }
   }

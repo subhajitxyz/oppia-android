@@ -2725,7 +2725,9 @@ class StateFragmentTest {
       selectMultipleChoiceOption(optionPosition = 2, expectedOptionText = "Eagle")
       clickSubmitAnswerButton()
 
-      onView(withId(R.id.submitted_answer_text_view)).check(matches(withText("Eagle")))
+      //subha
+      verifyMultipleChoiceSubmittedAnswer(2, "Eagle")
+//      onView(withId(R.id.submitted_answer_text_view)).check(matches(withText("Eagle")))
     }
   }
 
@@ -2766,15 +2768,18 @@ class StateFragmentTest {
       selectMultipleChoiceOption(optionPosition = 2, expectedOptionText = "النسر")
       clickSubmitAnswerButton()
 
-      onView(withId(R.id.submitted_answer_text_view))
-        .check(matches(withText(containsString("النسر"))))
+      //subha
+      verifyMultipleChoiceSubmittedAnswer(2, "النسر")
+
+//      onView(withId(R.id.submitted_answer_text_view))
+//        .check(matches(withText(containsString("النسر"))))
     }
   }
 
   // TODO(#3858): Enable for Espresso.
   @Test
   @RunOn(TestPlatform.ROBOLECTRIC, buildEnvironments = [BuildEnvironment.BAZEL])
-  fun testStateFragment_arabic_multipleChoice_submittedAnswer_switchToEnglish_answerIsInArabic() {
+  fun testStateFragment_arabic_multipleChoice_submittedAnswer_switchToEnglish_answerIsInEnglish() { //subha change the name of this test.
     setUpTestWithLanguageSwitchingFeatureOff()
     updateContentLanguage(profileId, OppiaLanguage.ARABIC)
     launchForExploration(TEST_EXPLORATION_ID_2, shouldSavePartialProgress = true).use {
@@ -2786,9 +2791,11 @@ class StateFragmentTest {
 
       updateContentLanguage(profileId, OppiaLanguage.ENGLISH)
 
-      // The answer should stay in Arabic despite switching back to English.
-      onView(withId(R.id.submitted_answer_text_view))
-        .check(matches(withText(containsString("النسر"))))
+      // The answer should stay in Arabic despite switching back to English. //subha in new submitted ans, the language will change
+      //subha
+      verifyMultipleChoiceSubmittedAnswer(optionPosition = 2, expectedOptionText = "Eagle")
+//      onView(withId(R.id.submitted_answer_text_view))
+//        .check(matches(withText(containsString("النسر"))))
     }
   }
 
@@ -2832,9 +2839,11 @@ class StateFragmentTest {
       selectItemSelectionCheckbox(optionPosition = 2, expectedOptionText = "Green")
       clickSubmitAnswerButton()
 
-      scrollToViewType(SUBMITTED_ANSWER)
-      onView(withId(R.id.submitted_answer_text_view))
-        .check(matches(withText(containsString("Green"))))
+      //subha
+      verifyItemSelectionSubmittedAnswer(2,"Green")
+//      scrollToViewType(SUBMITTED_ANSWER)
+//      onView(withId(R.id.submitted_answer_text_view))
+//        .check(matches(withText(containsString("Green"))))
     }
   }
 
@@ -2881,15 +2890,31 @@ class StateFragmentTest {
       clickSubmitAnswerButton()
 
       scrollToViewType(SUBMITTED_ANSWER)
-      onView(withId(R.id.submitted_answer_text_view))
-        .check(matches(withText(containsString("أخضر"))))
+      //subha
+      onView(
+        atPositionOnView(
+          recyclerViewId = R.id.selection_submitted_answer_recycler_view,
+          position = 2,
+          targetViewId = R.id.item_selection_contents_text_view
+        )
+      ).check(matches(withText(containsString("أخضر"))))
+      onView(
+        atPositionOnView(
+          recyclerViewId = R.id.selection_submitted_answer_recycler_view,
+          position = 2,
+          targetViewId = R.id.correct_answer_text_view
+        )
+      ).check(matches(withText(R.string.submitted_answer_text)))
+//
+//      onView(withId(R.id.submitted_answer_text_view))
+//        .check(matches(withText(containsString("أخضر"))))
     }
   }
 
   // TODO(#3858): Enable for Espresso.
   @Test
   @RunOn(TestPlatform.ROBOLECTRIC, buildEnvironments = [BuildEnvironment.BAZEL])
-  fun testStateFragment_arabic_itemSelection_submittedAnswer_switchToEnglish_answerIsInArabic() {
+  fun testStateFragment_arabic_itemSelection_submittedAnswer_switchToEnglish_answerIsInEnglish() { //subha
     setUpTestWithLanguageSwitchingFeatureOff()
     launchForExploration(TEST_EXPLORATION_ID_2, shouldSavePartialProgress = true).use {
       startPlayingExploration()
@@ -2904,10 +2929,12 @@ class StateFragmentTest {
 
       updateContentLanguage(profileId, OppiaLanguage.ENGLISH)
 
-      scrollToViewType(SUBMITTED_ANSWER)
-      // The answer should stay in the language it was submitted in even if the language changes.
-      onView(withId(R.id.submitted_answer_text_view))
-        .check(matches(withText(containsString("أخضر"))))
+      //subha
+      verifyItemSelectionSubmittedAnswer(2,"Green")
+//      scrollToViewType(SUBMITTED_ANSWER)
+//      // The answer should stay in the language it was submitted in even if the language changes.
+//      onView(withId(R.id.submitted_answer_text_view))
+//        .check(matches(withText(containsString("أخضر"))))
     }
   }
 
@@ -5744,6 +5771,32 @@ class StateFragmentTest {
     }
   }
 
+  //subha
+  @Test
+  fun testStateFragment_submitItemSelectionAnswer_verifySubmittedAnswer() {
+    setUpTestWithFlashbackFeatureOn()
+    launchForExploration(TEST_EXPLORATION_ID_2, shouldSavePartialProgress = false).use {
+      startPlayingExploration()
+      playThroughPrototypeState1()
+      playThroughPrototypeState2()
+      playThroughPrototypeState3()
+      playThroughPrototypeState4()
+
+      // Fifth state: Item selection (checkboxes). Correct answer: {Red, Green, Blue}.
+      selectItemSelectionCheckbox(optionPosition = 0, expectedOptionText = "Red")
+      selectItemSelectionCheckbox(optionPosition = 2, expectedOptionText = "Green")
+      selectItemSelectionCheckbox(optionPosition = 3, expectedOptionText = "Blue")
+      clickSubmitAnswerButton()
+
+      //verify
+      verifyItemSelectionSubmittedAnswer(0, "Red")
+      verifyItemSelectionSubmittedAnswer(2, "Green")
+      verifyItemSelectionSubmittedAnswer(3, "Blue")
+
+
+    }
+  }
+
   private fun moveToFlashbackState() {
     playThroughPrototypeState1()
     playThroughPrototypeState2()
@@ -6165,6 +6218,45 @@ class StateFragmentTest {
       expectedText = expectedOptionText,
       targetTextViewId = R.id.multiple_choice_content_text_view
     )
+  }
+  //subha
+  private fun verifyMultipleChoiceSubmittedAnswer(optionPosition: Int, expectedOptionText: String) {
+    //Todo -> find a way to verify the icon of selection subha
+    scrollToViewType(SUBMITTED_ANSWER)
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.selection_submitted_answer_recycler_view,
+        position = optionPosition,
+        targetViewId = R.id.multiple_choice_content_text_view
+      )
+    ).check(matches(withText(containsString(expectedOptionText))))
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.selection_submitted_answer_recycler_view,
+        position = optionPosition,
+        targetViewId = R.id.correct_answer_text_view
+      )
+    ).check(matches(withText(R.string.submitted_answer_text)))
+  }
+
+  //subha
+  private fun verifyItemSelectionSubmittedAnswer(optionPosition: Int, expectedOptionText: String) {
+    //Todo -> find a way to verify the icon of selection subha
+    scrollToViewType(SUBMITTED_ANSWER)
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.selection_submitted_answer_recycler_view,
+        position = optionPosition,
+        targetViewId = R.id.item_selection_contents_text_view
+      )
+    ).check(matches(withText(containsString(expectedOptionText))))
+    onView(
+      atPositionOnView(
+        recyclerViewId = R.id.selection_submitted_answer_recycler_view,
+        position = optionPosition,
+        targetViewId = R.id.correct_answer_text_view
+      )
+    ).check(matches(withText(R.string.submitted_answer_text)))
   }
 
   private fun selectItemSelectionCheckbox(optionPosition: Int, expectedOptionText: String) {

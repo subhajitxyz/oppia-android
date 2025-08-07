@@ -48,6 +48,7 @@
         android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
         android:textSize="16sp" />
 
+      <!--      For flashback screen , this correct_answer_text_view will be different (check in mock)-->
       <TextView
         android:id="@+id/correct_answer_text_view"
         android:layout_width="wrap_content"

@@ -136,6 +136,7 @@ abstract class SvgPictureDrawable(
   private fun transformBitmap(bitmap: Bitmap, imageTransformation: ImageTransformation): Bitmap {
     return when (imageTransformation) {
       ImageTransformation.BLUR -> bitmapBlurrer.blur(bitmap)
+      else -> bitmapBlurrer.blur(bitmap)
     }
   }
 
