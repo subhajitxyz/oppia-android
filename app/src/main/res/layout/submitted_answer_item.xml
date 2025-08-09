@@ -86,14 +86,18 @@
         app:list="@{submittedListAnswer.setOfHtmlStringsList}"/>
 
 <!--      &lt;!&ndash;      demo subha&ndash;&gt; selection_submitted_answer_recycler_view-->
+
+<!--      android:paddingStart="8dp"-->
+<!--      android:paddingEnd="8dp"-->
+<!--      android:padding="8dp"-->
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/selection_submitted_answer_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/submitted_answer_background"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         android:visibility="gone"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:list="@{SelectionSubmittedListAnswer}" />
     </LinearLayout>

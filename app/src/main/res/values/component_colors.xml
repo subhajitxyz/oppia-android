@@ -185,6 +185,8 @@
   <!-- Exploration Activity -->
   <color name="component_color_exploration_activity_content_background_stroke_color">@color/color_palette_content_background_stroke_color</color>
   <color name="component_color_exploration_activity_content_background_solid_color">@color/color_palette_content_background_solid_color</color>
+<!--  subha-->
+  <color name="component_color_exploration_activity_selected_submitted_answer_overlay_color">@color/color_palette_selected_submitted_answer_overlay_color</color>
   <color name="component_color_exploration_activity_divider_color">@color/color_palette_exploration_activity_divider_color</color>
   <color name="component_color_exploration_activity_divider_dotted_color">@color/color_palette_exploration_activity_divider_dotted_color</color>
   <color name="component_color_exploration_activity_fragment_toolbar_color">@color/color_palette_flashback_toolbar_color</color>

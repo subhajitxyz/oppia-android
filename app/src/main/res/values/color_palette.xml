@@ -49,6 +49,9 @@
   <color name="color_palette_revision_card_background_color">@color/color_def_yellow_ivory</color>
   <color name="color_palette_revision_card_fragment_status_bar_color">@color/color_def_oppia_reddish_brown</color>
   <color name="color_palette_content_background_solid_color">@color/color_def_oppia_solid_blue</color>
+<!--  subha-->
+  <color name="color_palette_selected_submitted_answer_overlay_color">@color/color_def_oppia_solid_blue</color>
+<!--  <color name="color_palette_selected_submitted_answer_overlay_color">@color/color_def_oppia_light_grey</color>-->
   <color name="color_palette_content_background_stroke_color">@color/color_def_oppia_stroke_blue</color>
   <color name="color_palette_rounded_rect_background_color">@color/color_def_white</color>
   <color name="color_palette_rounded_rect_stroke_color">@color/color_def_oppia_grey</color>
