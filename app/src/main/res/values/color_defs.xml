@@ -15,7 +15,8 @@
   <color name="color_def_oppia_stroke_blue">#4D395FD0</color>
   <color name="color_def_oppia_solid_blue">#4DA5D3EC</color>
 <!--  subha-->
-<!--  <color name="color_def_oppia_light_grey">#4D8A8C8E</color>-->
+  <color name="color_def_oppia_light_yellow_rd_suggestion">#F6EFAD</color>
+  <!--  <color name="color_def_oppia_light_grey">#4D8A8C8E</color>-->
   <!--  <color name="color_def_oppia_transparent_white">#4DFFFFFF</color>-->
   <color name="color_def_oppia_transparent_white">#4DFFFFFF</color>
   <color name="color_def_black_80">#CC333333</color>

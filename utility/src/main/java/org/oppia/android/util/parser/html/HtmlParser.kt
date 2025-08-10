@@ -78,7 +78,7 @@ class HtmlParser private constructor(
     htmlContentTextView: TextView,
     supportsLinks: Boolean = false,
     supportsConceptCards: Boolean = false,
-    transformations: List<ImageTransformation> = listOf() //subha
+//    transformations: List<ImageTransformation> = listOf() //subha
   ): Spannable {
     var htmlContent = rawString
 
@@ -130,7 +130,7 @@ class HtmlParser private constructor(
       entityType,
       entityId,
       imageCenterAlign,
-      transformations //subha
+     // transformations //subha
     )
 
     val htmlSpannable = CustomHtmlContentHandler.fromHtml(

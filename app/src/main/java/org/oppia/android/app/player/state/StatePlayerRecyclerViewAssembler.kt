@@ -1537,11 +1537,11 @@ class StatePlayerRecyclerViewAssembler private constructor(
                   ).parseOppiaHtml(
                     translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
                     binding.itemSelectionContentsTextView,
-                    transformations = if (!viewModel.isEnabled) //subha
-                      //listOf(ImageTransformation.GREYSCALE)
-                      listOf()
-                    else
-                      emptyList()
+//                    transformations = if (!viewModel.isEnabled) //subha
+//                      //listOf(ImageTransformation.GREYSCALE)
+//                      listOf()
+//                    else
+//                      emptyList()
                   )
                 if (viewModel.isEnabled) {
                   binding.correctAnswerTextView.visibility = View.VISIBLE
@@ -1570,11 +1570,11 @@ class StatePlayerRecyclerViewAssembler private constructor(
                   ).parseOppiaHtml(
                     translationController.extractString(viewModel.htmlContent,viewModel.writtenTranslationContext),
                     binding.multipleChoiceContentTextView,
-                    transformations = if (!viewModel.isEnabled) //subha
-                      //listOf(ImageTransformation.GREYSCALE)
-                      listOf()
-                    else
-                      emptyList()
+//                    transformations = if (!viewModel.isEnabled) //subha
+//                      //listOf(ImageTransformation.GREYSCALE)
+//                      listOf()
+//                    else
+//                      emptyList()
                   )
                 if (viewModel.isEnabled) {
                   binding.multipleChoiceContentTextView.setTypeface(null, Typeface.BOLD) // keep it or use bindingadapter("boldstyle")
