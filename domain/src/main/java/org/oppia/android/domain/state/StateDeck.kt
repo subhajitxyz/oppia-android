@@ -253,9 +253,10 @@ class StateDeck constructor(
   }
 
   /** Returns whether the given state was previously visited. */
-  fun wasStatePreviouslyVisited(stateName: String): Boolean {
-    return previousStates.any { it.state.name == stateName }
-  }
+  //subha remove this fun
+//  fun wasStatePreviouslyVisited(stateName: String): Boolean {
+//    return previousStates.any { it.state.name == stateName }
+//  }
 
   /**
    * Updates the `state_name_to_revisit` field of the last [AnswerAndResponse] in the
@@ -281,4 +282,20 @@ class StateDeck constructor(
     return previousStates.find { it.state.name == stateName }
       ?: EphemeralState.getDefaultInstance()
   }
+
+
+  //subha
+
+  fun hasFlashbackState(linkedSkillId: String): Boolean {
+    return linkedSkillId.isNotEmpty() && previousStates.any { it.state.linkedSkillId == linkedSkillId }
+  }
+
+
+  fun getFlashbackStateName(linkedSkillId: String): String {
+    return previousStates
+      .find { it.state.linkedSkillId == linkedSkillId }!!
+      .state
+      .name
+  }
+
 }

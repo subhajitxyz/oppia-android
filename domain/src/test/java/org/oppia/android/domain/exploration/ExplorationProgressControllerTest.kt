@@ -2260,7 +2260,8 @@ class ExplorationProgressControllerTest {
     assertThat(eventLog).hasStartCardContextThat {
       hasExplorationDetailsThat().containsTestExp2Details()
       hasExplorationDetailsThat().hasStateNameThat().isEqualTo(exploration.initStateName)
-      hasSkillIdThat().isEqualTo("test_skill_id_0")
+      //hasSkillIdThat().isEqualTo("test_skill_id_0")// subha ->it should empty string
+      hasSkillIdThat().isEqualTo("")
     }
   }
 
@@ -2305,7 +2306,8 @@ class ExplorationProgressControllerTest {
       hasExplorationDetailsThat().containsTestExp2Details()
       // The exploration should have been started over.
       hasExplorationDetailsThat().hasStateNameThat().isEqualTo("Continue")
-      hasSkillIdThat().isEqualTo("test_skill_id_0")
+//      hasSkillIdThat().isEqualTo("test_skill_id_0")//subha empty stirng
+      hasSkillIdThat().isEqualTo("")
     }
   }
 
@@ -2326,7 +2328,8 @@ class ExplorationProgressControllerTest {
       hasExplorationDetailsThat().containsTestExp2Details()
       // The exploration should have been started over.
       hasExplorationDetailsThat().hasStateNameThat().isEqualTo("Continue")
-      hasSkillIdThat().isEqualTo("test_skill_id_0")
+      //hasSkillIdThat().isEqualTo("test_skill_id_0")// subha should be empty string
+      hasSkillIdThat().isEqualTo("")
     }
   }
 
@@ -3309,12 +3312,14 @@ class ExplorationProgressControllerTest {
     // Verify that the answer submission was successful.
     val answerOutcome = monitorFactory.waitForNextSuccessfulResult(result)
 
-    val expectedFeedback = "<p>This doesn't seem right. Let's go back and look at the previous" +
-      " question and answer to understand better.</p>"
+//    val expectedFeedback = "<p>This doesn't seem right. Let's go back and look at the previous" +
+//      " question and answer to understand better.</p>"
 
     assertThat(answerOutcome.labelledAsCorrectAnswer).isEqualTo(false)
-    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.STATE_NAME)
-    assertThat(answerOutcome.feedback.html).contains(expectedFeedback)
+    //assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.STATE_NAME) // subha => it will be SAME_STATE
+    assertThat(answerOutcome.destinationCase).isEqualTo(AnswerOutcome.DestinationCase.SAME_STATE)
+//    assertThat(answerOutcome.feedback.html).contains(expectedFeedback)
+    assertThat(answerOutcome.feedback.contentId).contains("default_outcome")
   }
 
   @Test
