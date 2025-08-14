@@ -113,6 +113,8 @@
         android:layout_marginEnd="8dp"
         android:orientation="vertical">
 
+<!--        android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"-->
+<!--        for design 1 i am adding this component_color_shared_item_selection_interaction_disabled_color-->
         <TextView
           android:id="@+id/item_selection_contents_text_view"
           android:layout_width="wrap_content"
@@ -121,10 +123,12 @@
           android:fontFamily="sans-serif"
           android:text="@{htmlContent}"
           android:contentDescription="@{viewModel.getContentDescription()}"
-          android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
+          android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_secondary_2_text_color : @color/component_color_shared_item_selection_interaction_enabled_color}"
           android:textSize="16sp" />
 
         <!-- For flashback screen , this correct_answer_text_view will be different (check in mock) -->
+<!--        android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"-->
+        <!--        for design 1 i am adding this component_color_shared_item_selection_interaction_disabled_color-->
         <TextView
           android:id="@+id/correct_answer_text_view"
           android:layout_width="wrap_content"
@@ -132,7 +136,7 @@
           android:visibility="gone"
           android:fontFamily="sans-serif"
           android:text="@string/submitted_answer_text"
-          android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_check_icon_color : @color/component_color_shared_secondary_2_text_color}"
+          android:textColor="@{viewModel.isEnabled ? @color/component_color_shared_secondary_2_text_color : @color/component_color_shared_item_selection_interaction_enabled_color}"
           android:textSize="12sp" />
       </LinearLayout>
     </LinearLayout>

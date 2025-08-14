@@ -609,7 +609,7 @@ states {
         }
       }
     }
-    linked_skill_id: "test_skill_id_0"
+    linked_skill_id: "flashback_skill_id_0"
   }
 }
 states {
@@ -872,7 +872,7 @@ states {
         }
       }
     }
-    linked_skill_id: "test_skill_id_0"
+    linked_skill_id: "flashback_skill_id_1"
   }
 }
 states {
@@ -1571,7 +1571,7 @@ states {
         }
       }
     }
-    linked_skill_id: "test_skill_id_0"
+    linked_skill_id: "flashback_skill_id_1"
   }
 }
 states {
@@ -2069,7 +2069,7 @@ states {
         }
       }
     }
-    linked_skill_id: "test_skill_id_0"
+    linked_skill_id: "flashback_skill_id"
   }
 }
 states {

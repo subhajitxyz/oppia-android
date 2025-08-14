@@ -281,4 +281,26 @@ class StateDeck constructor(
     return previousStates.find { it.state.name == stateName }
       ?: EphemeralState.getDefaultInstance()
   }
+
+  //subha
+
+  fun hasFlashbackState(linkedSkillId: String): Boolean {
+    return linkedSkillId.contains("flashback_skill_id") &&
+      previousStates.any { it.state.linkedSkillId == linkedSkillId }
+  }
+
+  fun getFlashbackStateName(linkedSkillId: String): String {
+    return previousStates
+      .find { it.state.linkedSkillId == linkedSkillId }!!
+      .state
+      .name
+  }
+
+  // we can re write this condition with isFlahabckviewwd.
+
+  // one more thing is , check do we need this isFlahabckviewwd variable
+  fun isFlashbackTriggeringFirstTime(): Boolean {
+    return currentDialogInteractions.all { it.stateNameToRevisit.isNullOrBlank() }
+  }
+
 }

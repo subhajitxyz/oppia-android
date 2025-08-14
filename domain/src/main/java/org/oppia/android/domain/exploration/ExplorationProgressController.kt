@@ -729,22 +729,39 @@ class ExplorationProgressController @Inject constructor(
 
         // Follow the answer's outcome to another part of the graph if it's different.
         val ephemeralState = computeBaseCurrentEphemeralState()
+        //subha
+        //it can be null
+        val linkedSkillId = explorationProgress.stateDeck.getCurrentState().linkedSkillId
+        val showFlashback = enableFlashbackSupport.value &&
+          answerOutcome.feedback.contentId.equals("default_outcome") &&
+          explorationProgress.stateDeck
+            .hasFlashbackState(explorationProgress.stateDeck.getCurrentState().linkedSkillId) &&
+          explorationProgress.stateDeck.isFlashbackTriggeringFirstTime()
+
         when {
+          //subha
+          // flashback triggering condition
+          // 1. default feedback, current has linkedSkillId , and previously visited state has same linkedSkillID. and flashabck triggering for first time.
+          showFlashback -> {
+            val stateName = explorationProgress.stateDeck.getFlashbackStateName(explorationProgress.stateDeck.getCurrentState().linkedSkillId)
+            explorationProgress.stateDeck.addFlashbackState(stateName)
+          }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
-            val wasVisitedBefore = explorationProgress.stateDeck
-              .wasStatePreviouslyVisited(answerOutcome.stateName)
-
-            val hasSolution = explorationProgress.stateGraph.getState(answerOutcome.stateName)
-              .interaction.solution?.let { it.hasExplanation() && it.hasCorrectAnswer() } == true
-
-            // Checks whether the learner submitted a wrong answer, the expected destination name
-            // was previously visited and the destination state has a solution.
-            if (enableFlashbackSupport.value && hasSolution &&
-              !doesInteractionAutoContinue(answerOutcome.state.interaction.id) &&
-              !answerOutcome.labelledAsCorrectAnswer && wasVisitedBefore
-            ) {
-              explorationProgress.stateDeck.addFlashbackState(answerOutcome.stateName)
-            } else {
+            //subha
+//            val wasVisitedBefore = explorationProgress.stateDeck
+//              .wasStatePreviouslyVisited(answerOutcome.stateName)
+//
+//            val hasSolution = explorationProgress.stateGraph.getState(answerOutcome.stateName)
+//              .interaction.solution?.let { it.hasExplanation() && it.hasCorrectAnswer() } == true
+//
+//            // Checks whether the learner submitted a wrong answer, the expected destination name
+//            // was previously visited and the destination state has a solution.
+//            if (enableFlashbackSupport.value && hasSolution &&
+//              !doesInteractionAutoContinue(answerOutcome.state.interaction.id) &&
+//              !answerOutcome.labelledAsCorrectAnswer && wasVisitedBefore
+//            ) {
+//              explorationProgress.stateDeck.addFlashbackState(answerOutcome.stateName)
+//            } else {
               endState()
               val newState = explorationProgress.stateGraph.getState(answerOutcome.stateName)
               explorationProgress.stateDeck.pushState(
@@ -754,7 +771,7 @@ class ExplorationProgressController @Inject constructor(
                 isContinueButtonAnimationSeen = isContinueButtonAnimationSeen
               )
               hintHandler.finishState(newState)
-            }
+//            }
           }
           ephemeralState.stateTypeCase == EphemeralState.StateTypeCase.PENDING_STATE -> {
             // Schedule, or show immediately, a new hint or solution based on the current
