@@ -669,7 +669,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
     gcsEntityId: String,
     isAnswerCorrect: Boolean,
     interaction: Interaction, //subha
-    writtenTranslationContext: WrittenTranslationContext
+    writtenTranslationContext: WrittenTranslationContext,
+    isFlashback: Boolean = false
   ): SubmittedAnswerViewModel? {
     return userAnswer.takeIf { it.hasAnswerToDisplayToUser() }?.let {
       // subha
@@ -683,7 +684,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         interaction,
         writtenTranslationContext,
         translationController,
-        consoleLogger
+        consoleLogger,
+        isFlashback
       ).also { submittedAnswerViewModel ->
         submittedAnswerViewModel.setIsCorrectAnswer(isAnswerCorrect)
         submittedAnswerViewModel.isExtraInteractionAnswerCorrect.set(isAnswerCorrect)
@@ -985,7 +987,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
             gcsEntityId,
             isAnswerCorrect = true,
             interaction, //demo subha
-            writtenTranslationContext = writtenTranslationContext
+            writtenTranslationContext = writtenTranslationContext,
+            true
           )?.let(rightPendingItemList::add)
         } else {
           createSubmittedAnswer(
@@ -993,7 +996,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
             gcsEntityId,
             isAnswerCorrect = true,
             interaction,
-            writtenTranslationContext
+            writtenTranslationContext,
+            true
           )?.let(pendingItemList::add)
         }
       }

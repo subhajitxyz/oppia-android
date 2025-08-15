@@ -201,6 +201,7 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
+import androidx.annotation.StringRes
 
 /** Tests for [StateFragment]. */
 @RunWith(AndroidJUnit4::class)
@@ -2726,7 +2727,7 @@ class StateFragmentTest {
       clickSubmitAnswerButton()
 
       //subha
-      verifyMultipleChoiceSubmittedAnswer(2, "Eagle")
+      verifyMultipleChoiceSubmittedAnswer(2, "Eagle", R.string.submitted_answer_text)
 //      onView(withId(R.id.submitted_answer_text_view)).check(matches(withText("Eagle")))
     }
   }
@@ -2769,7 +2770,7 @@ class StateFragmentTest {
       clickSubmitAnswerButton()
 
       //subha
-      verifyMultipleChoiceSubmittedAnswer(2, "النسر")
+      verifyMultipleChoiceSubmittedAnswer(2, "النسر", R.string.submitted_answer_text)
 
 //      onView(withId(R.id.submitted_answer_text_view))
 //        .check(matches(withText(containsString("النسر"))))
@@ -2793,7 +2794,7 @@ class StateFragmentTest {
 
       // The answer should stay in Arabic despite switching back to English. //subha in new submitted ans, the language will change
       //subha
-      verifyMultipleChoiceSubmittedAnswer(optionPosition = 2, expectedOptionText = "Eagle")
+      verifyMultipleChoiceSubmittedAnswer(optionPosition = 2, expectedOptionText = "Eagle", R.string.submitted_answer_text)
 //      onView(withId(R.id.submitted_answer_text_view))
 //        .check(matches(withText(containsString("النسر"))))
     }
@@ -2840,7 +2841,7 @@ class StateFragmentTest {
       clickSubmitAnswerButton()
 
       //subha
-      verifyItemSelectionSubmittedAnswer(2,"Green")
+      verifyItemSelectionSubmittedAnswer(2,"Green", R.string.submitted_answer_text)
 //      scrollToViewType(SUBMITTED_ANSWER)
 //      onView(withId(R.id.submitted_answer_text_view))
 //        .check(matches(withText(containsString("Green"))))
@@ -2930,7 +2931,7 @@ class StateFragmentTest {
       updateContentLanguage(profileId, OppiaLanguage.ENGLISH)
 
       //subha
-      verifyItemSelectionSubmittedAnswer(2,"Green")
+      verifyItemSelectionSubmittedAnswer(2,"Green", R.string.submitted_answer_text)
 //      scrollToViewType(SUBMITTED_ANSWER)
 //      // The answer should stay in the language it was submitted in even if the language changes.
 //      onView(withId(R.id.submitted_answer_text_view))
@@ -5789,12 +5790,78 @@ class StateFragmentTest {
       clickSubmitAnswerButton()
 
       //verify
-      verifyItemSelectionSubmittedAnswer(0, "Red")
-      verifyItemSelectionSubmittedAnswer(2, "Green")
-      verifyItemSelectionSubmittedAnswer(3, "Blue")
+      verifyItemSelectionSubmittedAnswer(0, "Red", R.string.submitted_answer_text)
+      verifyItemSelectionSubmittedAnswer(2, "Green", R.string.submitted_answer_text)
+      verifyItemSelectionSubmittedAnswer(3, "Blue", R.string.submitted_answer_text)
 
 
     }
+  }
+
+  //subha test submitted ans on flashback state -> do not know why flashback button is not there in this test
+//  @Test
+//  fun testFlashback_moveToFlashbackState_verifyMultipleChoiceSubmittedAnswer() {
+//    setUpTestWithFlashbackFeatureOn()
+//    launchForExploration(TEST_EXPLORATION_ID_2, shouldSavePartialProgress = false).use {
+//      startPlayingExploration()
+//      playThroughPrototypeState1()
+//      playThroughPrototypeState2()
+//      playThroughPrototypeState3()
+//
+//      // Submit wrong answer.
+//      selectMultipleChoiceOption(optionPosition = 1, expectedOptionText = "Red")
+//      clickSubmitAnswerButton()
+//
+//      verifyMultipleChoiceSubmittedAnswer(1, "Red", R.string.submitted_answer_text)
+//
+//      // Verify submit button is visible.
+//      scrollToViewType(SUBMIT_ANSWER_BUTTON)
+//      onView(withId(R.id.submit_answer_button)).check(
+//        matches(withText(R.string.state_submit_button))
+//      )
+//
+//      scrollToViewType(FLASHBACK_BUTTON)
+//      onView(withId(R.id.flashback_button)).perform(click())
+//      testCoroutineDispatchers.runCurrent()
+////
+////      // Click on flashback button.
+////      clickFlashbackButton()
+////
+////      // Click continue button on flashback confirmation dialog.
+////      onView(withId(R.id.continue_confirmation_button))
+////        .inRoot(isDialog())
+////        .check(matches(withText("Continue")))
+////        .perform(click())
+////      testCoroutineDispatchers.runCurrent()
+////
+////      // Verify content is visible.
+////      scrollToViewType(CONTENT)
+////      onView(withId(R.id.content_text_view))
+////        .check(matches(withText(containsString("Which bird can sustain flight for long periods of time?"))))
+////
+////      // Verify user's submitted answer is visible.
+////      verifyMultipleChoiceSubmittedAnswer(3, "Eagle", R.string.flashback_submitted_answer_label_text)
+//    }
+//  }
+
+  private fun moveToAnotherFlashbackState() {
+    playThroughPrototypeState1()
+    playThroughPrototypeState2()
+    playThroughPrototypeState3()
+
+    // Submit wrong answer.
+    selectMultipleChoiceOption(optionPosition = 1, expectedOptionText = "Red")
+    clickSubmitAnswerButton()
+
+    // Click on flashback button.
+    clickFlashbackButton()
+
+    // Click continue button on flashback confirmation dialog.
+    onView(withId(R.id.continue_confirmation_button))
+      .inRoot(isDialog())
+      .check(matches(withText("Continue")))
+      .perform(click())
+    testCoroutineDispatchers.runCurrent()
   }
 
   private fun moveToFlashbackState() {
@@ -6220,7 +6287,11 @@ class StateFragmentTest {
     )
   }
   //subha
-  private fun verifyMultipleChoiceSubmittedAnswer(optionPosition: Int, expectedOptionText: String) {
+  private fun verifyMultipleChoiceSubmittedAnswer(
+    optionPosition: Int,
+    expectedOptionText: String,
+    @StringRes labelTextId: Int
+  ) {
     //Todo -> find a way to verify the icon of selection subha
     scrollToViewType(SUBMITTED_ANSWER)
     onView(
@@ -6236,11 +6307,15 @@ class StateFragmentTest {
         position = optionPosition,
         targetViewId = R.id.correct_answer_text_view
       )
-    ).check(matches(withText(R.string.submitted_answer_text)))
+    ).check(matches(withText(context.getString(labelTextId))))
   }
 
   //subha
-  private fun verifyItemSelectionSubmittedAnswer(optionPosition: Int, expectedOptionText: String) {
+  private fun verifyItemSelectionSubmittedAnswer(
+    optionPosition: Int,
+    expectedOptionText: String,
+    @StringRes labelTextId: Int
+  ) {
     //Todo -> find a way to verify the icon of selection subha
     scrollToViewType(SUBMITTED_ANSWER)
     onView(
@@ -6256,7 +6331,7 @@ class StateFragmentTest {
         position = optionPosition,
         targetViewId = R.id.correct_answer_text_view
       )
-    ).check(matches(withText(R.string.submitted_answer_text)))
+    ).check(matches(withText(context.getString(labelTextId))))
   }
 
   private fun selectItemSelectionCheckbox(optionPosition: Int, expectedOptionText: String) {

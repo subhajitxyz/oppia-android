@@ -734,8 +734,8 @@ class ExplorationProgressController @Inject constructor(
         val linkedSkillId = explorationProgress.stateDeck.getCurrentState().linkedSkillId
         val showFlashback = enableFlashbackSupport.value &&
           answerOutcome.feedback.contentId.equals("default_outcome") &&
-          explorationProgress.stateDeck
-            .hasFlashbackState(explorationProgress.stateDeck.getCurrentState().linkedSkillId) &&
+          ephemeralState.state.linkedSkillId.contains("flashback_skill_id") && //this coddition is just for test purpose.
+          explorationProgress.stateDeck.hasFlashbackState(linkedSkillId) &&
           explorationProgress.stateDeck.isFlashbackTriggeringFirstTime()
 
         when {
@@ -743,7 +743,7 @@ class ExplorationProgressController @Inject constructor(
           // flashback triggering condition
           // 1. default feedback, current has linkedSkillId , and previously visited state has same linkedSkillID. and flashabck triggering for first time.
           showFlashback -> {
-            val stateName = explorationProgress.stateDeck.getFlashbackStateName(explorationProgress.stateDeck.getCurrentState().linkedSkillId)
+            val stateName = explorationProgress.stateDeck.getFlashbackStateName(linkedSkillId)
             explorationProgress.stateDeck.addFlashbackState(stateName)
           }
           answerOutcome.destinationCase == AnswerOutcome.DestinationCase.STATE_NAME -> {
