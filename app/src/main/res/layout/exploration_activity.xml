@@ -67,6 +67,7 @@
             android:visibility="@{viewModel.showAudioButton ? View.VISIBLE : View.GONE}"
             app:srcCompat="@{viewModel.isAudioStreamingOn ? @drawable/ic_baseline_headset_24 : @drawable/ic_baseline_headset_off_24}" />
 
+<!--          subha -> visibility off when flashabck screen-->
           <ImageButton
             android:id="@+id/action_bottom_sheet_options_menu"
             style="?android:actionOverflowButtonStyle"
@@ -76,6 +77,7 @@
             android:minWidth="48dp"
             android:minHeight="48dp"
             android:scaleType="center"
+            android:visibility="@{viewModel.showFlashbackToolbar ? View.GONE : View.VISIBLE}"
             android:contentDescription="@string/options_menu_content_description" />
         </LinearLayout>
       </androidx.appcompat.widget.Toolbar>

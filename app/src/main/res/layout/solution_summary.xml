@@ -47,8 +47,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
           android:id="@+id/expandable_solution_header"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content">
+          android:layout_height="wrap_content"
+          android:visibility="@{viewModel.isFlashback ? View.GONE : View.VISIBLE}">
 
+<!--          android:textSize="20sp"-->
           <TextView
             android:id="@+id/solution_title"
             style="@style/TextViewStart"
@@ -60,7 +62,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="@{viewModel.isFlashback ? @string/flashback_explanation_box_title:  @string/hint_list_solution_title}"
             android:textColor="@color/component_color_hints_and_solutions_fragment_text_color"
-            android:textSize="20sp"
+            android:textSize="@{viewModel.isFlashback ? @dimen/explaination_text_size:  @dimen/solution_text_size}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -118,7 +120,7 @@
           android:layout_width="match_parent"
           android:layout_height="1dp"
           android:background="@color/component_color_hints_and_solution_summary_divider_color"
-          android:visibility="@{isListExpanded? View.VISIBLE : View.GONE, default=gone}" />
+          android:visibility="@{isListExpanded &amp;&amp; !viewModel.isFlashback ? View.VISIBLE : View.GONE, default=gone}" />
 
         <LinearLayout
           android:id="@+id/solution_container"
@@ -149,17 +151,18 @@
             android:importantForAccessibility="yes"
             android:orientation="vertical">
 
+<!--            android:visibility="@{viewModel.isFlashback ? View.GONE : View.VISIBLE}"-->
             <TextView
               android:id="@+id/solution_summary_label"
               style="@style/TextViewStart"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/solution_summary_margin_top_solution_summary_label"
+              app:layoutMarginTop="@{viewModel.isFlashback ? @dimen/space_0dp : @dimen/solution_summary_margin_top_solution_summary_label}"
               android:fontFamily="sans-serif-color_def_black"
               android:text="@string/explanation"
+              app:layoutMarginBottom="@{viewModel.isFlashback ? @dimen/flashback_solution_summary_label_margin_bottom : @dimen/state_solution_summary_label_margin_bottom}"
               android:textColor="@color/component_color_hints_and_solutions_fragment_description_color"
-              android:textSize="16sp"
-              android:visibility="@{viewModel.isFlashback ? View.GONE : View.VISIBLE}" />
+              android:textSize="16sp" />
 
             <TextView
               android:id="@+id/solution_summary"

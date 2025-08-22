@@ -1563,6 +1563,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
           supportsLinks = true,
           supportsConceptCards = true
         )
+      //subha
+      if (coreViewModel.isFlashback) {
+        binding.solutionSummaryLabel.setTypeface(null, Typeface.BOLD)
+      }
 
       binding.isListExpanded = true
     }
