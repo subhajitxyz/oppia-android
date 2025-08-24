@@ -900,4 +900,6 @@
 <!--  subha-->
   <dimen name="flashback_solution_summary_label_margin_bottom">12dp</dimen>
   <dimen name="state_solution_summary_label_margin_bottom">24dp</dimen>
+  <dimen name="flashback_explanation_box_stroke_width">1dp</dimen>
+  <dimen name="state_solution_box_stroke_width">2dp</dimen>
 </resources>
