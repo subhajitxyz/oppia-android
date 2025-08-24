@@ -65,8 +65,8 @@ class SolutionViewModel private constructor(
   private val activity: AppCompatActivity
 ) {
 
-  //subha
-  val boxStrokeWidth by lazy {
+  //subha 2.4
+  val solutionBoxStrokeWidth by lazy {
     activity.resources.getDimensionPixelSize(
       if (isFlashback) R.dimen.flashback_explanation_box_stroke_width
       else R.dimen.state_solution_box_stroke_width

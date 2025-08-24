@@ -47,6 +47,7 @@
             android:layout_weight="1"
             android:visibility="@{viewModel.showFlashbackToolbar ? View.GONE : View.VISIBLE}" />
 
+<!--          subha 2.4-->
           <TextView
             android:id="@+id/flashback_toolbar_title"
             style="@style/MarqueeToolbarTitleTextView"
@@ -67,7 +68,7 @@
             android:visibility="@{viewModel.showAudioButton ? View.VISIBLE : View.GONE}"
             app:srcCompat="@{viewModel.isAudioStreamingOn ? @drawable/ic_baseline_headset_24 : @drawable/ic_baseline_headset_off_24}" />
 
-<!--          subha -> visibility off when flashabck screen-->
+<!--          subha 2.4-->
           <ImageButton
             android:id="@+id/action_bottom_sheet_options_menu"
             style="?android:actionOverflowButtonStyle"

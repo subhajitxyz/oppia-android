@@ -482,12 +482,6 @@
   <dimen name="coming_soon_text_padding_horizontal">6dp</dimen>
   <dimen name="coming_soon_text_padding_vertical">12dp</dimen>
 
-<!--  subha-->
-  <!-- Default text size for solutions -->
-  <dimen name="solution_text_size">20sp</dimen>
-  <!-- Larger text size when expanded/flashback -->
-  <dimen name="explaination_text_size">16sp</dimen>
-
   <!-- Topic Practice -->
   <dimen name="topic_practice_footer_view_margin_top">36dp</dimen>
   <dimen name="topic_practice_footer_view_margin_bottom">108dp</dimen>
@@ -897,7 +891,7 @@
   <dimen name="flashback_solution_summary_card_margin_end">24dp</dimen>
   <dimen name="flashback_solution_summary_card_margin_top">24dp</dimen>
 
-<!--  subha-->
+<!--  subha 2.4-->
   <dimen name="flashback_solution_summary_label_margin_bottom">12dp</dimen>
   <dimen name="state_solution_summary_label_margin_bottom">24dp</dimen>
   <dimen name="flashback_explanation_box_stroke_width">1dp</dimen>
